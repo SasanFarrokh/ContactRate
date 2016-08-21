@@ -64,7 +64,7 @@ public class ContactShow extends AppCompatActivity {
         Button addContactBtn = (Button) findViewById(R.id.add_contact_btn);
         try {
             contactName.setText(getContactById(contactId).get(0));
-            contactNumber.setText(getContactById(contactId).get(1));
+            contactNumber.setText("Phone Number : " + getContactById(contactId).get(1));
 
             addContactBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
