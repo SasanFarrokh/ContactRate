@@ -37,7 +37,8 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
 
         contacts = new ArrayList<>();
         contentR = context.getContentResolver();
-        Cursor phones = contentR.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, "upper("+ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
+        Cursor phones = contentR.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null,null,null, "upper("+ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
         if (phones != null) {
             while (phones.moveToNext())
             {

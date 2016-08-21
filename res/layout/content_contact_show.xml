@@ -30,10 +30,18 @@
             android:textColor="@color/white"
             android:layout_gravity="center_vertical" />
     </LinearLayout>
-    <LinearLayout
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/contact_container"
+        android:enabled="false"
+        android:id="@+id/contact_number"
+        android:inputType="phone"
+        android:textColor="@color/darkWhite"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contact_number"
         android:orientation="vertical"
         android:layout_marginRight="7dp"
         android:layout_marginLeft="7dp"
