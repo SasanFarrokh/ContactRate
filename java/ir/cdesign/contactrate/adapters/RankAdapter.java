@@ -27,7 +27,6 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
 
     private LayoutInflater inflater;
     private Context context;
-    private ContentResolver contentR;
     public static List<Object[]> contacts;
 
     public RankAdapter(Context context){

@@ -27,7 +27,6 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ra
 
     private LayoutInflater inflater;
     private Context context;
-    private ContentResolver contentR;
     public static List<Object[]> contacts;
 
     public InvitationAdapter(Context context){
