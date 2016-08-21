@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ir.cdesign.contactrate.adapters.AllAdapter;
+import ir.cdesign.contactrate.adapters.InvitationAdapter;
 
 /**
  * Created by Ratan on 7/29/2015.
@@ -31,7 +32,7 @@ public class InvitationFragment extends Fragment {
 
     private void setRecyclerView(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.inv_rv);
-        AllAdapter adapter = new AllAdapter(getActivity());
+        InvitationAdapter adapter = new InvitationAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setFocusable(true);
