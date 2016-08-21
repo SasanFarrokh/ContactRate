@@ -32,7 +32,7 @@ public class AllFragment extends Fragment {
 
     private void setRecyclerView(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.all_rv);
-        AllAdapter adapter = new AllAdapter(getActivity(), model.getData());
+        AllAdapter adapter = new AllAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

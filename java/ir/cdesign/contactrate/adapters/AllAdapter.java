@@ -1,6 +1,9 @@
 package ir.cdesign.contactrate.adapters;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.models.AllModel;
@@ -22,12 +26,26 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
 
     private LayoutInflater inflater;
     private Context context;
-    private ArrayList<AllModel> models;
+    private ContentResolver contentR;
+    public static List<String[]> contacts;
 
-    public AllAdapter(Context context, ArrayList<AllModel> models) {
-        this.models = models;
+    public AllAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
+
+        contacts = new ArrayList<>();
+        contentR = context.getContentResolver();
+        Cursor phones = contentR.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, "upper("+ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
+        if (phones != null) {
+            while (phones.moveToNext())
+            {
+                String[] contact = new String[2];
+                contact[0] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                contact[1] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                contacts.add(contact);
+            }
+            phones.close();
+        }
     }
 
     @Override
@@ -39,13 +57,14 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
 
     @Override
     public void onBindViewHolder(AllHolder holder, int position) {
-        AllModel current = models.get(position);
+        AllModel current = new AllModel();
+        current.setTitle(contacts.get(position)[0]);
         holder.setData(current, position);
     }
 
     @Override
     public int getItemCount() {
-        return models.size();
+        return contacts.size();
     }
 
     public class AllHolder extends RecyclerView.ViewHolder {
