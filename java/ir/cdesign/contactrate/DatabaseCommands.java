@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Sasan on 2016-08-21.
@@ -58,11 +60,14 @@ public class DatabaseCommands {
         Cursor result = database.rawQuery(query, null);
         if (result != null) {
             while (result.moveToNext()) {
-                Object[] contact = new Object[2];
+
+                Object[] contact = new Object[4];
                 contact[0] = result.getString(result.getColumnIndex("name"));
                 contact[1] = result.getInt(result.getColumnIndex("lesson")) +
                         result.getInt(result.getColumnIndex("time")) +
                         result.getInt(result.getColumnIndex("motive"));
+                contact[2] = result.getString(result.getColumnIndex("invites"));
+                contact[3] = result.getInt(result.getColumnIndex("id"));
 
                 contacts.add(contact);
             }
@@ -90,5 +95,25 @@ public class DatabaseCommands {
             result.close();
         }
         return contacts;
+    }
+
+    public HashMap getContactById(long id) {
+        HashMap contact = new HashMap();
+        String query = "SELECT * FROM " +
+                TABLE_CONTACTS + " WHERE id = " + String.valueOf(id) +
+                " LIMIT 1";
+        Cursor result = database.rawQuery(query, null);
+        if (result != null) {
+            result.moveToFirst();
+            contact.put("name",result.getString(result.getColumnIndex("name")));
+            contact.put("phone",result.getString(result.getColumnIndex("phone")));
+            contact.put("lesson",result.getInt(result.getColumnIndex("lesson")));
+            contact.put("time",result.getInt(result.getColumnIndex("time")));
+            contact.put("motive",result.getInt(result.getColumnIndex("motive")));
+            contact.put("invites",result.getString(result.getColumnIndex("invites")));
+
+            result.close();
+        }
+        return contact;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.cdesign.contactrate.ContactRankShow;
 import ir.cdesign.contactrate.ContactShow;
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.MainActivity;
@@ -33,8 +34,6 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
 
-        contacts = new ArrayList<>();
-
         contacts = DatabaseCommands.getInstance().getContactsForRank();
     }
 
@@ -52,6 +51,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
         holder.setData(current, position);
         ((TextView) holder.view.findViewById(R.id.rank_rank)).setText(String.valueOf(position+1));
         ((TextView) holder.view.findViewById(R.id.rank_point)).setText(String.valueOf(contacts.get(position)[1]));
+        holder.view.setTag(contacts.get(position)[3]);
         holder.view.setOnClickListener(new ItemClick());
     }
 
@@ -84,9 +84,9 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
 
         @Override
         public void onClick(View v) {
-            /*Intent intent = new Intent(RankAdapter.this.context, ContactShow.class);
-            intent.putExtra("contact_id",  v.getTag().toString());
-            RankAdapter.this.context.startActivity(intent);*/
+            Intent intent = new Intent(RankAdapter.this.context, ContactRankShow.class);
+            intent.putExtra("contact_id", (int) v.getTag());
+            RankAdapter.this.context.startActivity(intent);
         }
     }
 }

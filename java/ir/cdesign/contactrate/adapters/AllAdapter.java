@@ -38,17 +38,20 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
 
         contacts = new ArrayList<>();
         contentR = context.getContentResolver();
-        Cursor phones = contentR.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        Cursor phones = contentR.query(ContactsContract.Contacts.CONTENT_URI,
                 null,null,null, "upper("+ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
         if (phones != null) {
             while (phones.moveToNext())
             {
-                String[] contact = new String[3];
-                contact[0] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                contact[1] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                contact[2] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
+                if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    String[] contact = new String[3];
+                    contact[0] = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    if (contact[0] == null || contact[0].isEmpty()) continue;
+                    contact[1] = "s"; //phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    contact[2] = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
 
-                contacts.add(contact);
+                    contacts.add(contact);
+                }
             }
             phones.close();
         }

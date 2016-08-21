@@ -1,33 +1,28 @@
 package ir.cdesign.contactrate;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
-
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ir.cdesign.contactrate.adapters.RankAdapter;
 
-public class ContactShow extends AppCompatActivity {
+public class ContactRankShow extends AppCompatActivity {
 
     long contactId;
 
@@ -37,9 +32,8 @@ public class ContactShow extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_show);
+        setContentView(R.layout.activity_contact_rank_show);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
@@ -49,7 +43,7 @@ public class ContactShow extends AppCompatActivity {
             actionBar.setBackgroundDrawable(null);
         }
 
-        contactId = Long.parseLong(getIntent().getStringExtra("contact_id"));
+        contactId = getIntent().getIntExtra("contact_id",0);
 
 
     }
@@ -59,7 +53,7 @@ public class ContactShow extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                ContactShow.this.finish();
+                ContactRankShow.this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -72,14 +66,14 @@ public class ContactShow extends AppCompatActivity {
         TextView contactNumber = (TextView) findViewById(R.id.contact_number);
         Button addContactBtn = (Button) findViewById(R.id.add_contact_btn);
 
-        ArrayList<String> contact = getContactById(contactId);
+        HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
         try {
-            contactName.setText(contact.get(0));
-            contactNumber.setText("Phone Number : " + contact.get(1));
+            contactName.setText((String) contact.get("name"));
+            contactNumber.setText("Phone Number : " + contact.get("phone"));
             addContactBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addContact();
+                    addContactToInvitation();
                 }
             });
         } catch (NullPointerException e) {
@@ -99,36 +93,25 @@ public class ContactShow extends AppCompatActivity {
         }
     }
 
-    public static ArrayList<String> getContactById(long id) {
-        ArrayList<String> phones = new ArrayList<String>();
 
-        Cursor cursor = MainActivity.instance.getContentResolver().query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                new String[]{String.valueOf(id)}, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            phones.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
-            phones.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-            cursor.close();
-        }
-
-        return phones;
-    }
-
-    public void addContact() {
+    public void addContactToInvitation() {
         if (DatabaseCommands.getInstance()
                 .insertContact(contactId, lesson, time, motive, "")) {
-            Toast.makeText(ContactShow.this, "Successfully added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContactRankShow.this, "Successfully added", Toast.LENGTH_SHORT).show();
             RankFragment.instance.recyclerView.getAdapter().notifyDataSetChanged();
             RankFragment.instance.recyclerView.setAdapter(new RankAdapter(this));
             finish();
         } else {
-            Toast.makeText(ContactShow.this, "Failed to add the contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContactRankShow.this, "Failed to add the contact", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.contact_menu,menu);
+        return true;
+    }
+
 
     private class OnStarClick implements View.OnClickListener {
 
