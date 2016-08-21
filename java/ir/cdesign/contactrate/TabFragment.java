@@ -6,11 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * Created by Ratan on 7/27/2015.
@@ -34,6 +36,13 @@ public class TabFragment extends Fragment {
             viewPager = (ViewPager) x.findViewById(R.id.viewpager);
             toolbar = (Toolbar) x.findViewById(R.id.toolbar);
 
+        Button hamburgerBtn = (Button) x.findViewById(R.id.toolbar_iv);
+        hamburgerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
         /**
          *Set an Apater for the View Pager
          */

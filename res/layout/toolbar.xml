@@ -4,13 +4,13 @@
     android:orientation="horizontal"
     android:layout_height="50dp">
 
-    <ImageView
+    <Button
         android:id="@+id/toolbar_iv"
-        android:layout_width="40dp"
-        android:layout_gravity="center"
-        android:layout_height="50dp"
-        android:src="@drawable/hamburger_menu"
-        android:tint="@color/black" />
+        android:layout_width="25dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="25dp"
+        android:background="@drawable/hamburger_menu"
+        android:layout_margin="10dp"/>
 
     <TextView
         android:id="@+id/toolbar_tv"
