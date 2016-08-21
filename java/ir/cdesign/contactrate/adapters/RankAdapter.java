@@ -50,6 +50,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
         AllModel current = new AllModel();
         current.setTitle((String) contacts.get(position)[0]);
         holder.setData(current, position);
+        ((TextView) holder.view.findViewById(R.id.rank_rank)).setText(String.valueOf(position+1));
         holder.view.setOnClickListener(new ItemClick());
     }
 
