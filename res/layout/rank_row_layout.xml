@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+    <TextView
+        android:id="@+id/rank_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:textSize="24dp"
+        android:text="1"/>
+
+    <TextView
+        android:id="@+id/rank_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/rank_rank"
+        android:layout_margin="12dp"
+        android:textSize="20dp"
+        android:layout_centerVertical="true"
+        android:text="This Is Title"/>
+
+    <TextView
+        android:layout_width="50dp"
+        android:padding="2dp"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/square"
+        android:text="200"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

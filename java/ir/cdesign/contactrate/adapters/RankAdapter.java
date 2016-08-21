@@ -40,7 +40,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
 
     @Override
     public RankHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.all_row_layout, parent, false);
+        View view = inflater.inflate(R.layout.rank_row_layout, parent, false);
         RankHolder holder = new RankHolder(view);
         return holder;
     }
@@ -67,7 +67,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
 
         public RankHolder(View itemView) {
             super(itemView);
-            Title = (TextView) itemView.findViewById(R.id.all_tv);
+            Title = (TextView) itemView.findViewById(R.id.rank_tv);
             view = itemView;
         }
         public void setData(AllModel current, int position) {
