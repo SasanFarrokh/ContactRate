@@ -36,7 +36,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
 
         contacts = new ArrayList<>();
 
-        contacts = DatabaseCommands.getInstance(MainActivity.database).getContactsForRank();
+        contacts = DatabaseCommands.getInstance().getContactsForRank();
     }
 
     @Override
@@ -83,9 +83,9 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(RankAdapter.this.context, ContactShow.class);
+            /*Intent intent = new Intent(RankAdapter.this.context, ContactShow.class);
             intent.putExtra("contact_id",  v.getTag().toString());
-            RankAdapter.this.context.startActivity(intent);
+            RankAdapter.this.context.startActivity(intent);*/
         }
     }
 }

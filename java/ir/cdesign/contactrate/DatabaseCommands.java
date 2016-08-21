@@ -19,9 +19,9 @@ public class DatabaseCommands {
     private SQLiteDatabase database;
     private static DatabaseCommands instance;
 
-    public static DatabaseCommands getInstance(SQLiteDatabase db) {
+    public static DatabaseCommands getInstance() {
         if (instance == null)
-            instance = new DatabaseCommands(db);
+            instance = new DatabaseCommands(MainActivity.database);
         return instance;
     }
 
@@ -54,6 +54,27 @@ public class DatabaseCommands {
         List<Object[]> contacts = new ArrayList<>();
         String query = "SELECT * FROM " +
                 TABLE_CONTACTS +
+                " ORDER BY lesson+motive+time DESC";
+        Cursor result = database.rawQuery(query, null);
+        if (result != null) {
+            while (result.moveToNext()) {
+                Object[] contact = new Object[2];
+                contact[0] = result.getString(result.getColumnIndex("name"));
+                contact[1] = result.getInt(result.getColumnIndex("lesson")) +
+                        result.getInt(result.getColumnIndex("time")) +
+                        result.getInt(result.getColumnIndex("motive"));
+
+                contacts.add(contact);
+            }
+            result.close();
+        }
+        return contacts;
+    }
+    public List<Object[]> getContactsForInvitation() {
+
+        List<Object[]> contacts = new ArrayList<>();
+        String query = "SELECT * FROM " +
+                TABLE_CONTACTS + " WHERE invites != '' " +
                 " ORDER BY lesson+motive+time DESC";
         Cursor result = database.rawQuery(query, null);
         if (result != null) {

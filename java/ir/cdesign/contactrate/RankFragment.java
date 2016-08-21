@@ -18,13 +18,15 @@ import ir.cdesign.contactrate.adapters.RankAdapter;
  */
 public class RankFragment extends Fragment {
 
+    public static RankFragment instance;
+
     RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.rank_tab_layout, null);
-
+        instance = this;
         setRecycler(view);
 
         return view;

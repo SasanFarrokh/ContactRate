@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ir.cdesign.contactrate.adapters.RankAdapter;
+
 public class ContactShow extends AppCompatActivity {
 
     long contactId;
@@ -96,11 +98,12 @@ public class ContactShow extends AppCompatActivity {
     }
 
     public void addContact() {
-        if ( DatabaseCommands.getInstance(MainActivity.database)
+        if ( DatabaseCommands.getInstance()
                 .insertContact(contactId, 0, 0, 0, ""))
         {
             Toast.makeText(ContactShow.this, "Successfully added", Toast.LENGTH_SHORT).show();
-
+            RankFragment.instance.recyclerView.getAdapter().notifyDataSetChanged();
+            RankFragment.instance.recyclerView.setAdapter(new RankAdapter(this));
             finish();
         }
         else {
