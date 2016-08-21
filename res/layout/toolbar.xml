@@ -33,6 +33,7 @@
             android:layout_centerVertical="true"
             android:text="9999"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
             android:paddingRight="10dp"
             android:textSize="20dp" />
 
