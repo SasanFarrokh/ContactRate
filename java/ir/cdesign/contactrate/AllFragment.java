@@ -3,6 +3,7 @@ package ir.cdesign.contactrate;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.TextView;
 
 import ir.cdesign.contactrate.adapters.AllAdapter;
@@ -25,6 +27,7 @@ public class AllFragment extends Fragment {
     RecyclerView recyclerView;
     TextView search;
     AllModel model = new AllModel();
+    FloatingActionButton fab;
 
     @Nullable
     @Override
@@ -48,6 +51,7 @@ public class AllFragment extends Fragment {
 
     private void setRecyclerView(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.all_rv);
+        fab = (FloatingActionButton) view.findViewById(R.id.all_fab);
         AllAdapter adapter = new AllAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -59,6 +63,24 @@ public class AllFragment extends Fragment {
                 return false;
             }
         });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0 ||dy<0 && fab.isShown())
+                    fab.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
+                    fab.show();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
     }
 
 }

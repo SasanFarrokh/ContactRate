@@ -45,10 +45,11 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/all_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:src="@android:drawable/ic_menu_add"
+        android:src="@android:drawable/ic_input_add"
         android:layout_gravity="right|bottom" />
 
 </android.support.design.widget.CoordinatorLayout>
