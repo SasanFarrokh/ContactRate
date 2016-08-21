@@ -61,10 +61,10 @@ public class ContactShow extends AppCompatActivity {
         contactNumber.setText(getContactById(contactId).get(1));
     }
 
-    public ArrayList<String> getContactById(long id) {
+    public static ArrayList<String> getContactById(long id) {
         ArrayList<String> phones = new ArrayList<String>();
 
-        Cursor cursor = getContentResolver().query(
+        Cursor cursor = MainActivity.instance.getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",

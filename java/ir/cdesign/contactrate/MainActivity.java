@@ -18,11 +18,13 @@ public class MainActivity extends AppCompatActivity{
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
 
+    public static MainActivity instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        instance = this;
         /**
          *Setup the DrawerLayout and NavigationView
          */
@@ -102,8 +104,8 @@ public class MainActivity extends AppCompatActivity{
 
     }
     public void databaseInit() {
-        SQLiteDatabase database = openOrCreateDatabase("ContactRate",MODE_PRIVATE,null);
-        database.execSQL("CREATE TABLE IF NOT EXISTS ContactRank(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+        SQLiteDatabase database = openOrCreateDatabase(DatabaseCommands.DB_NAME,MODE_PRIVATE,null);
+        database.execSQL("CREATE TABLE IF NOT EXISTS "+DatabaseCommands.TABLE_CONTACTS+"(id INTEGER PRIMARY KEY," +
                 "name VARCHAR," +
                 "phone VARCHAR," +
                 "lesson INTEGER," +
