@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="50dp">
+
+    <ImageView
+        android:id="@+id/toolbar_iv"
+        android:layout_width="40dp"
+        android:layout_gravity="center"
+        android:layout_height="50dp"
+        android:src="@drawable/hamburger_menu"
+        android:tint="@color/black" />
+
+    <TextView
+        android:id="@+id/toolbar_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|left"
+        android:text=""
+        android:textSize="24dp" />
+
+</LinearLayout>
