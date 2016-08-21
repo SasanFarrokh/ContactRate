@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity{
     DrawerLayout mDrawerLayout;
@@ -38,7 +40,6 @@ public class MainActivity extends AppCompatActivity{
         /**
          * Setup click events on the Navigation View Items.
          */
-
              mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
              @Override
              public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -47,8 +48,7 @@ public class MainActivity extends AppCompatActivity{
 
 
                  if (menuItem.getItemId() == R.id.nav_item_sent) {
-                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new SentFragment()).commit();
+                     startActivity(new Intent(MainActivity.this,ContactShow.class));
 
                  }
 
@@ -66,11 +66,29 @@ public class MainActivity extends AppCompatActivity{
          * Setup Drawer Toggle of the Toolbar
          */
 
-                android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+                final android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
                 ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, toolbar,R.string.app_name,
                 R.string.app_name);
+                //mDrawerLayout.setDrawerListener(mDrawerToggle);
+                mDrawerLayout.addDrawerListener(mDrawerToggle);
+                /*mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        super.onDrawerClosed(drawerView);
+                        toolbar.setVisibility(View.VISIBLE);
+                    }
 
-                mDrawerLayout.setDrawerListener(mDrawerToggle);
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        toolbar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                        super.onDrawerSlide(drawerView, slideOffset);
+                        toolbar.setVisibility(View.GONE);
+                    }
+                });*/
 
                 mDrawerToggle.syncState();
 
