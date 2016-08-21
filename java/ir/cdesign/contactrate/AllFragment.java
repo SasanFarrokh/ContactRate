@@ -23,7 +23,7 @@ public class AllFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.all_tab_layout,null);
+        View view = inflater.inflate(R.layout.all_tab_layout,container , false);
 
         setRecyclerView(view);
 
