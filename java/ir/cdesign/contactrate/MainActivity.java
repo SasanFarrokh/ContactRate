@@ -1,6 +1,7 @@
 package ir.cdesign.contactrate;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -92,5 +93,22 @@ public class MainActivity extends AppCompatActivity{
 
                 mDrawerToggle.syncState();
 
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        databaseInit();
+
+
+    }
+    public void databaseInit() {
+        SQLiteDatabase database = openOrCreateDatabase("ContactRate",MODE_PRIVATE,null);
+        database.execSQL("CREATE TABLE IF NOT EXISTS ContactRank(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "name VARCHAR," +
+                "phone VARCHAR," +
+                "lesson INTEGER," +
+                "time INTEGER," +
+                "motive INTEGER," +
+                "invites VARCHAR);");
     }
 }
