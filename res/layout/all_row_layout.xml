@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="50dp"
+    >
+
+    <ImageView
+        android:id="@+id/all_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/contact"/>
+
+    <TextView
+        android:id="@+id/all_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:gravity="center|left"
+        android:text="BullShit"/>
+
+</LinearLayout>
