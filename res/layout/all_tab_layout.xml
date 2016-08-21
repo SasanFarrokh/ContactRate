@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/search"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:maxLines="1"/>
 
         <Button
             android:layout_width="25dp"
