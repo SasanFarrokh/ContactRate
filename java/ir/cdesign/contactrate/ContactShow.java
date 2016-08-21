@@ -56,24 +56,28 @@ public class ContactShow extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         TextView contactName = (TextView) findViewById(R.id.contact_name);
-        contactName.setText(getContactById(contactId));
+        TextView contactNumber = (TextView) findViewById(R.id.contact_number);
+        contactName.setText(getContactById(contactId).get(0));
+        contactNumber.setText(getContactById(contactId).get(1));
     }
 
-    public String getContactById(long id) {
+    public ArrayList<String> getContactById(long id) {
         ArrayList<String> phones = new ArrayList<String>();
 
         Cursor cursor = getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                 new String[]{String.valueOf(id)}, null);
 
-        while (cursor.moveToNext())
-        {
+        if (cursor != null) {
+            cursor.moveToNext();
             phones.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
+            phones.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
         }
 
+
         cursor.close();
-        return phones.get(0);
+        return phones;
     }
 }
