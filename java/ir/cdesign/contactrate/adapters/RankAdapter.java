@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.cdesign.contactrate.ContactShow;
+import ir.cdesign.contactrate.DatabaseCommands;
+import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.models.AllModel;
 
@@ -26,26 +28,15 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
     private LayoutInflater inflater;
     private Context context;
     private ContentResolver contentR;
-    public static List<String[]> contacts;
+    public static List<Object[]> contacts;
 
     public RankAdapter(Context context){
         this.inflater = LayoutInflater.from(context);
         this.context = context;
 
         contacts = new ArrayList<>();
-        contentR = context.getContentResolver();
-        Cursor phones = contentR.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, "upper("+ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
-        if (phones != null) {
-            while (phones.moveToNext())
-            {
-                String[] contact = new String[3];
-                contact[0] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                contact[1] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                contact[2] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
-                contacts.add(contact);
-            }
-            phones.close();
-        }
+
+        contacts = DatabaseCommands.getInstance(MainActivity.database).getContactsForRank();
     }
 
     @Override
@@ -58,9 +49,8 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
     @Override
     public void onBindViewHolder(RankHolder holder, int position) {
         AllModel current = new AllModel();
-        current.setTitle(contacts.get(position)[0]);
+        current.setTitle((String) contacts.get(position)[0]);
         holder.setData(current, position);
-        holder.view.setTag(contacts.get(position)[2]);
         holder.view.setOnClickListener(new ItemClick());
     }
 

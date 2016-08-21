@@ -13,7 +13,9 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -57,8 +59,20 @@ public class ContactShow extends AppCompatActivity {
         super.onStart();
         TextView contactName = (TextView) findViewById(R.id.contact_name);
         TextView contactNumber = (TextView) findViewById(R.id.contact_number);
-        contactName.setText(getContactById(contactId).get(0));
-        contactNumber.setText(getContactById(contactId).get(1));
+        Button addContactBtn = (Button) findViewById(R.id.add_contact_btn);
+        try {
+            contactName.setText(getContactById(contactId).get(0));
+            contactNumber.setText(getContactById(contactId).get(1));
+
+            addContactBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addContact();
+                }
+            });
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ArrayList<String> getContactById(long id) {
@@ -79,5 +93,18 @@ public class ContactShow extends AppCompatActivity {
 
         cursor.close();
         return phones;
+    }
+
+    public void addContact() {
+        if ( DatabaseCommands.getInstance(MainActivity.database)
+                .insertContact(contactId, 0, 0, 0, ""))
+        {
+            Toast.makeText(ContactShow.this, "Successfully added", Toast.LENGTH_SHORT).show();
+
+            finish();
+        }
+        else {
+            Toast.makeText(ContactShow.this, "Failed to add the contact", Toast.LENGTH_SHORT).show();
+        }
     }
 }

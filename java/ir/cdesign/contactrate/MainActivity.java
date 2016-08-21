@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity{
     FragmentTransaction mFragmentTransaction;
 
     public static MainActivity instance;
+    public static SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity{
 
     }
     public void databaseInit() {
-        SQLiteDatabase database = openOrCreateDatabase(DatabaseCommands.DB_NAME,MODE_PRIVATE,null);
+        database = openOrCreateDatabase(DatabaseCommands.DB_NAME,MODE_PRIVATE,null);
         database.execSQL("CREATE TABLE IF NOT EXISTS "+DatabaseCommands.TABLE_CONTACTS+"(id INTEGER PRIMARY KEY," +
                 "name VARCHAR," +
                 "phone VARCHAR," +
