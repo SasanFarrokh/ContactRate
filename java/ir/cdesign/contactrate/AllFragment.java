@@ -40,7 +40,7 @@ public class AllFragment extends Fragment {
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
                 }
             }
-        }); 
+        });
         setRecyclerView(view);
 
         return view;

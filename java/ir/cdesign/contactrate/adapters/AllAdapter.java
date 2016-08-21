@@ -2,6 +2,7 @@ package ir.cdesign.contactrate.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.cdesign.contactrate.ContactShow;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.models.AllModel;
 
@@ -60,6 +62,8 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
         AllModel current = new AllModel();
         current.setTitle(contacts.get(position)[0]);
         holder.setData(current, position);
+        holder.view.setTag("S");
+        holder.view.setOnClickListener(new ItemClick());
     }
 
     @Override
@@ -72,10 +76,12 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
         TextView Title;
         AllModel current;
         int position;
+        View view;
 
         public AllHolder(View itemView) {
             super(itemView);
             Title = (TextView) itemView.findViewById(R.id.all_tv);
+            view = itemView;
         }
 
         public void setData(AllModel current, int position) {
@@ -83,6 +89,16 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
             this.current = current;
             this.position = position;
             Title.setText(current.getTitle());
+        }
+    }
+
+    public class ItemClick implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(AllAdapter.this.context, ContactShow.class);
+            intent.putExtra("contact",  v.getTag().toString());
+            AllAdapter.this.context.startActivity(intent);
         }
     }
 
