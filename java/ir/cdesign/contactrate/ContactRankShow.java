@@ -55,6 +55,12 @@ public class ContactRankShow extends AppCompatActivity {
             case android.R.id.home:
                 ContactRankShow.this.finish();
                 return true;
+            case R.id.contact_delete:
+                DatabaseCommands.getInstance().removeContact(contactId);
+                RankFragment.instance.recyclerView.getAdapter().notifyDataSetChanged();
+                RankFragment.instance.recyclerView.setAdapter(new RankAdapter(this));
+                finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
