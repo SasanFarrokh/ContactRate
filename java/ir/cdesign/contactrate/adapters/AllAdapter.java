@@ -41,9 +41,10 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
         if (phones != null) {
             while (phones.moveToNext())
             {
-                String[] contact = new String[2];
+                String[] contact = new String[3];
                 contact[0] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 contact[1] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                contact[2] = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
                 contacts.add(contact);
             }
             phones.close();
@@ -62,7 +63,7 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
         AllModel current = new AllModel();
         current.setTitle(contacts.get(position)[0]);
         holder.setData(current, position);
-        holder.view.setTag("S");
+        holder.view.setTag(contacts.get(position)[2]);
         holder.view.setOnClickListener(new ItemClick());
     }
 
@@ -97,7 +98,7 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(AllAdapter.this.context, ContactShow.class);
-            intent.putExtra("contact",  v.getTag().toString());
+            intent.putExtra("contact_id",  v.getTag().toString());
             AllAdapter.this.context.startActivity(intent);
         }
     }
