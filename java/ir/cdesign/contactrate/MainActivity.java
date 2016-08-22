@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity{
 
                 mDrawerToggle.syncState();
 
+        new AsyncServerCheck().execute();
     }
     @Override
     protected void onStart() {

