@@ -113,5 +113,11 @@ public class MainActivity extends AppCompatActivity{
                 "time INTEGER," +
                 "motive INTEGER," +
                 "invites VARCHAR);");
+        database.execSQL("CREATE TABLE IF NOT EXISTS "+DatabaseCommands.TABLE_INVITES+
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                "type VARCHAR," +
+                "note TEXT," +
+                "timestamp INTEGER," +
+                "active INTEGER);");
     }
 }

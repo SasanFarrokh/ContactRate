@@ -17,6 +17,7 @@ public class DatabaseCommands {
 
     public static final String DB_NAME = "ContactRate";
     public static final String TABLE_CONTACTS = "ContactRank";
+    public static final String TABLE_INVITES = "ContactInvites";
 
 
     private SQLiteDatabase database;
@@ -122,6 +123,43 @@ public class DatabaseCommands {
         ContentValues values = new ContentValues();
         values.put("invites","0");
         database.update(TABLE_CONTACTS,values," id = ? AND LENGTH(invites) = 0 ",new String[] {String.valueOf(id)});
+        return true;
+    }
+
+    public boolean addInvite(long contactId, int type, String note, long time) {
+        return addInvite(contactId, type, note, time, 0);
+    }
+
+    public boolean addInvite(long contactId, int type, String note, long timestamp, int active ) {
+
+        HashMap contact = getContactById(contactId);
+        if (contact != null) {
+
+            String inviteStr = (String) contact.get("invites");
+            String[] inviteArray = inviteStr.split(",");
+            inviteArray[inviteArray.length] = "0";
+
+            ContentValues values = new ContentValues();
+            values.put("type", type);
+            values.put("note", note);
+            values.put("timestamp", timestamp);
+            values.put("active", active);
+
+            ContentValues contactValues = new ContentValues();
+            values.put("invites", "0");
+            database.update(TABLE_CONTACTS, contactValues, " id = ? ", new String[]{String.valueOf(contactId)});
+            if (database.insert(TABLE_INVITES, null, values) != -1) return true;
+        }
+        return false;
+    }
+    public void removeInvite(long id) {
+        database.delete(TABLE_INVITES, "id = ?", new String[]{String.valueOf(id)});
+    }
+    public boolean activateInvite(long id, boolean active) {
+        int act = (active) ? 1 : 0;
+        ContentValues values = new ContentValues();
+        values.put("active",act);
+        database.update(TABLE_INVITES,values," id = ? ",new String[] {String.valueOf(id)});
         return true;
     }
 }
