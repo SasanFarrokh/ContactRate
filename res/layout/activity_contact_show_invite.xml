@@ -84,7 +84,8 @@
                     android:hint="amin"
                     android:inputType="number"
                     android:textColor="#f2f2f2"
-                    android:textColorHint="#9e9e9e" />
+                    android:textColorHint="#9e9e9e"
+                    />
 
 
             </LinearLayout>

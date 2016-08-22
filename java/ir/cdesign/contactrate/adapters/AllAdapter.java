@@ -17,6 +17,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ir.cdesign.contactrate.ContactShow;
 import ir.cdesign.contactrate.R;
@@ -32,6 +34,8 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
     private ContentResolver contentR;
     public static List<String[]> contacts;
 
+    public static String searchPattern = "";
+
     public AllAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
@@ -44,11 +48,12 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
             while (phones.moveToNext())
             {
                 if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-                    String[] contact = new String[3];
+                    String[] contact = new String[2];
                     contact[0] = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                    if (contact[0] == null || contact[0].isEmpty()) continue;
-                    contact[1] = "s"; //phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    contact[2] = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+                    if (contact[0] == null || contact[0].isEmpty() ||
+                            !contact[0].toLowerCase().contains(searchPattern.toLowerCase())) continue;
+
+                    contact[1] = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
 
                     contacts.add(contact);
                 }
@@ -69,7 +74,7 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
         AllModel current = new AllModel();
         current.setTitle(contacts.get(position)[0]);
         holder.setData(current, position);
-        holder.view.setTag(contacts.get(position)[2]);
+        holder.view.setTag(contacts.get(position)[1]);
         holder.view.setOnClickListener(new ItemClick());
     }
 
