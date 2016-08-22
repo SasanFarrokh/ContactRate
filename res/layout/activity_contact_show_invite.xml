@@ -15,7 +15,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -84,8 +86,7 @@
                     android:hint="amin"
                     android:inputType="number"
                     android:textColor="#f2f2f2"
-                    android:textColorHint="#9e9e9e"
-                    />
+                    android:textColorHint="#9e9e9e" />
 
 
             </LinearLayout>
@@ -110,7 +111,7 @@
                     android:layout_weight="6"
                     android:hint="note"
                     android:inputType="text"
-                    android:maxLines="4"
+                    android:maxLines="6"
                     android:minLines="1"
                     android:singleLine="false"
                     android:textColor="#f2f2f2"
@@ -141,6 +142,7 @@
             android:layout_marginTop="20dp"
             android:src="@android:drawable/ic_input_add"
             android:tint="#f2f2f2"
+            app:backgroundTint="#d12433"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 

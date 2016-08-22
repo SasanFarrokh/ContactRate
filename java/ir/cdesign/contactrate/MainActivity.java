@@ -73,26 +73,7 @@ public class MainActivity extends AppCompatActivity{
                 final android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
                 ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, toolbar,R.string.app_name,
                 R.string.app_name);
-                //mDrawerLayout.setDrawerListener(mDrawerToggle);
                 mDrawerLayout.addDrawerListener(mDrawerToggle);
-                /*mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
-                        super.onDrawerClosed(drawerView);
-                        toolbar.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onDrawerOpened(View drawerView) {
-                        toolbar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onDrawerSlide(View drawerView, float slideOffset) {
-                        super.onDrawerSlide(drawerView, slideOffset);
-                        toolbar.setVisibility(View.GONE);
-                    }
-                });*/
 
                 mDrawerToggle.syncState();
 
