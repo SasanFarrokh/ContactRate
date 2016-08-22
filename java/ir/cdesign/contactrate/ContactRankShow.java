@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ir.cdesign.contactrate.adapters.InvitationAdapter;
 import ir.cdesign.contactrate.adapters.RankAdapter;
 
 public class ContactRankShow extends AppCompatActivity {
@@ -84,6 +85,9 @@ public class ContactRankShow extends AppCompatActivity {
                     addContactToInvitation();
                 }
             });
+            lesson = (int) contact.get("lesson");
+            time = (int) contact.get("time");
+            motive = (int) contact.get("motive");
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -94,9 +98,23 @@ public class ContactRankShow extends AppCompatActivity {
         ViewGroup pointContainer = (ViewGroup) findViewById(R.id.contact_point_container);
         for (int i = 0; i < 3; i++) {
             ViewGroup starCon = (ViewGroup) ((ViewGroup) pointContainer.getChildAt(i)).getChildAt(1);
+
             for (int ii = 0; ii < 5; ii++) {
                 starCon.getChildAt(ii).setTag(ii);
                 starCon.getChildAt(ii).setOnClickListener(starClickListener);
+
+                switch (Integer.parseInt((String) ((View) starCon.getParent()).getTag())) {
+                    case 1:
+                        if (lesson == ii+1) starCon.getChildAt(ii).performClick();
+                        break;
+                    case 2:
+                        if (time == ii+1) starCon.getChildAt(ii).performClick();
+                        break;
+                    case 3:
+                        if (motive == ii+1) starCon.getChildAt(ii).performClick();
+                        break;
+                }
+
             }
         }
     }
@@ -104,10 +122,10 @@ public class ContactRankShow extends AppCompatActivity {
 
     public void addContactToInvitation() {
         if (DatabaseCommands.getInstance()
-                .insertContact(contactId, lesson, time, motive, "")) {
+                .addToInvitation(contactId)) {
             Toast.makeText(ContactRankShow.this, "Successfully added", Toast.LENGTH_SHORT).show();
-            RankFragment.instance.recyclerView.getAdapter().notifyDataSetChanged();
-            RankFragment.instance.recyclerView.setAdapter(new RankAdapter(this));
+            InvitationFragment.instance.recyclerView.getAdapter().notifyDataSetChanged();
+            InvitationFragment.instance.recyclerView.setAdapter(new InvitationAdapter(this));
             finish();
         } else {
             Toast.makeText(ContactRankShow.this, "Failed to add the contact", Toast.LENGTH_SHORT).show();

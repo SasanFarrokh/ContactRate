@@ -3,6 +3,7 @@ package ir.cdesign.contactrate;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,7 +80,7 @@ public class DatabaseCommands {
 
         List<Object[]> contacts = new ArrayList<>();
         String query = "SELECT * FROM " +
-                TABLE_CONTACTS + " WHERE invites != '' " +
+                TABLE_CONTACTS + " WHERE LENGTH(invites) != 0 " +
                 " ORDER BY lesson+motive+time DESC";
         Cursor result = database.rawQuery(query, null);
         if (result != null) {
@@ -89,7 +90,7 @@ public class DatabaseCommands {
                 contact[1] = result.getInt(result.getColumnIndex("lesson")) +
                         result.getInt(result.getColumnIndex("time")) +
                         result.getInt(result.getColumnIndex("motive"));
-
+                Log.i("sasan","j" + result.getString(result.getColumnIndex("invites")));
                 contacts.add(contact);
             }
             result.close();
@@ -115,5 +116,12 @@ public class DatabaseCommands {
             result.close();
         }
         return contact;
+    }
+
+    public boolean addToInvitation(long id) {
+        ContentValues values = new ContentValues();
+        values.put("invites","0");
+        database.update(TABLE_CONTACTS,values," id = ? AND LENGTH(invites) = 0 ",new String[] {String.valueOf(id)});
+        return true;
     }
 }

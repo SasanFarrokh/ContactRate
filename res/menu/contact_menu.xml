@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ContactRankShow">
     <item android:id="@+id/contact_delete"
-        android:title="Delete"
+        android:title="Remove"
         android:orderInCategory="100"
         app:showAsAction="never" />
 

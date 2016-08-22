@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,16 +33,12 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ra
     public InvitationAdapter(Context context){
         this.inflater = LayoutInflater.from(context);
         this.context = context;
-
-        contacts = new ArrayList<>();
-        contacts = new ArrayList<>();
-
         contacts = DatabaseCommands.getInstance().getContactsForInvitation();
     }
 
     @Override
     public RankHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.all_row_layout, parent, false);
+        View view = inflater.inflate(R.layout.invite_row_layout, parent, false);
         RankHolder holder = new RankHolder(view);
         return holder;
     }
@@ -68,7 +65,7 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ra
 
         public RankHolder(View itemView) {
             super(itemView);
-            Title = (TextView) itemView.findViewById(R.id.all_tv);
+            Title = (TextView) itemView.findViewById(R.id.invite_tv);
             view = itemView;
         }
         public void setData(AllModel current, int position) {

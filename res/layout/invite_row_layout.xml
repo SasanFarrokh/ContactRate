@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_margin="5dp"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    >
+
+    <ImageView
+        android:id="@+id/invite_iv"
+        android:layout_width="50dp"
+        android:src="@drawable/contactlq"
+        android:layout_height="50dp"/>
+
+    <TextView
+        android:id="@+id/invite_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#f2f2f2"
+        android:layout_marginLeft="55dp"
+        android:textSize="20dp"
+        android:gravity="center|left"
+        android:text="BullShit"/>
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/invite_point"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center|bottom"
+        android:padding="2dp"
+        android:textColor="#ffc107"
+        android:text="200"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

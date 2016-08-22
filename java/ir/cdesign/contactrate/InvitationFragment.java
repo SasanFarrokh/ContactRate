@@ -18,13 +18,14 @@ import ir.cdesign.contactrate.adapters.InvitationAdapter;
  */
 public class InvitationFragment extends Fragment {
 
+    public static InvitationFragment instance;
     RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.invitation_tab_layout,null);
-
+        instance = this;
         setRecyclerView(view);
 
         return view;
@@ -35,14 +36,6 @@ public class InvitationFragment extends Fragment {
         InvitationAdapter adapter = new InvitationAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setFocusable(true);
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.requestFocusFromTouch();
-                return false;
-            }
-        });
     }
 
 }
