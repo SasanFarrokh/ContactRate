@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
@@ -109,6 +111,7 @@ public class ContactRankShow extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(ContactRankShow.this, "Failed to add the contact", Toast.LENGTH_SHORT).show();
+
         }
     }
 
