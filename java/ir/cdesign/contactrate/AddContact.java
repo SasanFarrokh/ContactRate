@@ -5,12 +5,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 public class AddContact extends AppCompatActivity {
+
+    String name,phone;
+    int lesson,time,motive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,9 @@ public class AddContact extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        View addBtn = findViewById(R.id.add_contact_btn);
+        addBtn.setOnClickListener(new OnAddContact());
+
         View.OnClickListener starClickListener = new OnStarClick();
 
         ViewGroup pointContainer = (ViewGroup) findViewById(R.id.contact_point_container);
@@ -64,6 +71,17 @@ public class AddContact extends AppCompatActivity {
             }
         }
 
+    }
+
+    private  class OnAddContact implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            /*long id = DatabaseCommands.WritePhoneContact(name,phone,AddContact.this);
+            Log.i("sasan",String.valueOf(id));
+            if ( id == 0L ) return;
+            DatabaseCommands.getInstance().insertContact(id,lesson,time,motive,"");*/
+        }
     }
 
     private class OnStarClick implements View.OnClickListener {

@@ -204,7 +204,7 @@ public class DatabaseCommands {
 
 
 
-    public static void WritePhoneContact(String displayName, String number, Context context)
+    public static long WritePhoneContact(String displayName, String number, Context context)
     {
         //Application's context or Activity's context
         // Name of the Person to add
@@ -238,6 +238,12 @@ public class DatabaseCommands {
             //It is sure to have exactly one of uri or count set
             ContentProviderResult[] contentProresult = null;
             contentProresult = context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, cntProOper); //apply above data insertion into contacts list
+            if (contentProresult != null && contentProresult[0] != null)
+            {
+                String uri = contentProresult[0].uri.getPath().substring(14);
+                long contact_id = new Long(uri).longValue();
+                return contact_id;
+            }
         }
         catch (RemoteException exp)
         {
@@ -247,5 +253,6 @@ public class DatabaseCommands {
         {
             //logs
         }
+        return 0;
     }
 }
