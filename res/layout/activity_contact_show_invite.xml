@@ -119,6 +119,29 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="200dp"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
+            android:background="#6000155b"
+            android:text="0"
+            android:textColor="#f2f2f2"
+            android:textSize="23dp"
+            android:layout_height="50dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@android:drawable/ic_input_add"
+            android:tint="#f2f2f2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 </ScrollView>
