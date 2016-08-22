@@ -26,7 +26,8 @@
             android:name=".ContactRankShow"
             android:label="@string/title_activity_contact_show"
             android:theme="@style/AppTheme" />
-        <activity android:name=".AddContact"></activity>
+        <activity android:name=".AddContact" />
+        <activity android:name=".ContactShowInvite"></activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.cdesign.contactrate.ContactShow;
+import ir.cdesign.contactrate.ContactShowInvite;
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
@@ -80,8 +81,8 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ra
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(InvitationAdapter.this.context, ContactShow.class);
-            intent.putExtra("contact_id",  v.getTag().toString());
+            Intent intent = new Intent(InvitationAdapter.this.context, ContactShowInvite.class);
+//            intent.putExtra("contact_id",  v.getTag().toString());
             InvitationAdapter.this.context.startActivity(intent);
         }
     }}
