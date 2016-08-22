@@ -49,6 +49,7 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ra
         AllModel current = new AllModel();
         current.setTitle((String) contacts.get(position)[0]);
         holder.setData(current, position);
+        holder.view.setTag(contacts.get(position)[3]);
         holder.view.setOnClickListener(new ItemClick());
     }
 
@@ -82,7 +83,7 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ra
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(InvitationAdapter.this.context, ContactShowInvite.class);
-//            intent.putExtra("contact_id",  v.getTag().toString());
+            intent.putExtra("contact_id",  Long.parseLong(v.getTag().toString()));
             InvitationAdapter.this.context.startActivity(intent);
         }
     }}

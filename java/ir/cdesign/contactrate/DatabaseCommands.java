@@ -88,12 +88,13 @@ public class DatabaseCommands {
         Cursor result = database.rawQuery(query, null);
         if (result != null) {
             while (result.moveToNext()) {
-                Object[] contact = new Object[2];
+                Object[] contact = new Object[4];
                 contact[0] = result.getString(result.getColumnIndex("name"));
                 contact[1] = result.getInt(result.getColumnIndex("lesson")) +
                         result.getInt(result.getColumnIndex("time")) +
                         result.getInt(result.getColumnIndex("motive"));
-                Log.i("sasan", "j" + result.getString(result.getColumnIndex("invites")));
+                contact[2] = result.getString(result.getColumnIndex("invites"));
+                contact[3] = result.getInt(result.getColumnIndex("id"));
                 contacts.add(contact);
             }
             result.close();

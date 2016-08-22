@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,6 +66,10 @@ public class ContactRankShow extends AppCompatActivity {
                 RankFragment.instance.recyclerView.setAdapter(new RankAdapter(this));
                 finish();
                 return true;
+            case R.id.contact_edit:
+                startActivity(new Intent(this,ContactShow.class).putExtra("contact_id",contactId));
+                finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -76,6 +82,7 @@ public class ContactRankShow extends AppCompatActivity {
         Button addContactBtn = (Button) findViewById(R.id.add_contact_btn);
 
         HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
+        if (contact.isEmpty()) finish();
         try {
             contactName.setText((String) contact.get("name"));
             contactNumber.setText("Phone Number : " + contact.get("phone"));
@@ -92,26 +99,25 @@ public class ContactRankShow extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        View.OnClickListener starClickListener = new OnStarClick();
-
         ViewGroup pointContainer = (ViewGroup) findViewById(R.id.contact_point_container);
         for (int i = 0; i < 3; i++) {
             ViewGroup starCon = (ViewGroup) ((ViewGroup) pointContainer.getChildAt(i)).getChildAt(1);
 
             for (int ii = 0; ii < 5; ii++) {
-                starCon.getChildAt(ii).setTag(ii);
-                starCon.getChildAt(ii).setOnClickListener(starClickListener);
 
                 switch (Integer.parseInt((String) ((View) starCon.getParent()).getTag())) {
                     case 1:
-                        if (lesson == ii+1) starCon.getChildAt(ii).performClick();
+                        Log.i("sasan","s:" + lesson + "," + time + "," + motive + " ; R = " + ii);
+                        if ( ii < lesson) ((ImageView) starCon.getChildAt(ii))
+                                .setColorFilter(getResources().getColor(R.color.starTint));
                         break;
                     case 2:
-                        if (time == ii+1) starCon.getChildAt(ii).performClick();
+                        if ( ii < time) ((ImageView) starCon.getChildAt(ii))
+                                .setColorFilter(getResources().getColor(R.color.starTint));
                         break;
                     case 3:
-                        if (motive == ii+1) starCon.getChildAt(ii).performClick();
+                        if ( ii < motive) ((ImageView) starCon.getChildAt(ii))
+                                .setColorFilter(getResources().getColor(R.color.starTint));
                         break;
                 }
 
@@ -140,42 +146,4 @@ public class ContactRankShow extends AppCompatActivity {
     }
 
 
-    private class OnStarClick implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            int type = Integer.parseInt((String) ((View) v.getParent().getParent()).getTag());
-            int rate = 0;
-            switch (type) {
-                case 1:
-                    if (lesson == (int) v.getTag() + 1)
-                        lesson = 0;
-                    else
-                        lesson = (int) v.getTag() + 1;
-                    rate = lesson;
-                    break;
-                case 2:
-                    if (time == (int) v.getTag() + 1)
-                        time = 0;
-                    else
-                        time = (int) v.getTag() + 1;
-                    rate = time;
-                    break;
-                case 3:
-                    if (motive == (int) v.getTag() + 1)
-                        motive = 0;
-                    else
-                        motive = (int) v.getTag() + 1;
-                    rate = motive;
-                    break;
-            }
-            for (int j = 0; j < 5; j++) {
-                if (j <= rate - 1) {
-                    ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(Color.rgb(255, 255, 255));
-                } else {
-                    ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(null);
-                }
-            }
-        }
-    }
 }

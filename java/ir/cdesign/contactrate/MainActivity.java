@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity{
                 "lesson INTEGER," +
                 "time INTEGER," +
                 "motive INTEGER," +
+                "note TEXT," +
                 "invites VARCHAR);");
         database.execSQL("CREATE TABLE IF NOT EXISTS "+DatabaseCommands.TABLE_INVITES+
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +

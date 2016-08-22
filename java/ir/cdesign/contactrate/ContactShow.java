@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -49,8 +50,8 @@ public class ContactShow extends AppCompatActivity {
             actionBar.setBackgroundDrawable(null);
         }
 
-        contactId = Long.parseLong(getIntent().getStringExtra("contact_id"));
-
+        contactId = getIntent().getLongExtra("contact_id",0);
+        if (contactId == 0) finish();
 
     }
 
@@ -163,10 +164,12 @@ public class ContactShow extends AppCompatActivity {
                     break;
             }
             for (int j = 0; j < 5; j++) {
+                ImageView imageView = (ImageView) ((ViewGroup) v.getParent()).getChildAt(j);
                 if (j <= rate - 1) {
-                    ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(getResources().getColor(R.color.starTint));
+
+                    imageView.setColorFilter(getResources().getColor(R.color.starTint));
                 } else {
-                    ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(null);
+                    imageView.setColorFilter(null);
                 }
             }
         }

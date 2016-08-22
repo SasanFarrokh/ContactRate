@@ -109,7 +109,7 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.AllHolder> {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(AllAdapter.this.context, ContactShow.class);
-            intent.putExtra("contact_id",  v.getTag().toString());
+            intent.putExtra("contact_id",  Long.parseLong(v.getTag().toString()));
             AllAdapter.this.context.startActivity(intent);
         }
     }
