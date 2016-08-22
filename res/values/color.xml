@@ -8,4 +8,6 @@
     <color name="darkGrey">#333</color>
     <color name="overLay">#919191</color>
     <color name="darkWhite">#c0c0c0</color>
+
+    <color name="starTint">#e6f20e</color>
 </resources>

@@ -130,6 +130,9 @@ public class ContactShow extends AppCompatActivity {
         }
     }
 
+
+
+
     private class OnStarClick implements View.OnClickListener {
 
         @Override
@@ -161,7 +164,7 @@ public class ContactShow extends AppCompatActivity {
             }
             for (int j = 0; j < 5; j++) {
                 if (j <= rate - 1) {
-                    ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(Color.rgb(255, 255, 255));
+                    ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(getResources().getColor(R.color.starTint));
                 } else {
                     ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(null);
                 }

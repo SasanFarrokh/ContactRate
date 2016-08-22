@@ -1,6 +1,7 @@
 package ir.cdesign.contactrate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -78,6 +79,13 @@ public class AllFragment extends Fragment {
                     fab.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),AddContact.class));
             }
         });
 

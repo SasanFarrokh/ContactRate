@@ -21,11 +21,12 @@
         <activity
             android:name=".ContactShow"
             android:label="@string/title_activity_contact_show"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ContactRankShow"
             android:label="@string/title_activity_contact_show"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AddContact"></activity>
     </application>
 
 </manifest>
