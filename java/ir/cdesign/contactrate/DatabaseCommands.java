@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -77,6 +78,7 @@ public class DatabaseCommands {
         }
         return contacts;
     }
+
     public List<Object[]> getContactsForInvitation() {
 
         List<Object[]> contacts = new ArrayList<>();
@@ -91,7 +93,7 @@ public class DatabaseCommands {
                 contact[1] = result.getInt(result.getColumnIndex("lesson")) +
                         result.getInt(result.getColumnIndex("time")) +
                         result.getInt(result.getColumnIndex("motive"));
-                Log.i("sasan","j" + result.getString(result.getColumnIndex("invites")));
+                Log.i("sasan", "j" + result.getString(result.getColumnIndex("invites")));
                 contacts.add(contact);
             }
             result.close();
@@ -107,12 +109,12 @@ public class DatabaseCommands {
         Cursor result = database.rawQuery(query, null);
         if (result != null) {
             result.moveToFirst();
-            contact.put("name",result.getString(result.getColumnIndex("name")));
-            contact.put("phone",result.getString(result.getColumnIndex("phone")));
-            contact.put("lesson",result.getInt(result.getColumnIndex("lesson")));
-            contact.put("time",result.getInt(result.getColumnIndex("time")));
-            contact.put("motive",result.getInt(result.getColumnIndex("motive")));
-            contact.put("invites",result.getString(result.getColumnIndex("invites")));
+            contact.put("name", result.getString(result.getColumnIndex("name")));
+            contact.put("phone", result.getString(result.getColumnIndex("phone")));
+            contact.put("lesson", result.getInt(result.getColumnIndex("lesson")));
+            contact.put("time", result.getInt(result.getColumnIndex("time")));
+            contact.put("motive", result.getInt(result.getColumnIndex("motive")));
+            contact.put("invites", result.getString(result.getColumnIndex("invites")));
 
             result.close();
         }
@@ -121,8 +123,8 @@ public class DatabaseCommands {
 
     public boolean addToInvitation(long id) {
         ContentValues values = new ContentValues();
-        values.put("invites","0");
-        database.update(TABLE_CONTACTS,values," id = ? AND LENGTH(invites) = 0 ",new String[] {String.valueOf(id)});
+        values.put("invites", "0");
+        database.update(TABLE_CONTACTS, values, " id = ? AND LENGTH(invites) = 0 ", new String[]{String.valueOf(id)});
         return true;
     }
 
@@ -130,14 +132,10 @@ public class DatabaseCommands {
         return addInvite(contactId, type, note, time, 0);
     }
 
-    public boolean addInvite(long contactId, int type, String note, long timestamp, int active ) {
+    public boolean addInvite(long contactId, int type, String note, long timestamp, int active) {
 
         HashMap contact = getContactById(contactId);
-        if (contact != null) {
-
-            String inviteStr = (String) contact.get("invites");
-            String[] inviteArray = inviteStr.split(",");
-            inviteArray[inviteArray.length] = "0";
+        if (contact.get("name") != null) {
 
             ContentValues values = new ContentValues();
             values.put("type", type);
@@ -145,21 +143,53 @@ public class DatabaseCommands {
             values.put("timestamp", timestamp);
             values.put("active", active);
 
-            ContentValues contactValues = new ContentValues();
-            values.put("invites", "0");
-            database.update(TABLE_CONTACTS, contactValues, " id = ? ", new String[]{String.valueOf(contactId)});
-            if (database.insert(TABLE_INVITES, null, values) != -1) return true;
+            long inviteId = database.insert(TABLE_INVITES, null, values);
+            if (inviteId == -1) return false;
+
+            if (putToInvites(contactId, inviteId)) return true;
         }
         return false;
     }
-    public void removeInvite(long id) {
-        database.delete(TABLE_INVITES, "id = ?", new String[]{String.valueOf(id)});
+
+    public void removeInvite(long contactId,long inviteId) {
+        database.delete(TABLE_INVITES, "id = ?", new String[]{String.valueOf(contactId)});
+        if (contactId != 0) {
+            HashMap contact = getContactById(contactId);
+            List<String> inviteArray = Arrays.asList(((String) contact.get("invites")).split(","));
+            inviteArray.remove(inviteArray.indexOf(String.valueOf(inviteId)));
+            String inviteString = "";
+            for (int i = 0 ; i < inviteArray.size() ; i++) {
+                inviteString += inviteArray.get(i);
+                if (i != inviteArray.size() - 1 ) inviteString += ",";
+            }
+
+            ContentValues contactValues = new ContentValues();
+            contactValues.put("invites", inviteString);
+
+            database.update(TABLE_CONTACTS, contactValues, " id = ? ", new String[]{String.valueOf(contactId)});
+        }
     }
+
     public boolean activateInvite(long id, boolean active) {
         int act = (active) ? 1 : 0;
         ContentValues values = new ContentValues();
-        values.put("active",act);
-        database.update(TABLE_INVITES,values," id = ? ",new String[] {String.valueOf(id)});
+        values.put("active", act);
+        database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)});
+        return true;
+    }
+
+    private boolean putToInvites(long contactId, long inviteId) {
+
+        HashMap contact = getContactById(contactId);
+
+        String inviteStr = (String) contact.get("invites");
+        inviteStr += "," + String.valueOf(inviteId);
+
+
+        ContentValues contactValues = new ContentValues();
+        contactValues.put("invites", inviteStr);
+
+        database.update(TABLE_CONTACTS, contactValues, " id = ? ", new String[]{String.valueOf(contactId)});
         return true;
     }
 }
