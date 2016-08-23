@@ -17,18 +17,18 @@ public class TaskEditToDb extends AppCompatActivity {
     TextView toolbarText;
 
     long contactId;
-    int type,inviteId;
+    int type, inviteId;
 
-    HashMap contact,invite;
+    HashMap contact, invite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_edit_to_db);
 
-        contactId = getIntent().getLongExtra("contact_id",0);
-        type = getIntent().getIntExtra("type",0);
-        inviteId = getIntent().getIntExtra("invite_id",0);
+        contactId = getIntent().getLongExtra("contact_id", 0);
+        type = getIntent().getIntExtra("type", 0);
+        inviteId = getIntent().getIntExtra("invite_id", 0);
 
         if (inviteId != 0) setByInviteId(inviteId);
 
@@ -50,7 +50,7 @@ public class TaskEditToDb extends AppCompatActivity {
         taskAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseCommands.getInstance().addInvite(contactId,type,"salam",System.currentTimeMillis()+30000,1);
+                DatabaseCommands.getInstance().addInvite(contactId, type, "salam", System.currentTimeMillis() + 30000, 1);
                 finish();
             }
         });
@@ -58,6 +58,8 @@ public class TaskEditToDb extends AppCompatActivity {
         taskCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (inviteId != 0)
+                    DatabaseCommands.getInstance().removeInvite(inviteId);
                 finish();
             }
         });
@@ -73,20 +75,20 @@ public class TaskEditToDb extends AppCompatActivity {
         *       Must Get Text From Recycler Adapter of The Selected Item
         *           \/\/\/\/\/\/\/
         * */
-        toolbarText.setText(ContactShowModel.getTitles()[type-1]);
+        toolbarText.setText(ContactShowModel.getTitles()[type - 1]);
         toolbarText.setTypeface(Typeface.DEFAULT_BOLD);
 
     }
 
     public void setByInviteId(int inviteId) {
-        invite = DatabaseCommands.getInstance().getInvite(1,inviteId).get(0);
+        invite = DatabaseCommands.getInstance().getInvite(1, inviteId).get(0);
         contactId = ((Integer) invite.get("contact")).longValue();
         type = (int) invite.get("type");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.contact_menu,menu);
+        getMenuInflater().inflate(R.menu.contact_menu, menu);
         return true;
     }
 }

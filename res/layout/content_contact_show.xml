@@ -15,10 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/contact_container">
-        <ImageView
+        <ir.cdesign.contactrate.utilities.RoundedImageView
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:layout_margin="10dp"
+            android:id="@id/contact_img"
             android:src="@drawable/contact"/>
         <TextView
             android:layout_width="match_parent"

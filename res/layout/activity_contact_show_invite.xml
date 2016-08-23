@@ -121,7 +121,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/contact_note"
-                        android:layout_weight="6"
+                        android:layout_weight="5.3"
                         android:hint="Some Notes..."
                         android:textColor="@color/white"
                         android:textColorHint="#9e9e9e" />

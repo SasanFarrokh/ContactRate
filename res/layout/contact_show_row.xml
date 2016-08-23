@@ -17,7 +17,7 @@
         android:layout_width="0dp"
         android:layout_weight="7"
         android:layout_height="50dp"
-        android:text="This Is Shit"
+        android:text=""
         android:textSize="18dp"
         android:gravity="center|left"
         android:textColor="#f2f2f2"/>

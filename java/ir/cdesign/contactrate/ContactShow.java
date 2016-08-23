@@ -1,9 +1,13 @@
 package ir.cdesign.contactrate;
 
 import android.animation.ValueAnimator;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 
 import ir.cdesign.contactrate.adapters.RankAdapter;
@@ -73,6 +79,9 @@ public class ContactShow extends AppCompatActivity {
         TextView contactNumber = (TextView) findViewById(R.id.contact_number);
         Button addContactBtn = (Button) findViewById(R.id.add_contact_btn);
 
+        ImageView contactImage = (ImageView) findViewById(R.id.contact_img);
+        Uri imageUri = getPhotoUri(contactId,this);
+
         ArrayList<String> contact = getContactById(contactId);
         try {
             contactName.setText(contact.get(0));
@@ -83,6 +92,9 @@ public class ContactShow extends AppCompatActivity {
                     addContact();
                 }
             });
+            
+            if (imageUri != null) contactImage.setImageURI(imageUri);
+            if(contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -117,6 +129,29 @@ public class ContactShow extends AppCompatActivity {
         }
 
         return phones;
+    }
+    public static Uri getPhotoUri(long id, Context context) {
+        try {
+            Cursor cur = context.getContentResolver().query(
+                    ContactsContract.Data.CONTENT_URI,
+                    null,
+                    ContactsContract.Data.CONTACT_ID + "=" + id + " AND "
+                            + ContactsContract.Data.MIMETYPE + "='"
+                            + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'", null,
+                    null);
+            if (cur != null) {
+                if (!cur.moveToFirst()) {
+                    return null; // no photo
+                }
+            } else {
+                return null; // error in cursor process
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+        return Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
     }
 
     public void addContact() {
