@@ -1,45 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".NewTaskActivity">
 
-    <LinearLayout
+    <include layout="@layout/realtoolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tasks_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
-
-        <include layout="@layout/realtoolbar"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/tasks_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="470dp"
-            android:layout_gravity="bottom"
-            android:paddingTop="90dp"
-            android:paddingRight="40dp"
-            android:paddingLeft="40dp"/>
+        android:layout_height="470dp"
+        android:layout_gravity="bottom"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="30dp" />
 
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/new_task_ignore"
-            android:clickable="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="10dp"
-            android:src="@android:drawable/ic_delete"
-            android:tint="#f2f2f2" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/new_task_ignore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_delete"
+        android:tint="#f2f2f2" />
 
-    </LinearLayout>
-
-</ScrollView>
+</android.support.design.widget.CoordinatorLayout>
