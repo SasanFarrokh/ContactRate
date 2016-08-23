@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_INVITES +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "type VARCHAR," +
+                "contact INTEGER," +
                 "note TEXT," +
                 "timestamp INTEGER," +
                 "active INTEGER);");

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+//import de.hdodenhof.circleimageview.CircleImageView;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.models.TaskModel;
 

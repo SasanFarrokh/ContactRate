@@ -60,6 +60,7 @@ public class DatabaseCommands {
         values.put("motive", motive);
         values.put("invites", invites);
         if (database.insert(TABLE_CONTACTS, null, values) != -1) return true;
+        else if (database.update(TABLE_CONTACTS,values," id = ? ",new String[] {String.valueOf(id)}) != -1) return true;
         return false;
     }
 
