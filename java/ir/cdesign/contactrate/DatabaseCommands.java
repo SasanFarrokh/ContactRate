@@ -38,7 +38,7 @@ public class DatabaseCommands {
 
     public static DatabaseCommands getInstance() {
         if (instance == null)
-            instance = new DatabaseCommands(MainActivity.database);
+            instance = new DatabaseCommands(MyService.database);
         return instance;
     }
 
@@ -199,7 +199,7 @@ public class DatabaseCommands {
                 invite.put("contact", result.getInt(result.getColumnIndex("contact")));
                 invite.put("note", result.getInt(result.getColumnIndex("note")));
                 invite.put("timestamp", result.getLong(result.getColumnIndex("timestamp")));
-                invite.put("active", result.getString(result.getColumnIndex("active")));
+                invite.put("active", result.getInt(result.getColumnIndex("active")));
                 list.add(invite);
             }
             result.close();

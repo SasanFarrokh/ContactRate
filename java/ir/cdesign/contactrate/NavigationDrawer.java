@@ -30,6 +30,17 @@ public class NavigationDrawer extends Fragment {
                 startActivity(new Intent(getActivity(),MedalsActivity.class));
             }
         });
+        View about = view.findViewById(R.id.nav_item_about);
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseCommands.getInstance().addInvite(
+                        Long.parseLong(String.valueOf(DatabaseCommands.getInstance().getContactsForInvitation().get(0)[3])),
+                        2,"Salam",
+                        System.currentTimeMillis() + 20000
+                );
+            }
+        });
 
         return view;
     }

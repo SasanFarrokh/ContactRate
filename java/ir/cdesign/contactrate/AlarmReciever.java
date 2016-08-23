@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -42,6 +43,8 @@ public class AlarmReciever extends BroadcastReceiver
         Intent i = new Intent(context, AlarmReciever.class).putExtra("rc",requestCode);
         PendingIntent pi = PendingIntent.getBroadcast(context, requestCode, i, 0);
         am.set(AlarmManager.RTC_WAKEUP, time, pi); // Millisec * Second * Minute
+
+        Log.i("timestamp","Alarm Set : " + time);
     }
 
     public void cancelAlarm(Context context , int requestCode)
