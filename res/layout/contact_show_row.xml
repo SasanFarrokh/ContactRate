@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#6000"
+    android:weightSum="10"
+    >
+
+    <ImageView
+        android:id="@+id/contact_row_iv"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/contact_row_tv"
+        android:layout_width="0dp"
+        android:layout_weight="7"
+        android:layout_height="50dp"
+        android:text="This Is Shit"
+        android:textSize="18dp"
+        android:gravity="center|left"
+        android:textColor="#f2f2f2"/>
+
+    <CheckBox
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:gravity="right|center"/>
+
+</LinearLayout>
