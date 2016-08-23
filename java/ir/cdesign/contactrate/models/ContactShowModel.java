@@ -44,7 +44,7 @@ public class ContactShowModel {
         return dataList;
     }
 
-    private static String[] getTitles() {
+    public static String[] getTitles() {
 
         String[] getTitles = {
                 "Invitation"  ,"Present"  ,"Follow Up"  ,
@@ -54,7 +54,7 @@ public class ContactShowModel {
         return getTitles;
     }
 
-    private static int[] getImages() {
+    public static int[] getImages() {
 
         int[] getImages = {
                 R.drawable.invitation , R.drawable.presentation ,

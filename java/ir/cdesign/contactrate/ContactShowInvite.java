@@ -5,6 +5,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,12 +15,16 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
+import ir.cdesign.contactrate.adapters.ContactShowAdapter;
+import ir.cdesign.contactrate.adapters.InvitationAdapter;
+
 public class ContactShowInvite extends AppCompatActivity {
 
     long contactId;
     TextView contactName, point;
     EditText phone, note;
     FloatingActionButton fab;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +35,7 @@ public class ContactShowInvite extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ContactShowInvite.this,NewTaskActivity.class));
+                startActivity(new Intent(ContactShowInvite.this,NewTaskActivity.class).putExtra("contact_id",contactId));
             }
         });
 //        init
@@ -37,6 +43,8 @@ public class ContactShowInvite extends AppCompatActivity {
 
         contactId = getIntent().getLongExtra("contact_id",0);
         if (contactId == 0) finish();
+
+        setRecyclerView();
     }
 
     @Override
@@ -53,6 +61,13 @@ public class ContactShowInvite extends AppCompatActivity {
         contactName.setText((String) contact.get("name"));
         phone.setText((String) contact.get("phone"));
         note.setText((String) contact.get("note"));
+    }
+
+    private void setRecyclerView(){
+        recyclerView = (RecyclerView) findViewById(R.id.contact_task_rv);
+        ContactShowAdapter adapter = new ContactShowAdapter(this, contactId);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void setToolbar(){

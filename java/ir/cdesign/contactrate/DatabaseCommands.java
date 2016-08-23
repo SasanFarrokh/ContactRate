@@ -195,9 +195,9 @@ public class DatabaseCommands {
             while (result.moveToNext()) {
                 HashMap invite = new HashMap();
                 invite.put("id", result.getInt(result.getColumnIndex("id")));
-                invite.put("type", result.getString(result.getColumnIndex("type")));
+                invite.put("type", result.getInt(result.getColumnIndex("type")));
                 invite.put("contact", result.getInt(result.getColumnIndex("contact")));
-                invite.put("note", result.getInt(result.getColumnIndex("note")));
+                invite.put("note", result.getString(result.getColumnIndex("note")));
                 invite.put("timestamp", result.getLong(result.getColumnIndex("timestamp")));
                 invite.put("active", result.getInt(result.getColumnIndex("active")));
                 list.add(invite);

@@ -37,13 +37,13 @@ public class NewTaskActivity extends AppCompatActivity {
             }
         });
 
-        contactId = getIntent().getIntExtra("contact_id",0);
+        contactId = getIntent().getLongExtra("contact_id",0);
         if (contactId == 0) finish();
     }
 
     private void setRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.tasks_recycler);
-        TaskAdapter taskAdapter = new TaskAdapter(NewTaskActivity.this, TaskModel.getData());
+        TaskAdapter taskAdapter = new TaskAdapter(NewTaskActivity.this, TaskModel.getData(), contactId);
         GridLayoutManager glm = new GridLayoutManager(NewTaskActivity.this, 3);
         recyclerView.setLayoutManager(glm);
         recyclerView.setHasFixedSize(true);
