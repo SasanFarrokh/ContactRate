@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     FragmentTransaction mFragmentTransaction;
 
     public static MainActivity instance;
-    public static SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,26 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        databaseInit();
-        startService(new Intent(this,MyService.class));
+        startService(new Intent(this, MyService.class));
     }
 
-    public void databaseInit() {
-        database = openOrCreateDatabase(DatabaseCommands.DB_NAME, MODE_PRIVATE, null);
-        database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_CONTACTS + "(id INTEGER PRIMARY KEY," +
-                "name VARCHAR," +
-                "phone VARCHAR," +
-                "lesson INTEGER," +
-                "time INTEGER," +
-                "motive INTEGER," +
-                "note TEXT," +
-                "invites VARCHAR);");
-        database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_INVITES +
-                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                "type VARCHAR," +
-                "contact INTEGER," +
-                "note TEXT," +
-                "timestamp INTEGER," +
-                "active INTEGER);");
-    }
 }

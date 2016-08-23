@@ -19,6 +19,8 @@ public class NewTaskActivity extends AppCompatActivity {
     TextView toolbarText;
     FloatingActionButton fab;
 
+    long contactId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class NewTaskActivity extends AppCompatActivity {
             }
         });
 
+        contactId = getIntent().getIntExtra("contact_id",0);
+        if (contactId == 0) finish();
     }
 
     private void setRecyclerView() {
