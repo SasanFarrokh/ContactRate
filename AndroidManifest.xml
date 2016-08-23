@@ -33,8 +33,14 @@
         <activity android:name=".ContactShowInvite" />
         <activity android:name=".NewTaskActivity" />
         <activity android:name=".MedalsActivity" />
-        <receiver android:process=":remote" android:name=".AlarmReciever" />
-        <service android:name=".MyService"/>
+
+        <receiver
+            android:name=".AlarmReciever"
+            android:process=":remote" />
+
+        <service android:name=".MyService" />
+
+        <activity android:name=".TaskEditToDb"></activity>
     </application>
 
 </manifest>
