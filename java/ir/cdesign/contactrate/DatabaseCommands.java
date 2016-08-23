@@ -178,25 +178,28 @@ public class DatabaseCommands {
         switch (mode) {
             case 1:
                 query = "SELECT * FROM " +
-                        TABLE_CONTACTS + " WHERE id = " + String.valueOf(id) +
+                        TABLE_INVITES + " WHERE id = " + String.valueOf(id) +
                         " LIMIT 1";
                 break;
             case 2:
-            default:
                 query = "SELECT * FROM " +
-                        TABLE_CONTACTS + " WHERE contact = " + String.valueOf(id);
+                        TABLE_INVITES + " WHERE contact = " + String.valueOf(id);
+                break;
+            case 0:
+            default:
+                query = "SELECT * FROM " + TABLE_INVITES;
                 break;
         }
         Cursor result = database.rawQuery(query, null);
         if (result != null) {
             while (result.moveToNext()) {
                 HashMap invite = new HashMap();
-                invite.put("id", result.getString(result.getColumnIndex("name")));
-                invite.put("type", result.getString(result.getColumnIndex("phone")));
-                invite.put("contact", result.getInt(result.getColumnIndex("lesson")));
-                invite.put("note", result.getInt(result.getColumnIndex("time")));
-                invite.put("timestamp", result.getInt(result.getColumnIndex("motive")));
-                invite.put("active", result.getString(result.getColumnIndex("note")));
+                invite.put("id", result.getInt(result.getColumnIndex("id")));
+                invite.put("type", result.getString(result.getColumnIndex("type")));
+                invite.put("contact", result.getInt(result.getColumnIndex("contact")));
+                invite.put("note", result.getInt(result.getColumnIndex("note")));
+                invite.put("timestamp", result.getLong(result.getColumnIndex("timestamp")));
+                invite.put("active", result.getString(result.getColumnIndex("active")));
                 list.add(invite);
             }
             result.close();

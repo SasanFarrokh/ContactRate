@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate;
 
+import android.app.Service;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         databaseInit();
+        startService(new Intent(this,MyService.class));
     }
 
     public void databaseInit() {
