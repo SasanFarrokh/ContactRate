@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -82,6 +83,12 @@ public class ContactShowInvite extends AppCompatActivity {
 
             }
         });
+
+        ImageView contactImage = (ImageView) findViewById(R.id.contact_img);
+        Uri imageUri = ContactShow.getPhotoUri(contactId,this);
+        if (imageUri != null) contactImage.setImageURI(imageUri);
+        if(contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
+
     }
 
     @Override

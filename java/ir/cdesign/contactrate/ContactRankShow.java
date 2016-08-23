@@ -3,6 +3,7 @@ package ir.cdesign.contactrate;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.CoordinatorLayout;
@@ -81,6 +82,9 @@ public class ContactRankShow extends AppCompatActivity {
         TextView contactNumber = (TextView) findViewById(R.id.contact_number);
         Button addContactBtn = (Button) findViewById(R.id.add_contact_btn);
 
+        ImageView contactImage = (ImageView) findViewById(R.id.contact_img);
+        Uri imageUri = ContactShow.getPhotoUri(contactId,this);
+
         HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
         if (contact.isEmpty()) finish();
         try {
@@ -92,9 +96,13 @@ public class ContactRankShow extends AppCompatActivity {
                     addContactToInvitation();
                 }
             });
+
             lesson = (int) contact.get("lesson");
             time = (int) contact.get("time");
             motive = (int) contact.get("motive");
+
+            if (imageUri != null) contactImage.setImageURI(imageUri);
+            if(contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
