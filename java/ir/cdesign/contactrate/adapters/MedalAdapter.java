@@ -35,7 +35,7 @@ public class MedalAdapter extends RecyclerView.Adapter<MedalAdapter.MedalHolder>
     @Override
     public MedalHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.task_layout, parent, false);
-        int padding_in_dp = 16;
+        int padding_in_dp = 18;
         int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
         view.setPadding(padding_in_px,padding_in_px,padding_in_px,padding_in_px);
         MedalHolder holder = new MedalHolder(view);

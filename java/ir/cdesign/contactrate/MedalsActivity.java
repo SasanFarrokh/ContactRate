@@ -67,4 +67,5 @@ public class MedalsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    
 }
