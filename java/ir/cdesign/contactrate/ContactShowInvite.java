@@ -1,8 +1,12 @@
 package ir.cdesign.contactrate;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -40,13 +45,13 @@ public class ContactShowInvite extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ContactShowInvite.this,NewTaskActivity.class).putExtra("contact_id",contactId));
+                startActivity(new Intent(ContactShowInvite.this, NewTaskActivity.class).putExtra("contact_id", contactId));
             }
         });
 //        init
         setToolbar();
 
-        contactId = getIntent().getLongExtra("contact_id",0);
+        contactId = getIntent().getLongExtra("contact_id", 0);
         if (contactId == 0) finish();
     }
 
@@ -59,11 +64,24 @@ public class ContactShowInvite extends AppCompatActivity {
         note = (EditText) findViewById(R.id.contact_note);
         point = (TextView) findViewById(R.id.contact_ipoint);
 
-        HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
+        final HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
 
         contactName.setText((String) contact.get("name"));
         phone.setText((String) contact.get("phone"));
         note.setText((String) contact.get("note"));
+
+        final Button call = (Button) findViewById(R.id.call_btn);
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + contact.get("phone")));
+                if (ActivityCompat.checkSelfPermission(ContactShowInvite.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    startActivity(callIntent);
+                }
+
+            }
+        });
     }
 
     @Override
