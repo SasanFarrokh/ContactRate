@@ -19,6 +19,8 @@ public class TaskEditToDb extends AppCompatActivity {
     long contactId;
     int type,inviteId;
 
+    HashMap contact,invite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +41,23 @@ public class TaskEditToDb extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        contact = DatabaseCommands.getInstance().getContactById(contactId);
+
+        TextView contactNameView = (TextView) findViewById(R.id.contact_name);
+        contactNameView.setText((String) contact.get("name"));
+
         View taskAccept = findViewById(R.id.task_accept);
         taskAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseCommands.getInstance().addInvite(contactId,type,"salam",System.currentTimeMillis()+30000);
+                DatabaseCommands.getInstance().addInvite(contactId,type,"salam",System.currentTimeMillis()+30000,1);
+                finish();
+            }
+        });
+        View taskCancel = findViewById(R.id.task_cancel);
+        taskCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
@@ -65,7 +79,7 @@ public class TaskEditToDb extends AppCompatActivity {
     }
 
     public void setByInviteId(int inviteId) {
-        HashMap invite = DatabaseCommands.getInstance().getInvite(1,inviteId).get(0);
+        invite = DatabaseCommands.getInstance().getInvite(1,inviteId).get(0);
         contactId = ((Integer) invite.get("contact")).longValue();
         type = (int) invite.get("type");
     }
