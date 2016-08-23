@@ -49,14 +49,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public class TaskHolder extends RecyclerView.ViewHolder {
         TextView Title;
-        CircleImageView imageView;
+        ImageView imageView;
         TaskModel current;
         int position;
 
         public TaskHolder(View itemView) {
             super(itemView);
             Title = (TextView) itemView.findViewById(R.id.task_title);
-            imageView = (CircleImageView) itemView.findViewById(R.id.task_img);
+            imageView = (ImageView) itemView.findViewById(R.id.task_img);
         }
 
 

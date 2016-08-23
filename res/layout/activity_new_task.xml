@@ -18,17 +18,7 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
-
-        </android.support.design.widget.AppBarLayout>
+        <include layout="@layout/realtoolbar"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tasks_recycler"
@@ -41,6 +31,7 @@
 
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/new_task_ignore"
             android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
