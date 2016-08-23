@@ -30,7 +30,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".AddContact" />
         <activity android:name=".ContactShowInvite" />
-        <activity android:name=".NewTaskActivity"></activity>
+        <activity android:name=".NewTaskActivity" />
+        <activity android:name=".MedalsActivity" />
     </application>
 
 </manifest>

@@ -172,8 +172,8 @@ public class DatabaseCommands {
         return false;
     }
 
-    public HashMap getInvite(int mode, int id) {
-        HashMap invite = new HashMap();
+    public List<HashMap> getInvite(int mode, int id) {
+        List<HashMap> list = new ArrayList<>();
         String query;
         switch (mode) {
             case 1:
@@ -184,24 +184,24 @@ public class DatabaseCommands {
             case 2:
             default:
                 query = "SELECT * FROM " +
-                        TABLE_CONTACTS + " WHERE id = " + String.valueOf(id) +
-                        "";
+                        TABLE_CONTACTS + " WHERE contact = " + String.valueOf(id);
                 break;
         }
         Cursor result = database.rawQuery(query, null);
         if (result != null) {
             while (result.moveToNext()) {
+                HashMap invite = new HashMap();
                 invite.put("id", result.getString(result.getColumnIndex("name")));
                 invite.put("type", result.getString(result.getColumnIndex("phone")));
                 invite.put("contact", result.getInt(result.getColumnIndex("lesson")));
                 invite.put("note", result.getInt(result.getColumnIndex("time")));
                 invite.put("timestamp", result.getInt(result.getColumnIndex("motive")));
                 invite.put("active", result.getString(result.getColumnIndex("note")));
+                list.add(invite);
             }
-
             result.close();
         }
-        return invite;
+        return list;
     }
 
     public void removeInvite(long contactId, long inviteId) {

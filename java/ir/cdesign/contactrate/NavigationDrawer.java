@@ -16,18 +16,18 @@ import android.widget.LinearLayout;
  */
 public class NavigationDrawer extends Fragment {
 
-    LinearLayout testing;
+    LinearLayout medals;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_drawer,container,false);
 
-        testing = (LinearLayout) view.findViewById(R.id.testing);
-        testing.setOnClickListener(new View.OnClickListener() {
+        medals = (LinearLayout) view.findViewById(R.id.nav_item_medals);
+        medals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(),AddContact.class));
+                startActivity(new Intent(getActivity(),MedalsActivity.class));
             }
         });
 

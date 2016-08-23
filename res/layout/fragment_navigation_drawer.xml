@@ -57,7 +57,7 @@
     <View style="@style/nav_seperator" />
 
     <LinearLayout
-        android:id="@+id/testing"
+        android:id="@+id/nav_item_medals"
         style="@style/nav_rows">
 
         <ImageView
@@ -79,7 +79,9 @@
 
     <View style="@style/nav_seperator" />
 
-    <LinearLayout style="@style/nav_rows">
+    <LinearLayout
+        android:id="@+id/nav_item_logout"
+        style="@style/nav_rows">
 
         <ImageView
             android:layout_width="50dp"
@@ -100,7 +102,9 @@
 
     <View style="@style/nav_seperator" />
 
-    <LinearLayout style="@style/nav_rows">
+    <LinearLayout
+        android:id="@+id/nav_item_about"
+        style="@style/nav_rows">
 
         <ImageView
             android:layout_width="50dp"
