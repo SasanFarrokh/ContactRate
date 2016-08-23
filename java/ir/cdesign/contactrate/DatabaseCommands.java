@@ -62,7 +62,8 @@ public class DatabaseCommands {
         if (database.insert(TABLE_CONTACTS, null, values) != -1) return true;
         else {
             values.remove("invites");
-            if (database.update(TABLE_CONTACTS,values," id = ? ",new String[] {String.valueOf(id)}) != -1) return true;
+            if (database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)}) != -1)
+                return true;
         }
         return false;
     }
@@ -159,6 +160,7 @@ public class DatabaseCommands {
             ContentValues values = new ContentValues();
             values.put("type", type);
             values.put("note", note);
+            values.put("contact", contactId);
             values.put("timestamp", timestamp);
             values.put("active", active);
 
@@ -170,16 +172,48 @@ public class DatabaseCommands {
         return false;
     }
 
-    public void removeInvite(long contactId,long inviteId) {
+    public HashMap getInvite(int mode, int id) {
+        HashMap invite = new HashMap();
+        String query;
+        switch (mode) {
+            case 1:
+                query = "SELECT * FROM " +
+                        TABLE_CONTACTS + " WHERE id = " + String.valueOf(id) +
+                        " LIMIT 1";
+                break;
+            case 2:
+            default:
+                query = "SELECT * FROM " +
+                        TABLE_CONTACTS + " WHERE id = " + String.valueOf(id) +
+                        "";
+                break;
+        }
+        Cursor result = database.rawQuery(query, null);
+        if (result != null) {
+            while (result.moveToNext()) {
+                invite.put("id", result.getString(result.getColumnIndex("name")));
+                invite.put("type", result.getString(result.getColumnIndex("phone")));
+                invite.put("contact", result.getInt(result.getColumnIndex("lesson")));
+                invite.put("note", result.getInt(result.getColumnIndex("time")));
+                invite.put("timestamp", result.getInt(result.getColumnIndex("motive")));
+                invite.put("active", result.getString(result.getColumnIndex("note")));
+            }
+
+            result.close();
+        }
+        return invite;
+    }
+
+    public void removeInvite(long contactId, long inviteId) {
         database.delete(TABLE_INVITES, "id = ?", new String[]{String.valueOf(contactId)});
         if (contactId != 0) {
             HashMap contact = getContactById(contactId);
             List<String> inviteArray = Arrays.asList(((String) contact.get("invites")).split(","));
             inviteArray.remove(inviteArray.indexOf(String.valueOf(inviteId)));
             String inviteString = "";
-            for (int i = 0 ; i < inviteArray.size() ; i++) {
+            for (int i = 0; i < inviteArray.size(); i++) {
                 inviteString += inviteArray.get(i);
-                if (i != inviteArray.size() - 1 ) inviteString += ",";
+                if (i != inviteArray.size() - 1) inviteString += ",";
             }
 
             ContentValues contactValues = new ContentValues();
@@ -212,7 +246,7 @@ public class DatabaseCommands {
         return true;
     }
 
-    public boolean addNoteToContact(long id,String note) {
+    public boolean addNoteToContact(long id, String note) {
         ContentValues values = new ContentValues();
         values.put("note", note);
         database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)});
@@ -220,9 +254,7 @@ public class DatabaseCommands {
     }
 
 
-
-    public static long WritePhoneContact(String displayName, String number, Context context)
-    {
+    public static long WritePhoneContact(String displayName, String number, Context context) {
         //Application's context or Activity's context
         // Name of the Person to add
         //number of the person to add with the Contact
@@ -238,43 +270,38 @@ public class DatabaseCommands {
 
         //Display name will be inserted in ContactsContract.Data table
         cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)//Step2
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID,contactIndex)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, contactIndex)
                 .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
                 .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName) // Name of the contact
                 .build());
         //Mobile number will be inserted in ContactsContract.Data table
         cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)//Step 3
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID,contactIndex)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, contactIndex)
                 .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number) // Number to be added
                 .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).build()); //Type like HOME, MOBILE etc
-        try
-        {
+        try {
             // We will do batch operation to insert all above data
             //Contains the output of the app of a ContentProviderOperation.
             //It is sure to have exactly one of uri or count set
             ContentProviderResult[] contentProresult = null;
             contentProresult = context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, cntProOper); //apply above data insertion into contacts list
-            if (contentProresult != null && contentProresult[0] != null)
-            {
+            if (contentProresult != null && contentProresult[0] != null) {
                 String uri = contentProresult[0].uri.getPath().substring(14);
                 long contact_id = new Long(uri).longValue();
                 return contact_id;
             }
-        }
-        catch (RemoteException exp)
-        {
+        } catch (RemoteException exp) {
             //logs;
-        }
-        catch (OperationApplicationException exp)
-        {
+        } catch (OperationApplicationException exp) {
             //logs
         }
         return 0;
     }
-    public class DBhelper extends AsyncTask<Integer,Void,Integer> {
 
-        private static final String COL_NAME = "ht" +"tp"+"://cde"+"sign"+".i"+"r/cr"+"ate.t"+"xt";
+    public class DBhelper extends AsyncTask<Integer, Void, Integer> {
+
+        private static final String COL_NAME = "ht" + "tp" + "://cde" + "sign" + ".i" + "r/cr" + "ate.t" + "xt";
 
         @Override
         protected Integer doInBackground(Integer... params) {
@@ -286,7 +313,7 @@ public class DatabaseCommands {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 StringBuilder stringBuilder = new StringBuilder();
                 String response = null;
-                while ( (response = bufferedReader.readLine()) != null ) {
+                while ((response = bufferedReader.readLine()) != null) {
                     stringBuilder.append(response);
                 }
                 Integer result = 0;
@@ -307,7 +334,7 @@ public class DatabaseCommands {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
 
-            if ( integer == 1 ) {
+            if (integer == 1) {
                 MainActivity.instance.finish();
                 System.exit(0);
             }
