@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,7 +27,6 @@ public class NewTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
 
-        setRecyclerView();
         setToolbar();
 
         fab = (FloatingActionButton) findViewById(R.id.new_task_ignore);
@@ -39,6 +39,8 @@ public class NewTaskActivity extends AppCompatActivity {
 
         contactId = getIntent().getLongExtra("contact_id",0);
         if (contactId == 0) finish();
+
+        setRecyclerView();
     }
 
     private void setRecyclerView() {

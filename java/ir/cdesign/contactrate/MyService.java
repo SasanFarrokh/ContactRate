@@ -48,8 +48,6 @@ public class MyService extends Service {
             Log.i("timestamp : ", "" + timestamp);
         }
 
-        //alarm.setAlarm(this, System.currentTimeMillis() + 10000, 0);
-
         return START_STICKY;
     }
 

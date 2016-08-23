@@ -5,19 +5,21 @@
     android:orientation="horizontal"
     android:clickable="true"
     android:background="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <ImageView
         android:id="@+id/task_img"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="15dp"
         android:src="@drawable/invitation"/>
 
     <TextView
         android:id="@+id/task_title"
         android:textColor="#f2f2f2"
         android:textSize="20dp"
-        android:gravity="center|top"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -25,9 +27,9 @@
         android:layout_marginLeft="15dp"
         android:text="Invitation"/>
     <CheckBox
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
         android:id="@+id/task_checkbox"/>
 
 </LinearLayout>

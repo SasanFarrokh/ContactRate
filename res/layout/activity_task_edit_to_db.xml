@@ -28,11 +28,11 @@
 
             <ImageView
                 android:id="@+id/contact_img"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/contact" />
 
             <TextView
@@ -55,15 +55,18 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:src="@drawable/calendar" />
 
             <TextView
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginRight="75dp"
                 android:gravity="center"
                 android:text="95.10.15"
                 android:textColor="#f2f2f2"
@@ -79,15 +82,18 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:src="@drawable/bell" />
 
             <TextView
                 android:id="@+id/hour"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginRight="75dp"
                 android:gravity="center"
                 android:text="17 : 15"
                 android:textColor="#f2f2f2"
@@ -103,16 +109,19 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:src="@drawable/note" />
 
             <TextView
                 android:id="@+id/noteShit"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:gravity="center"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
                 android:text="Some Note ..."
                 android:textColor="#f2f2f2"
                 android:textSize="20dp" />
@@ -121,13 +130,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:layout_marginTop="20dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:id="@+id/task_cancel"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="left"
                 android:src="@drawable/trash_red" />
@@ -136,6 +147,7 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:id="@+id/task_accept"
                 android:layout_alignParentRight="true"
 
                 android:src="@drawable/tik_green" />

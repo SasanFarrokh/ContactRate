@@ -1,6 +1,7 @@
 package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.TaskEditToDb;
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.models.TaskModel;
 
@@ -51,6 +53,14 @@ public class ContactShowAdapter extends RecyclerView.Adapter<ContactShowAdapter.
     public void onBindViewHolder(ContactHolder holder, int position) {
         ContactShowModel current = new ContactShowModel();
         holder.setData(current, position);
+        holder.view.setTag(invites.get(position).get("id"));
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, TaskEditToDb.class).putExtra("invite_id",
+                        (int) v.getTag()));
+            }
+        });
     }
 
     @Override
@@ -83,8 +93,8 @@ public class ContactShowAdapter extends RecyclerView.Adapter<ContactShowAdapter.
 
             this.current = current;
             this.position = position;
-            this.imageView.setImageResource(ContactShowModel.getImages()[(int) invite.get("type")]);
-            this.Title.setText(ContactShowModel.getTitles()[(int) invite.get("type")]);
+            this.imageView.setImageResource(ContactShowModel.getImages()[(int) invite.get("type")-1]);
+            this.Title.setText(ContactShowModel.getTitles()[(int) invite.get("type")-1]);
             this.checkBox.setChecked(((int) invite.get("active") != 0));
         }
     }

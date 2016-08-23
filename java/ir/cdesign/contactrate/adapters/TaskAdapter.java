@@ -1,8 +1,10 @@
 package ir.cdesign.contactrate.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 intent.putExtra("contact_id", id);
                 intent.putExtra("type",(int) v.getTag());
                 context.startActivity(intent);
+                ((Activity) context).finish();
             }
         });
     }

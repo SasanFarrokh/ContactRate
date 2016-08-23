@@ -147,6 +147,13 @@ public class DatabaseCommands {
         database.update(TABLE_CONTACTS, values, " id = ? AND LENGTH(invites) = 0 ", new String[]{String.valueOf(id)});
         return true;
     }
+    public boolean removeFromInvitation(long id) {
+        ContentValues values = new ContentValues();
+        values.put("invites", "");
+        database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)});
+        database.delete(TABLE_INVITES, " contact = ? ",new String[] {String.valueOf(id)});
+        return true;
+    }
 
     public boolean addInvite(long contactId, int type, String note, long time) {
         return addInvite(contactId, type, note, time, 0);
@@ -183,7 +190,7 @@ public class DatabaseCommands {
                 break;
             case 2:
                 query = "SELECT * FROM " +
-                        TABLE_INVITES + " WHERE contact = " + String.valueOf(id);
+                        TABLE_INVITES + " WHERE contact = " + String.valueOf(id) + " ORDER BY timestamp DESC";
                 break;
             case 0:
             default:
@@ -207,23 +214,8 @@ public class DatabaseCommands {
         return list;
     }
 
-    public void removeInvite(long contactId, long inviteId) {
-        database.delete(TABLE_INVITES, "id = ?", new String[]{String.valueOf(contactId)});
-        if (contactId != 0) {
-            HashMap contact = getContactById(contactId);
-            List<String> inviteArray = Arrays.asList(((String) contact.get("invites")).split(","));
-            inviteArray.remove(inviteArray.indexOf(String.valueOf(inviteId)));
-            String inviteString = "";
-            for (int i = 0; i < inviteArray.size(); i++) {
-                inviteString += inviteArray.get(i);
-                if (i != inviteArray.size() - 1) inviteString += ",";
-            }
-
-            ContentValues contactValues = new ContentValues();
-            contactValues.put("invites", inviteString);
-
-            database.update(TABLE_CONTACTS, contactValues, " id = ? ", new String[]{String.valueOf(contactId)});
-        }
+    public void removeInvite(int inviteId) {
+        database.delete(TABLE_INVITES, " id = ? ", new String[]{String.valueOf(inviteId)});
     }
 
     public boolean activateInvite(long id, boolean active) {
