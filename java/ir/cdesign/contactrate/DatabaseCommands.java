@@ -128,6 +128,7 @@ public class DatabaseCommands {
             contact.put("lesson", result.getInt(result.getColumnIndex("lesson")));
             contact.put("time", result.getInt(result.getColumnIndex("time")));
             contact.put("motive", result.getInt(result.getColumnIndex("motive")));
+            contact.put("note", result.getString(result.getColumnIndex("note")));
             contact.put("invites", result.getString(result.getColumnIndex("invites")));
 
             result.close();
@@ -207,7 +208,12 @@ public class DatabaseCommands {
         return true;
     }
 
-
+    public boolean addNoteToContact(long id,String note) {
+        ContentValues values = new ContentValues();
+        values.put("note", note);
+        database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)});
+        return true;
+    }
 
 
 

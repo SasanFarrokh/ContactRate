@@ -57,7 +57,7 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="Name :"
-                android:textColor="#f2f2f2"
+                android:textColor="@color/white"
                 android:textSize="19dp" />
 
             <EditText
@@ -65,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:layout_weight="6"
-                android:hint="amin"
+                android:hint=""
+                android:textColor="@color/white"
                 android:inputType="text"
                 android:textColorHint="#9e9e9e" />
 
@@ -82,7 +83,7 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="Phone :"
-                android:textColor="#f2f2f2"
+                android:textColor="@color/white"
                 android:textSize="19dp" />
 
             <EditText
@@ -92,6 +93,7 @@
                 android:singleLine="true"
                 android:hint="+989120000000"
                 android:inputType="number"
+                android:textColor="@color/white"
                 android:textColorHint="#9e9e9e" />
 
         </LinearLayout>

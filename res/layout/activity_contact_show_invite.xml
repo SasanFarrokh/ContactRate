@@ -76,7 +76,7 @@
                     android:layout_weight="2"
                     android:gravity="center"
                     android:text="Phone :"
-                    android:textColor="#f2f2f2"
+                    android:textColor="@color/white"
                     android:textSize="19dp" />
 
                 <EditText
@@ -86,7 +86,7 @@
                     android:layout_weight="6"
                     android:enabled="false"
                     android:inputType="number"
-                    android:textColor="#f2f2f2"
+                    android:textColor="@color/white"
                     android:textColorHint="#9e9e9e" />
 
 
@@ -103,7 +103,7 @@
                     android:layout_weight="2"
                     android:gravity="center"
                     android:text="Note :"
-                    android:textColor="#f2f2f2"
+                    android:textColor="@color/white"
                     android:textSize="19dp" />
 
                 <EditText
@@ -111,12 +111,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/contact_note"
                     android:layout_weight="6"
-                    android:hint="note"
-                    android:inputType="text"
-                    android:maxLines="6"
-                    android:minLines="1"
-                    android:singleLine="false"
-                    android:textColor="#f2f2f2"
+                    android:hint="Some Notes..."
+                    android:textColor="@color/white"
                     android:textColorHint="#9e9e9e" />
 
             </LinearLayout>
@@ -131,7 +127,7 @@
             android:layout_gravity="center"
             android:background="#6000155b"
             android:text="0"
-            android:textColor="#f2f2f2"
+            android:textColor="@color/white"
             android:textSize="23dp"
             android:layout_height="50dp" />
 

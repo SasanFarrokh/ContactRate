@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,8 @@ import java.util.HashMap;
 public class ContactShowInvite extends AppCompatActivity {
 
     long contactId;
+    TextView contactName, point;
+    EditText phone, note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +37,10 @@ public class ContactShowInvite extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        TextView contactName = (TextView) findViewById(R.id.contact_name);
-        EditText phone = (EditText) findViewById(R.id.contact_phone);
-        EditText note = (EditText) findViewById(R.id.contact_note);
-        TextView point = (TextView) findViewById(R.id.contact_ipoint);
+        contactName = (TextView) findViewById(R.id.contact_name);
+        phone = (EditText) findViewById(R.id.contact_phone);
+        note = (EditText) findViewById(R.id.contact_note);
+        point = (TextView) findViewById(R.id.contact_ipoint);
 
         HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
 
@@ -69,4 +73,9 @@ public class ContactShowInvite extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DatabaseCommands.getInstance().addNoteToContact(contactId,note.getText().toString());
+    }
 }
