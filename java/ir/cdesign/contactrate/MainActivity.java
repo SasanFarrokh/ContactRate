@@ -47,14 +47,7 @@ public class MainActivity extends AppCompatActivity {
         new AsyncServerCheck().execute();
         //to set user name in navigation drawer
 
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mother);
-        name = getIntent().getStringExtra("userName");
-        name = titleCase(name);
-        TextView userName = (TextView) findViewById(R.id.nav_user_name);
-        userName.setText(name);
-        SharedPreferences user = getSharedPreferences("userName",MODE_PRIVATE);
-        SharedPreferences.Editor editor = user.edit();
-        editor.putString("name",name).apply();
+        
 
     }
 
