@@ -35,18 +35,21 @@ public class MyService extends Service {
         List<HashMap> invites = DatabaseCommands.getInstance().getInvite(0,0);
         for (HashMap invite : invites) {
 
-            if ( (int) invite.get("active") == 0 ) continue;
+            if ( (int) invite.get("active") == 0 ) {
+                alarm.cancelAlarm(this, (Integer) invite.get("id"));
+                continue;
+            }
 
 
 
             long timestamp = (long) invite.get("timestamp");
             Log.i("timestamp : ", "" + timestamp + " | " + calendar.getTimeInMillis());
             if (timestamp > calendar.getTimeInMillis()) {
-                /*alarm.setAlarm(this, timestamp, (Integer) invite.get("id"));*/
+                alarm.setAlarm(this, timestamp, (Integer) invite.get("id"));
             } else {
-                /*alarm.cancelAlarm(this, (Integer) invite.get("id"));
+                alarm.cancelAlarm(this, (Integer) invite.get("id"));
                 DatabaseCommands.getInstance(openOrCreateDatabase(DatabaseCommands.DB_NAME,MODE_PRIVATE,null))
-                        .removeInvite((Integer) invite.get("id"));*/
+                        .activateInvite((Integer) invite.get("id"),false);
             }
 
         }

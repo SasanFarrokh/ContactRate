@@ -7,7 +7,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -30,8 +32,12 @@ public class AlarmReciever extends BroadcastReceiver
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         wl.acquire();
 
-        HashMap invite = DatabaseCommands.getInstance().getInvite(1,intent.getIntExtra("rc",0)).get(0);
-        HashMap contact = DatabaseCommands.getInstance().getContactById(((Integer) invite.get("contact")).longValue());
+        HashMap invite = DatabaseCommands.getInstance(
+                context.openOrCreateDatabase(DatabaseCommands.DB_NAME,Context.MODE_PRIVATE,null))
+                .getInvite(1,intent.getIntExtra("rc",0)).get(0);
+        HashMap contact = DatabaseCommands.getInstance(
+                context.openOrCreateDatabase(DatabaseCommands.DB_NAME,Context.MODE_PRIVATE,null))
+                .getContactById(((Integer) invite.get("contact")).longValue());
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis((Long) invite.get("timestamp"));
@@ -41,6 +47,14 @@ public class AlarmReciever extends BroadcastReceiver
         NotificationCompat.Builder bBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(ContactShowModel.getImages()[(int) invite.get("type")-1])
+                        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                        .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                        .setContentIntent(PendingIntent.getActivity(context,
+                                intent.getIntExtra("rc",0),
+                                new Intent(context,TaskEditToDb.class).putExtra("invite_id",intent.getIntExtra("rc",0)),
+                                PendingIntent.FLAG_UPDATE_CURRENT))
+                        .setLights(Color.RED, 3000, 3000)
+                        .setAutoCancel(true)
                         .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type")-1])
                         .setContentText("with " + (String) contact.get("name") + " at : "
                                 + calendar.getTime().toString());
