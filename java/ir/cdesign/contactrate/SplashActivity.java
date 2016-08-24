@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class SplashActivity extends AppCompatActivity {
 
     Boolean regHelp;
-    ImageView imageView ,tutImg;
+    ImageView imageView, tutImg;
     TextView textView, textViewTwo;
     EditText editText;
     LinearLayout linearLayout, splashTutText, btnLayouts;
@@ -43,7 +43,6 @@ public class SplashActivity extends AppCompatActivity {
         onStartViewAnimator();
 
         regHelp = reg.getBoolean("STATE", false);
-
 
 
     }
@@ -103,7 +102,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 linearLayout.animate().translationY(0).setDuration(500).start();
-                if (regHelp){
+                if (regHelp) {
                     nextButton.setVisibility(View.INVISIBLE);
                 }
                 nextButton.animate().translationY(0).setDuration(600).start();
