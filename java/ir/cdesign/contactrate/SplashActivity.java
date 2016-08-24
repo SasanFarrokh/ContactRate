@@ -225,6 +225,6 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         intent.putExtra("userName", userName);
         startActivity(intent);
-
+        finish();
     }
 }
