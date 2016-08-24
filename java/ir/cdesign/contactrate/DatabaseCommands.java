@@ -41,6 +41,9 @@ public class DatabaseCommands {
             instance = new DatabaseCommands(MyService.database);
         return instance;
     }
+    public static DatabaseCommands getInstance(SQLiteDatabase db) {
+        return new DatabaseCommands(db);
+    }
 
     private DatabaseCommands(SQLiteDatabase db) {
         database = db;

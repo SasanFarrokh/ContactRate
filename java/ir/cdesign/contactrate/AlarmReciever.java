@@ -12,6 +12,12 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.HashMap;
+
+import ir.cdesign.contactrate.models.ContactShowModel;
+import ir.cdesign.contactrate.models.TaskModel;
+
 /**
  * Created by Sasan on 2016-08-23.
  */
@@ -24,13 +30,20 @@ public class AlarmReciever extends BroadcastReceiver
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         wl.acquire();
 
+        HashMap invite = DatabaseCommands.getInstance().getInvite(1,intent.getIntExtra("rc",0)).get(0);
+        HashMap contact = DatabaseCommands.getInstance().getContactById(((Integer) invite.get("contact")).longValue());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis((Long) invite.get("timestamp"));
+
         // Put here YOUR code.
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder bBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.mlm_list)
-                        .setContentTitle("title")
-                        .setContentText("sub title");
+                        .setSmallIcon(ContactShowModel.getImages()[(int) invite.get("type")-1])
+                        .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type")-1])
+                        .setContentText("with " + (String) contact.get("name") + " at : "
+                                + calendar.getTime().toString());
         Notification barNotif = bBuilder.build();
         notificationManager.notify(intent.getIntExtra("rc",0),barNotif);
 
@@ -44,7 +57,7 @@ public class AlarmReciever extends BroadcastReceiver
         PendingIntent pi = PendingIntent.getBroadcast(context, requestCode, i, 0);
         am.set(AlarmManager.RTC_WAKEUP, time, pi); // Millisec * Second * Minute
 
-        Log.i("timestamp","Alarm Set : " + time);
+        Log.i("timestamp","Alarm Set : " + requestCode);
     }
 
     public void cancelAlarm(Context context , int requestCode)
@@ -53,5 +66,6 @@ public class AlarmReciever extends BroadcastReceiver
         PendingIntent sender = PendingIntent.getBroadcast(context, requestCode, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
+        Log.i("timestamp","Alarm Cancel : " + requestCode);
     }
 }

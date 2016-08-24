@@ -25,29 +25,31 @@ public class MyService extends Service {
         super.onCreate();
         databaseInit();
         alarm = new AlarmReciever();
-        calendar = Calendar.getInstance();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        long currentTime = calendar.getTimeInMillis();
+        calendar = Calendar.getInstance();
+
         List<HashMap> invites = DatabaseCommands.getInstance().getInvite(0,0);
         for (HashMap invite : invites) {
 
             if ( (int) invite.get("active") == 0 ) continue;
 
-            long timestamp = (long) invite.get("timestamp");
 
-            if (timestamp > currentTime) {
-                alarm.setAlarm(this, timestamp, (Integer) invite.get("id"));
+
+            long timestamp = (long) invite.get("timestamp");
+            Log.i("timestamp : ", "" + timestamp + " | " + calendar.getTimeInMillis());
+            if (timestamp > calendar.getTimeInMillis()) {
+                /*alarm.setAlarm(this, timestamp, (Integer) invite.get("id"));*/
             } else {
-                alarm.cancelAlarm(this, (Integer) invite.get("id"));
-                //DatabaseCommands.getInstance().removeInvite(((Integer) invite.get("contact")).longValue(),((Integer) invite.get("id")).longValue());
+                /*alarm.cancelAlarm(this, (Integer) invite.get("id"));
+                DatabaseCommands.getInstance(openOrCreateDatabase(DatabaseCommands.DB_NAME,MODE_PRIVATE,null))
+                        .removeInvite((Integer) invite.get("id"));*/
             }
-            Log.i("timestamp : ", "" + timestamp);
+
         }
-        Log.i("sasan : ", "service runs");
         return START_STICKY;
     }
 
@@ -75,5 +77,8 @@ public class MyService extends Service {
                 "note TEXT," +
                 "timestamp INTEGER," +
                 "active INTEGER);");
+    }
+    public SQLiteDatabase databaseConnect() {
+        return openOrCreateDatabase(DatabaseCommands.DB_NAME, MODE_PRIVATE, null);
     }
 }

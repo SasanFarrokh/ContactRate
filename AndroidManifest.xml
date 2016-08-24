@@ -39,7 +39,12 @@
             android:name=".AlarmReciever"
             android:process=":remote" />
 
-        <service android:name=".MyService" />
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="false">
+        </service>
 
         <activity android:name=".TaskEditToDb"></activity>
     </application>
