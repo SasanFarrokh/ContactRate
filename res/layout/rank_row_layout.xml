@@ -30,7 +30,7 @@
         android:layout_marginRight="12dp"
         android:layout_toRightOf="@+id/rank_rank"
         android:text="This Is Title"
-        android:textColor="#d1d1d1"
+        android:textColor="#f2f2f2"
         android:textSize="20dp" />
 
     <TextView

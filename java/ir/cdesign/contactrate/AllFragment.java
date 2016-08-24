@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,11 +35,16 @@ public class AllFragment extends Fragment {
     TextView search;
     AllModel model = new AllModel();
     FloatingActionButton fab;
+    CoordinatorLayout coordinatorLayout;
+    Boolean firstTime = true;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.all_tab_layout,container , false);
+
+
+        showSnackBar(view);
 
         search = (EditText) view.findViewById(R.id.search);
         search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -71,6 +78,15 @@ public class AllFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void showSnackBar(View view){
+        String user = MainActivity.name;
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.mother);
+        if (firstTime){
+            Snackbar.make(coordinatorLayout,"Welcome " + String.valueOf(user),Snackbar.LENGTH_LONG).show();
+            firstTime = false;
+        }
     }
 
     private void setRecyclerView(View view){
