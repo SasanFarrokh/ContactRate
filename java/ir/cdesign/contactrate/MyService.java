@@ -47,7 +47,7 @@ public class MyService extends Service {
             }
             Log.i("timestamp : ", "" + timestamp);
         }
-
+        Log.i("sasan : ", "service runs");
         return START_STICKY;
     }
 

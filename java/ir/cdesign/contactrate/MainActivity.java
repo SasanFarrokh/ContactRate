@@ -1,7 +1,9 @@
 package ir.cdesign.contactrate;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String PREF = "MlmPref";
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
@@ -54,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private void setDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         NavigationDrawer navigationDrawer = (NavigationDrawer) getSupportFragmentManager().findFragmentById(R.id.nav_dwr_frg);
-        navigationDrawer.setUpDrawer(R.id.nav_dwr_frg, mDrawerLayout);
     }
 
     @Override

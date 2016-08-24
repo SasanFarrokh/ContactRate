@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by amin pc on 23/08/2016.
@@ -17,6 +19,8 @@ import android.widget.LinearLayout;
 public class NavigationDrawer extends Fragment {
 
     LinearLayout medals;
+    String name;
+    int point = 0;
 
     @Nullable
     @Override
@@ -42,11 +46,17 @@ public class NavigationDrawer extends Fragment {
             }
         });
 
+        name = getActivity().getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE).getString("username","Unknown");
+
         return view;
     }
 
-    public void setUpDrawer(int FragmentId, DrawerLayout drawerLayout) {
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView username = (TextView) getView().findViewById(R.id.user_name);
+        username.setText(name);
+        TextView userPoint = (TextView) getView().findViewById(R.id.user_point);
+        userPoint.setText(String.valueOf(point));
     }
-
 }

@@ -32,21 +32,23 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/user_point"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="end"
-                android:text="9999"
+                android:text=""
                 android:textColor="#fbc02d"
                 android:textSize="16dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/user_name"
                 android:layout_marginBottom="20dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="end|bottom"
-                android:text="Ali Zakizade"
+                android:text=""
                 android:textColor="#f2f2f2"
                 android:textSize="18dp" />
 
