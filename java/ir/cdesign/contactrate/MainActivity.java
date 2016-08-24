@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
 
         new AsyncServerCheck().execute();
-        nameInNav();
+//        nameInNav();
 
     }
 
