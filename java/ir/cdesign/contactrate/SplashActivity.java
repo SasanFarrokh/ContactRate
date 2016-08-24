@@ -22,8 +22,8 @@ public class SplashActivity extends AppCompatActivity {
     ImageView imageView;
     TextView textView, textViewTwo;
     EditText editText;
-    LinearLayout linearLayout ,splashTutText;
-    Button nextButton ,nextButtonTwo;
+    LinearLayout linearLayout, splashTutText, btnLayouts;
+    Button nextButton, nextButtonTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    private void init(){
+    private void init() {
         editText = (EditText) findViewById(R.id.splash_edit_text);
         textView = (TextView) findViewById(R.id.splash_text);
         nextButtonTwo = (Button) findViewById(R.id.next_button_two);
@@ -57,8 +57,12 @@ public class SplashActivity extends AppCompatActivity {
         nextButton = (Button) findViewById(R.id.next_button);
         linearLayout = (LinearLayout) findViewById(R.id.company_layout);
         textViewTwo = (TextView) findViewById(R.id.splash_text_two);
-        splashTutText= (LinearLayout) findViewById(R.id.splash_tutorial_layout);
-        
+        splashTutText = (LinearLayout) findViewById(R.id.splash_tutorial_layout);
+        btnLayouts = (LinearLayout) findViewById(R.id.splash_btn_layouts);
+
+        btnLayouts.setVisibility(View.INVISIBLE);
+        btnLayouts.setTranslationY(250);
+
         splashTutText.setVisibility(View.INVISIBLE);
         splashTutText.setAlpha(0);
 
@@ -80,7 +84,7 @@ public class SplashActivity extends AppCompatActivity {
         nextButtonTwo.setTranslationY(250);
     }
 
-    private void onStartViewAnimator(){
+    private void onStartViewAnimator() {
         imageView = (ImageView) findViewById(R.id.splash_logo);
         textView = (TextView) findViewById(R.id.splash_text);
         linearLayout = (LinearLayout) findViewById(R.id.company_layout);
@@ -160,20 +164,65 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void onDoneClick(View view) {
-        editText = (EditText) findViewById(R.id.splash_edit_text);
-        nextButtonTwo = (Button) findViewById(R.id.next_button_two);
-        nextButtonTwo.animate().alpha(0).translationYBy(-20).start();
+        String userName = String.valueOf(editText.getText());
+        if (userName.equals("")) {
+            Toast.makeText(this, "You Can't Leave The Name Field Empty", Toast.LENGTH_LONG).show();
+        } else {
+            textView = (TextView) findViewById(R.id.splash_text);
+            textViewTwo = (TextView) findViewById(R.id.splash_text_two);
+            editText = (EditText) findViewById(R.id.splash_edit_text);
+            splashTutText = (LinearLayout) findViewById(R.id.splash_tutorial_layout);
+            btnLayouts = (LinearLayout) findViewById(R.id.splash_btn_layouts);
+            nextButtonTwo = (Button) findViewById(R.id.next_button_two);
+            editText = (EditText) findViewById(R.id.splash_edit_text);
 
-        /*String userName = String.valueOf(editText.getText());
+            nextButtonTwo.animate().alpha(0).translationYBy(-20).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    btnLayouts.setVisibility(View.VISIBLE);
+                    btnLayouts.animate().alpha(1).translationY(0).setDuration(500).start();
+                    editText.animate().alpha(0).translationYBy(-20).start();
+                    textView.animate().alpha(0).translationYBy(-20).start();
+                    textViewTwo.animate().alpha(0).translationYBy(-20).start();
+                    editText.setVisibility(View.INVISIBLE);
+                    textView.setVisibility(View.INVISIBLE);
+                    textViewTwo.setVisibility(View.INVISIBLE);
+                    splashTutText.setVisibility(View.VISIBLE);
 
-        if (userName.equals("")){
-            Toast.makeText(this,"You Can't Leave The Name Field Empty",Toast.LENGTH_LONG).show();
-        }else {
-            Intent intent = new Intent(SplashActivity.this,MainActivity.class);
-            intent.putExtra("userName",userName);
-            startActivity(intent);
-        }*/
+                }
 
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    splashTutText.animate().alpha(1).start();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).start();
+
+
+        }
+
+    }
+
+    public void onYes(View view) {
+
+    }
+
+
+    public void onNo(View view) {
+        String userName = String.valueOf(editText.getText());
+
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        intent.putExtra("userName", userName);
+        startActivity(intent);
 
     }
 }
