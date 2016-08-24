@@ -44,13 +44,13 @@ public class MyService extends Service {
 
             long timestamp = (long) invite.get("timestamp");
             Log.i("timestamp : ", "" + timestamp + " | " + calendar.getTimeInMillis());
-            /*if (timestamp > calendar.getTimeInMillis()) {
+            if (timestamp > calendar.getTimeInMillis()) {
                 alarm.setAlarm(this, timestamp, (Integer) invite.get("id"));
             } else {
                 alarm.cancelAlarm(this, (Integer) invite.get("id"));
                 DatabaseCommands.getInstance(openOrCreateDatabase(DatabaseCommands.DB_NAME,MODE_PRIVATE,null))
                         .activateInvite((Integer) invite.get("id"),false);
-            }*/
+            }
 
         }
         return START_STICKY;

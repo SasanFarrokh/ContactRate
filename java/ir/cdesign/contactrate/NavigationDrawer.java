@@ -46,11 +46,36 @@ public class NavigationDrawer extends Fragment {
             }
         });
 
+        name = getActivity().getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE).getString("userName","Unknown");
+        name = titleCase(name);
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+
+        TextView userName = (TextView) getView().findViewById(R.id.nav_user_name);
+        userName.setText(name);
+    }
+
+    public static String titleCase(String str) {
+        StringBuilder titleCase = new StringBuilder();
+        boolean nextTitleCase = true;
+
+        for (char c : str.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
     }
 }

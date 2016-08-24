@@ -3,8 +3,10 @@ package ir.cdesign.contactrate;
 import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -38,12 +40,11 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         init();
         // Create Shared Preference
-        SharedPreferences reg = getApplicationContext().getSharedPreferences("REG", MODE_PRIVATE);
+        SharedPreferences reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
 
         onStartViewAnimator();
 
-        regHelp = reg.getBoolean("STATE", false);
-
+        regHelp = !reg.getString("userName","").isEmpty();
 
     }
 
@@ -61,7 +62,7 @@ public class SplashActivity extends AppCompatActivity {
 
         tutImg.setVisibility(View.INVISIBLE);
         tutImg.setAlpha(0f);
-        tutImg.setTranslationY(1000);
+        tutImg.setTranslationY(0);
 
         btnLayouts.setVisibility(View.INVISIBLE);
         btnLayouts.setTranslationY(250);
@@ -74,12 +75,12 @@ public class SplashActivity extends AppCompatActivity {
         editText.setVisibility(View.INVISIBLE);
 
         textView.setAlpha(0f);
-        textView.setScaleX(0);
-        textView.setScaleY(0);
+        textView.setScaleX(0.8f);
+        textView.setScaleY(0.8f);
 
         imageView.setAlpha(0f);
-        imageView.setScaleX(0);
-        imageView.setScaleY(0);
+        imageView.setScaleX(0.8f);
+        imageView.setScaleY(0.8f);
 
         linearLayout.setTranslationY(150);
 
@@ -109,20 +110,14 @@ public class SplashActivity extends AppCompatActivity {
 
 
                 if (regHelp) {
-                    Thread thread = new Thread() {
-                        public void run() {
-                            try {
-                                sleep(2500);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            } finally {
-                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        }
-                    };
-                    thread.start();
 
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        }
+                    },2000);
                 }
             }
 
@@ -147,10 +142,10 @@ public class SplashActivity extends AppCompatActivity {
         nextButtonTwo = (Button) findViewById(R.id.next_button_two);
         nextButton = (Button) findViewById(R.id.next_button);
 
+        textView.animate().yBy(-200).setDuration(400).start();
         imageView.animate().yBy(-50).alpha(0).setDuration(400).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                textView.animate().yBy(-200).setDuration(300).start();
                 textViewTwo.animate().yBy(-200).alpha(1).setDuration(300).start();
                 editText.setVisibility(View.VISIBLE);
                 editText.animate().yBy(-150).alpha(1).setDuration(300).start();
@@ -176,9 +171,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void regSave() {
-        SharedPreferences reg = getApplicationContext().getSharedPreferences("REG", MODE_PRIVATE);
+        SharedPreferences reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = reg.edit();
-        editor.putBoolean("STATE", true).apply();
         editor.putString("userName", editText.getText().toString()).apply();
     }
 
@@ -203,8 +197,7 @@ public class SplashActivity extends AppCompatActivity {
             nextButtonTwo.animate().alpha(0).translationYBy(-20).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
-                    btnLayouts.setVisibility(View.VISIBLE);
-                    btnLayouts.animate().alpha(1).translationY(0).setDuration(500).start();
+
                     editText.animate().alpha(0).translationYBy(-20).start();
                     textView.animate().alpha(0).translationYBy(-20).start();
                     textViewTwo.animate().alpha(0).translationYBy(-20).start();
@@ -219,7 +212,9 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     splashTutText.animate().alpha(1).setDuration(400).start();
-                    tutImg.animate().translationY(0).alpha(1).setDuration(500);
+                    tutImg.animate().translationY(0).alpha(1).setDuration(600);
+                    btnLayouts.setVisibility(View.VISIBLE);
+                    btnLayouts.animate().alpha(1).translationY(0).setDuration(500).start();
                 }
 
                 @Override

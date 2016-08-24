@@ -81,10 +81,10 @@ public class AllFragment extends Fragment {
     }
 
     private void showSnackBar(View view){
-        String user = MainActivity.name;
+        String user = getActivity().getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE).getString("userName","");
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.mother);
-        if (firstTime){
-            Snackbar.make(coordinatorLayout,"Welcome " + String.valueOf(user),Snackbar.LENGTH_LONG).show();
+        if (firstTime && user != null){
+            Snackbar.make(coordinatorLayout,"Welcome " + NavigationDrawer.titleCase(user),Snackbar.LENGTH_LONG).show();
             firstTime = false;
         }
     }
