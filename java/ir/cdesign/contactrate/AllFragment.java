@@ -36,6 +36,7 @@ public class AllFragment extends Fragment {
     AllModel model = new AllModel();
     FloatingActionButton fab;
     CoordinatorLayout coordinatorLayout;
+    Boolean firstTime = true;
 
     @Nullable
     @Override
@@ -82,7 +83,10 @@ public class AllFragment extends Fragment {
     private void showSnackBar(View view){
         String user = MainActivity.name;
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.mother);
-        Snackbar.make(coordinatorLayout,"Welcome " + String.valueOf(user),Snackbar.LENGTH_LONG).show();
+        if (firstTime){
+            Snackbar.make(coordinatorLayout,"Welcome " + String.valueOf(user),Snackbar.LENGTH_LONG).show();
+            firstTime = false;
+        }
     }
 
     private void setRecyclerView(View view){
