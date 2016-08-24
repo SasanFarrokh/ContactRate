@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
     ImageView imageView;
     TextView textView, textViewTwo;
     EditText editText;
-    LinearLayout linearLayout;
+    LinearLayout linearLayout ,splashTutText;
     Button nextButton ,nextButtonTwo;
 
     @Override
@@ -57,6 +57,10 @@ public class SplashActivity extends AppCompatActivity {
         nextButton = (Button) findViewById(R.id.next_button);
         linearLayout = (LinearLayout) findViewById(R.id.company_layout);
         textViewTwo = (TextView) findViewById(R.id.splash_text_two);
+        splashTutText= (LinearLayout) findViewById(R.id.splash_tutorial_layout);
+        
+        splashTutText.setVisibility(View.INVISIBLE);
+        splashTutText.setAlpha(0);
 
         textViewTwo.setAlpha(0);
         editText.setAlpha(0);
@@ -157,7 +161,10 @@ public class SplashActivity extends AppCompatActivity {
 
     public void onDoneClick(View view) {
         editText = (EditText) findViewById(R.id.splash_edit_text);
-        String userName = String.valueOf(editText.getText());
+        nextButtonTwo = (Button) findViewById(R.id.next_button_two);
+        nextButtonTwo.animate().alpha(0).translationYBy(-20).start();
+
+        /*String userName = String.valueOf(editText.getText());
 
         if (userName.equals("")){
             Toast.makeText(this,"You Can't Leave The Name Field Empty",Toast.LENGTH_LONG).show();
@@ -165,7 +172,7 @@ public class SplashActivity extends AppCompatActivity {
             Intent intent = new Intent(SplashActivity.this,MainActivity.class);
             intent.putExtra("userName",userName);
             startActivity(intent);
-        }
+        }*/
 
 
     }

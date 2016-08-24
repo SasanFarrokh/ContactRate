@@ -110,4 +110,54 @@
         android:text="Done"
         android:layout_gravity="center_horizontal|bottom" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="70dp"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/splash_button_yes"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:background="#7015ff00"
+            android:textColor="#000"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginRight="10dp"
+            android:text="Yes"
+            android:layout_gravity="center_horizontal|bottom" />
+
+        <Button
+            android:id="@+id/splash_button_no"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:background="#70ff0000"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="No"
+            android:layout_gravity="center_horizontal|bottom" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/splash_tutorial_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="@drawable/splash_square">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="Hello"
+             />
+    </LinearLayout>
+
 </FrameLayout>
