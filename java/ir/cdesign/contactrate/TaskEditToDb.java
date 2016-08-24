@@ -74,16 +74,15 @@ public class TaskEditToDb extends AppCompatActivity {
 
     private void setToolbar() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.real_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(ContactShowModel.getTitles()[type - 1]);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
-        toolbarText = (TextView) findViewById(R.id.real_text);
         /*
         *
         *       Must Get Text From Recycler Adapter of The Selected Item
         *           \/\/\/\/\/\/\/
         * */
-        toolbarText.setText(ContactShowModel.getTitles()[type - 1]);
-        toolbarText.setTypeface(Typeface.DEFAULT_BOLD);
 
     }
 
