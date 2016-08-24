@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
     //to set user name in navigation drawer
     private void nameInNav(){
-        Bundle bundle = getIntent().getExtras();
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mother);
-        name = bundle.getString("userName");
+        name = getIntent().getStringExtra("userName");
+        name = titleCase(name);
         TextView userName = (TextView) findViewById(R.id.nav_user_name);
         userName.setText(name);
         SharedPreferences user = getSharedPreferences("userName",MODE_PRIVATE);
