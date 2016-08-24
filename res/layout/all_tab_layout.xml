@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:id="@+id/mother"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
@@ -8,25 +8,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="7dp"
+            android:paddingBottom="4dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingBottom="4dp">
+            android:paddingTop="7dp">
 
             <EditText
+                android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/search"
+                android:maxLines="1"
                 android:paddingRight="35dp"
                 android:singleLine="true"
-                android:textColor="@color/white"
-                android:maxLines="1"/>
+                android:textColor="@color/white" />
 
             <Button
                 android:layout_width="25dp"
@@ -50,10 +50,10 @@
         android:id="@+id/all_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
         android:layout_margin="15dp"
         android:onClick="addContact"
-        android:tint="#f2f2f2"
         android:src="@android:drawable/ic_input_add"
-        android:layout_gravity="right|bottom" />
+        android:tint="#f2f2f2" />
 
 </android.support.design.widget.CoordinatorLayout>
