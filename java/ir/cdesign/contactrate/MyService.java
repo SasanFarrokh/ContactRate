@@ -79,6 +79,7 @@ public class MyService extends Service {
                 "contact INTEGER," +
                 "note TEXT," +
                 "timestamp INTEGER," +
+                "point INTEGER," +
                 "active INTEGER);");
     }
     public SQLiteDatabase databaseConnect() {

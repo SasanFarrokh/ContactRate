@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -116,6 +115,7 @@ public class SplashActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            finish();
                         }
                     },2000);
                 }

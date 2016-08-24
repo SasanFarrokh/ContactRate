@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ir.cdesign.contactrate.adapters.RankAdapter;
 
@@ -78,25 +80,39 @@ public class ContactShow extends AppCompatActivity {
         TextView contactName = (TextView) findViewById(R.id.contact_name);
         TextView contactNumber = (TextView) findViewById(R.id.contact_number);
         Button addContactBtn = (Button) findViewById(R.id.add_contact_btn);
-
         ImageView contactImage = (ImageView) findViewById(R.id.contact_img);
         Uri imageUri = getPhotoUri(contactId,this);
 
         ArrayList<String> contact = getContactById(contactId);
-        try {
-            contactName.setText(contact.get(0));
-            contactNumber.setText("Phone Number : " + contact.get(1));
+        if (contact != null && !contact.isEmpty()) {
+            try {
+                contactName.setText(contact.get(0));
+                contactNumber.setText("Phone Number : " + contact.get(1));
+                addContactBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addContact();
+                    }
+                });
+
+                if (imageUri != null) contactImage.setImageURI(imageUri);
+                if (contactImage.getDrawable() == null)
+                    contactImage.setImageResource(R.drawable.contact);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+            HashMap contact2 = DatabaseCommands.getInstance().getContactById(contactId);
+
+            contactName.setText((String) contact2.get("name"));
+            contactNumber.setText("Phone Number : " + contact2.get("phone"));
             addContactBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     addContact();
                 }
             });
-            
-            if (imageUri != null) contactImage.setImageURI(imageUri);
-            if(contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
 
 

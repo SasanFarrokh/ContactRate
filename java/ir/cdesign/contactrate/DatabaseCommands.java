@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.RemoteException;
@@ -31,6 +32,7 @@ public class DatabaseCommands {
     public static final String DB_NAME = "ContactRate";
     public static final String TABLE_CONTACTS = "ContactRank";
     public static final String TABLE_INVITES = "ContactInvites";
+    public static final String TABLE_POINTS = "ContactPoints";
 
 
     private SQLiteDatabase database;
@@ -68,6 +70,22 @@ public class DatabaseCommands {
             if (database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)}) != -1)
                 return true;
         }
+        return false;
+    }
+    public boolean insertContact(String name, String phone,int lesson, int time, int motive, String invites) {
+
+        long id = DatabaseUtils.queryNumEntries(database, TABLE_CONTACTS);
+
+        ContentValues values = new ContentValues();
+        values.put("id", 100000 + id);
+        values.put("name", name);
+        values.put("phone", phone);
+        values.put("lesson", lesson);
+        values.put("time", time);
+        values.put("motive", motive);
+        values.put("invites", invites);
+        if (database.insert(TABLE_CONTACTS, null, values) != -1) return true;
+
         return false;
     }
 

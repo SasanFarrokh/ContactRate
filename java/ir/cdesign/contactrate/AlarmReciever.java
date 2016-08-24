@@ -28,40 +28,46 @@ public class AlarmReciever extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ON_AFTER_RELEASE, "");
-        wl.acquire();
+        try {
+            HashMap invite = DatabaseCommands.getInstance(
+                    context.openOrCreateDatabase(DatabaseCommands.DB_NAME, Context.MODE_PRIVATE, null))
+                    .getInvite(1, intent.getIntExtra("rc", 0)).get(0);
+            HashMap contact = DatabaseCommands.getInstance(
+                    context.openOrCreateDatabase(DatabaseCommands.DB_NAME, Context.MODE_PRIVATE, null))
+                    .getContactById(((Integer) invite.get("contact")).longValue());
 
-        HashMap invite = null; /*DatabaseCommands.getInstance(
-                context.CreateDatabase(l,Context.MODE_PRIVATE,null))
-                .getInvite(1,intent.getIntExtra("rc",0)).get(0);*/
-        HashMap contact = null; /*DatabaseCommands.getInstance(
-                context.CreateDatabase(l,Context.MODE_PRIVATE,null))
-                .getContactById(((Integer) invite.get("contact")).longValue());*/
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis((Long) invite.get("timestamp"));
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
+            wl.acquire();
 
-        // Put here YOUR code.
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder bBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(ContactShowModel.getImages()[(int) invite.get("type")-1])
-                        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                        .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
-                        .setContentIntent(PendingIntent.getActivity(context,
-                                intent.getIntExtra("rc",0),
-                                new Intent(context,TaskEditToDb.class).putExtra("invite_id",intent.getIntExtra("rc",0)),
-                                PendingIntent.FLAG_UPDATE_CURRENT))
-                        .setLights(Color.RED, 3000, 3000)
-                        .setAutoCancel(true)
-                        .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type")-1])
-                        .setContentText("with " + (String) contact.get("name") + " at : "
-                                + calendar.getTime().toString());
-        Notification barNotif = bBuilder.build();
-        notificationManager.notify(intent.getIntExtra("rc",0),barNotif);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis((Long) invite.get("timestamp"));
 
-        wl.release();
+            // Put here YOUR code.
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationCompat.Builder bBuilder =
+                    new NotificationCompat.Builder(context)
+                            .setSmallIcon(ContactShowModel.getImages()[(int) invite.get("type") - 1])
+                            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                            .setVibrate(new long[]{0, 600, 100, 600})
+                            .setContentIntent(PendingIntent.getActivity(context,
+                                    intent.getIntExtra("rc", 0),
+                                    new Intent(context, TaskEditToDb.class).putExtra("invite_id", intent.getIntExtra("rc", 0)),
+                                    PendingIntent.FLAG_UPDATE_CURRENT))
+                            .setLights(Color.RED, 3000, 3000)
+                            .setAutoCancel(true)
+                            .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type") - 1])
+                            .setContentText("with " + (String) contact.get("name") + " at : "
+                                    + calendar.getTime().getHours() + " : "
+                                    + calendar.getTime().getMinutes());
+            Notification barNotif = bBuilder.build();
+            notificationManager.notify(intent.getIntExtra("rc", 0), barNotif);
+
+            wl.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setAlarm(Context context,long time, int requestCode)
