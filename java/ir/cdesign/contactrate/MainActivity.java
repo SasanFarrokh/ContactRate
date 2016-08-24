@@ -21,12 +21,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
-    NavigationView mNavigationView;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     CoordinatorLayout coordinatorLayout;
     public static String name;
-    AllFragment allFragment;
 
     public static MainActivity instance;
 
@@ -44,15 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
 
         new AsyncServerCheck().execute();
-        //to set user name in navigation drawer
-        Bundle bundle = getIntent().getExtras();
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mother);
-        name = bundle.getString("userName");
-        TextView userName = (TextView) findViewById(R.id.nav_user_name);
-        userName.setText(name);
-        SharedPreferences user = getSharedPreferences("userName",MODE_PRIVATE);
-        SharedPreferences.Editor editor = user.edit();
-        editor.putString("name",name).apply();
+        nameInNav();
 
     }
 
@@ -68,6 +58,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         startService(new Intent(this, MyService.class));
+    }
+
+    //to set user name in navigation drawer
+    private void nameInNav(){
+        Bundle bundle = getIntent().getExtras();
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mother);
+        name = bundle.getString("userName");
+        TextView userName = (TextView) findViewById(R.id.nav_user_name);
+        userName.setText(name);
+        SharedPreferences user = getSharedPreferences("userName",MODE_PRIVATE);
+        SharedPreferences.Editor editor = user.edit();
+        editor.putString("name",name).apply();
     }
 
     @Override
