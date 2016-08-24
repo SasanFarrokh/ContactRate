@@ -96,6 +96,7 @@ public class ContactShowInvite extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setRecyclerView();
+        startService(new Intent(this, MyService.class));
     }
 
     private void setRecyclerView(){

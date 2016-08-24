@@ -179,6 +179,7 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences reg = getApplicationContext().getSharedPreferences("REG", MODE_PRIVATE);
         SharedPreferences.Editor editor = reg.edit();
         editor.putBoolean("STATE", true).apply();
+        editor.putString("userName", editText.getText().toString()).apply();
     }
 
     public void onOkClick(View view) {
@@ -246,8 +247,8 @@ public class SplashActivity extends AppCompatActivity {
         String userName = String.valueOf(editText.getText());
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         intent.putExtra("userName", userName);
-        startActivity(intent);
         regSave();
+        startActivity(intent);
         finish();
     }
 }

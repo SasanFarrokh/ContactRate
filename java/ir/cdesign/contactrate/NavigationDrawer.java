@@ -46,17 +46,11 @@ public class NavigationDrawer extends Fragment {
             }
         });
 
-        name = getActivity().getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE).getString("username","Unknown");
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        /*TextView username = (TextView) getView().findViewById(R.id.user_name);
-        username.setText(name);
-        TextView userPoint = (TextView) getView().findViewById(R.id.user_point);
-        userPoint.setText(String.valueOf(point));*/
     }
 }

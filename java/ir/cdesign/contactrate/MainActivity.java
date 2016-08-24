@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
 
         new AsyncServerCheck().execute();
-//        nameInNav();
+        nameInNav();
 
     }
 
@@ -55,21 +55,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         startService(new Intent(this, MyService.class));
     }
 
     //to set user name in navigation drawer
     private void nameInNav(){
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mother);
-        name = getIntent().getStringExtra("userName");
+        SharedPreferences reg = getSharedPreferences("REG",MODE_PRIVATE);
+        name = reg.getString("userName","Unknown");
         name = titleCase(name);
         TextView userName = (TextView) findViewById(R.id.nav_user_name);
         userName.setText(name);
-        SharedPreferences user = getSharedPreferences("userName",MODE_PRIVATE);
-        SharedPreferences.Editor editor = user.edit();
-        editor.putString("name",name).apply();
     }
 
     @Override

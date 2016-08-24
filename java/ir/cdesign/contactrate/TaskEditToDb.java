@@ -74,9 +74,9 @@ public class TaskEditToDb extends AppCompatActivity {
 
     private void setToolbar() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(ContactShowModel.getTitles()[type - 1]);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.real_toolbar);
+        TextView title = (TextView) toolbar.findViewById(R.id.real_text);
+        title.setText(ContactShowModel.getTitles()[type - 1]);
         setSupportActionBar(toolbar);
         /*
         *
@@ -92,9 +92,4 @@ public class TaskEditToDb extends AppCompatActivity {
         type = (int) invite.get("type");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.contact_menu, menu);
-        return true;
-    }
 }

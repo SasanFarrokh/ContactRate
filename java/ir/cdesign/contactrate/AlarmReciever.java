@@ -32,12 +32,12 @@ public class AlarmReciever extends BroadcastReceiver
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         wl.acquire();
 
-        HashMap invite = DatabaseCommands.getInstance(
-                context.openOrCreateDatabase(DatabaseCommands.DB_NAME,Context.MODE_PRIVATE,null))
-                .getInvite(1,intent.getIntExtra("rc",0)).get(0);
-        HashMap contact = DatabaseCommands.getInstance(
-                context.openOrCreateDatabase(DatabaseCommands.DB_NAME,Context.MODE_PRIVATE,null))
-                .getContactById(((Integer) invite.get("contact")).longValue());
+        HashMap invite = null; /*DatabaseCommands.getInstance(
+                context.CreateDatabase(l,Context.MODE_PRIVATE,null))
+                .getInvite(1,intent.getIntExtra("rc",0)).get(0);*/
+        HashMap contact = null; /*DatabaseCommands.getInstance(
+                context.CreateDatabase(l,Context.MODE_PRIVATE,null))
+                .getContactById(((Integer) invite.get("contact")).longValue());*/
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis((Long) invite.get("timestamp"));
