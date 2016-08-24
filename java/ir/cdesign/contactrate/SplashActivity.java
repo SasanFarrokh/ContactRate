@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class SplashActivity extends AppCompatActivity {
 
     Boolean regHelp;
-    ImageView imageView;
+    ImageView imageView ,tutImg;
     TextView textView, textViewTwo;
     EditText editText;
     LinearLayout linearLayout, splashTutText, btnLayouts;
@@ -40,14 +40,11 @@ public class SplashActivity extends AppCompatActivity {
         // Create Shared Preference
         SharedPreferences reg = getApplicationContext().getSharedPreferences("REG", MODE_PRIVATE);
 
-
         onStartViewAnimator();
 
         regHelp = reg.getBoolean("STATE", false);
 
-        regSave();
 
-        if (!regHelp) startActivity(new Intent(SplashActivity.this, MainActivity.class));
 
     }
 
@@ -61,6 +58,11 @@ public class SplashActivity extends AppCompatActivity {
         textViewTwo = (TextView) findViewById(R.id.splash_text_two);
         splashTutText = (LinearLayout) findViewById(R.id.splash_tutorial_layout);
         btnLayouts = (LinearLayout) findViewById(R.id.splash_btn_layouts);
+        tutImg = (ImageView) findViewById(R.id.tut_img);
+
+        tutImg.setVisibility(View.INVISIBLE);
+        tutImg.setAlpha(0f);
+        tutImg.setTranslationY(1000);
 
         btnLayouts.setVisibility(View.INVISIBLE);
         btnLayouts.setTranslationY(250);
@@ -92,7 +94,6 @@ public class SplashActivity extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.company_layout);
         nextButton = (Button) findViewById(R.id.next_button);
 
-
         imageView.animate().alpha(1).scaleX(1f).scaleY(1f).setDuration(1000).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -102,8 +103,28 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 linearLayout.animate().translationY(0).setDuration(500).start();
+                if (regHelp){
+                    nextButton.setVisibility(View.INVISIBLE);
+                }
                 nextButton.animate().translationY(0).setDuration(600).start();
 
+
+                if (regHelp) {
+                    Thread thread = new Thread() {
+                        public void run() {
+                            try {
+                                sleep(2500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } finally {
+                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                                finish();
+                            }
+                        }
+                    };
+                    thread.start();
+
+                }
             }
 
             @Override
@@ -177,6 +198,7 @@ public class SplashActivity extends AppCompatActivity {
             btnLayouts = (LinearLayout) findViewById(R.id.splash_btn_layouts);
             nextButtonTwo = (Button) findViewById(R.id.next_button_two);
             editText = (EditText) findViewById(R.id.splash_edit_text);
+            tutImg = (ImageView) findViewById(R.id.tut_img);
 
             nextButtonTwo.animate().alpha(0).translationYBy(-20).setListener(new Animator.AnimatorListener() {
                 @Override
@@ -190,12 +212,14 @@ public class SplashActivity extends AppCompatActivity {
                     textView.setVisibility(View.INVISIBLE);
                     textViewTwo.setVisibility(View.INVISIBLE);
                     splashTutText.setVisibility(View.VISIBLE);
+                    tutImg.setVisibility(View.VISIBLE);
 
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    splashTutText.animate().alpha(1).start();
+                    splashTutText.animate().alpha(1).setDuration(400).start();
+                    tutImg.animate().translationY(0).alpha(1).setDuration(500);
                 }
 
                 @Override
@@ -221,10 +245,10 @@ public class SplashActivity extends AppCompatActivity {
 
     public void onNo(View view) {
         String userName = String.valueOf(editText.getText());
-
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         intent.putExtra("userName", userName);
         startActivity(intent);
+        regSave();
         finish();
     }
 }
