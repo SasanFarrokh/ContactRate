@@ -54,9 +54,9 @@ public class NavigationDrawer extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        TextView username = (TextView) getView().findViewById(R.id.user_name);
+        /*TextView username = (TextView) getView().findViewById(R.id.user_name);
         username.setText(name);
         TextView userPoint = (TextView) getView().findViewById(R.id.user_point);
-        userPoint.setText(String.valueOf(point));
+        userPoint.setText(String.valueOf(point));*/
     }
 }

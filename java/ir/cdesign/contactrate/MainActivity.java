@@ -46,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         new AsyncServerCheck().execute();
         //to set user name in navigation drawer
-        Bundle bundle = getIntent().getExtras();
+
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mother);
-        name = bundle.getString("userName");
+        name = getIntent().getStringExtra("userName");
+        name = titleCase(name);
         TextView userName = (TextView) findViewById(R.id.nav_user_name);
         userName.setText(name);
         SharedPreferences user = getSharedPreferences("userName",MODE_PRIVATE);
@@ -73,5 +74,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    private String titleCase(String str) {
+        StringBuilder titleCase = new StringBuilder();
+        boolean nextTitleCase = true;
+
+        for (char c : str.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
     }
 }
