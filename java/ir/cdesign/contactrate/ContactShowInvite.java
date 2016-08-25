@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-import ir.cdesign.contactrate.adapters.ContactShowAdapter;
+//import ir.cdesign.contactrate.adapters.ContactShowAdapter;
 import ir.cdesign.contactrate.adapters.ContactTasksAdapter;
 import ir.cdesign.contactrate.adapters.InvitationAdapter;
 import ir.cdesign.contactrate.adapters.RankAdapter;
