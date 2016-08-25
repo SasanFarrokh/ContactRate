@@ -76,6 +76,7 @@ public class ContactShowInvite extends AppCompatActivity {
         contactName.setText((String) contact.get("name"));
         phone.setText((String) contact.get("phone"));
         note.setText((String) contact.get("note"));
+        point.setText(String.valueOf(contact.get("point")));
 
         final Button call = (Button) findViewById(R.id.call_btn);
         call.setOnClickListener(new View.OnClickListener() {
@@ -151,5 +152,10 @@ public class ContactShowInvite extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         DatabaseCommands.getInstance().addNoteToContact(contactId,note.getText().toString());
+    }
+
+    public void updatePoint() {
+        HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
+        point.setText(String.valueOf(contact.get("point")));
     }
 }

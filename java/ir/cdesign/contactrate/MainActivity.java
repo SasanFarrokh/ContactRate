@@ -15,9 +15,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.Calendar;
+
+import ir.cdesign.contactrate.utilities.JalaliCalendar;
 
 //import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
 
@@ -61,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
 
         new AsyncServerCheck().execute();
 
+        Calendar calendar = Calendar.getInstance();
+        int[] datat = JalaliCalendar.gregorian_to_jalali(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH)+1,
+                calendar.get(Calendar.DAY_OF_MONTH));
+        Log.i("sasan", " now gregorian" + datat[0]+ " - " + datat[1]+ " - " +datat[2]);
+
+        int[] datat2 = JalaliCalendar.jalali_to_gregorian(1395,5,4);
+        Log.i("sasan", " now jalali" + datat2[0] + " - " + datat2[1] + " - " +datat2[2]);
     }
 
 

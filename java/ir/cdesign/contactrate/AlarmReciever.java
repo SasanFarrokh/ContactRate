@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.models.TaskModel;
@@ -81,6 +82,7 @@ public class AlarmReciever extends BroadcastReceiver
     public void setAlarm(Context context,long time, int requestCode)
     {
         AlarmManager am =( AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        am.setTimeZone(TimeZone.getDefault().toString());
         Intent i = new Intent(context, AlarmReciever.class).putExtra("rc",requestCode);
         PendingIntent pi = PendingIntent.getBroadcast(context, requestCode, i, 0);
         am.set(AlarmManager.RTC_WAKEUP, time, pi); // Millisec * Second * Minute

@@ -1,15 +1,15 @@
 package ir.cdesign.contactrate;
 
 import android.app.TimePickerDialog;
-import android.graphics.Typeface;
+import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,18 +21,24 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import ir.cdesign.contactrate.models.ContactShowModel;
-import ir.cdesign.contactrate.utilities.MedalDialog;
+import ir.cdesign.contactrate.utilities.CalendarTool;
+import ir.cdesign.contactrate.utilities.JalaliCalendar;
 
 public class TaskEditToDb extends AppCompatActivity {
-    TextView toolbarText;
 
     LinearLayout timePick;
     long contactId;
     TextView timeTxt;
-    TimePickerDialog timePickerDialog ;
     EditText year , month , day ;
+    TextView note;
 
-    int type, inviteId , hourOfDay , minute;
+    Calendar taskCalendar = Calendar.getInstance();
+
+
+    int type, inviteId ;
+    Integer hourOfDay , minute;
+
+    boolean edit = false;
 
     HashMap contact, invite;
 
@@ -45,13 +51,14 @@ public class TaskEditToDb extends AppCompatActivity {
         type = getIntent().getIntExtra("type", 0);
         inviteId = getIntent().getIntExtra("invite_id", 0);
 
+        init();
+
         if (inviteId != 0) setByInviteId(inviteId);
 
         if (contactId == 0 || type == 0) finish();
 
         setToolbar();
 
-        init();
 
         timePick = (LinearLayout) findViewById(R.id.time);
 
@@ -61,30 +68,58 @@ public class TaskEditToDb extends AppCompatActivity {
              timePickerShow();
             }
         });
+        final View container = findViewById(R.id.containerLayout);
+        container.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(container.getWindowToken(), 0);
+            }
+        });
+        container.requestFocus();
+        container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.requestFocus();
+            }
+        });
     }
 
     private  void init(){
         day = (EditText) findViewById(R.id.dayEdit);
         month = (EditText) findViewById(R.id.monthEdit);
         year = (EditText) findViewById(R.id.yearEdit);
-
+        note = (TextView) findViewById(R.id.note);
+        timeTxt = (TextView) findViewById(R.id.timeTxt);
 
     }
 
-    private void calendarShits(){
-        Calendar c = Calendar.getInstance();
-        hourOfDay = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
+    private void calendarGet(){
+
+        hourOfDay = taskCalendar.get(Calendar.HOUR_OF_DAY);
+        minute = taskCalendar.get(Calendar.MINUTE);
+        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
+
+        CalendarTool calendar2 = new CalendarTool(
+                taskCalendar.get(Calendar.YEAR),
+                taskCalendar.get(Calendar.MONTH)+1,
+                taskCalendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        year.setHint(String.valueOf(calendar2.getIranianYear()-1300));
+        month.setHint(String.valueOf(calendar2.getIranianMonth()));
+        day.setHint(String.valueOf(calendar2.getIranianDay()));
     }
 
     private void timePickerShow(){
-        calendarShits();
+
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
-                        timeTxt = (TextView) findViewById(R.id.timeTxt);
+                        TaskEditToDb.this.hourOfDay = hourOfDay;
+                        TaskEditToDb.this.minute = minute;
                         timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
 
                     }
@@ -96,6 +131,8 @@ public class TaskEditToDb extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        if (!edit) calendarGet();
+
         contact = DatabaseCommands.getInstance().getContactById(contactId);
 
         TextView contactNameView = (TextView) findViewById(R.id.contact_name);
@@ -105,7 +142,13 @@ public class TaskEditToDb extends AppCompatActivity {
         taskAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseCommands.getInstance().addInvite(contactId, type, "salam", System.currentTimeMillis() + 30000, 0);
+                setCalender();
+                if (!edit)
+                    DatabaseCommands.getInstance().addInvite(contactId, type, note.getText().toString(),
+                            taskCalendar.getTimeInMillis(), 0);
+                else
+                    DatabaseCommands.getInstance().editInvite(inviteId,contactId, type, note.getText().toString(),
+                            taskCalendar.getTimeInMillis(), 0);
                 finish();
             }
         });
@@ -123,6 +166,32 @@ public class TaskEditToDb extends AppCompatActivity {
         Uri imageUri = ContactShow.getPhotoUri(contactId,this);
         if (imageUri != null) contactImage.setImageURI(imageUri);
         if(contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
+    }
+
+    private void setCalender() {
+
+        CalendarTool calendar2 = new CalendarTool();
+        calendar2.setIranianDate(
+                Integer.parseInt(year.getText().toString()+1300),
+                Integer.parseInt(month.getText().toString()),
+                Integer.parseInt(day.getText().toString())
+        );
+        int[] gregori = JalaliCalendar.gregorian_to_jalali(
+                Integer.parseInt(year.getText().toString()+1300),
+                Integer.parseInt(month.getText().toString()),
+                Integer.parseInt(day.getText().toString())
+        );
+        taskCalendar.set(
+                gregori[0],
+                gregori[1]-1,
+                gregori[2],
+                hourOfDay,
+                minute
+        );
+        Log.i("sasan"," gregorian calendar :" + calendar2.getGregorianYear()+ " - " +
+                calendar2.getGregorianMonth()+ " - "+
+                calendar2.getGregorianDay());
+
     }
 
     private void setToolbar() {
@@ -143,9 +212,31 @@ public class TaskEditToDb extends AppCompatActivity {
         invite = DatabaseCommands.getInstance().getInvite(1, inviteId).get(0);
         contactId = ((Integer) invite.get("contact")).longValue();
         type = (int) invite.get("type");
+        edit = true;
+
+        long timestamp = (long) invite.get("timestamp");
+
+        taskCalendar.setTimeInMillis(timestamp);
+
+        hourOfDay = taskCalendar.get(Calendar.HOUR_OF_DAY);
+        minute = taskCalendar.get(Calendar.MINUTE);
+        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
+
+        CalendarTool calendar2 = new CalendarTool(
+                taskCalendar.get(Calendar.YEAR),
+                taskCalendar.get(Calendar.MONTH)+1,
+                taskCalendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        year.setText(String.valueOf(calendar2.getIranianYear()));
+        month.setText(String.valueOf(calendar2.getIranianMonth()));
+        day.setText(String.valueOf(calendar2.getIranianDay()));
+
+        note.setText((String) invite.get("note"));
+
     }
 
-    public void openTheBitch(View view) {
+    public void openNoteDialog(View view) {
 
         FragmentManager fm = getSupportFragmentManager();
         EnterTextDialog enterTextDialog = new EnterTextDialog();

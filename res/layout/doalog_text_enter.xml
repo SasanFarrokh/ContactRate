@@ -24,6 +24,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/dialog_note_submit"
         android:text="Submit"
         android:background="#70ffffff"/>
 

@@ -228,7 +228,6 @@ public class DatabaseCommands {
                 ContentValues values2 = new ContentValues();
                 values2.put("eventid",reminderid);
                 long rowid = database.update(TABLE_INVITES,values2," id = ? ", new String[] {String.valueOf(inviteId)});
-                Log.i("sasan","added reminder : "  + reminderid + " , " + rowid);
             }
             if (putToInvites(contactId, inviteId)) return true;
         }

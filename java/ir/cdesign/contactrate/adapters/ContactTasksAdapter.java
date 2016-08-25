@@ -19,6 +19,8 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.List;
 
+import ir.cdesign.contactrate.ContactShow;
+import ir.cdesign.contactrate.ContactShowInvite;
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.TaskEditToDb;
@@ -74,7 +76,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     ViewHolder viewHolder = (ViewHolder) ((View) buttonView.getParent()).getTag();
                     DatabaseCommands.getInstance().activateInvite(viewHolder.id,isChecked);
-                    Log.i("sasan","checked " + viewHolder.id);
+                    ((ContactShowInvite) getContext()).updatePoint();
                 }
             });
         }
