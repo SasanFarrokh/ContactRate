@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00bce6"
+    android:background="#0793d4"
     tools:context="ir.cdesign.contactrate.SplashActivity">
 
 
@@ -32,7 +32,7 @@
             android:textColor="#f2f2f2"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Welcome You Dumb Networker"
+            android:text="Welcome !"
             android:textSize="20dp" />
 
         <TextView

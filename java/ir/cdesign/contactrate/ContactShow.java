@@ -129,22 +129,26 @@ public class ContactShow extends AppCompatActivity {
     }
 
     public static ArrayList<String> getContactById(long id) {
-        ArrayList<String> phones = new ArrayList<String>();
+        try {
+            ArrayList<String> phones = new ArrayList<String>();
 
-        Cursor cursor = MainActivity.instance.getContentResolver().query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                new String[]{String.valueOf(id)}, null);
+            Cursor cursor = MainActivity.instance.getContentResolver().query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                    new String[]{String.valueOf(id)}, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-            phones.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
-            phones.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                phones.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
+                phones.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+                cursor.close();
+            }
+
+            return phones;
+        } catch (Exception e) {
+            return null;
         }
-
-        return phones;
     }
     public static Uri getPhotoUri(long id, Context context) {
         try {

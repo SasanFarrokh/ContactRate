@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -84,6 +85,10 @@ public class AddContact extends AppCompatActivity {
         }
     }
     public void addContact() {
+
+        name = ((EditText) findViewById(R.id.contact_name)).getText().toString();
+        phone = ((EditText) findViewById(R.id.contact_number)).getText().toString();
+
         if (DatabaseCommands.getInstance().insertContact(name,phone,lesson,time,motive,"")) {
             Toast.makeText(AddContact.this, "Successfully added", Toast.LENGTH_SHORT).show();
             RankFragment.instance.recyclerView.getAdapter().notifyDataSetChanged();
@@ -95,8 +100,6 @@ public class AddContact extends AppCompatActivity {
     }
 
     private class OnStarClick implements View.OnClickListener {
-
-        int lesson, time, motive;
 
         @Override
         public void onClick(View v) {

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by Ratan on 7/27/2015.
@@ -23,6 +24,10 @@ public class TabFragment extends Fragment {
     public static ViewPager viewPager;
     public static int int_items = 3 ;
     public static Toolbar toolbar;
+
+    TextView point;
+
+    public static TabFragment instance;
 
     @Nullable
     @Override
@@ -43,6 +48,9 @@ public class TabFragment extends Fragment {
                 ((MainActivity) getActivity()).mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        point = (TextView) x.findViewById(R.id.toolbar_tv);
+        setPoint();
         /**
          *Set an Apater for the View Pager
          */
@@ -61,8 +69,17 @@ public class TabFragment extends Fragment {
                    }
         });
 
+        instance = this;
+
         return x;
 
+    }
+
+    public void setPoint() {
+
+        int p = DatabaseCommands.getInstance().getUserPoint();
+
+        point.setText(String.valueOf(p));
     }
 
     class MyAdapter extends FragmentPagerAdapter{

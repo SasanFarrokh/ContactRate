@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     FragmentTransaction mFragmentTransaction;
     CoordinatorLayout coordinatorLayout;
 
+    public static Boolean firstTime = true;
+
+    public static Boolean appActive = false;
+
     public static MainActivity instance;
 
     @Override

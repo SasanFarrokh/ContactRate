@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/user_point"
+                android:id="@+id/nav_user_point"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="end"
