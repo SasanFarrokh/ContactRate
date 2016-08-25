@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -13,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import ir.cdesign.contactrate.utilities.MedalDialog;
+
 /**
  * Created by amin pc on 23/08/2016.
  */
 public class NavigationDrawer extends Fragment {
 
-    LinearLayout medals;
+    LinearLayout medals , tutorial;
     String name;
     int point = 0;
 
@@ -26,6 +29,16 @@ public class NavigationDrawer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_drawer,container,false);
+
+        tutorial = (LinearLayout) view.findViewById(R.id.nav_item_logout);
+        tutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                MedalDialog dialogFragment = new MedalDialog ();
+                dialogFragment.show(fm, "Sample Fragment");
+            }
+        });
 
         medals = (LinearLayout) view.findViewById(R.id.nav_item_medals);
         medals.setOnClickListener(new View.OnClickListener() {
