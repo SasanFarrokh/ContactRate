@@ -43,7 +43,7 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="true"
-            android:stopWithTask="false"></service>
+            android:stopWithTask="false" />
 
         <activity android:name=".TaskEditToDb" />
         <activity android:name=".SplashActivity">
@@ -53,7 +53,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Calendar"></activity>
+        <activity android:name=".Calendar" />
+        <activity android:name=".Payment"></activity>
     </application>
 
 </manifest>

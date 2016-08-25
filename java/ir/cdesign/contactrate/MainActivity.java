@@ -19,12 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
+
 public class MainActivity extends AppCompatActivity {
     public static final String PREF = "MlmPref";
     DrawerLayout mDrawerLayout;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
-    CoordinatorLayout coordinatorLayout;
 
     public static Boolean firstTime = true;
 
@@ -36,6 +37,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*
+            ********************
+            *                  *
+            *   FUCK YEAH \m/  *
+            *                  *
+            ********************
+         */
+
+        //set payment method
+//        FarhooshPayment farhooshPayment = new FarhooshPayment();
+//        farhooshPayment.Start(MainActivity.this,26378337,R.mipmap.ic_launcher);
+
         instance = this;
 
         setDrawer();
