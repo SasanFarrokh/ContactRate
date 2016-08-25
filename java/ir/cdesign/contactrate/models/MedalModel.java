@@ -48,9 +48,9 @@ public class MedalModel {
     private static String[] getTitles() {
 
         String[] getTitles = {
-              "Reach 100 Points"  ,"Reach 300 Points"  ,"Reach 1000 Points"  ,
-              "Get 10 Ranked Contact"      ,"Get 30 Ranked Contact" ,"Get 50 Ranked Contact",
-              "30 Task Done"         ,"60 Task Done","100 Task Done"
+              "Reach 100 Invitations"  ,"Reach 300 Invitations"  ,"Reach 600 Invitations"  ,
+              "Reach 700 Invitations"      ,"Reach 1000 Invitations" ,"Reach 1500 Invitations",
+              "Reach 1700 Invitations"
         };
         return getTitles;
     }
@@ -58,11 +58,10 @@ public class MedalModel {
     private static int[] getImages() {
 
         int[] getImages = {
-            R.drawable.invitation , R.drawable.presentation ,
-            R.drawable.follow_up , R.drawable.enroll ,
-            R.drawable.training , R.drawable.team_building ,
-            R.drawable.buy , R.drawable.promoting_events ,
-            R.drawable.other
+            R.drawable.one , R.drawable.two ,
+            R.drawable.three , R.drawable.four ,
+            R.drawable.five , R.drawable.six ,
+            R.drawable.seven
         };
 
         return getImages;
