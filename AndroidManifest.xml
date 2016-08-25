@@ -54,7 +54,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Calendar" />
-        <activity android:name=".Payment"></activity>
     </application>
 
 </manifest>

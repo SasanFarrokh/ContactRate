@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
+
 /**
  * Created by Ratan on 7/27/2015.
  */
@@ -72,6 +74,8 @@ public class TabFragment extends Fragment {
         instance = this;
 
         return x;
+
+
 
     }
 

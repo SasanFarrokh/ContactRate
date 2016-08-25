@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
+        /*                        *\
             ********************
             *                  *
             *   FUCK YEAH \m/  *
             *                  *
             ********************
-         */
+          *                      */
 
         //set payment method
 //        FarhooshPayment farhooshPayment = new FarhooshPayment();
