@@ -1,15 +1,23 @@
 package ir.cdesign.contactrate;
 
+import android.app.Activity;
 import android.app.Service;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.net.URI;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import ir.cdesign.contactrate.models.ContactShowModel;
 
 /**
  * Created by Sasan on 2016-08-23.
@@ -35,7 +43,7 @@ public class MyService extends Service {
         List<HashMap> invites = DatabaseCommands.getInstance().getInvite(0,0);
         for (HashMap invite : invites) {
 
-            /*if ( (int) invite.get("active") == 1 ) {
+            if ( (int) invite.get("active") == 1 ) {
                 alarm.cancelAlarm(this, (Integer) invite.get("id"));
                 continue;
             }
@@ -47,7 +55,8 @@ public class MyService extends Service {
                 alarm.setAlarm(this, timestamp, (Integer) invite.get("id"));
             } else {
                 alarm.cancelAlarm(this, (Integer) invite.get("id"));
-            }*/
+            }
+
 
         }
         return START_STICKY;
@@ -77,9 +86,12 @@ public class MyService extends Service {
                 "contact INTEGER," +
                 "note TEXT," +
                 "timestamp INTEGER," +
+                "eventid INTEGER," +
                 "active INTEGER);");
     }
     public SQLiteDatabase databaseConnect() {
         return openOrCreateDatabase(DatabaseCommands.DB_NAME, MODE_PRIVATE, null);
     }
+
+
 }
