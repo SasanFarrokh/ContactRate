@@ -182,7 +182,7 @@ public class ContactShow extends AppCompatActivity {
             RankFragment.instance.recyclerView.setAdapter(new RankAdapter(this));
             finish();
         } else {
-            Toast.makeText(ContactShow.this, "Failed to add the contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContactShow.this, "To add more contact, you should purchase the full version", Toast.LENGTH_SHORT).show();
         }
     }
 

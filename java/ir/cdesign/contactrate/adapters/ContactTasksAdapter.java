@@ -2,12 +2,15 @@ package ir.cdesign.contactrate.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +21,7 @@ import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.TaskEditToDb;
 import ir.cdesign.contactrate.models.ContactShowModel;
 
 /**
@@ -27,8 +31,8 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
     private List<HashMap> invites;
 
-    public ContactTasksAdapter(Context context, int resource) {
-        super(context, resource);
+    public ContactTasksAdapter(Context context) {
+        super(context, -1);
         invites = DatabaseCommands.getInstance().getInvite(0,0);
     }
 
@@ -37,26 +41,44 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
         final ViewHolder viewHolder;
 
+        HashMap invite = invites.get(invites.size()-position-1);
+
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
             convertView = inflater.inflate(R.layout.task_contact_layout, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.position = position;
+
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.task_img);
             viewHolder.textView = (TextView) convertView.findViewById(R.id.task_title);
             viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.task_checkbox);
+            viewHolder.checkBox.setChecked(((int) invite.get("active") != 0));
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ContactTasksAdapter.ViewHolder viewHolder = (ContactTasksAdapter.ViewHolder) v.getTag();
+                    getContext().startActivity(new Intent(getContext(), TaskEditToDb.class).putExtra("invite_id",viewHolder.id));
+                }
+            });
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        HashMap invite = invites.get(position);
 
         if (invite != null) {
             viewHolder.imageView.setImageResource(ContactShowModel.getImages()[(int) invite.get("type")-1]);
             viewHolder.textView.setText(ContactShowModel.getTitles()[(int) invite.get("type")-1]);
-            viewHolder.checkBox.setChecked(((int) invite.get("active") != 0));
+            viewHolder.id = (int) invite.get("id");
+            viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    ViewHolder viewHolder = (ViewHolder) ((View) buttonView.getParent()).getTag();
+                    DatabaseCommands.getInstance().activateInvite(viewHolder.id,isChecked);
+                    Log.i("sasan","checked " + viewHolder.id);
+                }
+            });
         }
+        viewHolder.position = position;
 
         return convertView;
     }
@@ -66,11 +88,12 @@ public class ContactTasksAdapter extends ArrayAdapter {
         return invites.size();
     }
 
-    static class ViewHolder {
-        ImageView imageView;
-        TextView textView;
-        CheckBox checkBox;
-        int position;
+    public static class ViewHolder {
+        public ImageView imageView;
+        public TextView textView;
+        public CheckBox checkBox;
+        public int position;
+        public int id;
     }
 
 }

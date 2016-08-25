@@ -7,7 +7,8 @@
     android:background="?android:attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:id="@+id/task_img"
