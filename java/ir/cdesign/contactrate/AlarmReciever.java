@@ -29,12 +29,12 @@ public class AlarmReciever extends BroadcastReceiver
     public void onReceive(Context context, Intent intent)
     {
         try {
-            HashMap invite = null;//DatabaseCommands.getInstance(
-                    //openCreateDatabase("db", Context.MODE_PRIVATE, null))
-                    //.getInvite(1, intent.getIntExtra("rc", 0)).get(0);
-            HashMap contact = null;//DatabaseCommands.getInstance(
-                    //openCreateDatabase("db", Context.MODE_PRIVATE, null))
-                    //.getContactById(((Integer) invite.get("contact")).longValue());
+            HashMap invite = DatabaseCommands.getInstance(
+                    context.openOrCreateDatabase(DatabaseCommands.DB_NAME, Context.MODE_PRIVATE, null))
+                    .getInvite(1, intent.getIntExtra("rc", 0)).get(0);
+            HashMap contact = DatabaseCommands.getInstance(
+                    context.openOrCreateDatabase(DatabaseCommands.DB_NAME, Context.MODE_PRIVATE, null))
+                    .getContactById(((Integer) invite.get("contact")).longValue());
 
 
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -95,5 +95,8 @@ public class AlarmReciever extends BroadcastReceiver
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
         Log.i("timestamp","Alarm Cancel : " + requestCode);
+
+
+
     }
 }
