@@ -234,6 +234,11 @@ public class DatabaseCommands {
         }
         return false;
     }
+    public boolean editInvite(int id , long contactId, int type, String note, long timestamp, int active) {
+
+        removeInvite(id);
+        return addInvite(contactId,type,note,timestamp,active);
+    }
 
     public List<HashMap> getInvite(int mode, int id) {
         List<HashMap> list = new ArrayList<>();
@@ -274,6 +279,9 @@ public class DatabaseCommands {
     public void removeInvite(int inviteId) {
 
         HashMap invite = getInvite(1,inviteId).get(0);
+
+        if (MyService.instance != null)
+            MyService.instance.alarm.cancelAlarm(MyService.instance, inviteId);
 
         database.delete(TABLE_INVITES, " id = ? ", new String[]{String.valueOf(inviteId)});
         Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events") ,

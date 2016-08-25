@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -84,7 +85,7 @@ public class TaskEditToDb extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
                         timeTxt = (TextView) findViewById(R.id.timeTxt);
-                        timeTxt.setText(hourOfDay + ":" + minute);
+                        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
 
                     }
                 }, hourOfDay, minute, false);
