@@ -26,6 +26,7 @@ public class Tutorial extends FragmentActivity {
 
         FragmentTutorialOne fragmentTutorialOne = new FragmentTutorialOne();
         FragmentTutorialTwo fragmentTutorialTwo = new FragmentTutorialTwo();
+        FragmentTutorialThree fragmentTutorialthree = new FragmentTutorialThree();
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -37,13 +38,14 @@ public class Tutorial extends FragmentActivity {
 
                 case 0: return fragmentTutorialOne;
                 case 1: return fragmentTutorialTwo;
+                case 2 : return fragmentTutorialthree;
                 default: return fragmentTutorialOne;
             }
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 

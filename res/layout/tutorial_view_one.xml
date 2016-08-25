@@ -2,6 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00f2ff">
+    android:background="#0793d4"
+    >
+
+    <TextView
+        android:id="@+id/textOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:padding="5dp"
+        android:textColor="#f2f2f2"
+        android:textSize="22dp"
+        android:text="تقدیم به همه ی نتورکر های ایران"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tutpicone"/>
+
+        <TextView
+            android:id="@+id/textTwo"
+            android:padding="10dp"
+            android:layout_marginTop="30dp"
+            android:textColor="#f2f2f2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="18dp" />
+
+
 
 </LinearLayout>

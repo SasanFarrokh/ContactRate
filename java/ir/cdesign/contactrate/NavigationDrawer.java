@@ -32,12 +32,20 @@ public class NavigationDrawer extends Fragment {
         View view = inflater.inflate(R.layout.fragment_navigation_drawer,container,false);
 
         tutorial = (LinearLayout) view.findViewById(R.id.nav_item_logout);
-        tutorial.setOnClickListener(new View.OnClickListener() {
+/*        tutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), Tutorial.class));
+                FragmentManager fm = getFragmentManager();
+                MedalDialog medalDialog = new MedalDialog();
+                medalDialog.show(fm, "Sample Fragment");
             }
-        });
+        });*/
+//        tutorial.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getActivity(), Tutorial.class));
+//            }
+//        });
 
         medals = (LinearLayout) view.findViewById(R.id.nav_item_medals);
         medals.setOnClickListener(new View.OnClickListener() {
@@ -46,18 +54,7 @@ public class NavigationDrawer extends Fragment {
                 startActivity(new Intent(getActivity(),MedalsActivity.class));
             }
         });
-        View about = view.findViewById(R.id.nav_item_about);
-        about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseCommands.getInstance().addInvite(
-                        Long.parseLong(String.valueOf(DatabaseCommands.getInstance().getContactsForInvitation().get(0)[3])),
-                        2,"Salam",
-                        System.currentTimeMillis() + 20000
-                );
-            }
-        });
-
+        
         name = getActivity().getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE).getString("userName","Unknown");
         name = titleCase(name);
 

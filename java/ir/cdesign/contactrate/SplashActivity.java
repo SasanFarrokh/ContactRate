@@ -234,7 +234,13 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void onYes(View view) {
-
+        String userName = String.valueOf(editText.getText());
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        intent.putExtra("userName", userName);
+        intent.putExtra("tutorial", true);
+        regSave();
+        startActivity(intent);
+        finish();
     }
 
 
