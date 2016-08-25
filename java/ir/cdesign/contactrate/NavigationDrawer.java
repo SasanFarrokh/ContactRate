@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import ir.cdesign.contactrate.tutorial.Tutorial;
 import ir.cdesign.contactrate.utilities.MedalDialog;
 
 /**
@@ -34,9 +35,7 @@ public class NavigationDrawer extends Fragment {
         tutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                MedalDialog dialogFragment = new MedalDialog ();
-                dialogFragment.show(fm, "Sample Fragment");
+                startActivity(new Intent(getActivity(), Tutorial.class));
             }
         });
 
