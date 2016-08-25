@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:text="Enter Your Note"
         android:textSize="18dp"
-        android:padding="10dp"
+        android:paddingRight="70dp"
+        android:paddingLeft="70dp"
         android:gravity="center"/>
 
     <EditText

@@ -8,4 +8,53 @@
     <string name="lesson">Lesson : </string>
     <string name="time">Time : </string>
     <string name="motive">Motive : </string>
+
+    <string name="red">red</string>
+    <string name="blue">blue</string>
+    <string name="green">green</string>
+    <string name="sometext"><![CDATA[
+    <!DOCTYPE HTML>
+
+<html>
+
+<body>
+<P>                      اپلیکیشن mlm list  اولین اپ کاربردی در زمینه بازار یابی شبکه ای برای کاربران ایرانی است .
+</P>
+<p>
+    Mlm list   ابزاریست برای افرادی که قصد دارند بازاریابی شبکه ای را به عنوان یک شغل حرفه ای دنبال نمایند.
+</p>
+</body>
+
+</html>
+    ]]></string>
+    <string name="sometexttwo"><![CDATA[
+<!DOCTYPE HTML>
+
+<html>
+
+<body>
+<P>
+    شما به کمک این برنامه لیست نفرات خود را بر اساس سه آیتم lesson (اعتبار) ،Time(زمان)،motive(انگیزه) مشخص مینمایید
+</P>
+</body>
+
+</html>
+    ]]></string>
+    <string name="sometextthree"><![CDATA[
+<!DOCTYPE HTML>
+
+<html>
+
+<body>
+<P>
+    لازم به ذکر هست که هر چقدر لیست شما کامل تر باشد و افراد بیشتری را شامل شود امتیاز فعالیت های شما نیز بیش تر خواهد بود
+</P>
+<p>
+
+</p>
+</body>
+
+</html>
+    ]]></string>
+
 </resources>
