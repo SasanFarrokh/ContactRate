@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 calendar.get(Calendar.DAY_OF_MONTH));
         Log.i("sasan", " now gregorian" + datat[0]+ " - " + datat[1]+ " - " +datat[2]);
 
-        int[] datat2 = JalaliCalendar.jalali_to_gregorian(1395,5,4);
-        Log.i("sasan", " now jalali" + datat2[0] + " - " + datat2[1] + " - " +datat2[2]);
+        int[] datat2 = JalaliCalendar.jalali_to_gregorian(1395,6,4);
+        Log.i("sasan", " now jalali" + datat2[0] + " - " + datat2[1]+1 + " - " +datat2[2]);
     }
 
 

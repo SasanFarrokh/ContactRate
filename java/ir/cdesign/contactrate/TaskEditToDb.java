@@ -172,25 +172,22 @@ public class TaskEditToDb extends AppCompatActivity {
 
         CalendarTool calendar2 = new CalendarTool();
         calendar2.setIranianDate(
-                Integer.parseInt(year.getText().toString()+1300),
+                Integer.parseInt(year.getText().toString())+1300,
                 Integer.parseInt(month.getText().toString()),
                 Integer.parseInt(day.getText().toString())
         );
         int[] gregori = JalaliCalendar.gregorian_to_jalali(
-                Integer.parseInt(year.getText().toString()+1300),
+                Integer.parseInt(year.getText().toString())+1300,
                 Integer.parseInt(month.getText().toString()),
                 Integer.parseInt(day.getText().toString())
         );
         taskCalendar.set(
-                gregori[0],
-                gregori[1]-1,
-                gregori[2],
+                calendar2.getGregorianYear(),
+                calendar2.getGregorianMonth()-1,
+                calendar2.getGregorianDay(),
                 hourOfDay,
                 minute
         );
-        Log.i("sasan"," gregorian calendar :" + calendar2.getGregorianYear()+ " - " +
-                calendar2.getGregorianMonth()+ " - "+
-                calendar2.getGregorianDay());
 
     }
 
