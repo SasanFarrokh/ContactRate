@@ -63,6 +63,7 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:id="@+id/contact_name"
                 android:singleLine="true"
                 android:layout_weight="6"
                 android:hint=""
@@ -89,6 +90,7 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:id="@+id/contact_number"
                 android:layout_weight="6"
                 android:singleLine="true"
                 android:hint="+989120000000"

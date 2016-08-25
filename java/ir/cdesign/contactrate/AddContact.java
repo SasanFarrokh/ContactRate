@@ -9,7 +9,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import ir.cdesign.contactrate.adapters.RankAdapter;
 
 public class AddContact extends AppCompatActivity {
 
@@ -77,16 +81,25 @@ public class AddContact extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            /*long id = DatabaseCommands.WritePhoneContact(name,phone,AddContact.this);
-            Log.i("sasan",String.valueOf(id));
-            if ( id == 0L ) return;
-            DatabaseCommands.getInstance().insertContact(id,lesson,time,motive,"");*/
+            addContact();
+        }
+    }
+    public void addContact() {
+
+        name = ((EditText) findViewById(R.id.contact_name)).getText().toString();
+        phone = ((EditText) findViewById(R.id.contact_number)).getText().toString();
+
+        if (DatabaseCommands.getInstance().insertContact(name,phone,lesson,time,motive,"")) {
+            Toast.makeText(AddContact.this, "Successfully added", Toast.LENGTH_SHORT).show();
+            RankFragment.instance.recyclerView.getAdapter().notifyDataSetChanged();
+            RankFragment.instance.recyclerView.setAdapter(new RankAdapter(this));
+            finish();
+        } else {
+            Toast.makeText(AddContact.this, "Failed to add the contact", Toast.LENGTH_SHORT).show();
         }
     }
 
     private class OnStarClick implements View.OnClickListener {
-
-        int lesson, time, motive;
 
         @Override
         public void onClick(View v) {

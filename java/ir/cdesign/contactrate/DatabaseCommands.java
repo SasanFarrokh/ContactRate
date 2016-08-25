@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.RemoteException;
@@ -41,6 +42,7 @@ public class DatabaseCommands {
             instance = new DatabaseCommands(MyService.database);
         return instance;
     }
+
     public static DatabaseCommands getInstance(SQLiteDatabase db) {
         return new DatabaseCommands(db);
     }
@@ -51,28 +53,60 @@ public class DatabaseCommands {
     }
 
     public boolean insertContact(long id, int lesson, int time, int motive, String invites) {
+        boolean r = false;
+        if (getUserPoint() != 0 && !MainActivity.appActive) return false;
 
         ArrayList<String> contact = ContactShow.getContactById(id);
 
         ContentValues values = new ContentValues();
         values.put("id", id);
-        values.put("name", contact.get(0));
-        values.put("phone", contact.get(1));
+        if (contact != null) {
+            values.put("name", contact.get(0));
+            values.put("phone", contact.get(1));
+        } else {
+            HashMap contact2 = getContactById(id);
+            values.put("name", (String) contact2.get("name"));
+            values.put("phone", (String) contact2.get("phone"));
+        }
         values.put("lesson", lesson);
         values.put("time", time);
         values.put("motive", motive);
         values.put("invites", invites);
-        if (database.insert(TABLE_CONTACTS, null, values) != -1) return true;
+        if (database.insert(TABLE_CONTACTS, null, values) != -1) r = true;
         else {
             values.remove("invites");
             if (database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)}) != -1)
-                return true;
+                r = true;
         }
+        if ( TabFragment.instance != null ) TabFragment.instance.setPoint();
+        return r;
+    }
+
+    public boolean insertContact(String name, String phone, int lesson, int time, int motive, String invites) {
+
+        if (getUserPoint() != 0) return false;
+
+        long id = DatabaseUtils.queryNumEntries(database, TABLE_CONTACTS);
+
+        ContentValues values = new ContentValues();
+        values.put("id", 100000 + id);
+        values.put("name", name);
+        values.put("phone", phone);
+        values.put("lesson", lesson);
+        values.put("time", time);
+        values.put("motive", motive);
+        values.put("invites", invites);
+        if (database.insert(TABLE_CONTACTS, null, values) != -1) {
+            if ( TabFragment.instance != null ) TabFragment.instance.setPoint();
+            return true;
+        }
+
         return false;
     }
 
     public void removeContact(long id) {
         database.delete(TABLE_CONTACTS, "id = ?", new String[]{String.valueOf(id)});
+        removeFromInvitation(id);
     }
 
     public List<Object[]> getContactsForRank() {
@@ -109,13 +143,14 @@ public class DatabaseCommands {
         Cursor result = database.rawQuery(query, null);
         if (result != null) {
             while (result.moveToNext()) {
-                Object[] contact = new Object[4];
+                Object[] contact = new Object[5];
                 contact[0] = result.getString(result.getColumnIndex("name"));
                 contact[1] = result.getInt(result.getColumnIndex("lesson")) +
                         result.getInt(result.getColumnIndex("time")) +
                         result.getInt(result.getColumnIndex("motive"));
                 contact[2] = result.getString(result.getColumnIndex("invites"));
                 contact[3] = result.getInt(result.getColumnIndex("id"));
+                contact[4] = result.getInt(result.getColumnIndex("point"));
                 contacts.add(contact);
             }
             result.close();
@@ -137,6 +172,7 @@ public class DatabaseCommands {
             contact.put("time", result.getInt(result.getColumnIndex("time")));
             contact.put("motive", result.getInt(result.getColumnIndex("motive")));
             contact.put("note", result.getString(result.getColumnIndex("note")));
+            contact.put("point", result.getInt(result.getColumnIndex("point")));
             contact.put("invites", result.getString(result.getColumnIndex("invites")));
 
             result.close();
@@ -150,11 +186,14 @@ public class DatabaseCommands {
         database.update(TABLE_CONTACTS, values, " id = ? AND LENGTH(invites) = 0 ", new String[]{String.valueOf(id)});
         return true;
     }
+
     public boolean removeFromInvitation(long id) {
         ContentValues values = new ContentValues();
         values.put("invites", "");
+        values.put("point", 0);
         database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)});
-        database.delete(TABLE_INVITES, " contact = ? ",new String[] {String.valueOf(id)});
+        database.delete(TABLE_INVITES, " contact = ? ", new String[]{String.valueOf(id)});
+        if ( TabFragment.instance != null ) TabFragment.instance.setPoint();
         return true;
     }
 
@@ -226,6 +265,25 @@ public class DatabaseCommands {
         ContentValues values = new ContentValues();
         values.put("active", act);
         database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)});
+        changePoint(id, active);
+        return true;
+    }
+
+    public boolean changePoint(long id, boolean add) {
+
+        HashMap invite = getInvite(1, ((Long) id).intValue()).get(0);
+        HashMap contact = getContactById(((Integer) invite.get("contact")).longValue());
+        int point, tp = 10;
+        if ((int) invite.get("type") == 4) tp = 100;
+        if (add)
+            point = (int) contact.get("point") + tp;
+        else
+            point = (int) contact.get("point") - tp;
+
+        ContentValues values = new ContentValues();
+        values.put("point", point);
+        database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(invite.get("contact"))});
+        if ( TabFragment.instance != null ) TabFragment.instance.setPoint();
         return true;
     }
 
@@ -249,6 +307,19 @@ public class DatabaseCommands {
         values.put("note", note);
         database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)});
         return true;
+    }
+
+    public int getUserPoint() {
+
+        Cursor c = database.rawQuery("SELECT SUM(point) AS points FROM " + TABLE_CONTACTS,null);
+        c.moveToFirst();
+        int cPoints = c.getInt(c.getColumnIndex("points"));
+        c.close();
+        long rPoints = DatabaseUtils.queryNumEntries(database, TABLE_CONTACTS);
+
+        Long totalPoints = cPoints + rPoints;
+
+        return totalPoints.intValue();
     }
 
 

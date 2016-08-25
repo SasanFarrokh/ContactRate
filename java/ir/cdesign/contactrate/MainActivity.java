@@ -25,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     CoordinatorLayout coordinatorLayout;
-    public static String name;
+
+    public static Boolean firstTime = true;
+
+    public static Boolean appActive = false;
 
     public static MainActivity instance;
 
@@ -43,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
 
         new AsyncServerCheck().execute();
-        nameInNav();
 
     }
 
@@ -60,36 +62,10 @@ public class MainActivity extends AppCompatActivity {
         startService(new Intent(this, MyService.class));
     }
 
-    //to set user name in navigation drawer
-    private void nameInNav(){
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mother);
-        SharedPreferences reg = getSharedPreferences("REG",MODE_PRIVATE);
-        name = reg.getString("userName","Unknown");
-        name = titleCase(name);
-        TextView userName = (TextView) findViewById(R.id.nav_user_name);
-        userName.setText(name);
-    }
 
     @Override
     public void onBackPressed() {
         finish();
     }
 
-    private String titleCase(String str) {
-        StringBuilder titleCase = new StringBuilder();
-        boolean nextTitleCase = true;
-
-        for (char c : str.toCharArray()) {
-            if (Character.isSpaceChar(c)) {
-                nextTitleCase = true;
-            } else if (nextTitleCase) {
-                c = Character.toTitleCase(c);
-                nextTitleCase = false;
-            }
-
-            titleCase.append(c);
-        }
-
-        return titleCase.toString();
-    }
 }

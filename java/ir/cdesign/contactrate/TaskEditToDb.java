@@ -52,7 +52,7 @@ public class TaskEditToDb extends AppCompatActivity {
         taskAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseCommands.getInstance().addInvite(contactId, type, "salam", System.currentTimeMillis() + 30000, 1);
+                DatabaseCommands.getInstance().addInvite(contactId, type, "salam", System.currentTimeMillis() + 30000, 0);
                 finish();
             }
         });

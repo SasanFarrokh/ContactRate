@@ -48,9 +48,9 @@ public class MedalModel {
     private static String[] getTitles() {
 
         String[] getTitles = {
-              "Medal 1"  ,"Present"  ,"Follow Up"  ,
-              "Enroll"      ,"Training" ,"Build Team",
-              "Buy"         ,"Promoting Event","other"
+              "Reach 100 Points"  ,"Reach 300 Points"  ,"Reach 1000 Points"  ,
+              "Get 10 Ranked Contact"      ,"Get 30 Ranked Contact" ,"Get 50 Ranked Contact",
+              "30 Task Done"         ,"60 Task Done","100 Task Done"
         };
         return getTitles;
     }

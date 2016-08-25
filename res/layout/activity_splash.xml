@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#009bd1"
+    android:background="#0793d4"
     tools:context="ir.cdesign.contactrate.SplashActivity">
 
 
@@ -32,7 +32,7 @@
             android:textColor="#f2f2f2"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Welcome You Dumb Networker"
+            android:text="Welcome !"
             android:textSize="20dp" />
 
         <TextView
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textColor="#f5f5f5"
-            android:text="This Is Our Name u Bitch" />
+            android:text="Our Team" />
 
     </LinearLayout>
 
@@ -123,8 +123,8 @@
             android:id="@+id/splash_button_yes"
             android:layout_width="70dp"
             android:layout_height="35dp"
-            android:background="#7015ff00"
-            android:textColor="#000"
+            android:background="#dc16890b"
+            android:textColor="@color/white"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:onClick="onYes"
@@ -137,9 +137,9 @@
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:onClick="onNo"
-            android:background="#70ff0000"
+            android:background="#dcb31524"
             android:layout_marginLeft="10dp"
-            android:textColor="#000"
+            android:textColor="@color/white"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="No"
@@ -170,8 +170,7 @@
             android:padding="10dp"
             android:textSize="17dp"
             android:textColor="#000"
-            android:text="Do You Want To See The Tutorial Page ?
-You Can Always Do It From The Navigation Menu ."
+            android:text="Do You Want To See The Tutorial ?"
              />
     </LinearLayout>
 

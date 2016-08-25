@@ -15,17 +15,22 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
 import ir.cdesign.contactrate.adapters.ContactShowAdapter;
+import ir.cdesign.contactrate.adapters.ContactTasksAdapter;
 import ir.cdesign.contactrate.adapters.InvitationAdapter;
 import ir.cdesign.contactrate.adapters.RankAdapter;
 import ir.cdesign.contactrate.utilities.CustomLayoutManager;
@@ -36,7 +41,7 @@ public class ContactShowInvite extends AppCompatActivity {
     TextView contactName, point;
     EditText phone, note;
     FloatingActionButton fab;
-    RecyclerView recyclerView;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,16 +100,15 @@ public class ContactShowInvite extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setRecyclerView();
+        setListView();
         startService(new Intent(this, MyService.class));
     }
 
-    private void setRecyclerView(){
-        recyclerView = (RecyclerView) findViewById(R.id.contact_task_rv);
-        ContactShowAdapter adapter = new ContactShowAdapter(this, contactId);
-        recyclerView.setAdapter(adapter);
+    private void setListView(){
+        listView = (ListView) findViewById(R.id.contact_task_rv);
+        ContactTasksAdapter adapter = new ContactTasksAdapter(this);
+        listView.setAdapter(adapter);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void setToolbar(){

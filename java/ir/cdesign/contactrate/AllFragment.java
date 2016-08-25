@@ -36,13 +36,11 @@ public class AllFragment extends Fragment {
     AllModel model = new AllModel();
     FloatingActionButton fab;
     CoordinatorLayout coordinatorLayout;
-    Boolean firstTime = true;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.all_tab_layout,container , false);
-
 
         showSnackBar(view);
 
@@ -81,11 +79,11 @@ public class AllFragment extends Fragment {
     }
 
     private void showSnackBar(View view){
-        String user = MainActivity.name;
+        String user = getActivity().getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE).getString("userName","");
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.mother);
-        if (firstTime){
-            Snackbar.make(coordinatorLayout,"Welcome " + String.valueOf(user),Snackbar.LENGTH_LONG).show();
-            firstTime = false;
+        if (MainActivity.firstTime && user != null){
+            Snackbar.make(coordinatorLayout,"Welcome " + NavigationDrawer.titleCase(user),Snackbar.LENGTH_LONG).show();
+            MainActivity.firstTime = false;
         }
     }
 

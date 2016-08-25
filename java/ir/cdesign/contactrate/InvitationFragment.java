@@ -21,14 +21,21 @@ public class InvitationFragment extends Fragment {
     public static InvitationFragment instance;
     RecyclerView recyclerView;
 
+    private View view;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.invitation_tab_layout,null);
+        view = inflater.inflate(R.layout.invitation_tab_layout,null);
         instance = this;
-        setRecyclerView(view);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setRecyclerView(view);
     }
 
     private void setRecyclerView(View view){

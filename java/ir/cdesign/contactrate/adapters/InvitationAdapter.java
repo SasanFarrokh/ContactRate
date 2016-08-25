@@ -50,6 +50,7 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ra
         current.setTitle((String) contacts.get(position)[0]);
         holder.setData(current, position);
         holder.view.setTag(contacts.get(position)[3]);
+        ((TextView) holder.view.findViewById(R.id.invite_point)).setText(String.valueOf(contacts.get(position)[4]));
         holder.view.setOnClickListener(new ItemClick());
     }
 
