@@ -23,7 +23,7 @@ public class EnterTextDialog extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.doalog_text_enter,container,false);
 
-        textView = (TextView) getActivity().findViewById(R.id.note);
+        
 
         return view;
     }
