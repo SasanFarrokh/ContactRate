@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate;
 
+import android.app.TimePickerDialog;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -9,17 +10,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 import ir.cdesign.contactrate.models.ContactShowModel;
 
-public class tTaskEditToDb extends AppCompatActivity {
+public class TaskEditToDb extends AppCompatActivity {
     TextView toolbarText;
 
+    LinearLayout timePick;
     long contactId;
-    int type, inviteId;
+    TextView timeTxt;
+    TimePickerDialog timePickerDialog ;
+
+    int type, inviteId , hourOfDay , minute;
 
     HashMap contact, invite;
 
@@ -37,6 +45,36 @@ public class tTaskEditToDb extends AppCompatActivity {
         if (contactId == 0 || type == 0) finish();
 
         setToolbar();
+
+        timePick = (LinearLayout) findViewById(R.id.time);
+
+        timePick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             timePickerShow();
+            }
+        });
+    }
+
+    private void calendarShits(){
+        Calendar c = Calendar.getInstance();
+        hourOfDay = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+    }
+
+    private void timePickerShow(){
+        calendarShits();
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+                        timeTxt = (TextView) findViewById(R.id.timeTxt);
+                        timeTxt.setText(hourOfDay + ":" + minute);
+
+                    }
+                }, hourOfDay, minute, false);
+        timePickerDialog.show();
     }
 
     @Override
