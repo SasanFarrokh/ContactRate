@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
+//import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PREF = "MlmPref";

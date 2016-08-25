@@ -13,14 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ir.cdesign.contactrate.R;
-import pl.bclogic.pulsator4droid.library.PulsatorLayout;
+//import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 /**
  * Created by amin pc on 25/08/2016.
  */
 public class MedalDialog extends DialogFragment {
 
-    PulsatorLayout pulsatorLayout;
+    //PulsatorLayout pulsatorLayout;
     ImageView imageView;
     TextView textView;
     LinearLayout linearLayout;
@@ -31,7 +31,7 @@ public class MedalDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.medal_dialog,container,false);
         getDialog().requestWindowFeature(STYLE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        pulsatorLayout = (PulsatorLayout) view.findViewById(R.id.pulsator);
+        //pulsatorLayout = (PulsatorLayout) view.findViewById(R.id.pulsator);
 
         imageView = (ImageView) view.findViewById(R.id.medal_iv);
         textView = (TextView) view.findViewById(R.id.medal_tv);
@@ -47,7 +47,7 @@ public class MedalDialog extends DialogFragment {
         imageView.animate().alpha(1).scaleY(1).scaleX(1).rotationBy(360*2).setDuration(1500).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                pulsatorLayout.start();
+                //pulsatorLayout.start();
 
             }
 

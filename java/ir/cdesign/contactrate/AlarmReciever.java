@@ -44,11 +44,19 @@ public class AlarmReciever extends BroadcastReceiver
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis((Long) invite.get("timestamp"));
 
+            int[] notImages = {
+                    R.drawable.invitationnot , R.drawable.presentationnot ,
+                    R.drawable.followupnot , R.drawable.enrollnot ,
+                    R.drawable.trainingnot , R.drawable.team_buildingnot ,
+                    R.drawable.buynot , R.drawable.promotingeventsnot ,
+                    R.drawable.othernot
+            };
+
             // Put here YOUR code.
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationCompat.Builder bBuilder =
                     new NotificationCompat.Builder(context)
-                            .setSmallIcon(ContactShowModel.getImages()[(int) invite.get("type") - 1])
+                            .setSmallIcon(notImages[(int) invite.get("type") - 1])
                             .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                             .setVibrate(new long[]{0, 600, 100, 600})
                             .setContentIntent(PendingIntent.getActivity(context,
