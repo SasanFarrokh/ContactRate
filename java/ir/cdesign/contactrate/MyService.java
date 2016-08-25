@@ -26,6 +26,7 @@ public class MyService extends Service {
 
     AlarmReciever alarm;
     Calendar calendar;
+    public static MyService instance;
 
     public static SQLiteDatabase database;
 
@@ -33,6 +34,7 @@ public class MyService extends Service {
         super.onCreate();
         databaseInit();
         alarm = new AlarmReciever();
+        instance = this;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class MyService extends Service {
         List<HashMap> invites = DatabaseCommands.getInstance().getInvite(0,0);
         for (HashMap invite : invites) {
 
-            if ( (int) invite.get("active") == 1 ) {
+            /*if ( (int) invite.get("active") == 1 ) {
                 alarm.cancelAlarm(this, (Integer) invite.get("id"));
                 continue;
             }
@@ -55,7 +57,7 @@ public class MyService extends Service {
                 alarm.setAlarm(this, timestamp, (Integer) invite.get("id"));
             } else {
                 alarm.cancelAlarm(this, (Integer) invite.get("id"));
-            }
+            }*/
 
 
         }
