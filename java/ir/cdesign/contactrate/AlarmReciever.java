@@ -30,12 +30,12 @@ public class AlarmReciever extends BroadcastReceiver
     public void onReceive(Context context, Intent intent)
     {
         try {
-            HashMap invite = DatabaseCommands.getInstance(
-                    context.openOrCreateDatabase(DatabaseCommands.DB_NAME, Context.MODE_PRIVATE, null))
-                    .getInvite(1, intent.getIntExtra("rc", 0)).get(0);
-            HashMap contact = DatabaseCommands.getInstance(
-                    context.openOrCreateDatabase(DatabaseCommands.DB_NAME, Context.MODE_PRIVATE, null))
-                    .getContactById(((Integer) invite.get("contact")).longValue());
+            HashMap invite = null;//DatabaseCommands.getInstance(
+                    //openCreateDatabase("ml", Context.MODE_PRIVATE, null))
+                    //.getInvite(1, intent.getIntExtra("rc", 0)).get(0);
+            HashMap contact = null;//DatabaseCommands.getInstance(
+                    //openCreateDatabase("ml", Context.MODE_PRIVATE, null))
+                    //.getContactById(((Integer) invite.get("contact")).longValue());
 
 
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -62,7 +62,7 @@ public class AlarmReciever extends BroadcastReceiver
                             .setVibrate(new long[]{0, 600, 100, 600})
                             .setContentIntent(PendingIntent.getActivity(context,
                                     intent.getIntExtra("rc", 0),
-                                    new Intent(context, TaskEditToDb.class).putExtra("invite_id", intent.getIntExtra("rc", 0)),
+                                    new Intent(context, MainActivity.class),
                                     PendingIntent.FLAG_UPDATE_CURRENT))
                             .setLights(Color.RED, 3000, 3000)
                             .setAutoCancel(true)
@@ -81,22 +81,21 @@ public class AlarmReciever extends BroadcastReceiver
 
     public void setAlarm(Context context,long time, int requestCode)
     {
-        AlarmManager am =( AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        am.setTimeZone(TimeZone.getDefault().toString());
+        /*AlarmManager am =( AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, AlarmReciever.class).putExtra("rc",requestCode);
         PendingIntent pi = PendingIntent.getBroadcast(context, requestCode, i, 0);
         am.set(AlarmManager.RTC_WAKEUP, time, pi); // Millisec * Second * Minute
 
-        Log.i("timestamp","Alarm Set : " + requestCode);
+        Log.i("timestamp","Alarm Set : " + requestCode);*/
     }
 
     public void cancelAlarm(Context context , int requestCode)
     {
-        Intent intent = new Intent(context, AlarmReciever.class);
+        /*Intent intent = new Intent(context, AlarmReciever.class);
         PendingIntent sender = PendingIntent.getBroadcast(context, requestCode, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
-        Log.i("timestamp","Alarm Cancel : " + requestCode);
+        Log.i("timestamp","Alarm Cancel : " + requestCode);*/
 
 
 

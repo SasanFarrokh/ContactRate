@@ -17,12 +17,12 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:tint="#fbc02d"
             android:layout_toLeftOf="@+id/toolbar_tv"
-            android:src="@drawable/contactlq"/>
+            android:layout_margin="5dp"
+            android:src="@drawable/medal"/>
 
         <TextView
             android:id="@+id/toolbar_tv"

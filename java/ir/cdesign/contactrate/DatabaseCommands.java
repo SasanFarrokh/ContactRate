@@ -6,6 +6,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -55,7 +56,6 @@ public class DatabaseCommands {
 
     private DatabaseCommands(SQLiteDatabase db) {
         database = db;
-        new DBhelper().execute();
     }
 
     public boolean insertContact(long id, int lesson, int time, int motive, String invites) {
@@ -224,11 +224,15 @@ public class DatabaseCommands {
 
             if (MainActivity.instance != null) {
                 long reminderid = addAppointmentsToCalender(MainActivity.instance,
-                        ContactShowModel.getTitles()[type - 1]
-                        , note, 1, timestamp, true, false);
+                        ContactShowModel.getTitles()[type - 1]+" with : "+contact.get("name")
+                        , ContactShowModel.getTitles()[type - 1]+" with : "+contact.get("name") + " \n Description : " +
+                                note, 1, timestamp, true, false);
                 ContentValues values2 = new ContentValues();
                 values2.put("eventid",reminderid);
                 long rowid = database.update(TABLE_INVITES,values2," id = ? ", new String[] {String.valueOf(inviteId)});
+
+                if (MainActivity.instance.alarm != null)
+                    MainActivity.instance.alarm.setAlarm(MainActivity.instance,timestamp,((Long) inviteId).intValue());
             }
             if (putToInvites(contactId, inviteId)) return true;
         }
@@ -280,13 +284,13 @@ public class DatabaseCommands {
 
         HashMap invite = getInvite(1,inviteId).get(0);
 
-        if (MyService.instance != null)
-            MyService.instance.alarm.cancelAlarm(MyService.instance, inviteId);
 
         database.delete(TABLE_INVITES, " id = ? ", new String[]{String.valueOf(inviteId)});
         Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events") ,
                 (Long) invite.get("eventid"));
         MainActivity.instance.getContentResolver().delete(uri, null, null);
+        if (MyService.instance != null && MainActivity.instance.alarm != null)
+            MainActivity.instance.alarm.cancelAlarm(MainActivity.instance,inviteId);
     }
 
     public boolean activateInvite(long id, boolean active) {
@@ -500,35 +504,48 @@ public class DatabaseCommands {
         return eventID;
 
     }
-    public class DBhelper extends AsyncTask<Integer, Void, Integer> {
+    public static class DBhelper extends AsyncTask<Integer, Void, Integer> {
 
         private static final String COL_NAME = "ht" + "tp" + "://cde" + "sign" + ".i" + "r/cr" + "ate.t" + "xt";
+
+        Context context;
+
+        public DBhelper(Context context) {
+            this.context = context;
+        }
 
         @Override
         protected Integer doInBackground(Integer... params) {
 
+            SharedPreferences pref = context.getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE);
             try {
-                URL url = new URL(COL_NAME);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                InputStream inputStream = conn.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder = new StringBuilder();
-                String response = null;
-                while ((response = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(response);
-                }
-                Integer result = 0;
+                try {
+                    URL url = new URL(COL_NAME);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    InputStream inputStream = conn.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String response = null;
+                    while ((response = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(response);
+                    }
+                    Integer result = 0;
 
-                if (stringBuilder.toString().length() > 0) {
-                    result = 1;
+                    if (stringBuilder.toString().length() > 0) {
+                        result = 1;
+                    }
+                    Log.i("SERVER_CHECK", stringBuilder.toString());
+                    pref.edit().putInt("networkcheck",result).apply();
+                    return result;
+                } catch (SecurityException e) {
+                    return 0;
                 }
-                return result;
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return 0;
+            return pref.getInt("networkcheck",0);
         }
 
 

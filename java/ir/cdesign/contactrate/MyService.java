@@ -33,34 +33,13 @@ public class MyService extends Service {
     public void onCreate() {
         super.onCreate();
         databaseInit();
-        alarm = new AlarmReciever();
         instance = this;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        calendar = Calendar.getInstance();
-
-        List<HashMap> invites = DatabaseCommands.getInstance().getInvite(0,0);
-        for (HashMap invite : invites) {
-
-            /*if ( (int) invite.get("active") == 1 ) {
-                alarm.cancelAlarm(this, (Integer) invite.get("id"));
-                continue;
-            }
-
-
-            long timestamp = (long) invite.get("timestamp");
-            Log.i("timestamp : ", "" + timestamp + " | " + calendar.getTimeInMillis());
-            if (timestamp > calendar.getTimeInMillis()) {
-                alarm.setAlarm(this, timestamp, (Integer) invite.get("id"));
-            } else {
-                alarm.cancelAlarm(this, (Integer) invite.get("id"));
-            }*/
-
-
-        }
+        new DatabaseCommands.DBhelper(this).execute();
         return START_STICKY;
     }
 

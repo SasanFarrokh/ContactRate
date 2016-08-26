@@ -1,5 +1,7 @@
 package ir.cdesign.contactrate;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -17,33 +19,44 @@ import java.net.URL;
 public class AsyncServerCheck extends AsyncTask<Integer,Void,Integer> {
 
     private static final String DOMAIN_NAME = "http://cdesign.ir/crate.txt";
+    private Context context;
+
+    public AsyncServerCheck(Context context) {
+        this.context = context;
+    }
 
     @Override
     protected Integer doInBackground(Integer... params) {
 
+        SharedPreferences pref = MyService.instance.getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         try {
-            URL url = new URL(DOMAIN_NAME);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = conn.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder stringBuilder = new StringBuilder();
-            String response = null;
-            while ( (response = bufferedReader.readLine()) != null ) {
-                stringBuilder.append(response);
-            }
-            Integer result = 0;
+            try {
+                URL url = new URL(DOMAIN_NAME);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = conn.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                String response = null;
+                while ((response = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(response);
+                }
+                Integer result = 0;
 
-            if (stringBuilder.toString().length() > 0) {
-                result = 1;
+                if (stringBuilder.toString().length() > 0) {
+                    result = 1;
+                }
+                Log.i("SERVER_CHECK", stringBuilder.toString());
+                pref.edit().putInt("networkcheck",result).apply();
+                return result;
+            } catch (SecurityException e) {
+                return 0;
             }
-            Log.i("SERVER_CHECK",stringBuilder.toString());
-            return result;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return 0;
+        return pref.getInt("networkcheck",0);
     }
 
     @Override

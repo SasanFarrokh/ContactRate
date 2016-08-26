@@ -7,8 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -166,21 +169,35 @@ public class TaskEditToDb extends AppCompatActivity {
         Uri imageUri = ContactShow.getPhotoUri(contactId,this);
         if (imageUri != null) contactImage.setImageURI(imageUri);
         if(contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
+
+
+        day.addTextChangedListener(new GoNextClass(day,3));
+        month.addTextChangedListener(new GoNextClass(month,2));
+        year.addTextChangedListener(new GoNextClass(year,1));
     }
 
     private void setCalender() {
 
         CalendarTool calendar2 = new CalendarTool();
-        calendar2.setIranianDate(
-                Integer.parseInt(year.getText().toString())+1300,
-                Integer.parseInt(month.getText().toString()),
-                Integer.parseInt(day.getText().toString())
-        );
-        int[] gregori = JalaliCalendar.gregorian_to_jalali(
-                Integer.parseInt(year.getText().toString())+1300,
-                Integer.parseInt(month.getText().toString()),
-                Integer.parseInt(day.getText().toString())
-        );
+        if ( year.getText().toString().isEmpty() || month.getText().toString().isEmpty() ||
+                day.getText().toString().isEmpty()) {
+            try {
+                calendar2.setIranianDate(
+                        Integer.parseInt(year.getHint().toString()) + 1300,
+                        Integer.parseInt(month.getHint().toString()),
+                        Integer.parseInt(day.getHint().toString())
+                );
+            } catch (Exception e) {
+                calendar2.setIranianDate(1395,6, 4);
+            }
+
+        } else {
+            calendar2.setIranianDate(
+                    Integer.parseInt(year.getText().toString()) + 1300,
+                    Integer.parseInt(month.getText().toString()),
+                    Integer.parseInt(day.getText().toString())
+            );
+        }
         taskCalendar.set(
                 calendar2.getGregorianYear(),
                 calendar2.getGregorianMonth()-1,
@@ -225,7 +242,7 @@ public class TaskEditToDb extends AppCompatActivity {
                 taskCalendar.get(Calendar.DAY_OF_MONTH)
         );
 
-        year.setText(String.valueOf(calendar2.getIranianYear()));
+        year.setText(String.valueOf(calendar2.getIranianYear()-1300));
         month.setText(String.valueOf(calendar2.getIranianMonth()));
         day.setText(String.valueOf(calendar2.getIranianDay()));
 
@@ -239,5 +256,34 @@ public class TaskEditToDb extends AppCompatActivity {
         EnterTextDialog enterTextDialog = new EnterTextDialog();
         enterTextDialog.show(fm, "Sample Fragment");
 
+    }
+
+    private class GoNextClass implements TextWatcher {
+
+        EditText v;
+        int n;
+        public GoNextClass(EditText v , int n) {
+            this.v = v;
+            this.n = n;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (v.getText().length() == 2) {
+                if (n == 1 || n == 2)
+                    ((ViewGroup) v.getParent()).getChildAt(n).requestFocus();
+                else findViewById(R.id.containerLayout).requestFocus();
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
     }
 }

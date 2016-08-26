@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
+
 import java.util.Calendar;
 
 import ir.cdesign.contactrate.utilities.JalaliCalendar;
@@ -38,24 +40,18 @@ public class MainActivity extends AppCompatActivity {
 
     public static MainActivity instance;
 
+    public AlarmReciever alarm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*                        *\
-            ********************
-            *                  *
-            *   FUCK YEAH \m/  *
-            *                  *
-            ********************
-          *                      */
-
-        //set payment method
-//        FarhooshPayment farhooshPayment = new FarhooshPayment();
-//        farhooshPayment.Start(MainActivity.this,26378337,R.mipmap.ic_launcher);
+        FarhooshPayment farhooshPayment = new FarhooshPayment();
+        farhooshPayment.Start(this,26378337,R.mipmap.ic_launcher);
 
         instance = this;
+        alarm = new AlarmReciever();
 
         setDrawer();
 
@@ -64,16 +60,6 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
 
-        new AsyncServerCheck().execute();
-
-        Calendar calendar = Calendar.getInstance();
-        int[] datat = JalaliCalendar.gregorian_to_jalali(calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH)+1,
-                calendar.get(Calendar.DAY_OF_MONTH));
-        Log.i("sasan", " now gregorian" + datat[0]+ " - " + datat[1]+ " - " +datat[2]);
-
-        int[] datat2 = JalaliCalendar.jalali_to_gregorian(1395,6,4);
-        Log.i("sasan", " now jalali" + datat2[0] + " - " + datat2[1]+1 + " - " +datat2[2]);
     }
 
 
@@ -87,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startService(new Intent(this, MyService.class));
+        new AsyncServerCheck(this).execute();
     }
 
 
