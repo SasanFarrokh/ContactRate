@@ -30,6 +30,7 @@ public class MedalDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.medal_dialog,container,false);
         getDialog().requestWindowFeature(STYLE_NO_TITLE);
+        getDialog().requestWindowFeature(STYLE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         pulsatorLayout = (PulsatorLayout) view.findViewById(R.id.pulsator);
 

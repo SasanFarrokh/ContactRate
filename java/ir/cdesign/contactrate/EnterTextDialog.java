@@ -22,6 +22,7 @@ public class EnterTextDialog extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.doalog_text_enter,container,false);
+        getDialog().requestWindowFeature(STYLE_NO_TITLE);
 
         textView = (TextView) getActivity().findViewById(R.id.note);
 

@@ -12,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import ir.cdesign.contactrate.dialogs.DialogAbout;
 import ir.cdesign.contactrate.tutorial.Tutorial;
 import ir.cdesign.contactrate.utilities.MedalDialog;
 
@@ -22,16 +25,27 @@ import ir.cdesign.contactrate.utilities.MedalDialog;
  */
 public class NavigationDrawer extends Fragment {
 
-    LinearLayout medals , tutorial;
+    LinearLayout medals, tutorial, about;
     String name;
     int point = 0;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_drawer,container,false);
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
         tutorial = (LinearLayout) view.findViewById(R.id.nav_item_logout);
+        about = (LinearLayout) view.findViewById(R.id.nav_item_about);
+
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                DialogAbout dialogAbout = new DialogAbout();
+                dialogAbout.show(fm, "Sample Fragment");
+            }
+        });
+
 /*        tutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,15 +65,16 @@ public class NavigationDrawer extends Fragment {
         medals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(),MedalsActivity.class));
+                startActivity(new Intent(getActivity(), MedalsActivity.class));
             }
         });
-        
-        name = getActivity().getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE).getString("userName","Unknown");
+
+        name = getActivity().getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE).getString("userName", "Unknown");
         name = titleCase(name);
 
         return view;
     }
+
 
     @Override
     public void onResume() {

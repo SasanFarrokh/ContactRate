@@ -71,14 +71,14 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/pic_9" />
+            android:src="@drawable/clogo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textColor="#f5f5f5"
-            android:text="Our Team" />
+            android:text="Made By Cdesign Group" />
 
     </LinearLayout>
 
@@ -110,68 +110,7 @@
         android:text="Done"
         android:layout_gravity="center_horizontal|bottom" />
 
-    <LinearLayout
-        android:id="@+id/splash_btn_layouts"
-        android:layout_width="match_parent"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:padding="10dp"
-        android:layout_marginBottom="70dp"
-        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/splash_button_yes"
-            android:layout_width="70dp"
-            android:layout_height="35dp"
-            android:background="#dc16890b"
-            android:textColor="@color/white"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:onClick="onYes"
-            android:layout_marginRight="10dp"
-            android:text="Yes"
-            android:layout_gravity="center_horizontal|bottom" />
 
-        <Button
-            android:id="@+id/splash_button_no"
-            android:layout_width="70dp"
-            android:layout_height="35dp"
-            android:onClick="onNo"
-            android:background="#dcb31524"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/white"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="No"
-            android:layout_gravity="center_horizontal|bottom" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/splash_tutorial_layout"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/splash_square">
-
-        <ImageView
-            android:id="@+id/tut_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/tutut"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textSize="17dp"
-            android:textColor="#000"
-            android:text="Do You Want To See The Tutorial ?"
-             />
-    </LinearLayout>
 
 </FrameLayout>

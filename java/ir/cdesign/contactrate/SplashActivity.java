@@ -20,10 +20,10 @@ import android.widget.Toast;
 public class SplashActivity extends AppCompatActivity {
 
     Boolean regHelp;
-    ImageView imageView, tutImg;
+    ImageView imageView;
     TextView textView, textViewTwo;
     EditText editText;
-    LinearLayout linearLayout, splashTutText, btnLayouts;
+    LinearLayout linearLayout;
     Button nextButton, nextButtonTwo;
 
     @Override
@@ -55,19 +55,7 @@ public class SplashActivity extends AppCompatActivity {
         nextButton = (Button) findViewById(R.id.next_button);
         linearLayout = (LinearLayout) findViewById(R.id.company_layout);
         textViewTwo = (TextView) findViewById(R.id.splash_text_two);
-        splashTutText = (LinearLayout) findViewById(R.id.splash_tutorial_layout);
-        btnLayouts = (LinearLayout) findViewById(R.id.splash_btn_layouts);
-        tutImg = (ImageView) findViewById(R.id.tut_img);
 
-        tutImg.setVisibility(View.INVISIBLE);
-        tutImg.setAlpha(0f);
-        tutImg.setTranslationY(0);
-
-        btnLayouts.setVisibility(View.INVISIBLE);
-        btnLayouts.setTranslationY(250);
-
-        splashTutText.setVisibility(View.INVISIBLE);
-        splashTutText.setAlpha(0);
 
         textViewTwo.setAlpha(0);
         editText.setAlpha(0);
@@ -188,11 +176,8 @@ public class SplashActivity extends AppCompatActivity {
             textView = (TextView) findViewById(R.id.splash_text);
             textViewTwo = (TextView) findViewById(R.id.splash_text_two);
             editText = (EditText) findViewById(R.id.splash_edit_text);
-            splashTutText = (LinearLayout) findViewById(R.id.splash_tutorial_layout);
-            btnLayouts = (LinearLayout) findViewById(R.id.splash_btn_layouts);
             nextButtonTwo = (Button) findViewById(R.id.next_button_two);
             editText = (EditText) findViewById(R.id.splash_edit_text);
-            tutImg = (ImageView) findViewById(R.id.tut_img);
 
             nextButtonTwo.animate().alpha(0).translationYBy(-20).setListener(new Animator.AnimatorListener() {
                 @Override
@@ -204,17 +189,14 @@ public class SplashActivity extends AppCompatActivity {
                     editText.setVisibility(View.INVISIBLE);
                     textView.setVisibility(View.INVISIBLE);
                     textViewTwo.setVisibility(View.INVISIBLE);
-                    splashTutText.setVisibility(View.VISIBLE);
-                    tutImg.setVisibility(View.VISIBLE);
 
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    splashTutText.animate().alpha(1).setDuration(400).start();
-                    tutImg.animate().translationY(0).alpha(1).setDuration(600);
-                    btnLayouts.setVisibility(View.VISIBLE);
-                    btnLayouts.animate().alpha(1).translationY(0).setDuration(500).start();
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    regSave();
+                    finish();
                 }
 
                 @Override
@@ -233,23 +215,4 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    public void onYes(View view) {
-        String userName = String.valueOf(editText.getText());
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        intent.putExtra("userName", userName);
-        intent.putExtra("tutorial", true);
-        regSave();
-        startActivity(intent);
-        finish();
-    }
-
-
-    public void onNo(View view) {
-        String userName = String.valueOf(editText.getText());
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        intent.putExtra("userName", userName);
-        regSave();
-        startActivity(intent);
-        finish();
-    }
 }
