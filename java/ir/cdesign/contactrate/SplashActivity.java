@@ -189,14 +189,13 @@ public class SplashActivity extends AppCompatActivity {
                     editText.setVisibility(View.INVISIBLE);
                     textView.setVisibility(View.INVISIBLE);
                     textViewTwo.setVisibility(View.INVISIBLE);
-
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    regSave();
+                    finish();
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    regSave();
-                    finish();
                 }
 
                 @Override
