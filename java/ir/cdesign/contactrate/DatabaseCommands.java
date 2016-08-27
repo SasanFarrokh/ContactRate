@@ -60,7 +60,7 @@ public class DatabaseCommands {
 
     public boolean insertContact(long id, int lesson, int time, int motive, String invites) {
         boolean r = false;
-        /*if (getUserPoint() != 0 && !MainActivity.appActive) return false;*/
+        if (getUserPoint() != 0 && !MainActivity.appActive) return false;
 
         ArrayList<String> contact = ContactShow.getContactById(id);
 
