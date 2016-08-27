@@ -20,7 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-//import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
+import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
 
 import java.util.Calendar;
 
@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//
-//        FarhooshPayment farhooshPayment = new FarhooshPayment();
-//        farhooshPayment.Start(this,26378337,R.mipmap.ic_launcher);
+
+        FarhooshPayment farhooshPayment = new FarhooshPayment();
+        farhooshPayment.Start(this,26378337,R.mipmap.ic_launcher);
 
         instance = this;
         alarm = new AlarmReciever();
