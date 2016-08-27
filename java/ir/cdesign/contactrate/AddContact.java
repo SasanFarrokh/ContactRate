@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -64,15 +65,12 @@ public class AddContact extends AppCompatActivity {
         View addBtn = findViewById(R.id.add_contact_btn);
         addBtn.setOnClickListener(new OnAddContact());
 
-        View.OnClickListener starClickListener = new OnStarClick();
+        View.OnTouchListener starTouch = new OnStarTouch();
 
         ViewGroup pointContainer = (ViewGroup) findViewById(R.id.contact_point_container);
         for (int i = 0; i < 3; i++) {
             ViewGroup starCon = (ViewGroup) ((ViewGroup) pointContainer.getChildAt(i)).getChildAt(1);
-            for (int ii = 0; ii < 5; ii++) {
-                starCon.getChildAt(ii).setTag(ii);
-                starCon.getChildAt(ii).setOnClickListener(starClickListener);
-            }
+            starCon.setOnTouchListener(starTouch);
         }
 
     }
@@ -99,42 +97,46 @@ public class AddContact extends AppCompatActivity {
         }
     }
 
-    private class OnStarClick implements View.OnClickListener {
+    private class OnStarTouch implements View.OnTouchListener {
 
         @Override
-        public void onClick(View v) {
-            int type = Integer.parseInt((String) ((View) v.getParent().getParent()).getTag());
-            int rate = 0;
-            switch (type) {
-                case 1:
-                    if (lesson == (int) v.getTag() + 1)
-                        lesson = 0;
-                    else
-                        lesson = (int) v.getTag() + 1;
-                    rate = lesson;
-                    break;
-                case 2:
-                    if (time == (int) v.getTag() + 1)
-                        time = 0;
-                    else
-                        time = (int) v.getTag() + 1;
-                    rate = time;
-                    break;
-                case 3:
-                    if (motive == (int) v.getTag() + 1)
-                        motive = 0;
-                    else
-                        motive = (int) v.getTag() + 1;
-                    rate = motive;
+        public boolean onTouch(View v, MotionEvent event) {
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_MOVE:
+                    ViewGroup con = (ViewGroup) v;
+                    int type = Integer.parseInt((String) ((View) v.getParent()).getTag());
+                    float x = event.getX();
+                    float col = v.getWidth()/5;
+
+                    int rate = Math.max(0,Math.min(5,(int) Math.ceil(x/col)));
+
+                    for (int i = 0 ; i < 5; i++) {
+                        ImageView star = (ImageView) con.getChildAt(i);
+                        if (i <= rate - 1) {
+
+                            star.setColorFilter(getResources().getColor(R.color.starTint));
+                        } else {
+                            star.setColorFilter(null);
+                        }
+                    }
+
+                    switch (type) {
+                        case 1:
+                            lesson = rate;
+                            break;
+                        case 2:
+                            time = rate;
+                            break;
+                        case 3:
+                            motive = rate;
+                            break;
+                    }
                     break;
             }
-            for (int j = 0; j < 5; j++) {
-                if (j <= rate - 1) {
-                    ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(getResources().getColor(R.color.starTint));
-                } else {
-                    ((ImageView) ((ViewGroup) v.getParent()).getChildAt(j)).setColorFilter(null);
-                }
-            }
+
+            return true;
         }
     }
 

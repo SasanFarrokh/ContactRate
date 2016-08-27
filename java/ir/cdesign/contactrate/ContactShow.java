@@ -117,15 +117,12 @@ public class ContactShow extends AppCompatActivity {
         }
 
 
-        View.OnClickListener starClickListener = new OnStarClick();
+        View.OnTouchListener starTouch = new OnStarTouch();
 
         ViewGroup pointContainer = (ViewGroup) findViewById(R.id.contact_point_container);
         for (int i = 0; i < 3; i++) {
             ViewGroup starCon = (ViewGroup) ((ViewGroup) pointContainer.getChildAt(i)).getChildAt(1);
-            for (int ii = 0; ii < 5; ii++) {
-                starCon.getChildAt(ii).setTag(ii);
-                starCon.getChildAt(ii).setOnClickListener(starClickListener);
-            }
+            starCon.setOnTouchListener(starTouch);
         }
     }
 
@@ -190,88 +187,43 @@ public class ContactShow extends AppCompatActivity {
 
 
 
-    private class OnStarClick implements View.OnClickListener {
 
-        @Override
-        public void onClick(View v) {
-            int type = Integer.parseInt((String) ((View) v.getParent().getParent()).getTag());
-            int rate = 0;
-            switch (type) {
-                case 1:
-                    if (lesson == (int) v.getTag() + 1)
-                        lesson = 0;
-                    else
-                        lesson = (int) v.getTag() + 1;
-                    rate = lesson;
-                    break;
-                case 2:
-                    if (time == (int) v.getTag() + 1)
-                        time = 0;
-                    else
-                        time = (int) v.getTag() + 1;
-                    rate = time;
-                    break;
-                case 3:
-                    if (motive == (int) v.getTag() + 1)
-                        motive = 0;
-                    else
-                        motive = (int) v.getTag() + 1;
-                    rate = motive;
-                    break;
-            }
-            for (int j = 0; j < 5; j++) {
-                ImageView imageView = (ImageView) ((ViewGroup) v.getParent()).getChildAt(j);
-                if (j <= rate - 1) {
-
-                    imageView.setColorFilter(getResources().getColor(R.color.starTint));
-                } else {
-                    imageView.setColorFilter(null);
-                }
-            }
-        }
-    }
     private class OnStarTouch implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
             switch (event.getAction()) {
-                case MotionEvent.ACTION_HOVER_ENTER:
-                    int type = Integer.parseInt((String) ((View) v.getParent().getParent()).getTag());
-                    int rate = 0;
-                    switch (type) {
-                        case 1:
-                            if (lesson == (int) v.getTag() + 1)
-                                lesson = 0;
-                            else
-                                lesson = (int) v.getTag() + 1;
-                            rate = lesson;
-                            break;
-                        case 2:
-                            if (time == (int) v.getTag() + 1)
-                                time = 0;
-                            else
-                                time = (int) v.getTag() + 1;
-                            rate = time;
-                            break;
-                        case 3:
-                            if (motive == (int) v.getTag() + 1)
-                                motive = 0;
-                            else
-                                motive = (int) v.getTag() + 1;
-                            rate = motive;
-                            break;
-                    }
-                    for (int j = 0; j < 5; j++) {
-                        ImageView imageView = (ImageView) ((ViewGroup) v.getParent()).getChildAt(j);
-                        if (j <= rate - 1) {
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_MOVE:
+                    ViewGroup con = (ViewGroup) v;
+                    int type = Integer.parseInt((String) ((View) v.getParent()).getTag());
+                    float x = event.getX();
+                    float col = v.getWidth()/5;
 
-                            imageView.setColorFilter(getResources().getColor(R.color.starTint));
+                    int rate = Math.max(0,Math.min(5,(int) Math.ceil(x/col)));
+
+                    for (int i = 0 ; i < 5; i++) {
+                        ImageView star = (ImageView) con.getChildAt(i);
+                        if (i <= rate - 1) {
+
+                            star.setColorFilter(getResources().getColor(R.color.starTint));
                         } else {
-                            imageView.setColorFilter(null);
+                            star.setColorFilter(null);
                         }
                     }
 
+                    switch (type) {
+                        case 1:
+                            lesson = rate;
+                            break;
+                        case 2:
+                            time = rate;
+                            break;
+                        case 3:
+                            motive = rate;
+                            break;
+                    }
                     break;
             }
 

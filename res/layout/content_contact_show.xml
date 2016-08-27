@@ -56,9 +56,8 @@
                 style="@style/contact_points_title"
                 android:text="@string/lesson" />
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center_vertical">
                 <ImageView  style="@style/contact_points_stars"/>
                 <ImageView  style="@style/contact_points_stars"/>
@@ -75,9 +74,8 @@
                 style="@style/contact_points_title"
                 android:text="@string/time" />
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center_vertical">
                 <ImageView  style="@style/contact_points_stars"/>
                 <ImageView  style="@style/contact_points_stars"/>
@@ -94,9 +92,8 @@
                 style="@style/contact_points_title"
                 android:text="@string/motive" />
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center_vertical">
                 <ImageView  style="@style/contact_points_stars"/>
                 <ImageView  style="@style/contact_points_stars"/>
