@@ -17,20 +17,28 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/tutpictwo"/>
+        android:layout_height="250dp"
+        android:src="@drawable/tutpicone"/>
 
     <TextView
-        android:id="@+id/textTwo"
         android:padding="10dp"
         android:layout_marginTop="30dp"
         android:textColor="@color/tutorial_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.35"
-        android:gravity="right"
+        android:text="در قسمت All  تمامی مخاطبین تلفن همراه شما ذخیره شده اند."
+        android:gravity="center"
         android:textSize="18dp" />
 
-
+    <TextView
+        android:padding="10dp"
+        android:textColor="@color/tutorial_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.35"
+        android:text="برروی مخاطب مورد نظر خود کلیک کنید."
+        android:gravity="center"
+        android:textSize="18dp" />
 
 </LinearLayout>

@@ -191,7 +191,6 @@ public class SplashActivity extends AppCompatActivity {
                     textViewTwo.setVisibility(View.INVISIBLE);
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     regSave();
-                    finish();
                 }
 
                 @Override
@@ -214,4 +213,9 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }

@@ -7,9 +7,9 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="250dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/tutpictwo" />
+        android:src="@drawable/tutpicsix" />
 
     <TextView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:gravity="center"
         android:lineSpacingMultiplier="1.35"
         android:padding="10dp"
-        android:text="در صفحه ی باز شده میتوانید تطویر، نام و شماره ی مخاطب مورد نظر را مشاهده کنید."
+        android:text="در قسمت (Invitation) تمام دعوتنامه های شما لیست میشود."
         android:textColor="@color/tutorial_text"
         android:textSize="18dp" />
 
@@ -28,7 +28,7 @@
         android:gravity="center"
         android:lineSpacingMultiplier="1.35"
         android:padding="10dp"
-        android:text="در سه قسمت اعتبار (Lesson) ، زمان (Time) و انگیزه (Motive) از یک تا پنج به مخاطب خود امتیاز دهید."
+        android:text="بر روی مخاطب در دعوتنامه کلیک کنید ،در صفحه ی جدید بر روی آیکون (+) کلیک کنید تا وظیفه (Task) جدید خود را به مخاطب اضافه کنید."
         android:textColor="@color/tutorial_text"
         android:textSize="18dp" />
 

@@ -23,11 +23,6 @@ public class FragmentTutorialTwo extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tutorial_view_two,container,false);
 
-        textOne = (TextView) view.findViewById(R.id.textOne);
-        textTwo = (TextView) view.findViewById(R.id.textTwo);
-
-        textTwo.setText(Html.fromHtml(getString(R.string.sometexttwo)));
-
         return view;
     }
 }

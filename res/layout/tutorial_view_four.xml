@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tutorial_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/tutpicfive" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.35"
+            android:padding="10dp"
+            android:text="در صفحه ی اصلی ، قسمت رتبه (Rank) مخاطب اضافه شده را همراه با امتیاز آن مشاهده میکنید."
+            android:textColor="@color/tutorial_text"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.35"
+            android:padding="10dp"
+            android:text="با کلیک بر مخاطب اطلاعات آن و امتیازش نمایش داده میشوند."
+            android:textColor="@color/tutorial_text"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.35"
+            android:padding="10dp"
+            android:text="برای تنظیم دعوتنامه برروی مخاطب مورد نظر کلیک کنید و در صفحه ی باز شده برروی (add to invitation) کلیک کنید."
+            android:textColor="@color/tutorial_text"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+</ScrollView>

@@ -57,6 +57,9 @@ public class Tutorial extends FragmentActivity {
         FragmentTutorialOne fragmentTutorialOne = new FragmentTutorialOne();
         FragmentTutorialTwo fragmentTutorialTwo = new FragmentTutorialTwo();
         FragmentTutorialThree fragmentTutorialthree = new FragmentTutorialThree();
+        FragmentTutorialFour fragmentTutorialFour = new FragmentTutorialFour();
+        FragmentTutorialFive fragmentTutorialFive = new FragmentTutorialFive();
+        FragmentTutorialSix fragmentTutorialSix = new FragmentTutorialSix();
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -69,6 +72,9 @@ public class Tutorial extends FragmentActivity {
                 case 0: return fragmentTutorialOne;
                 case 1: return fragmentTutorialTwo;
                 case 2 : return fragmentTutorialthree;
+                case 3 : return fragmentTutorialFour;
+                case 4 : return fragmentTutorialFive;
+                case 5 : return fragmentTutorialSix;
                 default: return fragmentTutorialOne;
             }
         }

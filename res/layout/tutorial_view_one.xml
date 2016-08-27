@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.35"
-            android:gravity="right"
+            android:gravity="center"
             android:textSize="18dp" />
 
 

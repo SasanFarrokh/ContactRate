@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FarhooshPayment farhooshPayment = new FarhooshPayment();
-        farhooshPayment.Start(this,26378337,R.mipmap.ic_launcher);
+//        farhooshPayment.Start(this,26378337,R.mipmap.ic_launcher);
 
         instance = this;
         alarm = new AlarmReciever();
