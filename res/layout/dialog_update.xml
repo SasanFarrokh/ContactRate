@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/update_header"
+        android:textColor="@color/cyan"
+        android:textStyle="bold"
+        android:textSize="18dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_launcher" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/app_name" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/update_body"
+        android:textColor="@color/darkGrey"
+        android:textSize="18dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:id="@+id/btn_update_accept"
+            android:layout_weight="0.5"
+            style="@style/selectable"
+            android:textColor="@color/cyan"
+            android:text="Update"
+            />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:id="@+id/btn_update_cancel"
+            android:layout_weight="0.5"
+            android:textColor="@color/cyan"
+            style="@style/selectable"
+            android:text="Exit"/>
+    </LinearLayout>
+
+
+</LinearLayout>

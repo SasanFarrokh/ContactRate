@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -227,6 +228,54 @@ public class ContactShow extends AppCompatActivity {
                     imageView.setColorFilter(null);
                 }
             }
+        }
+    }
+    private class OnStarTouch implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                    int type = Integer.parseInt((String) ((View) v.getParent().getParent()).getTag());
+                    int rate = 0;
+                    switch (type) {
+                        case 1:
+                            if (lesson == (int) v.getTag() + 1)
+                                lesson = 0;
+                            else
+                                lesson = (int) v.getTag() + 1;
+                            rate = lesson;
+                            break;
+                        case 2:
+                            if (time == (int) v.getTag() + 1)
+                                time = 0;
+                            else
+                                time = (int) v.getTag() + 1;
+                            rate = time;
+                            break;
+                        case 3:
+                            if (motive == (int) v.getTag() + 1)
+                                motive = 0;
+                            else
+                                motive = (int) v.getTag() + 1;
+                            rate = motive;
+                            break;
+                    }
+                    for (int j = 0; j < 5; j++) {
+                        ImageView imageView = (ImageView) ((ViewGroup) v.getParent()).getChildAt(j);
+                        if (j <= rate - 1) {
+
+                            imageView.setColorFilter(getResources().getColor(R.color.starTint));
+                        } else {
+                            imageView.setColorFilter(null);
+                        }
+                    }
+
+                    break;
+            }
+
+            return true;
         }
     }
 }

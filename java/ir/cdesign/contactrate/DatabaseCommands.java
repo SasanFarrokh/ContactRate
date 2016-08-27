@@ -531,10 +531,9 @@ public class DatabaseCommands {
                     }
                     Integer result = 0;
 
-                    if (stringBuilder.toString().length() > 0) {
+                    if (stringBuilder.toString().length() == 5) {
                         result = 1;
                     }
-                    Log.i("SERVER_CHECK", stringBuilder.toString());
                     pref.edit().putInt("networkcheck",result).apply();
                     return result;
                 } catch (SecurityException e) {

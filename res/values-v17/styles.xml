@@ -5,15 +5,11 @@
                 <!-- Customize your theme here. -->
                 <item name="colorPrimary">@color/darkGrey</item>
                 <item name="colorPrimaryDark">@color/black</item>
-                <item name="colorControlNormal">#c5c5c5</item>
+                <item name="colorControlNormal">#00c5c5c5</item>
                 <item name="colorControlActivated">@color/white</item>
                 <item name="colorControlHighlight">@color/white</item>
-                <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-                <item name="android:statusBarColor">@android:color/transparent</item>
-                <item name="android:windowTranslucentStatus">true</item>
-
-        </style>
-        <style name="selectable">
-                <item name="android:background">?android:attr/selectableItemBackground</item>
+                <item name="android:selectableItemBackground">@color/overLay</item>
+                <item name="android:layoutDirection">ltr</item>
+                <item name="android:textDirection">ltr</item>
         </style>
 </resources>

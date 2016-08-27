@@ -32,14 +32,14 @@ public class TaskEditToDb extends AppCompatActivity {
     LinearLayout timePick;
     long contactId;
     TextView timeTxt;
-    EditText year , month , day ;
+    EditText year, month, day;
     TextView note;
 
     Calendar taskCalendar = Calendar.getInstance();
 
 
-    int type, inviteId ;
-    Integer hourOfDay , minute;
+    int type, inviteId;
+    Integer hourOfDay, minute;
 
     boolean edit = false;
 
@@ -68,14 +68,14 @@ public class TaskEditToDb extends AppCompatActivity {
         timePick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             timePickerShow();
+                timePickerShow();
             }
         });
         final View container = findViewById(R.id.containerLayout);
         container.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(container.getWindowToken(), 0);
             }
         });
@@ -88,7 +88,7 @@ public class TaskEditToDb extends AppCompatActivity {
         });
     }
 
-    private  void init(){
+    private void init() {
         day = (EditText) findViewById(R.id.dayEdit);
         month = (EditText) findViewById(R.id.monthEdit);
         year = (EditText) findViewById(R.id.yearEdit);
@@ -97,7 +97,7 @@ public class TaskEditToDb extends AppCompatActivity {
 
     }
 
-    private void calendarGet(){
+    private void calendarGet() {
 
         hourOfDay = taskCalendar.get(Calendar.HOUR_OF_DAY);
         minute = taskCalendar.get(Calendar.MINUTE);
@@ -105,16 +105,16 @@ public class TaskEditToDb extends AppCompatActivity {
 
         CalendarTool calendar2 = new CalendarTool(
                 taskCalendar.get(Calendar.YEAR),
-                taskCalendar.get(Calendar.MONTH)+1,
+                taskCalendar.get(Calendar.MONTH) + 1,
                 taskCalendar.get(Calendar.DAY_OF_MONTH)
         );
 
-        year.setHint(String.valueOf(calendar2.getIranianYear()-1300));
+        year.setHint(String.valueOf(calendar2.getIranianYear() - 1300));
         month.setHint(String.valueOf(calendar2.getIranianMonth()));
         day.setHint(String.valueOf(calendar2.getIranianDay()));
     }
 
-    private void timePickerShow(){
+    private void timePickerShow() {
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -150,7 +150,7 @@ public class TaskEditToDb extends AppCompatActivity {
                     DatabaseCommands.getInstance().addInvite(contactId, type, note.getText().toString(),
                             taskCalendar.getTimeInMillis(), 0);
                 else
-                    DatabaseCommands.getInstance().editInvite(inviteId,contactId, type, note.getText().toString(),
+                    DatabaseCommands.getInstance().editInvite(inviteId, contactId, type, note.getText().toString(),
                             taskCalendar.getTimeInMillis(), 0);
                 finish();
             }
@@ -166,41 +166,41 @@ public class TaskEditToDb extends AppCompatActivity {
         });
 
         ImageView contactImage = (ImageView) findViewById(R.id.contact_img);
-        Uri imageUri = ContactShow.getPhotoUri(contactId,this);
+        Uri imageUri = ContactShow.getPhotoUri(contactId, this);
         if (imageUri != null) contactImage.setImageURI(imageUri);
-        if(contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
+        if (contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
 
 
-        day.addTextChangedListener(new GoNextClass(day,3));
-        month.addTextChangedListener(new GoNextClass(month,2));
-        year.addTextChangedListener(new GoNextClass(year,1));
+        day.addTextChangedListener(new GoNextClass(day, 3));
+        month.addTextChangedListener(new GoNextClass(month, 2));
+        year.addTextChangedListener(new GoNextClass(year, 1));
     }
 
     private void setCalender() {
 
         CalendarTool calendar2 = new CalendarTool();
-        if ( year.getText().toString().isEmpty() || month.getText().toString().isEmpty() ||
-                day.getText().toString().isEmpty()) {
-            try {
-                calendar2.setIranianDate(
-                        Integer.parseInt(year.getHint().toString()) + 1300,
-                        Integer.parseInt(month.getHint().toString()),
-                        Integer.parseInt(day.getHint().toString())
-                );
-            } catch (Exception e) {
-                calendar2.setIranianDate(1395,6, 4);
-            }
+        try {
+            int fYear,fMonth,fDay;
+            if (year.getText().toString().isEmpty()) fYear = Integer.parseInt(year.getHint().toString());
+            else fYear = Integer.parseInt(year.getHint().toString());
+            if (month.getText().toString().isEmpty()) fMonth = Integer.parseInt(month.getHint().toString());
+            else fMonth = Integer.parseInt(month.getHint().toString());
+            if (day.getText().toString().isEmpty()) fDay = Integer.parseInt(day.getHint().toString());
+            else fDay = Integer.parseInt(day.getHint().toString());
 
-        } else {
             calendar2.setIranianDate(
-                    Integer.parseInt(year.getText().toString()) + 1300,
-                    Integer.parseInt(month.getText().toString()),
-                    Integer.parseInt(day.getText().toString())
+                    fYear + 1300,
+                    fMonth,
+                    fDay
             );
+
+        } catch (Exception e) {
+            calendar2.setIranianDate(1395,6, 4);
         }
+
         taskCalendar.set(
                 calendar2.getGregorianYear(),
-                calendar2.getGregorianMonth()-1,
+                calendar2.getGregorianMonth() - 1,
                 calendar2.getGregorianDay(),
                 hourOfDay,
                 minute
@@ -238,11 +238,11 @@ public class TaskEditToDb extends AppCompatActivity {
 
         CalendarTool calendar2 = new CalendarTool(
                 taskCalendar.get(Calendar.YEAR),
-                taskCalendar.get(Calendar.MONTH)+1,
+                taskCalendar.get(Calendar.MONTH) + 1,
                 taskCalendar.get(Calendar.DAY_OF_MONTH)
         );
 
-        year.setText(String.valueOf(calendar2.getIranianYear()-1300));
+        year.setText(String.valueOf(calendar2.getIranianYear() - 1300));
         month.setText(String.valueOf(calendar2.getIranianMonth()));
         day.setText(String.valueOf(calendar2.getIranianDay()));
 
@@ -262,7 +262,8 @@ public class TaskEditToDb extends AppCompatActivity {
 
         EditText v;
         int n;
-        public GoNextClass(EditText v , int n) {
+
+        public GoNextClass(EditText v, int n) {
             this.v = v;
             this.n = n;
         }

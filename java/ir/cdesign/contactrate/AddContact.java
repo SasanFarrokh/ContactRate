@@ -95,7 +95,7 @@ public class AddContact extends AppCompatActivity {
             RankFragment.instance.recyclerView.setAdapter(new RankAdapter(this));
             finish();
         } else {
-            Toast.makeText(AddContact.this, "Failed to add the contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddContact.this, "To add more contact, you should purchase the full version", Toast.LENGTH_SHORT).show();
         }
     }
 

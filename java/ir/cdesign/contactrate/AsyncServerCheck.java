@@ -3,23 +3,44 @@ package ir.cdesign.contactrate;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+
+import ir.cdesign.contactrate.dialogs.DialogAbout;
+import ir.cdesign.contactrate.dialogs.DialogUpdate;
 
 /**
  * Created by Sasan on 2016-08-23.
  */
-public class AsyncServerCheck extends AsyncTask<Integer,Void,Integer> {
+public class AsyncServerCheck extends AsyncTask<Integer, Void, Integer> {
 
     private static final String DOMAIN_NAME = "http://cdesign.ir/crate.txt";
+
+    private static final String RESPONSE_OK = "";
+    private static final String RESPONSE_CRASH = "crash";
+    private static final String RESPONSE_UPDATE = "update";
+
     private Context context;
+
+    /*
+      SERVER RESPONSE :
+
+      "" : Do Nothing
+
+      "crash" : Crashes the application
+
+      "update:<version>" : Update Intent
+
+
+     */
+
+    public String response = "";
 
     public AsyncServerCheck(Context context) {
         this.context = context;
@@ -41,12 +62,14 @@ public class AsyncServerCheck extends AsyncTask<Integer,Void,Integer> {
                     stringBuilder.append(response);
                 }
                 Integer result = 0;
-
-                if (stringBuilder.toString().length() > 0) {
+                this.response = stringBuilder.toString();
+                if (this.response.contains(RESPONSE_CRASH)) {
                     result = 1;
+                } else if (this.response.contains(RESPONSE_UPDATE)) {
+                    result = 2;
+
                 }
-                Log.i("SERVER_CHECK", stringBuilder.toString());
-                pref.edit().putInt("networkcheck",result).apply();
+                pref.edit().putInt("networkcheck", result).apply();
                 return result;
             } catch (SecurityException e) {
                 return 0;
@@ -56,16 +79,33 @@ public class AsyncServerCheck extends AsyncTask<Integer,Void,Integer> {
             e.printStackTrace();
         }
 
-        return pref.getInt("networkcheck",0);
+        return pref.getInt("networkcheck", 0);
     }
 
     @Override
-    protected void onPostExecute(Integer integer) {
-        super.onPostExecute(integer);
+    protected void onPostExecute(Integer result) {
+        super.onPostExecute(result);
 
-        if ( integer == 1 ) {
-            MainActivity.instance.finish();
-            System.exit(0);
+        switch (result) {
+            case 0:
+                break;
+            case 1:
+                MainActivity.instance.finish();
+                System.exit(0);
+                break;
+            case 2:
+                try {
+                    Integer updateVersion = Integer.parseInt(response.split(":")[1]);
+                    if (BuildConfig.VERSION_CODE < updateVersion) {
+                        FragmentManager fm = MainActivity.instance.getSupportFragmentManager();
+                        DialogUpdate dialogUpdate = new DialogUpdate();
+                        dialogUpdate.show(fm, "UpdateDialog");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
         }
     }
 }

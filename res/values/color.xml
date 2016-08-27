@@ -10,5 +10,12 @@
     <color name="overLay">#919191</color>
     <color name="darkWhite">#c0c0c0</color>
 
+    <color name="cyan">#00838f</color>
+
     <color name="starTint">#e6f20e</color>
+
+    <color name="tutorial_bg">@color/white</color>
+    <color name="tutorial_header">#0070a4</color>
+    <color name="tutorial_text">@color/darkGrey</color>
+    <color name="tutorial_indicator">#0070a4</color>
 </resources>

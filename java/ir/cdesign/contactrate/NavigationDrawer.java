@@ -45,21 +45,12 @@ public class NavigationDrawer extends Fragment {
                 dialogAbout.show(fm, "Sample Fragment");
             }
         });
-
-/*        tutorial.setOnClickListener(new View.OnClickListener() {
+        tutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                MedalDialog medalDialog = new MedalDialog();
-                medalDialog.show(fm, "Sample Fragment");
+                startActivity(new Intent(getActivity(), Tutorial.class));
             }
-        });*/
-//        tutorial.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(getActivity(), Tutorial.class));
-//            }
-//        });
+        });
 
         medals = (LinearLayout) view.findViewById(R.id.nav_item_medals);
         medals.setOnClickListener(new View.OnClickListener() {

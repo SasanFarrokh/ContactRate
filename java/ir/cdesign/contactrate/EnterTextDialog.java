@@ -17,6 +17,8 @@ public class EnterTextDialog extends DialogFragment{
 
     TextView textView;
 
+    EditText editText;
+
 
     @Nullable
     @Override
@@ -25,7 +27,10 @@ public class EnterTextDialog extends DialogFragment{
         getDialog().requestWindowFeature(STYLE_NO_TITLE);
 
         textView = (TextView) getActivity().findViewById(R.id.note);
+        editText = (EditText) view.findViewById(R.id.note_edit_text);
 
+        if (!textView.getText().toString().equals("Some Note ..."))
+            editText.setText(textView.getText().toString());
         return view;
     }
 
@@ -33,7 +38,7 @@ public class EnterTextDialog extends DialogFragment{
     public void onResume() {
         super.onResume();
         View btn = getView().findViewById(R.id.dialog_note_submit);
-        final EditText editText = (EditText) getView().findViewById(R.id.note_edit_text);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

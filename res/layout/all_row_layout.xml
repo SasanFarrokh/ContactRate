@@ -4,7 +4,7 @@
     android:layout_height="50dp"
     android:layout_margin="5dp"
     android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
+    style="@style/selectable"
     >
 
     <ImageView

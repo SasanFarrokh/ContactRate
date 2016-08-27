@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0793d4"
+    android:background="@color/tutorial_bg"
     >
 
     <TextView
@@ -12,22 +12,23 @@
         android:gravity="center"
         android:layout_marginTop="30dp"
         android:padding="5dp"
-        android:textColor="#f2f2f2"
+        android:textColor="@color/tutorial_header"
         android:textSize="22dp"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:src="@drawable/tutpicthree"/>
 
     <TextView
         android:id="@+id/textTwo"
         android:padding="10dp"
         android:layout_marginTop="30dp"
-        android:textColor="#f2f2f2"
+        android:textColor="@color/tutorial_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:lineSpacingMultiplier="1.35"
+        android:gravity="right"
         android:textSize="18dp" />
 
 
