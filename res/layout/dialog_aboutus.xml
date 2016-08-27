@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="5dp">
 
     <ImageView
@@ -21,16 +22,11 @@
         android:gravity="center"
         android:padding="8dp"
         android:text="@string/dialogtxt"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:lineSpacingMultiplier="1.18"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="5dp"
-        android:background="#000" />
+    <View style="@style/nav_seperator"
+        android:background="#A000"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -38,7 +34,8 @@
         android:gravity="center"
         android:padding="8dp"
         android:text="شما میتوانید از طریق راه های ارتباطی زیر با ما در ارتباط  باشین با تشکر تیم سی دیزاین"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:lineSpacingMultiplier="1.18"/>
 
     <TextView
         android:layout_width="match_parent"
