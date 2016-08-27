@@ -19,7 +19,7 @@ import ir.cdesign.contactrate.R;
 public class DialogAbout extends DialogFragment {
 
     LinearLayout linearLayout;
-    ImageView imageView;
+    ImageView logoC,logoDesign;
     TextView textOne , textTwo , textThree;
     View line;
 
@@ -37,14 +37,17 @@ public class DialogAbout extends DialogFragment {
             }
         });
 
-        imageView = (ImageView) linearLayout.getChildAt(0);
+        logoC = (ImageView) linearLayout.findViewById(R.id.logo_c);
+        logoDesign = (ImageView) linearLayout.findViewById(R.id.logo_design);
         textOne = (TextView) linearLayout.getChildAt(1);
         line = (View) linearLayout.getChildAt(2);
         textTwo = (TextView) linearLayout.getChildAt(3);
         textThree = (TextView) linearLayout.getChildAt(4);
 
-        imageView.setAlpha(0f);
-        imageView.setTranslationY(-20);
+        logoC.setAlpha(0f);
+        logoC.setTranslationY(-20);
+        logoC.setTranslationX(180);
+        logoDesign.setAlpha(0f);
         textOne.setAlpha(0f);
         textOne.setTranslationY(-20);
         line.setAlpha(0f);
@@ -54,7 +57,7 @@ public class DialogAbout extends DialogFragment {
         textTwo.setTranslationY(-20);
         textTwo.setAlpha(0f);
 
-        imageView.animate().translationY(0).alpha(1).setDuration(1000).setListener(new Animator.AnimatorListener() {
+        logoC.animate().translationY(0).alpha(1).setDuration(1000).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 textOne.animate().alpha(1).translationY(0).setDuration(1200).start();
@@ -65,7 +68,8 @@ public class DialogAbout extends DialogFragment {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-
+                logoC.animate().translationX(0).start();
+                logoDesign.animate().alpha(1f).setStartDelay(300).setDuration(1000).start();
             }
 
             @Override

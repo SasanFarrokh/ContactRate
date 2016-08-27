@@ -7,14 +7,38 @@
     android:background="@color/white"
     android:padding="5dp">
 
-    <ImageView
+    
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:paddingTop="15dp"
-        android:src="@drawable/logo"
-        android:tint="#000" />
+        android:layout_height="115dp"
+        android:paddingTop="14dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center_horizontal">
+
+        <!--<ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="15dp"
+            android:src="@drawable/logo"
+            android:tint="#000" />-->
+        <ImageView
+            android:id="@+id/logo_c"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/clogo"
+            android:tint="#000"/>
+        <ImageView
+            android:id="@+id/logo_design"
+            android:layout_toRightOf="@id/logo_c"
+            android:layout_width="157dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/design_logo"
+            android:tint="#000"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
