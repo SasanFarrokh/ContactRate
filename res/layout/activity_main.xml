@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="@drawable/background"
+    android:background="#f2f2f2"
     android:id="@+id/drawerLayout">
 
         <FrameLayout

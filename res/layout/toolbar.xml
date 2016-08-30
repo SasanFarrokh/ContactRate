@@ -2,15 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="horizontal"
+    android:background="#131313"
     android:layout_height="50dp">
 
-    <Button
+    <LinearLayout
         android:id="@+id/toolbar_iv"
-        android:layout_width="25dp"
-        android:layout_gravity="center_vertical"
-        android:layout_height="25dp"
-        android:background="@drawable/hamburger_menu"
-        android:layout_margin="10dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:tint="@color/color"
+            android:src="@drawable/menu"
+            android:padding="2dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="-22dp"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:padding="5dp"
+            android:layout_marginLeft="-35dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/iconn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#f2f2f2"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="Networker"/>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

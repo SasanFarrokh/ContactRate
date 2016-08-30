@@ -8,11 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 //import pl.bclogic.pulsator4droid.library.PulsatorLayout;
@@ -43,11 +46,34 @@ public class TabFragment extends Fragment {
             viewPager = (ViewPager) x.findViewById(R.id.viewpager);
             toolbar = (Toolbar) x.findViewById(R.id.toolbar);
 
-        Button hamburgerBtn = (Button) x.findViewById(R.id.toolbar_iv);
+        final LinearLayout hamburgerBtn = (LinearLayout) x.findViewById(R.id.toolbar_iv);
+        hamburgerBtn.setAlpha(1);
         hamburgerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hamburgerBtn.animate().alpha(.5f);
                 ((MainActivity) getActivity()).mDrawerLayout.openDrawer(GravityCompat.START);
+                ((MainActivity) getActivity()).mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                        hamburgerBtn.animate().alpha(1).start();
+                    }
+
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+
+                    }
+
+                    @Override
+                    public void onDrawerStateChanged(int newState) {
+
+                    }
+                });
             }
         });
 

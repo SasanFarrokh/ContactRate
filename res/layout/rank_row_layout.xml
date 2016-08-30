@@ -16,7 +16,7 @@
         android:paddingTop="5dp"
         android:text="1"
         android:fontFamily="sans-serif"
-        android:textColor="#f2f2f2"
+        android:textColor="#000"
         android:textSize="14dp" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_marginRight="12dp"
         android:layout_toRightOf="@+id/rank_rank"
         android:text="This Is Title"
-        android:textColor="#f2f2f2"
+        android:textColor="#000"
         android:textSize="20dp" />
 
     <TextView
@@ -44,7 +44,7 @@
         android:background="@drawable/square"
         android:gravity="center"
         android:padding="2dp"
-        android:textColor="#ffc107"
+        android:textColor="#ffe600"
         android:text="200"
         android:textSize="18dp"
         android:textStyle="bold"/>

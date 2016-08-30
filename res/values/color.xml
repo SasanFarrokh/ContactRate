@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="accent">#00ffbb</color>
+    <color name="colorAccent">#ff1100</color>
 
     <color name="black">#111</color>
     <color name="orange">#FA0</color>
@@ -10,7 +10,14 @@
     <color name="overLay">#919191</color>
     <color name="darkWhite">#c0c0c0</color>
 
+    <color name="color">#26c6da</color>
+    <color name="colorDark">#8000838f</color>
+
     <color name="cyan">#00838f</color>
+
+
+    <color name="colorBackgroundActive">#000000</color>
+    <color name="colorBackgroundDeActive">#fff</color>
 
     <color name="starTint">#e6f20e</color>
 
