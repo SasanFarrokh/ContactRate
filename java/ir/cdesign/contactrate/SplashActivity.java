@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
+
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -102,7 +104,7 @@ public class SplashActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            startActivity(new Intent(SplashActivity.this, HomeScreen.class));
                             finish();
                         }
                     },1500);

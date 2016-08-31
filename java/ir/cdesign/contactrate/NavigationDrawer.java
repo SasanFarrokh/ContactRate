@@ -75,7 +75,7 @@ public class NavigationDrawer extends Fragment {
         TextView userName = (TextView) getView().findViewById(R.id.nav_user_name);
         userName.setText(name);
         TextView point = (TextView) getView().findViewById(R.id.nav_user_point);
-        point.setText(String.valueOf(DatabaseCommands.getInstance().getUserPoint()));
+//        point.setText(String.valueOf(DatabaseCommands.getInstance().getUserPoint()));
     }
 
     public static String titleCase(String str) {

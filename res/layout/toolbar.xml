@@ -9,7 +9,7 @@
         android:layout_width="25dp"
         android:layout_gravity="center_vertical"
         android:layout_height="25dp"
-        android:background="@drawable/hamburger_menu"
+        android:background="@drawable/left"
         android:layout_margin="10dp" />
 
     <RelativeLayout

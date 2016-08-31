@@ -47,7 +47,7 @@ public class TabFragment extends Fragment {
         hamburgerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).mDrawerLayout.openDrawer(GravityCompat.START);
+                getActivity().finish();
             }
         });
 
