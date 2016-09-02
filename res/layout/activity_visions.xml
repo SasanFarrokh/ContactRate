@@ -7,7 +7,10 @@
     android:fitsSystemWindows="true"
     tools:context="ir.cdesign.contactrate.Vision.Visions">
 
-
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

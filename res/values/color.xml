@@ -3,6 +3,8 @@
 
     <color name="accent">#00ffbb</color>
 
+    <color name="colorAccent">#00838f</color>
+
     <color name="black">#111</color>
     <color name="orange">#FA0</color>
     <color name="white">#F8F8F8</color>
