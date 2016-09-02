@@ -52,20 +52,15 @@
 
         <activity android:name=".TaskEditToDb" />
         <activity android:name=".SplashActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
-
         </activity>
-        <activity android:name=".tutorial.Tutorial"></activity>
-        <activity android:name=".homeScreen.HomeScreen">
-
-
-        </activity>
+        <activity android:name=".tutorial.Tutorial" />
+        <activity android:name=".homeScreen.HomeScreen"></activity>
+        <activity android:name=".Vision.Visions"></activity>
     </application>
 
 </manifest>

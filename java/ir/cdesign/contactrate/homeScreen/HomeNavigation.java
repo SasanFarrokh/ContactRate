@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.Vision.Visions;
 import ir.cdesign.contactrate.dialogs.DialogAbout;
 import ir.cdesign.contactrate.dialogs.DialogSettings;
 import ir.cdesign.contactrate.tutorial.Tutorial;
@@ -25,7 +26,7 @@ import ir.cdesign.contactrate.tutorial.Tutorial;
 public class HomeNavigation extends Fragment {
 
     Intent intent;
-    TextView settings , about , task , tutorial , home;
+    TextView settings , about , task , tutorial , home , vision;
     HomeScreen homeScreen ;
 
     @Nullable
@@ -38,12 +39,14 @@ public class HomeNavigation extends Fragment {
         task = (TextView) view.findViewById(R.id.task);
         tutorial = (TextView) view.findViewById(R.id.tutorial);
         home = (TextView) view.findViewById(R.id.home);
+        vision = (TextView) view.findViewById(R.id.vision);
 
         settings.setOnClickListener(listener);
         about.setOnClickListener(listener);
         task.setOnClickListener(listener);
         tutorial.setOnClickListener(listener);
         home.setOnClickListener(listener);
+        vision.setOnClickListener(listener);
 
         return view;
     }
@@ -72,6 +75,10 @@ public class HomeNavigation extends Fragment {
                     break;
                 case R.id.home:
 
+                    break;
+                case R.id.vision:
+                    intent = new Intent(getActivity(), Visions.class);
+                    startActivity(intent);
             }
         }
     };
