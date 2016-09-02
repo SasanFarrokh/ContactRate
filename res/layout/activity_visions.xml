@@ -7,6 +7,28 @@
     android:fitsSystemWindows="true"
     tools:context="ir.cdesign.contactrate.Vision.Visions">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <Button
+            android:id="@+id/toolbar_iv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="22dp"
+            android:textColor="#f2f2f2"
+            android:text="visions"/>
+
+    </android.support.v7.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
