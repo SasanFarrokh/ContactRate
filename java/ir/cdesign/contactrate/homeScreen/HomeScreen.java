@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate.homeScreen;
 
+import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,37 +10,29 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.cdesign.contactrate.NavigationDrawer;
 import ir.cdesign.contactrate.R;
 
 public class HomeScreen extends AppCompatActivity {
 
-    LinearLayout news;
     ViewPager viewPager;
-    FrameLayout newsContainer;
     ImageView toolbarImage;
-    float firstY, lastY;
-    boolean newsToggle = false;
     private List<ImageView> dots;
 
     DrawerLayout drawerLayout;
-    public static HomeScreen homeScreen;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +43,7 @@ public class HomeScreen extends AppCompatActivity {
         toolbarImage = (ImageView) findViewById(R.id.toolbar_iv);
         toolbarImage.setOnClickListener(listener);
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.news_container, new HomeNewsContent());
-        ft.commit();
 
-        setNews();
         addDots();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -76,6 +64,30 @@ public class HomeScreen extends AppCompatActivity {
 
             }
         });
+
+        init();
+
+    }
+
+    private void init(){
+        //Set Progress Bars
+        ProgressBar pending = (ProgressBar) findViewById(R.id.pending);
+        ObjectAnimator pendingAnim = ObjectAnimator.ofInt (pending, "progress", 0, 500); // see this max value coming back here, we animale towards that value
+        pendingAnim.setDuration (5000); //in milliseconds
+        pendingAnim.setInterpolator (new DecelerateInterpolator());
+        pendingAnim.start ();
+
+        ProgressBar done = (ProgressBar) findViewById(R.id.done);
+        ObjectAnimator doneAnim = ObjectAnimator.ofInt (done, "progress", 0, 500); // see this max value coming back here, we animale towards that value
+        doneAnim.setDuration (5000); //in milliseconds
+        doneAnim.setInterpolator (new DecelerateInterpolator());
+        doneAnim.start ();
+
+        ProgressBar vision = (ProgressBar) findViewById(R.id.vision);
+        ObjectAnimator visionAnim = ObjectAnimator.ofInt (vision, "progress", 0, 500); // see this max value coming back here, we animale towards that value
+        visionAnim.setDuration (5000); //in milliseconds
+        visionAnim.setInterpolator (new DecelerateInterpolator());
+        visionAnim.start ();
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -98,20 +110,20 @@ public class HomeScreen extends AppCompatActivity {
 
         GraphPage graphPage = new GraphPage();
         AllRankInv allRankInv = new AllRankInv();
-        OnlineServices onlineServices = new OnlineServices();
+        userTab userTab = new userTab();
 
         @Override
         public Fragment getItem(int pos) {
             switch (pos) {
 
                 case 0:
-                    return graphPage;
+                    return userTab;
                 case 1:
                     return allRankInv;
                 case 2:
-                    return onlineServices;
+                    return graphPage;
                 default:
-                    return allRankInv;
+                    return userTab;
             }
         }
 
@@ -145,66 +157,6 @@ public class HomeScreen extends AppCompatActivity {
                 dot.animate().setDuration(1).scaleY(1.0f).scaleX(1.0f).alpha(1f).start();
             }
         }
-    }
-
-    private void setNews() {
-        final TextView toolbarText = (TextView) findViewById(R.id.toolbar_tv);
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-//        news = (LinearLayout) findViewById(R.id.news);
-
-        final int height = size.y;
-        int khoob = (int) (height);
-
-        newsContainer = (FrameLayout) findViewById(R.id.news_container);
-        newsContainer.setTranslationY(khoob - 150);
-
-        final ImageView arrow = (ImageView) findViewById(R.id.news_indicator);
-
-        newsContainer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        firstY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (firstY > lastY) {
-                            if (!newsToggle) {
-                                newsContainer.animate().y(160);
-                                arrow.animate().rotationBy(180).start();
-                                toolbarText.setText("News");
-                                newsToggle = true;
-                            }
-                        }
-                }
-                return true;
-            }
-        });
-
-        arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (newsContainer.getY() == 160) {
-                    // open
-                    arrow.animate().rotationBy(-180).start();
-                    newsContainer.animate().y(1180).start();
-                    toolbarText.setText("Home");
-                    newsToggle = false;
-                } else if (newsContainer.getY() == 1180) {
-                    //close
-                    toolbarText.setText("News");
-                    arrow.animate().rotationBy(180).start();
-                    newsContainer.animate().y(160).start();
-                } else {
-                    toolbarText.setText("News");
-                    arrow.animate().rotationBy(180).start();
-                    newsContainer.animate().y(160).start();
-                }
-            }
-        });
     }
 
 }

@@ -12,12 +12,11 @@ import ir.cdesign.contactrate.R;
 /**
  * Created by amin pc on 31/08/2016.
  */
-public class HomeNewsContent extends Fragment {
-
+public class userTab extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_news_content,container,false);
+        View view = inflater.inflate(R.layout.home_user,container,false);
 
         return view;
     }

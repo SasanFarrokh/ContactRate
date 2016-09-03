@@ -27,7 +27,7 @@ public class DialogAbout extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_aboutus,container,false);
-
+        getDialog().requestWindowFeature(STYLE_NO_TITLE);
         linearLayout = (LinearLayout) view.findViewById(R.id.LinearLayout);
 
         linearLayout.setOnClickListener(new View.OnClickListener() {

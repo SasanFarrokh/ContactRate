@@ -6,7 +6,7 @@
                 android:color="@color/tutorial_indicator"
                 android:width="3dp"
                 />
-            <solid android:color="@color/white" />
+            <solid android:color="#00ffffff" />
         </shape>
     </item>
 </selector>

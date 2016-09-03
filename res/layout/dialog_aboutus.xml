@@ -16,14 +16,6 @@
         android:paddingRight="10dp"
         android:gravity="center_horizontal">
 
-        <!--<ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
-            android:paddingTop="15dp"
-            android:src="@drawable/logo"
-            android:tint="#000" />-->
         <ImageView
             android:id="@+id/logo_c"
             android:layout_width="45dp"

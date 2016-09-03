@@ -6,18 +6,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import ir.cdesign.contactrate.R;
 
 public class Visions extends AppCompatActivity {
 
     FloatingActionButton fab;
+    Button toolbarImage;
 
     FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction;
     FragmentaddVision fragmentaddVision = new FragmentaddVision();
-
-    public static Visions visions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,10 @@ public class Visions extends AppCompatActivity {
 
     private void init(){
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        toolbarImage = (Button) findViewById(R.id.toolbar_iv);
 
         fab.setOnClickListener(listener);
+        toolbarImage.setOnClickListener(listener);
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -40,10 +42,12 @@ public class Visions extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.fab:
-                    fragmentTransaction = fm.beginTransaction();
-                    fragmentTransaction.add(R.id.container,fragmentaddVision);
-                    fragmentTransaction.commit();
+                    fm.beginTransaction();
+                    fragmentaddVision.show(fm,"are");
                     fab.hide();
+                    break;
+                case R.id.toolbar_iv:
+                    finish();
                     break;
             }
         }
