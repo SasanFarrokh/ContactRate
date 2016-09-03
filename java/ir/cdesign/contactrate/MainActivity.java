@@ -52,20 +52,10 @@ public class MainActivity extends AppCompatActivity {
         instance = this;
         alarm = new AlarmReciever();
 
-        setDrawer();
-
-
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
 
-    }
-
-
-
-    private void setDrawer() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        NavigationDrawer navigationDrawer = (NavigationDrawer) getSupportFragmentManager().findFragmentById(R.id.nav_dwr_frg);
     }
 
     @Override
