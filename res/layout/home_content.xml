@@ -314,6 +314,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/checkAll"
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:padding="10dp"
+                android:background="#70333333"
+                android:textColor="#f2f2f2"
+                android:textSize="18dp"
+                android:text="Check All News ..."
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </ScrollView>

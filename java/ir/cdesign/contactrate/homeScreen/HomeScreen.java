@@ -1,6 +1,7 @@
 package ir.cdesign.contactrate.homeScreen;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class HomeScreen extends AppCompatActivity {
 
     ViewPager viewPager;
     ImageView toolbarImage;
+    TextView checkAll;
     private List<ImageView> dots;
 
     DrawerLayout drawerLayout;
@@ -88,6 +90,11 @@ public class HomeScreen extends AppCompatActivity {
         visionAnim.setDuration (5000); //in milliseconds
         visionAnim.setInterpolator (new DecelerateInterpolator());
         visionAnim.start ();
+
+        checkAll = (TextView) findViewById(R.id.checkAll);
+
+        checkAll.setOnClickListener(listener);
+
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -97,6 +104,9 @@ public class HomeScreen extends AppCompatActivity {
                 case R.id.toolbar_iv :
                     drawerLayout.openDrawer(Gravity.LEFT);
                     break;
+                case R.id.checkAll :
+                    startActivity(new Intent(HomeScreen.this, NewsActivity.class));
+                     break;
             }
         }
     };

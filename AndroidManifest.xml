@@ -59,9 +59,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".tutorial.Tutorial" />
-        <activity android:name=".homeScreen.HomeScreen"></activity>
-        <activity android:name=".Vision.Visions"></activity>
-        <activity android:name=".Vision.ActivityVisionAdd"></activity>
+        <activity android:name=".homeScreen.HomeScreen" />
+        <activity android:name=".Vision.Visions" />
+        <activity android:name=".Vision.ActivityVisionAdd" />
+        <activity android:name=".homeScreen.NewsActivity"></activity>
     </application>
 
 </manifest>
