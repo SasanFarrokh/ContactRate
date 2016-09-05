@@ -101,6 +101,11 @@ public class HomeScreen extends AppCompatActivity {
         }
     };
 
+    public void onNews(View view) {
+        NewsDialog newsDialog = new NewsDialog();
+        newsDialog.show(getSupportFragmentManager(),"are");
+    }
+
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
 
