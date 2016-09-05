@@ -1,8 +1,7 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">MLM List</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_contact_show">ContactShow</string>
 
     <string name="lesson">Lesson : </string>
@@ -12,47 +11,7 @@
     <string name="red">red</string>
     <string name="blue">blue</string>
     <string name="green">green</string>
-    <string name="sometext"><![CDATA[
-    <!DOCTYPE HTML>
 
-<html>
-
-<body dir="rtl">
-<p>                      اپلیکیشن mlm list  اولین اپ کاربردی در زمینه بازار یابی شبکه ای برای کاربران ایرانی است .
-</p>
-<p>
-    Mlm list   ابزاریست برای افرادی که قصد دارند بازاریابی شبکه ای را به عنوان یک شغل حرفه ای دنبال نمایند.
-</p>
-</body>
-
-</html>
-    ]]></string>
-    <string name="sometexttwo"><![CDATA[
-<!DOCTYPE HTML>
-
-<html>
-
-<body dir="rtl">
-<p>
-    شما به کمک این برنامه لیست نفرات خود را بر اساس سه آیتم :<br /> lesson (اعتبار) ،Time(زمان)،motive(انگیزه) <br /> مشخص مینمایید
-</p>
-</body>
-
-</html>
-    ]]></string>
-    <string name="sometextthree"><![CDATA[
-<!DOCTYPE HTML>
-
-<html>
-
-<body dir="rtl">
-<p>
-    لازم به ذکر هست که هر چقدر لیست شما کامل تر باشد و افراد بیشتری را شامل شود امتیاز فعالیت های شما نیز بیش تر خواهد بود
-</p>
-</body>
-
-</html>
-    ]]></string>
     <string name="dialogtxt">بازار یابی شبکه ای به عنوان پدیده جدیدی در کشورمان مطرح شده و هم اکنون شرکت ها وافراد زیادی  در این زمینه به صورت قانونی فعالیت میکنند . با گسترش روز افزون این حرفه دوست داشتنی بر آن شدیم که ابزاری حرفه ای برای دوست داران این شغل محیا نماییم . </string>
     <string name="update_header">
         نسخه جدید نرم افزار منتشر شده است
@@ -61,4 +20,71 @@
         برای استفاده از اپلیکیشن لطفا آن را بروز رسانی کنید.
     </string>
 
+
+
+
+    <!-- Label for button to confirm chosen date or time [CHAR LIMIT=30] -->
+    <string name="mdtp_done_label" msgid="7007948707597430919">"انجام شد"</string>
+    <string name="mdtp_ok">تایید</string>
+    <string name="mdtp_cancel">بیخیال</string>
+    <!--
+         Content description for the hour selector in the time picker, which displays
+         selectable hours of the day along the inside edge of a circle, as in an analog clock.
+         [CHAR LIMIT=50]
+    -->
+    <string name="mdtp_hour_picker_description" msgid="7586639618712934060">"لغزنده دایره‌ای ساعت"</string>
+    <!--
+         Content description for the minute selector in the time picker, which displays
+         selectable five-minute intervals along the inside edge of a circle, as in an analog clock.
+         [CHAR LIMIT=50]
+    -->
+    <string name="mdtp_minute_picker_description" msgid="6024811202872705251">"لغزنده دایره‌ای دقیقه"</string>
+    <!-- Accessibility announcement for hour circular picker [CHAR LIMIT=NONE] -->
+    <string name="mdtp_select_hours" msgid="7651068754188418859">"انتخاب ساعت"</string>
+    <!-- Accessibility announcement for minute circular picker [CHAR LIMIT=NONE] -->
+    <string name="mdtp_select_minutes" msgid="8327182090226828481">"انتخاب دقیقه"</string>
+
+    <!--
+        Content description for the month and day selector in the date picker, which displays
+        a selectable grid of days laid out by month.
+        [CHAR LIMIT=50]
+     -->
+    <string name="mdtp_day_picker_description">Month grid of days</string>
+    <!--
+        Content description for the year selector in the date picker, which displays
+        a scrolling, vertical list of years.
+        [CHAR LIMIT=50]
+     -->
+    <string name="mdtp_year_picker_description">Year list</string>
+    <!-- Accessibility announcement for the day picker [CHAR LIMIT=NONE] -->
+    <string name="mdtp_select_day">Select month and day</string>
+    <!-- Accessibility announcement for the year picker [CHAR LIMIT=NONE] -->
+    <string name="mdtp_select_year">Select year</string>
+    <!-- Accessibility description for the item that is currently selected. -->
+    <string name="mdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> انتخاب شد"</string>
+    <!-- Accessibility announcement when a number that had been typed in is deleted [CHAR_LIMIT=NONE] -->
+    <string name="mdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> حذف شد"</string>
+
+    <!-- DO NOT TRANSLATE -->
+    <string name="mdtp_time_placeholder" translatable="false">--</string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="mdtp_time_separator" translatable="false">:</string>
+
+    <!-- DO NOT TRANSLATE -->
+    <string name="mdtp_radial_numbers_typeface" translatable="false">sans-serif</string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="mdtp_sans_serif" translatable="false">sans-serif</string>
+
+    <!-- DO NOT TRANSLATE -->
+    <string name="mdtp_day_of_week_label_typeface" translatable="false">sans-serif</string>
+
+    <string name="title_activity_main">DateTimePicker Example</string>
+    <string name="selected_time">The time you picked will be shown here.</string>
+    <string name="selected_date">The date you picked will be shown here.</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="mode_24_hours">Use 24 hour mode</string>
+    <string name="mode_dark_time">Use dark theme</string>
+    <string name="mode_dark_date">Use dark theme</string>
+    <string name="action_settings">Settings</string>
 </resources>

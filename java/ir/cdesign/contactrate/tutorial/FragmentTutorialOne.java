@@ -27,7 +27,7 @@ public class FragmentTutorialOne extends Fragment {
         textOne = (TextView) view.findViewById(R.id.textOne);
         textTwo = (TextView) view.findViewById(R.id.textTwo);
 
-        textTwo.setText(Html.fromHtml(getString(R.string.sometext)));
+//        textTwo.setText(Html.fromHtml(getString(R.string.sometext)));
 
         return view;
     }
