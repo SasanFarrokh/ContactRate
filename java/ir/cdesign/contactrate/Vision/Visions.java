@@ -1,13 +1,12 @@
 package ir.cdesign.contactrate.Vision;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
@@ -19,7 +18,7 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
     Button toolbarImage;
 
     FragmentManager fm = getSupportFragmentManager();
-    FragmentaddVision fragmentaddVision = new FragmentaddVision();
+    ActivityVisionAdd activityVisionAdd = new ActivityVisionAdd();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +26,6 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
         setContentView(R.layout.activity_visions);
 
         init();
-
-
-        PersianCalendar now = new PersianCalendar();
-        DatePickerDialog dpd = DatePickerDialog.newInstance(Visions.this,
-                now.getPersianYear(),
-                now.getPersianMonth(),
-                now.getPersianDay()
-        );
-//                    dpd.setThemeDark(modeDarkDate.isChecked());
-        dpd.show(getFragmentManager(), "");
 
     }
 
@@ -54,8 +43,7 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.fab:
-                    fm.beginTransaction();
-                    fragmentaddVision.show(fm,"are");
+                    startActivity(new Intent(Visions.this,ActivityVisionAdd.class));
                     fab.hide();
                     break;
                 case R.id.toolbar_iv:
