@@ -48,17 +48,23 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         visionDate = (ImageView) findViewById(R.id.vision_add_date_image);
         repeatText = (TextView) findViewById(R.id.vision_add_repeat_text);
         visionRepeat = (ImageView) findViewById(R.id.vision_add_repeat_image);
+        backButton = (Button) findViewById(R.id.toolbar_iv);
 
         dateText.setOnClickListener(listener);
         visionDate.setOnClickListener(listener);
         repeatText.setOnClickListener(listener);
         visionRepeat.setOnClickListener(listener);
+        backButton.setOnClickListener(listener);
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+                case R.id.toolbar_iv: {
+                    finish();
+                    break;
+                }
                 case R.id.vision_add_date_image: {
                     PersianCalendar now = new PersianCalendar();
                     DatePickerDialog dpd = DatePickerDialog.newInstance(
@@ -94,8 +100,8 @@ public class ActivityVisionAdd extends AppCompatActivity implements
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         // Note: monthOfYear is 0-indexed
-        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-//        dateTextView.setText(date);
+        String date =  dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+        dateText.setText(date);
     }
 
     @Override

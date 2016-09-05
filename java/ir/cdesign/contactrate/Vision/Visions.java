@@ -17,9 +17,6 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
     FloatingActionButton fab;
     Button toolbarImage;
 
-    FragmentManager fm = getSupportFragmentManager();
-    ActivityVisionAdd activityVisionAdd = new ActivityVisionAdd();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +41,6 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
             switch (v.getId()){
                 case R.id.fab:
                     startActivity(new Intent(Visions.this,ActivityVisionAdd.class));
-                    fab.hide();
                     break;
                 case R.id.toolbar_iv:
                     finish();

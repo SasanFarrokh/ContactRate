@@ -58,28 +58,34 @@ public class HomeNavigation extends Fragment {
 
             switch (v.getId()) {
                 case R.id.settings:
+                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     DialogSettings dialogSettings = new DialogSettings();
                     dialogSettings.show(fm, "settings");
                     break;
                 case R.id.about:
+                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     DialogAbout dialogAbout = new DialogAbout();
                     dialogAbout.show(fm, "about");
                     break;
                 case R.id.task:
+                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(),MainActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.tutorial:
+                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Tutorial.class);
                     startActivity(intent);
                     break;
                 case R.id.home:
-
+                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.vision:
+                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Visions.class);
                     startActivity(intent);
             }
         }
     };
+
 }
