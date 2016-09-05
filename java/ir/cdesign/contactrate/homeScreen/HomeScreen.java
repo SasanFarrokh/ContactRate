@@ -106,7 +106,7 @@ public class HomeScreen extends AppCompatActivity {
                     break;
                 case R.id.checkAll :
                     startActivity(new Intent(HomeScreen.this, NewsActivity.class));
-                     break;
+                    break;
             }
         }
     };
