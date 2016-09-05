@@ -94,12 +94,14 @@
                     android:weightSum="6">
 
                     <ImageView
+                        android:id="@+id/vision_add_date_image"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:src="@drawable/calendar" />
 
                     <TextView
+                        android:id="@+id/vision_add_date_text"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dp"
@@ -111,12 +113,14 @@
                         android:textColor="#f2f2f2" />
 
                     <ImageView
+                        android:id="@+id/vision_add_repeat_image"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:src="@drawable/hjj" />
 
                     <TextView
+                        android:id="@+id/vision_add_repeat_text"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dp"

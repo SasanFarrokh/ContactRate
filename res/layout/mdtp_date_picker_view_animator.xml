@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<ir.cdesign.libraries.persianmaterialdatetimepicker.date.AccessibleDateAnimator
+<ir.cdesign.contactrate.persianmaterialdatetimepicker.date.AccessibleDateAnimator
      xmlns:android="http://schemas.android.com/apk/res/android"
      android:id="@+id/animator"
      android:layout_width="@dimen/mdtp_date_picker_component_width"

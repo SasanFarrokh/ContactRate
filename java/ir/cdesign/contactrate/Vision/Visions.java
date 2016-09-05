@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-public class Visions extends AppCompatActivity {
+public class Visions extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     FloatingActionButton fab;
     Button toolbarImage;
@@ -25,6 +27,16 @@ public class Visions extends AppCompatActivity {
         setContentView(R.layout.activity_visions);
 
         init();
+
+
+        PersianCalendar now = new PersianCalendar();
+        DatePickerDialog dpd = DatePickerDialog.newInstance(Visions.this,
+                now.getPersianYear(),
+                now.getPersianMonth(),
+                now.getPersianDay()
+        );
+//                    dpd.setThemeDark(modeDarkDate.isChecked());
+        dpd.show(getFragmentManager(), "");
 
     }
 
@@ -53,4 +65,10 @@ public class Visions extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        // Note: monthOfYear is 0-indexed
+        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+//        dateTextView.setText(date);
+    }
 }
