@@ -46,6 +46,7 @@ public class HomeScreen extends AppCompatActivity {
     TextView points;
     TextView todayDate;
     TextView visions;
+    ProgressBar pending,done,vision;
 
 
 
@@ -98,23 +99,9 @@ public class HomeScreen extends AppCompatActivity {
 
     private void init(){
         //Set Progress Bars
-        ProgressBar pending = (ProgressBar) findViewById(R.id.pending);
-        ObjectAnimator pendingAnim = ObjectAnimator.ofInt (pending, "progress", 0, 500); // see this max value coming back here, we animale towards that value
-        pendingAnim.setDuration (5000); //in milliseconds
-        pendingAnim.setInterpolator (new DecelerateInterpolator());
-        pendingAnim.start ();
-
-        ProgressBar done = (ProgressBar) findViewById(R.id.done);
-        ObjectAnimator doneAnim = ObjectAnimator.ofInt (done, "progress", 0, 500); // see this max value coming back here, we animale towards that value
-        doneAnim.setDuration (5000); //in milliseconds
-        doneAnim.setInterpolator (new DecelerateInterpolator());
-        doneAnim.start ();
-
-        ProgressBar vision = (ProgressBar) findViewById(R.id.vision);
-        ObjectAnimator visionAnim = ObjectAnimator.ofInt (vision, "progress", 0, 500); // see this max value coming back here, we animale towards that value
-        visionAnim.setDuration (5000); //in milliseconds
-        visionAnim.setInterpolator (new DecelerateInterpolator());
-        visionAnim.start ();
+        pending = (ProgressBar) findViewById(R.id.pending);
+        done = (ProgressBar) findViewById(R.id.done);
+        vision = (ProgressBar) findViewById(R.id.vision);
 
         checkAll = (TextView) findViewById(R.id.checkAll);
         doneText = (TextView) findViewById(R.id.done_text);
@@ -123,8 +110,6 @@ public class HomeScreen extends AppCompatActivity {
         todayDate = (TextView) findViewById(R.id.today_date);
 
         checkAll.setOnClickListener(listener);
-
-
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -217,6 +202,19 @@ public class HomeScreen extends AppCompatActivity {
         doneText.setText(String.valueOf(doneTask));
         pendingText.setText(String.valueOf(pendingTask));
         todayDate.setText("Today : \n" + String.valueOf(date));
+
+        int allTask = (doneTask+pendingTask == 0)?0:doneTask+pendingTask;
+
+        animateProgress(pending,0,(pendingTask/allTask)*100);
+        animateProgress(done,0,(doneTask/allTask)*100);
+        animateProgress(vision,0,3/5);
+    }
+
+    private void animateProgress(ProgressBar progressBar, int start, int end) {
+        ObjectAnimator visionAnim = ObjectAnimator.ofInt (progressBar, "progress", start, end); // see this max value coming back here, we animale towards that value
+        visionAnim.setDuration (5000); //in milliseconds
+        visionAnim.setInterpolator (new DecelerateInterpolator());
+        visionAnim.start ();
     }
 
     @Override

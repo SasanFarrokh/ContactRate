@@ -113,7 +113,6 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
-                            android:max="500"
                             android:padding="10dp"
                             android:progress="0"
                             android:progressDrawable="@drawable/circle_porgress" />
@@ -161,7 +160,6 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
-                            android:max="500"
                             android:padding="10dp"
                             android:progress="0"
                             android:progressDrawable="@drawable/circle_porgress" />
@@ -271,7 +269,6 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
-                            android:max="500"
                             android:padding="10dp"
                             android:progress="0"
                             android:progressDrawable="@drawable/circle_porgress" />
