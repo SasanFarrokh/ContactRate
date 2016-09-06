@@ -38,7 +38,7 @@ public class HomeScreen extends AppCompatActivity {
     ImageView toolbarImage;
     TextView checkAll;
     private List<ImageView> dots;
-    boolean bn = true;
+    boolean bn = true, progressAnim = true;
     LinearLayout homeContent;
 
     TextView doneText;
@@ -46,11 +46,11 @@ public class HomeScreen extends AppCompatActivity {
     TextView points;
     TextView todayDate;
     TextView visions;
-    ProgressBar pending,done,vision;
-
+    ProgressBar pending, done, vision;
 
 
     DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +64,10 @@ public class HomeScreen extends AppCompatActivity {
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
 //        wallpaperBoy.setWallpaper(drawerLayout,R.drawable.tutpictwo);
         homeContent = (LinearLayout) findViewById(R.id.home_content);
-        if (bn){
+        if (bn) {
             //homeContent.setBackground(getResources().getDrawable(R.drawable.custombg));
             bn = false;
-            Log.d("aha",String.valueOf(bn) + "xeyle xo");
+            Log.d("aha", String.valueOf(bn) + "xeyle xo");
 
         }
 
@@ -97,7 +97,7 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    private void init(){
+    private void init() {
         //Set Progress Bars
         pending = (ProgressBar) findViewById(R.id.pending);
         done = (ProgressBar) findViewById(R.id.done);
@@ -110,16 +110,17 @@ public class HomeScreen extends AppCompatActivity {
         todayDate = (TextView) findViewById(R.id.today_date);
 
         checkAll.setOnClickListener(listener);
+
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.toolbar_iv :
+            switch (v.getId()) {
+                case R.id.toolbar_iv:
                     drawerLayout.openDrawer(Gravity.LEFT);
                     break;
-                case R.id.checkAll :
+                case R.id.checkAll:
                     startActivity(new Intent(HomeScreen.this, NewsActivity.class));
                     break;
             }
@@ -129,7 +130,7 @@ public class HomeScreen extends AppCompatActivity {
     //Temporary Just For Testing
     public void onNews(View view) {
         NewsDialog newsDialog = new NewsDialog();
-        newsDialog.show(getSupportFragmentManager(),"are");
+        newsDialog.show(getSupportFragmentManager(), "are");
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -190,7 +191,7 @@ public class HomeScreen extends AppCompatActivity {
         }
     }
 
-    private void setData() {
+    private void setData(boolean anim) {
         DatabaseCommands db = DatabaseCommands.getInstance();
         int p = db.getUserPoint();
         int doneTask = db.getDoneTask();
@@ -203,23 +204,34 @@ public class HomeScreen extends AppCompatActivity {
         pendingText.setText(String.valueOf(pendingTask));
         todayDate.setText("Today : \n" + String.valueOf(date));
 
-        int allTask = (doneTask+pendingTask == 0)?0:doneTask+pendingTask;
+        int allTask = (doneTask + pendingTask == 0) ? 0 : doneTask + pendingTask;
 
-        animateProgress(pending,0,(pendingTask/allTask)*100);
-        animateProgress(done,0,(doneTask/allTask)*100);
-        animateProgress(vision,0,3/5);
+
+        animateProgress(pending, 0, (pendingTask / allTask) * 100);
+        animateProgress(done, 0, (doneTask / allTask) * 100);
+        animateProgress(vision, 0, 60);
+        if (!anim) {
+            ObjectAnimator visionAnim = (ObjectAnimator) pending.getTag();
+            visionAnim.end();
+            visionAnim = (ObjectAnimator) done.getTag();
+            visionAnim.end();
+            visionAnim = (ObjectAnimator) vision.getTag();
+            visionAnim.end();
+        }
+        progressAnim = false;
     }
 
     private void animateProgress(ProgressBar progressBar, int start, int end) {
-        ObjectAnimator visionAnim = ObjectAnimator.ofInt (progressBar, "progress", start, end); // see this max value coming back here, we animale towards that value
-        visionAnim.setDuration (5000); //in milliseconds
-        visionAnim.setInterpolator (new DecelerateInterpolator());
-        visionAnim.start ();
+        ObjectAnimator visionAnim = ObjectAnimator.ofInt(progressBar, "progress", start, end); // see this max value coming back here, we animale towards that value
+        visionAnim.setDuration(3000); //in milliseconds
+        //visionAnim.setInterpolator(new DecelerateInterpolator());
+        visionAnim.start();
+        progressBar.setTag(visionAnim);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setData();
+        setData(progressAnim);
     }
 }

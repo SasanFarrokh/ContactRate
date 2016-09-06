@@ -363,7 +363,7 @@ public class DatabaseCommands {
         return cPoints;
     }
     public int getPendingTask() {
-        long all = DatabaseUtils.queryNumEntries(database, TABLE_CONTACTS);
+        long all = DatabaseUtils.queryNumEntries(database, TABLE_INVITES);
         int done = getDoneTask();
 
         return ((Long) (all-done)).intValue();
