@@ -62,7 +62,8 @@
         <activity android:name=".homeScreen.HomeScreen" />
         <activity android:name=".Vision.Visions" />
         <activity android:name=".Vision.ActivityVisionAdd" />
-        <activity android:name=".homeScreen.NewsActivity"></activity>
+        <activity android:name=".homeScreen.NewsActivity" />
+        <activity android:name=".utilities.Settings"></activity>
     </application>
 
 </manifest>

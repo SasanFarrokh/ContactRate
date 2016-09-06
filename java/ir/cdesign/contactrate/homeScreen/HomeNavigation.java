@@ -19,6 +19,7 @@ import ir.cdesign.contactrate.Vision.Visions;
 import ir.cdesign.contactrate.dialogs.DialogAbout;
 import ir.cdesign.contactrate.dialogs.DialogSettings;
 import ir.cdesign.contactrate.tutorial.Tutorial;
+import ir.cdesign.contactrate.utilities.Settings;
 
 /**
  * Created by amin pc on 31/08/2016.
@@ -59,8 +60,8 @@ public class HomeNavigation extends Fragment {
             switch (v.getId()) {
                 case R.id.settings:
                     ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
-                    DialogSettings dialogSettings = new DialogSettings();
-                    dialogSettings.show(fm, "settings");
+                    intent = new Intent(getActivity(), Settings.class);
+                    startActivity(intent);
                     break;
                 case R.id.about:
                     ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);

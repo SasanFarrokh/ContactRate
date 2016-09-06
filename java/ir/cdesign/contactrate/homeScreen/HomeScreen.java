@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -34,6 +36,9 @@ public class HomeScreen extends AppCompatActivity {
     ImageView toolbarImage;
     TextView checkAll , today;
     private List<ImageView> dots;
+    boolean bn = true;
+    LinearLayout homeContent;
+
 
     DrawerLayout drawerLayout;
     @Override
@@ -45,6 +50,16 @@ public class HomeScreen extends AppCompatActivity {
 
         toolbarImage = (ImageView) findViewById(R.id.toolbar_iv);
         toolbarImage.setOnClickListener(listener);
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+//        wallpaperBoy.setWallpaper(drawerLayout,R.drawable.tutpictwo);
+        homeContent = (LinearLayout) findViewById(R.id.home_content);
+        if (bn){
+            homeContent.setBackground(getResources().getDrawable(R.drawable.custombg));
+            bn = false;
+            Log.d("aha",String.valueOf(bn) + "xeyle xo");
+
+        }
 
 
         addDots();
