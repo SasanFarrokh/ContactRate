@@ -26,12 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 public class HomeScreen extends AppCompatActivity {
 
     ViewPager viewPager;
     ImageView toolbarImage;
-    TextView checkAll;
+    TextView checkAll , today;
     private List<ImageView> dots;
 
     DrawerLayout drawerLayout;
@@ -92,8 +93,10 @@ public class HomeScreen extends AppCompatActivity {
         visionAnim.start ();
 
         checkAll = (TextView) findViewById(R.id.checkAll);
+        today = (TextView) findViewById(R.id.today_date);
 
         checkAll.setOnClickListener(listener);
+
 
     }
 
@@ -111,6 +114,7 @@ public class HomeScreen extends AppCompatActivity {
         }
     };
 
+    //Temporary Just For Testing
     public void onNews(View view) {
         NewsDialog newsDialog = new NewsDialog();
         newsDialog.show(getSupportFragmentManager(),"are");
