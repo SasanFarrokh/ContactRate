@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.utilities.CalendarTool;
-import ir.cdesign.contactrate.utilities.JalaliCalendar;
 
 public class TaskEditToDb extends AppCompatActivity {
 

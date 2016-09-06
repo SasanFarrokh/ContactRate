@@ -354,6 +354,20 @@ public class DatabaseCommands {
 
         return totalPoints.intValue();
     }
+    public int getDoneTask() {
+        Cursor c = database.rawQuery("SELECT SUM(active) as done FROM " + TABLE_INVITES,null);
+        c.moveToFirst();
+        int cPoints = c.getInt(c.getColumnIndex("done"));
+        c.close();
+
+        return cPoints;
+    }
+    public int getPendingTask() {
+        long all = DatabaseUtils.queryNumEntries(database, TABLE_CONTACTS);
+        int done = getDoneTask();
+
+        return ((Long) (all-done)).intValue();
+    }
 
 
     public static long WritePhoneContact(String displayName, String number, Context context) {

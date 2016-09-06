@@ -26,18 +26,27 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
+import ir.cdesign.contactrate.utilities.CalendarTool;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class HomeScreen extends AppCompatActivity {
 
     ViewPager viewPager;
     ImageView toolbarImage;
-    TextView checkAll , today;
+    TextView checkAll;
     private List<ImageView> dots;
     boolean bn = true;
     LinearLayout homeContent;
+
+    TextView doneText;
+    TextView pendingText;
+    TextView points;
+    TextView todayDate;
+    TextView visions;
+
 
 
     DrawerLayout drawerLayout;
@@ -55,7 +64,7 @@ public class HomeScreen extends AppCompatActivity {
 //        wallpaperBoy.setWallpaper(drawerLayout,R.drawable.tutpictwo);
         homeContent = (LinearLayout) findViewById(R.id.home_content);
         if (bn){
-            homeContent.setBackground(getResources().getDrawable(R.drawable.custombg));
+            //homeContent.setBackground(getResources().getDrawable(R.drawable.custombg));
             bn = false;
             Log.d("aha",String.valueOf(bn) + "xeyle xo");
 
@@ -108,7 +117,10 @@ public class HomeScreen extends AppCompatActivity {
         visionAnim.start ();
 
         checkAll = (TextView) findViewById(R.id.checkAll);
-        today = (TextView) findViewById(R.id.today_date);
+        doneText = (TextView) findViewById(R.id.done_text);
+        pendingText = (TextView) findViewById(R.id.pending_text);
+        points = (TextView) findViewById(R.id.points);
+        todayDate = (TextView) findViewById(R.id.today_date);
 
         checkAll.setOnClickListener(listener);
 
@@ -182,7 +194,7 @@ public class HomeScreen extends AppCompatActivity {
     public void selectDot(int idx) {
         for (int i = 0; i < dots.size(); i++) {
             ImageView dot = dots.get(i);
-            int drawableId = (i == idx) ? (R.drawable.indicator_dots_selected) : (R.drawable.indicator_dots);
+            int drawableId = R.drawable.home_view_pager_indicator;
             dot.setImageResource(drawableId);
             if (i == idx) {
                 dot.setAlpha(0.5f);
@@ -193,4 +205,23 @@ public class HomeScreen extends AppCompatActivity {
         }
     }
 
+    private void setData() {
+        DatabaseCommands db = DatabaseCommands.getInstance();
+        int p = db.getUserPoint();
+        int doneTask = db.getDoneTask();
+        int pendingTask = db.getPendingTask();
+        CalendarTool calendar = new CalendarTool();
+        String date = calendar.getIranianDate();
+
+        points.setText(String.valueOf(p));
+        doneText.setText(String.valueOf(doneTask));
+        pendingText.setText(String.valueOf(pendingTask));
+        todayDate.setText("Today : \n" + String.valueOf(date));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setData();
+    }
 }

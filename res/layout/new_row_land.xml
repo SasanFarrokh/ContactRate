@@ -7,7 +7,7 @@
     android:background="#70333333"
     android:onClick="onNews"
     app:cardElevation="0dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="0dp"
     android:layout_margin="5dp"
     app:cardBackgroundColor="#70333333">
 

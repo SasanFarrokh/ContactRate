@@ -20,6 +20,7 @@
     <color name="tutorial_header">#0070a4</color>
     <color name="tutorial_text">@color/darkGrey</color>
     <color name="tutorial_indicator">#0070a4</color>
+    <color name="home_indicator">#f8f8f8</color>
 
 
     <color name="colorBackgroundActive">#000000</color>
