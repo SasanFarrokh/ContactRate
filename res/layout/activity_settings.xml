@@ -39,4 +39,57 @@
 
     <include layout="@layout/custom_radio_group"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:weightSum="2">
+
+        <TextView
+            android:textColor="#f2f2f2"
+            android:textSize="18dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Change Background"/>
+
+        <TextView
+            android:textColor="#f2f2f2"
+            android:textSize="18dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="تغییر عکس پس زمینه"/>
+
+    </LinearLayout>
+
+    <View style="@style/nav_seperator"/>
+
+    <LinearLayout
+        android:id="@+id/background_open"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/background_thumbnail"
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:background="@drawable/background"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#f2f2f2"
+            android:textSize="18dp"
+            android:text="Choose a new Background !"/>
+
+    </LinearLayout>
+
 </LinearLayout>
