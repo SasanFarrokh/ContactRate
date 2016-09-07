@@ -18,6 +18,7 @@ import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.Vision.Visions;
 import ir.cdesign.contactrate.dialogs.DialogAbout;
 import ir.cdesign.contactrate.dialogs.DialogSettings;
+import ir.cdesign.contactrate.lessons.Lesson;
 import ir.cdesign.contactrate.tutorial.Tutorial;
 import ir.cdesign.contactrate.utilities.Settings;
 
@@ -27,8 +28,8 @@ import ir.cdesign.contactrate.utilities.Settings;
 public class HomeNavigation extends Fragment {
 
     Intent intent;
-    TextView settings , about , task , tutorial , home , vision;
-    HomeScreen homeScreen ;
+    TextView settings, about, task, tutorial, home, vision, statistics, lessons, news;
+    HomeScreen homeScreen;
 
     @Nullable
     @Override
@@ -41,6 +42,9 @@ public class HomeNavigation extends Fragment {
         tutorial = (TextView) view.findViewById(R.id.tutorial);
         home = (TextView) view.findViewById(R.id.home);
         vision = (TextView) view.findViewById(R.id.vision);
+        statistics = (TextView) view.findViewById(R.id.stats);
+        lessons = (TextView) view.findViewById(R.id.lessons);
+        news = (TextView) view.findViewById(R.id.news);
 
         settings.setOnClickListener(listener);
         about.setOnClickListener(listener);
@@ -48,6 +52,9 @@ public class HomeNavigation extends Fragment {
         tutorial.setOnClickListener(listener);
         home.setOnClickListener(listener);
         vision.setOnClickListener(listener);
+        statistics.setOnClickListener(listener);
+        lessons.setOnClickListener(listener);
+        news.setOnClickListener(listener);
 
         return view;
     }
@@ -59,32 +66,48 @@ public class HomeNavigation extends Fragment {
 
             switch (v.getId()) {
                 case R.id.settings:
-                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Settings.class);
                     startActivity(intent);
                     break;
                 case R.id.about:
-                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     DialogAbout dialogAbout = new DialogAbout();
                     dialogAbout.show(fm, "about");
                     break;
                 case R.id.task:
-                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
-                    intent = new Intent(getActivity(),MainActivity.class);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.tutorial:
-                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Tutorial.class);
                     startActivity(intent);
                     break;
                 case R.id.home:
-                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.vision:
-                    ((HomeScreen)getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Visions.class);
                     startActivity(intent);
+                    break;
+                case R.id.stats:
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    intent = new Intent(getActivity(), Statistics.class);
+                    startActivity(intent);
+                    break;
+                case R.id.lessons:
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    intent = new Intent(getActivity(), Lesson.class);
+                    startActivity(intent);
+                    break;
+                case R.id.news:
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    intent = new Intent(getActivity(), NewsActivity.class);
+                    startActivity(intent);
+                    break;
             }
         }
     };
