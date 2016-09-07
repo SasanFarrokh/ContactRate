@@ -3,9 +3,12 @@ package ir.cdesign.contactrate;
 import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 
@@ -37,15 +42,18 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        // Create Shared Preference
+        SharedPreferences reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
+
+        setLocale(reg.getString("lang","en"));
 
         setContentView(R.layout.activity_splash);
         init();
-        // Create Shared Preference
-        SharedPreferences reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
 
         onStartViewAnimator();
 
         regHelp = !reg.getString("userName","").isEmpty();
+
 
     }
 
@@ -191,7 +199,7 @@ public class SplashActivity extends AppCompatActivity {
                     editText.setVisibility(View.INVISIBLE);
                     textView.setVisibility(View.INVISIBLE);
                     textViewTwo.setVisibility(View.INVISIBLE);
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this, HomeScreen.class));
                     regSave();
                 }
 
@@ -213,6 +221,15 @@ public class SplashActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
     @Override
