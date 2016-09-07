@@ -8,11 +8,13 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import ir.cdesign.contactrate.MainActivity;
@@ -24,11 +26,12 @@ public class Settings extends AppCompatActivity {
 
     public static final int ENGLISH = 0;
     public static final int PERSIAN = 1;
+    public static final String[] LANGUAGES = {"en","fa"};
 
     LinearLayout backgroundOpen;
     ViewGroup container;
 
-    private int language = 0;
+    public static int language = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class Settings extends AppCompatActivity {
         for (int i = 0; i < 2; i++) {
             container.getChildAt(i).setOnClickListener(new langItemClick(i));
         }
+        selectLang(language);
     }
 
     private void selectLang(int lang) {
@@ -78,7 +82,6 @@ public class Settings extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             selectLang(i);
-            setLocale("fa");
         }
     }
 
@@ -95,6 +98,7 @@ public class Settings extends AppCompatActivity {
                 break;
         }
         getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putString("lang",lang).commit();
+        Log.i("sasan","shared lang set to " + lang);
     }
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);
@@ -106,5 +110,8 @@ public class Settings extends AppCompatActivity {
         Intent refresh = new Intent(this, this.getClass());
         startActivity(refresh);
         finish();
+    }
+    public static int getLangIndex(String lang) {
+        return Arrays.asList(LANGUAGES).indexOf(lang);
     }
 }
