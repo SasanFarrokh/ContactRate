@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -98,7 +99,7 @@ public class Settings extends AppCompatActivity {
                 break;
         }
         getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putString("lang",lang).commit();
-        Log.i("sasan","shared lang set to " + lang);
+        Toast.makeText(this,"Restart app for take changes",Toast.LENGTH_SHORT).show();
     }
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);

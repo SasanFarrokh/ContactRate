@@ -66,6 +66,7 @@ public class HomeScreen extends AppCompatActivity {
 
 
         addDots();
+        selectDot(0);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
