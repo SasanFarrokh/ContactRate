@@ -8,6 +8,8 @@
     android:background="@drawable/background"
     tools:context="ir.cdesign.contactrate.utilities.Settings">
 
+    <include layout="@layout/realtoolbar"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

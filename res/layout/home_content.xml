@@ -312,7 +312,7 @@
                 android:weightSum="2"
                 android:layout_height="wrap_content">-->
 
-            <include layout="@layout/new_row_half" android:layout_width="0dp"/>
+            <include layout="@layout/new_row_half" />
                 <!--<include layout="@layout/new_row_half" android:layout_width="0dp" android:layout_weight="1"/>-->
 
             <!--</LinearLayout>-->
