@@ -53,6 +53,11 @@ public class Settings extends AppCompatActivity {
         for (int i = 0; i < 2; i++) {
             container.getChildAt(i).setOnClickListener(new langItemClick(i));
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         selectLang(language);
     }
 
@@ -99,7 +104,7 @@ public class Settings extends AppCompatActivity {
                 break;
         }
         getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putString("lang",lang).commit();
-        Toast.makeText(this,"Restart app for take changes",Toast.LENGTH_SHORT).show();
+        setLocale(lang);
     }
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);
@@ -108,9 +113,7 @@ public class Settings extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, this.getClass());
-        startActivity(refresh);
-        finish();
+        Toast.makeText(this,"Restart app for take changes",Toast.LENGTH_SHORT).show();
     }
     public static int getLangIndex(String lang) {
         return Arrays.asList(LANGUAGES).indexOf(lang);

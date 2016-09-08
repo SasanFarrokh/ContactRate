@@ -304,18 +304,14 @@
 
             </LinearLayout>
 
-            <include layout="@layout/new_row_land"/>
-
-            <!--<LinearLayout
+            <!--<include layout="@layout/new_row_land"/>-->
+            <!--<include layout="@layout/new_row_half" />-->
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:layout_height="wrap_content">-->
+                android:layout_height="wrap_content"
+                android:id="@+id/home_news_rv">
 
-            <include layout="@layout/new_row_half" />
-                <!--<include layout="@layout/new_row_half" android:layout_width="0dp" android:layout_weight="1"/>-->
-
-            <!--</LinearLayout>-->
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/checkAll"

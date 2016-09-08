@@ -62,13 +62,17 @@ public class HapticFeedbackController {
      * happen if we have vibrated very recently.
      */
     public void tryVibrate() {
-        if (mVibrator != null && mIsGloballyEnabled) {
-            long now = SystemClock.uptimeMillis();
-            // We want to try to vibrate each individual tick discretely.
-            if (now - mLastVibrate >= VIBRATE_DELAY_MS) {
-                mVibrator.vibrate(VIBRATE_LENGTH_MS);
-                mLastVibrate = now;
+        try {
+            if (mVibrator != null && mIsGloballyEnabled) {
+                long now = SystemClock.uptimeMillis();
+                // We want to try to vibrate each individual tick discretely.
+                if (now - mLastVibrate >= VIBRATE_DELAY_MS) {
+                    mVibrator.vibrate(VIBRATE_LENGTH_MS);
+                    mLastVibrate = now;
+                }
             }
+        } catch (Exception ignored) {
+
         }
     }
 }

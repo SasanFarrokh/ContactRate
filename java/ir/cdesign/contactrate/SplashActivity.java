@@ -48,16 +48,17 @@ public class SplashActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Create Shared Preference
         reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
+
+        String lang = reg.getString("lang","fa");
+        Settings.language = Settings.getLangIndex(lang);
+        setLocale(lang);
+
         setContentView(R.layout.activity_splash);
         init();
 
         onStartViewAnimator();
 
         regHelp = !reg.getString("userName","").isEmpty();
-
-        String lang = reg.getString("lang","fa");
-        Settings.language = Settings.getLangIndex(lang);
-        setLocale(lang);
     }
 
     private void init() {

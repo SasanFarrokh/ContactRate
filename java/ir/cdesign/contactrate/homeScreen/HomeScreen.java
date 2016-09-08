@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.utilities.AsyncGetNews;
 import ir.cdesign.contactrate.utilities.CalendarTool;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
@@ -33,6 +35,7 @@ public class HomeScreen extends AppCompatActivity {
     private List<ImageView> dots;
     boolean bn = true, progressAnim = true;
     LinearLayout homeContent;
+    RecyclerView news;
 
     TextView doneText;
     TextView pendingText;
@@ -91,6 +94,12 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        (new AsyncGetNews(news,this)).execute();
+    }
+
     private void init() {
         //Set Progress Bars
         pending = (ProgressBar) findViewById(R.id.pending);
@@ -102,6 +111,8 @@ public class HomeScreen extends AppCompatActivity {
         pendingText = (TextView) findViewById(R.id.pending_text);
         points = (TextView) findViewById(R.id.points);
         todayDate = (TextView) findViewById(R.id.today_date);
+
+        news = (RecyclerView) findViewById(R.id.home_news_rv);
 
         checkAll.setOnClickListener(listener);
 
