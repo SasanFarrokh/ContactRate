@@ -32,7 +32,7 @@
             android:textColor="#f2f2f2"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Welcome !"
+            android:text="@string/welcome"
             android:textSize="20dp" />
 
         <TextView

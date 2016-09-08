@@ -3,9 +3,13 @@ package ir.cdesign.contactrate;
 import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,7 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.utilities.Settings;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -28,6 +35,8 @@ public class SplashActivity extends AppCompatActivity {
     LinearLayout linearLayout;
     Button nextButton, nextButtonTwo;
 
+    SharedPreferences reg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +46,18 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        // Create Shared Preference
+        reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
         setContentView(R.layout.activity_splash);
         init();
-        // Create Shared Preference
-        SharedPreferences reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
 
         onStartViewAnimator();
 
         regHelp = !reg.getString("userName","").isEmpty();
 
+        String lang = reg.getString("lang","fa");
+        Settings.language = Settings.getLangIndex(lang);
+        setLocale(lang);
     }
 
     private void init() {
@@ -99,7 +110,6 @@ public class SplashActivity extends AppCompatActivity {
 
 
                 if (regHelp) {
-
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -193,6 +203,7 @@ public class SplashActivity extends AppCompatActivity {
                     textViewTwo.setVisibility(View.INVISIBLE);
                     startActivity(new Intent(SplashActivity.this, HomeScreen.class));
                     regSave();
+                    finish();
                 }
 
                 @Override
@@ -213,6 +224,16 @@ public class SplashActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Log.i("sasan","local set to " + lang);
     }
 
     @Override

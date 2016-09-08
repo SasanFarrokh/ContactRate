@@ -4,9 +4,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_contact_show">ContactShow</string>
 
-    <string name="lesson">Lesson : </string>
-    <string name="time">Time : </string>
-    <string name="motive">Motive : </string>
+    <string name="lesson"> درس :  </string>
+    <string name="time"> زمان :  </string>
+    <string name="motive"> انگیزه :  </string>
 
     <string name="red">red</string>
     <string name="blue">blue</string>
@@ -86,6 +86,6 @@
     <string name="mode_dark_date">Use dark theme</string>
     <string name="action_settings">Settings</string>
     <string name="lorem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</string>
-    <string name="choose_a_new_background">Choose a new Background !</string>
-    <string name="welcome">Welcome !</string>
+    <string name="choose_a_new_background">عکس پس زمینه را انتخاب کنید</string>
+    <string name="welcome">خوش آمدید !</string>
 </resources>

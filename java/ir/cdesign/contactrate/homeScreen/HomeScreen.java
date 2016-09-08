@@ -2,22 +2,16 @@ package ir.cdesign.contactrate.homeScreen;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -28,7 +22,6 @@ import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
-import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.utilities.CalendarTool;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
@@ -73,6 +66,7 @@ public class HomeScreen extends AppCompatActivity {
 
 
         addDots();
+        selectDot(0);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
@@ -142,7 +136,7 @@ public class HomeScreen extends AppCompatActivity {
 
         GraphPage graphPage = new GraphPage();
         AllRankInv allRankInv = new AllRankInv();
-        userTab userTab = new userTab();
+        UserTab userTab = new UserTab();
 
         @Override
         public Fragment getItem(int pos) {
@@ -204,7 +198,7 @@ public class HomeScreen extends AppCompatActivity {
         pendingText.setText(String.valueOf(pendingTask));
         todayDate.setText("Today : \n" + String.valueOf(date));
 
-        int allTask = (doneTask + pendingTask == 0) ? 0 : doneTask + pendingTask;
+        int allTask = (doneTask + pendingTask == 0) ? 1 : doneTask + pendingTask;
 
 
         animateProgress(pending, 0, (pendingTask / allTask) * 100);

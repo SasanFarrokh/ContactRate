@@ -12,7 +12,7 @@ import ir.cdesign.contactrate.R;
 /**
  * Created by amin pc on 31/08/2016.
  */
-public class userTab extends Fragment {
+public class UserTab extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
