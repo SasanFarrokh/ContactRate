@@ -2,6 +2,7 @@ package ir.cdesign.contactrate.utilities;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -25,7 +26,7 @@ import ir.cdesign.contactrate.adapters.NewsAdapter;
 /**
  * Created by Sasan on 2016-09-09.
  */
-public class AsyncGetNews extends AsyncTask<Void,Void,List<HashMap>> {
+public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
 
     private static final String DOMAIN_NAME = "http://cdesign.ir/news.php";
 
@@ -47,18 +48,18 @@ public class AsyncGetNews extends AsyncTask<Void,Void,List<HashMap>> {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();
             String response = null;
-            while ( (response = bufferedReader.readLine()) != null ) {
+            while ((response = bufferedReader.readLine()) != null) {
                 stringBuilder.append(response);
             }
             JSONArray jsonArray = new JSONArray(stringBuilder.toString().trim());
             List<HashMap> data = new ArrayList<>();
-            for ( int i = 0 ; i < jsonArray.length() ; i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject newsObj = jsonArray.getJSONObject(i);
-                HashMap<String,String> newsMap = new HashMap<>();
-                newsMap.put("image",newsObj.getString("image"));
-                newsMap.put("title",newsObj.getString("title"));
-                newsMap.put("text",newsObj.getString("text"));
-                newsMap.put("type",newsObj.getString("type"));
+                HashMap<String, String> newsMap = new HashMap<>();
+                newsMap.put("image", newsObj.getString("image"));
+                newsMap.put("title", newsObj.getString("title"));
+                newsMap.put("text", newsObj.getString("text"));
+                newsMap.put("type", newsObj.getString("type"));
                 data.add(newsMap);
             }
             return data;
@@ -72,6 +73,14 @@ public class AsyncGetNews extends AsyncTask<Void,Void,List<HashMap>> {
     @Override
     protected void onPostExecute(List<HashMap> data) {
         super.onPostExecute(data);
-        recyclerView.setAdapter(new NewsAdapter(context,data,5));
+        GridLayoutManager glm = new GridLayoutManager(context, 2);
+        glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (position % 3 == 0) ? 2 : 1;
+            }
+        });
+        recyclerView.setAdapter(new NewsAdapter(context, data, 5));
+        recyclerView.setLayoutManager(glm);
     }
 }

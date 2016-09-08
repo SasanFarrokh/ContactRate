@@ -49,6 +49,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
         return 3;//Math.min(limit,data.size());
     }
 
+
+
     public class NewsHolder extends RecyclerView.ViewHolder {
         TextView title,bodyText;
         ImageView imageView;
