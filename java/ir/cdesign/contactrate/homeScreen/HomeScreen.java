@@ -30,7 +30,6 @@ import ir.cdesign.contactrate.imagePicker.DefaultCallback;
 import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
 import ir.cdesign.contactrate.utilities.CalendarTool;
-import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -47,7 +46,7 @@ public class HomeScreen extends AppCompatActivity {
 
     GraphPage graphPage = new GraphPage();
     AllRankInv allRankInv = new AllRankInv();
-    UserTab userTab = new UserTab();
+    ir.cdesign.contactrate.homeScreen.userTab userTab = new userTab();
 
     Bitmap profileImage;
 
