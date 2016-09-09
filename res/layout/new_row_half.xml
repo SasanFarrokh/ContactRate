@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="3dp"
     android:layout_weight="0.5"
     android:background="#70333333"
     android:orientation="vertical"
@@ -20,28 +20,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/news_image"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             android:src="@drawable/news_half" />
 
         <TextView
             android:id="@+id/news_title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:padding="5dp"
+            android:gravity="right"
             android:text="This Is News Title"
+            android:textStyle="bold"
             android:textColor="#f2f2f2"
-            android:textSize="17dp" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/news_body_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:layout_marginBottom="5dp"
-            android:padding="7dp"
+            android:paddingLeft="5dp"
             android:text="Is News Body This Is News Body This Is News Body"
             android:textColor="#f2f2f2"
-            android:textSize="15dp" />
+            android:textSize="12dp" />
 
         <TextView
             android:layout_width="match_parent"
