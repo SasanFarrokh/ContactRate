@@ -1,13 +1,18 @@
 package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +70,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
             view = itemView;
         }
         public void setData(int position) {
-
+            HashMap<String,Object> dataItem = data.get(position);
+            title.setText((String) dataItem.get("title"));
+            bodyText.setText((String) dataItem.get("text"));
+            imageView.setImageBitmap((Bitmap) dataItem.get("image"));
         }
     }
 
