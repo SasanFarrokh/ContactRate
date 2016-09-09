@@ -104,7 +104,7 @@ public class PersianDateParser {
 
 		String tokens[] = splitDateString(normalizeDateString(dateString));
 		int year = Integer.parseInt(tokens[0]);
-		int month = Integer.parseInt(tokens[1]);
+		int month = Integer.parseInt(tokens[1]) - 1;
 		int day = Integer.parseInt(tokens[2]);
 
 		checkPersianDateValidation(year, month, day);

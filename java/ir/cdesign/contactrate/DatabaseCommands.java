@@ -39,6 +39,7 @@ public class DatabaseCommands {
     public static final String DB_NAME = "ContactRate";
     public static final String TABLE_CONTACTS = "ContactRank";
     public static final String TABLE_INVITES = "ContactInvites";
+    public static final String TABLE_VISIONS = "Visions";
 
 
     private SQLiteDatabase database;

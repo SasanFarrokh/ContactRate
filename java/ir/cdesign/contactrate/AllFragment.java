@@ -42,7 +42,7 @@ public class AllFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.all_tab_layout,container , false);
 
-        showSnackBar(view);
+        //showSnackBar(view);
 
         search = (EditText) view.findViewById(R.id.search);
         search.setOnFocusChangeListener(new View.OnFocusChangeListener() {

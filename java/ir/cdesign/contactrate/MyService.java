@@ -69,6 +69,14 @@ public class MyService extends Service {
                 "timestamp INTEGER," +
                 "eventid INTEGER," +
                 "active INTEGER);");
+        database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_VISIONS +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                "subject VARCHAR," +
+                "note TEXT," +
+                "image VARCHAR," +
+                "reminder INTEGER," +
+                "timestamp INTEGER," +
+                "active INTEGER);");
     }
     public SQLiteDatabase databaseConnect() {
         return openOrCreateDatabase(DatabaseCommands.DB_NAME, MODE_PRIVATE, null);

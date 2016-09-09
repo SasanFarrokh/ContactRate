@@ -16,23 +16,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.TimePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianDateParser;
 
 /**
  * Created by amin pc on 02/09/2016.
  */
 public class ActivityVisionAdd extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener {
+        DatePickerDialog.OnDateSetListener
+{
     Button backButton;
     ImageView visionDate, visionRepeat;
     TextView dateText, repeatText;
     private static final String TIMEPICKER = "TimePickerDialog",
             DATEPICKER = "DatePickerDialog";
+
+    private long timestamp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,11 +67,11 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.toolbar_iv: {
+                case R.id.toolbar_iv:
                     finish();
                     break;
-                }
-                case R.id.vision_add_date_image: {
+                case R.id.vision_add_date_image:
+                case R.id.vision_add_date_text:
                     PersianCalendar now = new PersianCalendar();
                     DatePickerDialog dpd = DatePickerDialog.newInstance(
                             ActivityVisionAdd.this,
@@ -74,18 +80,6 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                             now.getPersianDay()
                     );
                     dpd.show(getFragmentManager(), DATEPICKER);
-                }
-                    break;
-                case R.id.vision_add_date_text: {
-                    PersianCalendar now = new PersianCalendar();
-                    DatePickerDialog dpd = DatePickerDialog.newInstance(
-                            ActivityVisionAdd.this,
-                            now.getPersianYear(),
-                            now.getPersianMonth(),
-                            now.getPersianDay()
-                    );
-                    dpd.show(getFragmentManager(), DATEPICKER);
-                }
                     break;
                 case R.id.vision_add_repeat_image:
 
@@ -100,8 +94,9 @@ public class ActivityVisionAdd extends AppCompatActivity implements
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         // Note: monthOfYear is 0-indexed
-        String date =  dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+        String date =  year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
         dateText.setText(date);
+        timestamp = (new PersianDateParser(date,"/")).getPersianDate().getTimeInMillis();
     }
 
     @Override

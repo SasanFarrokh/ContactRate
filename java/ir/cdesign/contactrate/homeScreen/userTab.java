@@ -13,7 +13,7 @@ import android.widget.TextView;
 import ir.cdesign.contactrate.R;
 
 /**
- * Created by amin pc on 31/08/2016.
+ * Created by sasan pc on 31/08/2016.
  */
 public class UserTab extends Fragment {
 
