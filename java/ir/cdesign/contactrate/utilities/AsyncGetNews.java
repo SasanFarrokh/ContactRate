@@ -44,7 +44,7 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
             URL url = new URL(DOMAIN_NAME);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             InputStream inputStream = conn.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();
             String response = null;
             while ((response = bufferedReader.readLine()) != null) {
