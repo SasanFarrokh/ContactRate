@@ -58,5 +58,6 @@
     <dimen name="mdtp_material_button_minwidth">64dp</dimen>
     <dimen name="mdtp_material_button_textpadding_horizontal">8dp</dimen>
 
+    <dimen name="nav_profile_image">70dp</dimen>
 
 </resources>

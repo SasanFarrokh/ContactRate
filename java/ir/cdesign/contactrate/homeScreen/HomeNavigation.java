@@ -1,20 +1,30 @@
 package ir.cdesign.contactrate.homeScreen;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
+import java.io.OutputStream;
 
 import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
@@ -32,10 +42,12 @@ import ir.cdesign.contactrate.utilities.Settings;
  */
 public class HomeNavigation extends Fragment {
 
+    private static final int IMAGE_PICKED = 9;
     Intent intent;
     TextView settings, about, task, tutorial, home, vision, statistics, lessons, news;
     ImageView profile;
     HomeScreen homeScreen;
+    TextView profileName,profileNumber;
 
     @Nullable
     @Override
@@ -52,6 +64,8 @@ public class HomeNavigation extends Fragment {
         lessons = (TextView) view.findViewById(R.id.lessons);
         news = (TextView) view.findViewById(R.id.news);
         profile = (ImageView) view.findViewById(R.id.profile_photo);
+        profileName = (TextView) view.findViewById(R.id.profile_name);
+        profileNumber = (TextView) view.findViewById(R.id.profile_number);
 
         settings.setOnClickListener(listener);
         about.setOnClickListener(listener);
@@ -63,6 +77,8 @@ public class HomeNavigation extends Fragment {
         lessons.setOnClickListener(listener);
         news.setOnClickListener(listener);
         profile.setOnClickListener(listener);
+        profileName.setText(((HomeScreen) getActivity()).profileName);
+        profileNumber.setText(((HomeScreen) getActivity()).profileNumber);
 
         return view;
     }
@@ -118,9 +134,78 @@ public class HomeNavigation extends Fragment {
                     break;
                 case R.id.profile_photo:
                     ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
-                    EasyImage.openGallery(getActivity(),0);
+                    //EasyImage.openGallery(getActivity(),0);
+                    Intent i = new Intent(
+                            Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, IMAGE_PICKED);
             }
         }
     };
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case IMAGE_PICKED:
+                if (data == null) return;
+                Uri selectedImage = data.getData();
+
+                Bitmap image = getProfileBitmap(getContext(),selectedImage);
+
+                profile.setColorFilter(Color.TRANSPARENT);
+                ((HomeScreen) getActivity()).profileImage = image;
+                ((HomeScreen) getActivity()).userTab.updateProfileImage();
+                profile.setImageBitmap(image);
+
+                break;
+        }
+    }
+
+    public static Bitmap getProfileBitmap(Context ctx, Uri selectedImage) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = ctx.getContentResolver().query(selectedImage,
+                filePathColumn, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = false;
+            Bitmap bigImage = BitmapFactory.decodeFile(picturePath, options);
+
+            int imageSize = ctx.getResources().getDimensionPixelSize(R.dimen.nav_profile_image);
+            imageSize *= 7;
+            float ratio = ((float) bigImage.getWidth()) / bigImage.getHeight();
+            Log.i("sasan", "gallery pick ratio : " + ratio);
+            Log.i("sasan", "gallery pick imagesize: " + imageSize);
+            Bitmap image = null;
+            if (ratio >= 1) {
+                Float height = imageSize / ratio;
+                Log.i("sasan", "gallery pick h : " + height.intValue());
+                image = Bitmap.createScaledBitmap(bigImage, imageSize, height.intValue(), true);
+                image = Bitmap.createBitmap(
+                        image,
+                        image.getWidth() / 2 - image.getHeight() / 2,
+                        0,
+                        image.getHeight(),
+                        image.getHeight()
+                );
+            } else {
+                Float width = imageSize * ratio;
+                Log.i("sasan", "gallery pick w : " + width.intValue());
+                image = Bitmap.createScaledBitmap(bigImage, width.intValue(), imageSize, true);
+                image = Bitmap.createBitmap(
+                        image,
+                        0,
+                        image.getHeight() / 2 - image.getWidth() / 2,
+                        image.getWidth(),
+                        image.getWidth()
+                );
+            }
+            return image;
+        }
+        return null;
+    }
 }

@@ -2,6 +2,7 @@ package ir.cdesign.contactrate.homeScreen;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
+import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.imagePicker.DefaultCallback;
 import ir.cdesign.contactrate.imagePicker.EasyImage;
@@ -40,19 +42,24 @@ public class HomeScreen extends AppCompatActivity {
     LinearLayout homeContent;
     RecyclerView news;
 
-    TextView doneText;
-    TextView pendingText;
-    TextView points;
-    TextView todayDate;
-    TextView visions;
+    TextView doneText, pendingText, points, todayDate, visions;
     ProgressBar pending, done, vision;
 
+    GraphPage graphPage = new GraphPage();
+    AllRankInv allRankInv = new AllRankInv();
+    UserTab userTab = new UserTab();
+
+    Bitmap profileImage;
 
     DrawerLayout drawerLayout;
+    String profileName,profileNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        profileName = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("userName", "Unknown");
+        profileNumber = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("number", "0912 000 00 00");
+
         setContentView(R.layout.activity_home_screen);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -60,8 +67,6 @@ public class HomeScreen extends AppCompatActivity {
         toolbarImage = (ImageView) findViewById(R.id.toolbar_iv);
         toolbarImage.setOnClickListener(listener);
 
-        WallpaperBoy wallpaperBoy = new WallpaperBoy();
-//        wallpaperBoy.setWallpaper(drawerLayout,R.drawable.tutpictwo);
         homeContent = (LinearLayout) findViewById(R.id.home_content);
         if (bn) {
             //homeContent.setBackground(getResources().getDrawable(R.drawable.custombg));
@@ -69,7 +74,6 @@ public class HomeScreen extends AppCompatActivity {
             Log.d("aha", String.valueOf(bn) + "xeyle xo");
 
         }
-
 
         addDots();
         selectDot(0);
@@ -182,10 +186,6 @@ public class HomeScreen extends AppCompatActivity {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
-        GraphPage graphPage = new GraphPage();
-        AllRankInv allRankInv = new AllRankInv();
-        UserTab userTab = new UserTab();
 
         @Override
         public Fragment getItem(int pos) {

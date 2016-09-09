@@ -3,8 +3,10 @@ package ir.cdesign.contactrate.utilities;
 /**
  * Created by Sasan on 2016-08-24.
  */
+
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,6 +23,7 @@ import android.widget.ImageView;
 
 public class RoundedImageView extends ImageView {
 
+
     public RoundedImageView(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
@@ -35,10 +38,14 @@ public class RoundedImageView extends ImageView {
     }
 
     @Override
+    public void setImageResource(int resId) {
+
+        super.setImageResource(resId);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
-
         Drawable drawable = getDrawable();
-
         if (drawable == null) {
             return;
         }
@@ -48,29 +55,27 @@ public class RoundedImageView extends ImageView {
         }
 
         Bitmap b = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                && drawable instanceof VectorDrawable) {
-            ((VectorDrawable) drawable).draw(canvas);
-            b = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
+        if (drawable instanceof BitmapDrawable) {
+            b = ((BitmapDrawable) drawable).getBitmap();
+        } else {
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
             Canvas c = new Canvas();
+            b = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             c.setBitmap(b);
             drawable.draw(c);
-        }
-        else {
-            b = ((BitmapDrawable) drawable).getBitmap();
         }
 
         Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
 
         int w = getWidth(), h = getHeight();
 
-        Bitmap roundBitmap =  getCroppedBitmap(bitmap, w);
-        canvas.drawBitmap(roundBitmap, 0,0, null);
+        Bitmap roundBitmap = getCroppedBitmap(bitmap, w);
+        canvas.drawBitmap(roundBitmap, 0, 0, null);
     }
 
     public static Bitmap getCroppedBitmap(Bitmap bmp, int radius) {
         Bitmap sbmp;
-        if(bmp.getWidth() != radius || bmp.getHeight() != radius)
+        if (bmp.getWidth() != radius || bmp.getHeight() != radius)
             sbmp = Bitmap.createScaledBitmap(bmp, radius, radius, false);
         else
             sbmp = bmp;
@@ -87,8 +92,8 @@ public class RoundedImageView extends ImageView {
         paint.setDither(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(Color.parseColor("#BAB399"));
-        canvas.drawCircle(sbmp.getWidth() / 2+0.7f, sbmp.getHeight() / 2+0.7f,
-                sbmp.getWidth() / 2+0.1f, paint);
+        canvas.drawCircle(sbmp.getWidth() / 2 + 0.7f, sbmp.getHeight() / 2 + 0.7f,
+                sbmp.getWidth() / 2 + 0.1f, paint);
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
         canvas.drawBitmap(sbmp, rect, rect, paint);
 
