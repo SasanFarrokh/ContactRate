@@ -47,7 +47,7 @@ public class HomeNavigation extends Fragment {
     TextView settings, about, task, tutorial, home, vision, statistics, lessons, news;
     ImageView profile;
     HomeScreen homeScreen;
-    TextView profileName,profileNumber;
+    TextView profileName, profileNumber;
 
     @Nullable
     @Override
@@ -79,6 +79,8 @@ public class HomeNavigation extends Fragment {
         profile.setOnClickListener(listener);
         profileName.setText(((HomeScreen) getActivity()).profileName);
         profileNumber.setText(((HomeScreen) getActivity()).profileNumber);
+        if (((HomeScreen) getActivity()).profileImage != null)
+            profile.setImageBitmap(((HomeScreen) getActivity()).profileImage);
 
         return view;
     }
@@ -150,10 +152,10 @@ public class HomeNavigation extends Fragment {
                 if (data == null) return;
                 Uri selectedImage = data.getData();
 
-                Bitmap image = getProfileBitmap(getContext(),selectedImage);
+                Bitmap image = getProfileBitmap(getContext(), selectedImage);
 
                 profile.setColorFilter(Color.TRANSPARENT);
-                ((HomeScreen) getActivity()).profileImage = image;
+                ((HomeScreen) getActivity()).setProfileImage(image);
                 ((HomeScreen) getActivity()).userTab.updateProfileImage();
                 profile.setImageBitmap(image);
 

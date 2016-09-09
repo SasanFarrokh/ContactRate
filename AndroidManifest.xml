@@ -67,7 +67,11 @@
         <activity android:name=".homeScreen.NewsActivity" />
         <activity android:name=".utilities.Settings" />
         <activity android:name=".lessons.Lesson" />
-        <activity android:name=".homeScreen.Statistics"></activity>
+        <activity android:name=".homeScreen.Statistics"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

@@ -3,6 +3,8 @@ package ir.cdesign.contactrate.homeScreen;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,13 +56,16 @@ public class HomeScreen extends AppCompatActivity {
     Bitmap profileImage;
 
     DrawerLayout drawerLayout;
-    String profileName,profileNumber;
+    String profileName, profileNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         profileName = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("userName", "Unknown");
         profileNumber = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("number", "0912 000 00 00");
+        if ((new File(getFilesDir(), "profile.jpg")).exists()) {
+            profileImage = BitmapFactory.decodeFile((new File(getFilesDir(), "profile.jpg")).getAbsolutePath());
+        }
 
         setContentView(R.layout.activity_home_screen);
 
@@ -98,7 +105,6 @@ public class HomeScreen extends AppCompatActivity {
         });
 
         init();
-
     }
 
     @Override
@@ -128,18 +134,10 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
-//    private void onPhotoReturned(File photoFile) {
-//        Picasso.with(this)
-//                .load(photoFile)
-//                .fit()
-//                .centerCrop()
-//                .into(imageView);
-//    }
-
     @Override
     protected void onStart() {
         super.onStart();
-        (new AsyncGetNews(this,news,3)).execute();
+        (new AsyncGetNews(this, news, 3)).execute();
     }
 
     private void init() {
@@ -179,6 +177,7 @@ public class HomeScreen extends AppCompatActivity {
         NewsDialog newsDialog = new NewsDialog();
         newsDialog.show(getSupportFragmentManager(), "are");
     }
+
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
@@ -276,5 +275,27 @@ public class HomeScreen extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setData(progressAnim);
+    }
+
+    public void setProfileImage(Bitmap image) {
+        profileImage = image;
+        userTab.updateProfileImage();
+        File file = new File(getFilesDir(),"profile.jpg");
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
