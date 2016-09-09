@@ -23,6 +23,7 @@ import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.adapters.NewsAdapter;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
 import ir.cdesign.contactrate.utilities.CalendarTool;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;

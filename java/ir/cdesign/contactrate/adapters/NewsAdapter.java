@@ -13,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.models.TaskModel;
+import ir.cdesign.contactrate.utilities.AsyncGetNews;
 
 /**
  * Created by amin pc on 23/08/2016.
@@ -70,11 +72,49 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
             view = itemView;
         }
         public void setData(int position) {
-            HashMap<String,Object> dataItem = data.get(position);
+            final HashMap<String,Object> dataItem = data.get(position);
             title.setText((String) dataItem.get("title"));
             bodyText.setText((String) dataItem.get("text"));
-            imageView.setImageBitmap((Bitmap) dataItem.get("image"));
+            /*(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.setImageBitmap(AsyncGetNews.downloadImage((String) dataItem.get("image"),context));
+                }
+            })).start();*/
+            /*(new AsyncTask<ImageView,Void,Void>() {
+                @Override
+                protected Void doInBackground(ImageView... params) {
+                    setImage(AsyncGetNews.downloadImage((String) dataItem.get("image"),context));
+                    return null;
+                }
+            }).execute();*/
+            (new BitmapWorkerTask(imageView)).execute((String) dataItem.get("image"));
+            //imageView.setImageBitmap((Bitmap) dataItem.get("image"));
+        }
+        public void setImage(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
         }
     }
+    public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
+        private final WeakReference<ImageView> imageViewReference;
 
+        public BitmapWorkerTask(ImageView imageView) {
+            imageViewReference = new WeakReference<ImageView>(imageView);
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            return AsyncGetNews.downloadImage(params[0],context);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (imageViewReference != null && bitmap != null) {
+                final ImageView imageView = imageViewReference.get();
+                if (imageView != null) {
+                    imageView.setImageBitmap(bitmap);
+                }
+            }
+        }
+    }
 }

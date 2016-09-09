@@ -25,6 +25,7 @@
 
     <color name="colorBackgroundActive">#000000</color>
     <color name="colorBackgroundDeActive">#fff</color>
+    <color name="dark_bg_news">#1c232e</color>
 
 
     <color name="mdtp_white">#ffffff</color>

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.NewsAdapter;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 
@@ -63,7 +65,7 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject newsObj = jsonArray.getJSONObject(i);
                 HashMap<String, Object> newsMap = new HashMap<>();
-                newsMap.put("image", downloadImage(newsObj.getString("image")));
+                newsMap.put("image", newsObj.getString("image"));
                 newsMap.put("title", newsObj.getString("title"));
                 newsMap.put("text", newsObj.getString("text"));
                 newsMap.put("type", newsObj.getString("type"));
@@ -71,7 +73,6 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
                 newsMap.put("category", newsObj.getString("category"));
                 newsMap.put("viewed", newsObj.getString("viewed"));
                 data.add(newsMap);
-                Log.d("sasan", "news : " + newsObj.getString("text"));
             }
             return data;
         } catch (Exception e) {
@@ -83,12 +84,10 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
     @Override
     protected void onPostExecute(final List<HashMap> data) {
         super.onPostExecute(data);
-        Log.d("sasan", "newsCount : " + data.size());
         GridLayoutManager glm = new GridLayoutManager(context, 2) {
             @Override
             public boolean canScrollVertically() {
-                return false;
-                //return super.canScrollVertically();
+                return limit >= 4 && super.canScrollVertically();
             }
         };
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -106,16 +105,16 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
         recyclerView.setLayoutManager(glm);
     }
 
-    public Bitmap downloadImage(String... urls) {
-        String urldisplay = urls[0];
+    public static Bitmap downloadImage(String url,Context context) {
         Bitmap finalImage = null;
         try {
-            InputStream in = new java.net.URL(urldisplay).openStream();
+            InputStream in = new java.net.URL(url).openStream();
             finalImage = BitmapFactory.decodeStream(in);
         } catch (Exception e) {
-            Log.e("Error", e.getMessage());
             e.printStackTrace();
+            finalImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.news_land);
         }
         return finalImage;
     }
+
 }
