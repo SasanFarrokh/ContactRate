@@ -2,6 +2,7 @@ package ir.cdesign.contactrate.homeScreen;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +18,11 @@ import ir.cdesign.contactrate.Vision.ActivityVisionAdd;
 import ir.cdesign.contactrate.adapters.NewsAdapter;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     TextView point;
     RecyclerView news;
+    SwipeRefreshLayout swipeRefresh;
     private Button toolbarImage;
 
     @Override
@@ -28,11 +30,13 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         news = (RecyclerView) findViewById(R.id.news_rv);
+        swipeRefresh = (SwipeRefreshLayout) news.getParent();
         point = (TextView) findViewById(R.id.toolbar_tv);
         toolbarImage = (Button) findViewById(R.id.toolbar_iv);
         if (toolbarImage != null) {
             toolbarImage.setOnClickListener(listener);
         }
+        swipeRefresh.setOnRefreshListener(this);
     }
 
     @Override
@@ -68,4 +72,9 @@ public class NewsActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    public void onRefresh() {
+        (new AsyncGetNews(this,news)).execute();
+    }
 }

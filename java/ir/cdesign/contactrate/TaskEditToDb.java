@@ -24,21 +24,23 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import ir.cdesign.contactrate.models.ContactShowModel;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianDateParser;
 import ir.cdesign.contactrate.utilities.CalendarTool;
 
-public class TaskEditToDb extends AppCompatActivity {
+public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private static final String DATEPICKER = "DatePickerDialog";
     LinearLayout timePick;
     long contactId;
-    TextView timeTxt;
-    EditText year, month, day;
+    TextView timeTxt,dateTxt;
     TextView note;
 
     Calendar taskCalendar = Calendar.getInstance();
 
 
     int type, inviteId;
-    Integer hourOfDay, minute;
 
     boolean edit = false;
 
@@ -63,77 +65,37 @@ public class TaskEditToDb extends AppCompatActivity {
 
 
         timePick = (LinearLayout) findViewById(R.id.time);
-
         timePick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timePickerShow();
             }
         });
-        final View container = findViewById(R.id.containerLayout);
-        container.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(container.getWindowToken(), 0);
-            }
-        });
-        container.requestFocus();
-        container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.requestFocus();
-            }
-        });
     }
 
     private void init() {
-        day = (EditText) findViewById(R.id.dayEdit);
-        month = (EditText) findViewById(R.id.monthEdit);
-        year = (EditText) findViewById(R.id.yearEdit);
+        dateTxt = (TextView) findViewById(R.id.date_tv);
+        findViewById(R.id.date).setOnClickListener(datePicker);
         note = (TextView) findViewById(R.id.note);
         timeTxt = (TextView) findViewById(R.id.timeTxt);
-
     }
 
     private void calendarGet() {
 
-        hourOfDay = taskCalendar.get(Calendar.HOUR_OF_DAY);
-        minute = taskCalendar.get(Calendar.MINUTE);
-        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
+        PersianCalendar date =  new PersianCalendar();
+        date.setTimeInMillis(taskCalendar.getTimeInMillis());
+        String dateStr =  date.getPersianYear() + "/" + (date.getPersianMonth() + 1) + "/" + date.getPersianDay();
+        dateTxt.setText(dateStr);
+        timeTxt.setText(new DecimalFormat("00").format(taskCalendar.get(Calendar.HOUR_OF_DAY)) +
+                " : " + new DecimalFormat("00").format(taskCalendar.get(Calendar.MINUTE)));
 
-        CalendarTool calendar2 = new CalendarTool(
-                taskCalendar.get(Calendar.YEAR),
-                taskCalendar.get(Calendar.MONTH) + 1,
-                taskCalendar.get(Calendar.DAY_OF_MONTH)
-        );
-
-        year.setHint(String.valueOf(calendar2.getIranianYear() - 1300));
-        month.setHint(String.valueOf(calendar2.getIranianMonth()));
-        day.setHint(String.valueOf(calendar2.getIranianDay()));
-    }
-
-    private void timePickerShow() {
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-                        TaskEditToDb.this.hourOfDay = hourOfDay;
-                        TaskEditToDb.this.minute = minute;
-                        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
-
-                    }
-                }, hourOfDay, minute, false);
-        timePickerDialog.show();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if (!edit) calendarGet();
+        calendarGet();
 
         contact = DatabaseCommands.getInstance().getContactById(contactId);
 
@@ -144,7 +106,6 @@ public class TaskEditToDb extends AppCompatActivity {
         taskAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setCalender();
                 if (!edit)
                     DatabaseCommands.getInstance().addInvite(contactId, type, note.getText().toString(),
                             taskCalendar.getTimeInMillis(), 0);
@@ -169,43 +130,8 @@ public class TaskEditToDb extends AppCompatActivity {
         if (imageUri != null) contactImage.setImageURI(imageUri);
         if (contactImage.getDrawable() == null) contactImage.setImageResource(R.drawable.contact);
 
-
-        day.addTextChangedListener(new GoNextClass(day, 3));
-        month.addTextChangedListener(new GoNextClass(month, 2));
-        year.addTextChangedListener(new GoNextClass(year, 1));
     }
 
-    private void setCalender() {
-
-        CalendarTool calendar2 = new CalendarTool();
-        try {
-            int fYear,fMonth,fDay;
-            if (year.getText().toString().isEmpty()) fYear = Integer.parseInt(year.getHint().toString());
-            else fYear = Integer.parseInt(year.getHint().toString());
-            if (month.getText().toString().isEmpty()) fMonth = Integer.parseInt(month.getHint().toString());
-            else fMonth = Integer.parseInt(month.getHint().toString());
-            if (day.getText().toString().isEmpty()) fDay = Integer.parseInt(day.getHint().toString());
-            else fDay = Integer.parseInt(day.getHint().toString());
-
-            calendar2.setIranianDate(
-                    fYear + 1300,
-                    fMonth,
-                    fDay
-            );
-
-        } catch (Exception e) {
-            calendar2.setIranianDate(1395,6, 4);
-        }
-
-        taskCalendar.set(
-                calendar2.getGregorianYear(),
-                calendar2.getGregorianMonth() - 1,
-                calendar2.getGregorianDay(),
-                hourOfDay,
-                minute
-        );
-
-    }
 
     private void setToolbar() {
 
@@ -213,12 +139,6 @@ public class TaskEditToDb extends AppCompatActivity {
         TextView title = (TextView) toolbar.findViewById(R.id.real_text);
         title.setText(ContactShowModel.getTitles()[type - 1]);
         setSupportActionBar(toolbar);
-        /*
-        *
-        *       Must Get Text From Recycler Adapter of The Selected Item
-        *           \/\/\/\/\/\/\/
-        * */
-
     }
 
     public void setByInviteId(int inviteId) {
@@ -231,19 +151,8 @@ public class TaskEditToDb extends AppCompatActivity {
 
         taskCalendar.setTimeInMillis(timestamp);
 
-        hourOfDay = taskCalendar.get(Calendar.HOUR_OF_DAY);
-        minute = taskCalendar.get(Calendar.MINUTE);
-        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
-
-        CalendarTool calendar2 = new CalendarTool(
-                taskCalendar.get(Calendar.YEAR),
-                taskCalendar.get(Calendar.MONTH) + 1,
-                taskCalendar.get(Calendar.DAY_OF_MONTH)
-        );
-
-        year.setText(String.valueOf(calendar2.getIranianYear() - 1300));
-        month.setText(String.valueOf(calendar2.getIranianMonth()));
-        day.setText(String.valueOf(calendar2.getIranianDay()));
+        timeTxt.setText(new DecimalFormat("00").format(Calendar.HOUR_OF_DAY) +
+                " : " + new DecimalFormat("00").format(taskCalendar.get(Calendar.MINUTE)));
 
         note.setText((String) invite.get("note"));
 
@@ -254,36 +163,49 @@ public class TaskEditToDb extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         EnterTextDialog enterTextDialog = new EnterTextDialog();
         enterTextDialog.show(fm, "Sample Fragment");
-
     }
 
-    private class GoNextClass implements TextWatcher {
-
-        EditText v;
-        int n;
-
-        public GoNextClass(EditText v, int n) {
-            this.v = v;
-            this.n = n;
-        }
-
+    public View.OnClickListener datePicker = new View.OnClickListener() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        public void onClick(View v) {
+            PersianCalendar now = new PersianCalendar();
+            DatePickerDialog dpd = DatePickerDialog.newInstance(
+                    TaskEditToDb.this,
+                    now.getPersianYear(),
+                    now.getPersianMonth(),
+                    now.getPersianDay()
+            );
+            dpd.show(getFragmentManager(), DATEPICKER);
         }
+    };
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (v.getText().length() == 2) {
-                if (n == 1 || n == 2)
-                    ((ViewGroup) v.getParent()).getChildAt(n).requestFocus();
-                else findViewById(R.id.containerLayout).requestFocus();
-            }
-        }
+    private void timePickerShow() {
 
-        @Override
-        public void afterTextChanged(Editable s) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
 
-        }
+                        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
+                        taskCalendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                        taskCalendar.set(Calendar.MINUTE,minute);
+                    }
+                }, taskCalendar.get(Calendar.HOUR_OF_DAY), taskCalendar.get(Calendar.MINUTE), false);
+        timePickerDialog.show();
     }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String date =  year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
+        dateTxt.setText(date);
+        timeSet((new PersianDateParser(date,"/")).getPersianDate().getTimeInMillis());
+    }
+
+    private void timeSet(long time) {
+        taskCalendar.setTimeInMillis(time);
+        timeTxt.setText(new DecimalFormat("00").format(taskCalendar.get(Calendar.HOUR_OF_DAY)) +
+                " : " + new DecimalFormat("00").format(taskCalendar.get(Calendar.MINUTE)));
+    }
+
 }

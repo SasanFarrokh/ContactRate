@@ -74,57 +74,16 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:textColor="#f2f2f2"
-                android:textSize="20dp"
-                android:weightSum="7">
+                android:textSize="20dp">
 
-                <EditText
-                    android:id="@+id/yearEdit"
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:id="@+id/date_tv"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:hint="95"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
-                    android:ems="10"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/darkWhite">
-
-                    <requestFocus/>
-
-                </EditText>
-                <EditText
-                    android:id="@+id/monthEdit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:hint="10"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
-                    android:ems="10"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/darkWhite">
-
-
-                </EditText>
-
-                <EditText
-                    android:id="@+id/dayEdit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:hint="15"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:ems="10"
+                    android:text="15"
+                    android:textSize="20dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/darkWhite" />
 

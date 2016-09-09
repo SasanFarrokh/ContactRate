@@ -15,7 +15,7 @@ import ir.cdesign.contactrate.R;
 /**
  * Created by sasan pc on 31/08/2016.
  */
-public class userTab extends Fragment {
+public class UserTab extends Fragment {
 
     ImageView profileBig;
     TextView profileName;

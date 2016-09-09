@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -103,6 +104,11 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
 
         recyclerView.setAdapter(new NewsAdapter(context, data, limit));
         recyclerView.setLayoutManager(glm);
+        try {
+            ((SwipeRefreshLayout) recyclerView.getParent()).setRefreshing(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static Bitmap downloadImage(String url,Context context) {
