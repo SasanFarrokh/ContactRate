@@ -11,13 +11,18 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
 
 import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.Vision.Visions;
 import ir.cdesign.contactrate.dialogs.DialogAbout;
 import ir.cdesign.contactrate.dialogs.DialogSettings;
+import ir.cdesign.contactrate.imagePicker.DefaultCallback;
+import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.lessons.Lesson;
 import ir.cdesign.contactrate.tutorial.Tutorial;
 import ir.cdesign.contactrate.utilities.Settings;
@@ -29,6 +34,7 @@ public class HomeNavigation extends Fragment {
 
     Intent intent;
     TextView settings, about, task, tutorial, home, vision, statistics, lessons, news;
+    ImageView profile;
     HomeScreen homeScreen;
 
     @Nullable
@@ -45,6 +51,7 @@ public class HomeNavigation extends Fragment {
         statistics = (TextView) view.findViewById(R.id.stats);
         lessons = (TextView) view.findViewById(R.id.lessons);
         news = (TextView) view.findViewById(R.id.news);
+        profile = (ImageView) view.findViewById(R.id.profile_photo);
 
         settings.setOnClickListener(listener);
         about.setOnClickListener(listener);
@@ -55,6 +62,7 @@ public class HomeNavigation extends Fragment {
         statistics.setOnClickListener(listener);
         lessons.setOnClickListener(listener);
         news.setOnClickListener(listener);
+        profile.setOnClickListener(listener);
 
         return view;
     }
@@ -108,6 +116,9 @@ public class HomeNavigation extends Fragment {
                     intent = new Intent(getActivity(), NewsActivity.class);
                     startActivity(intent);
                     break;
+                case R.id.profile_photo:
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
+                    EasyImage.openGallery(getActivity(),0);
             }
         }
     };

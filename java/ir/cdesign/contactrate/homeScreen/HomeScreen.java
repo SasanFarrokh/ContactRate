@@ -18,11 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.imagePicker.DefaultCallback;
+import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
 import ir.cdesign.contactrate.utilities.CalendarTool;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
@@ -93,6 +96,41 @@ public class HomeScreen extends AppCompatActivity {
         init();
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                //Some error handling
+            }
+
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                //Handle the image
+//                onPhotoReturned(imageFile);
+            }
+
+            @Override
+            public void onCanceled(EasyImage.ImageSource source, int type) {
+                //Cancel handling, you might wanna remove taken photo if it was canceled
+                if (source == EasyImage.ImageSource.CAMERA) {
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(HomeScreen.this);
+                    if (photoFile != null) photoFile.delete();
+                }
+            }
+        });
+    }
+
+//    private void onPhotoReturned(File photoFile) {
+//        Picasso.with(this)
+//                .load(photoFile)
+//                .fit()
+//                .centerCrop()
+//                .into(imageView);
+//    }
 
     @Override
     protected void onStart() {
