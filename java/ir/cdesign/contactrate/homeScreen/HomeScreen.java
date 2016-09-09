@@ -97,7 +97,7 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        (new AsyncGetNews(news,this)).execute();
+        (new AsyncGetNews(this,news,3)).execute();
     }
 
     private void init() {

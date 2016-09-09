@@ -51,7 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
 
     @Override
     public int getItemCount() {
-        return 3;//Math.min(limit,data.size());
+        return Math.min(limit,data.size());
     }
 
 

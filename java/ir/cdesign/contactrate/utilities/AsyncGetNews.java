@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ir.cdesign.contactrate.adapters.NewsAdapter;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 
 /**
  * Created by Sasan on 2016-09-09.
@@ -31,8 +32,15 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
 
     private Context context;
     private RecyclerView recyclerView;
+    int limit;
 
-    public AsyncGetNews(RecyclerView recyclerView, Context context) {
+    public AsyncGetNews(Context context, RecyclerView recyclerView, int limit) {
+        this.limit = limit;
+        this.context = context;
+        this.recyclerView = recyclerView;
+    }
+    public AsyncGetNews(Context context, RecyclerView recyclerView) {
+        this.limit = 10;
         this.context = context;
         this.recyclerView = recyclerView;
     }
@@ -76,7 +84,13 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
     protected void onPostExecute(final List<HashMap> data) {
         super.onPostExecute(data);
         Log.d("sasan", "newsCount : " + data.size());
-        GridLayoutManager glm = new GridLayoutManager(context, 2);
+        GridLayoutManager glm = new GridLayoutManager(context, 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+                //return super.canScrollVertically();
+            }
+        };
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -87,7 +101,8 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
                 }
             }
         });
-        recyclerView.setAdapter(new NewsAdapter(context, data, 5));
+
+        recyclerView.setAdapter(new NewsAdapter(context, data, limit));
         recyclerView.setLayoutManager(glm);
     }
 
