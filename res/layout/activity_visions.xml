@@ -30,7 +30,7 @@
                 android:gravity="center"
                 android:textSize="22dp"
                 android:textColor="#f2f2f2"
-                android:text="visions"/>
+                android:text="Visions"/>
 
         </android.support.v7.widget.Toolbar>
 

@@ -117,10 +117,11 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
         try {
             if (recyclerView.getParent() instanceof SwipeRefreshLayout)
                 ((SwipeRefreshLayout) recyclerView.getParent()).setRefreshing(false);
+            ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.GONE);
+
     }
 
     public static Bitmap downloadImage(String url,Context context) {

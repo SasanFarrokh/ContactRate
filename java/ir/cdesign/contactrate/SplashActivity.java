@@ -173,7 +173,7 @@ public class SplashActivity extends AppCompatActivity {
     private void regSave() {
         SharedPreferences reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = reg.edit();
-        editor.putString("userName", editText.getText().toString()).apply();
+        editor.putString("userName", titleCase(editText.getText().toString())).apply();
     }
 
     public void onOkClick(View view) {
@@ -240,5 +240,22 @@ public class SplashActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         finish();
+    }
+    public static String titleCase(String str) {
+        StringBuilder titleCase = new StringBuilder();
+        boolean nextTitleCase = true;
+
+        for (char c : str.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
     }
 }

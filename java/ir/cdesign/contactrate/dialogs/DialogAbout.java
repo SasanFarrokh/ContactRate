@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,8 @@ public class DialogAbout extends DialogFragment {
 
         logoC.setAlpha(0f);
         logoC.setTranslationY(-20);
-        logoC.setTranslationX(180);
+        logoC.setTranslationX(getResources().getDimensionPixelOffset(R.dimen.c_logo_animate_offset));
+        Log.i("sasan","c animation offset : " +getResources().getDimensionPixelOffset(R.dimen.c_logo_animate_offset));
         logoDesign.setAlpha(0f);
         textOne.setAlpha(0f);
         textOne.setTranslationY(-20);

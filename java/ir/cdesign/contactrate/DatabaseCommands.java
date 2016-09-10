@@ -370,6 +370,52 @@ public class DatabaseCommands {
         return ((Long) (all-done)).intValue();
     }
 
+    /* Visions */
+
+    public boolean addVision(String subject, String note, String image, int reminder, long timestamp) {
+        ContentValues values = new ContentValues();
+        values.put("subject", subject);
+        values.put("note", subject);
+        values.put("image", image);
+        values.put("reminder", reminder);
+        values.put("timestamp", timestamp);
+        values.put("active", 0);
+
+        return database.insert(TABLE_VISIONS, null, values) != -1;
+    }
+    public List<HashMap> getVision(int id) {
+        Cursor c = null;
+        List<HashMap> list = new ArrayList<>();
+        if ( id != 0 ) {
+            c = database.rawQuery("SELECT * FROM " + TABLE_VISIONS + " WHERE id =" + id, null);
+        } else {
+            c = database.rawQuery("SELECT * FROM " + TABLE_VISIONS, null);
+        }
+        if (c != null) {
+            while (c.moveToNext()) {
+                HashMap vision = new HashMap();
+                vision.put("id", c.getInt(c.getColumnIndex("id")));
+                vision.put("subject", c.getString(c.getColumnIndex("subject")));
+                vision.put("note", c.getString(c.getColumnIndex("note")));
+                vision.put("image", c.getString(c.getColumnIndex("image")));
+                vision.put("reminder", c.getString(c.getColumnIndex("reminder")));
+                vision.put("timestamp", c.getLong(c.getColumnIndex("timestamp")));
+                vision.put("active", c.getInt(c.getColumnIndex("active")));
+                list.add(vision);
+            }
+            c.close();
+        }
+        return list;
+    }
+    public boolean removeVision(int id) {
+        return database.delete(TABLE_VISIONS," id = ? ", new String[] {String.valueOf(id)}) != -1;
+    }
+    public boolean doneVision(int id,boolean done) {
+        ContentValues values = new ContentValues();
+        values.put("active",1);
+        return database.update(TABLE_VISIONS,values,"id = ?",new String[] {String.valueOf(id)}) != -1;
+    }
+
 
     public static long WritePhoneContact(String displayName, String number, Context context) {
         //Application's context or Activity's context
