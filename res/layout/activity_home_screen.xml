@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:id="@+id/drawerLayout"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context="ir.cdesign.contactrate.homeScreen.HomeScreen">
 
     <include layout="@layout/home_content"/>

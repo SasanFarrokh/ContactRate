@@ -32,7 +32,7 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
     @Override
     protected void onResume() {
         super.onResume();
-        visions.setAdapter(new VisionAdapter());
+        visions.setAdapter(new VisionAdapter(this));
     }
 
     private void init(){
