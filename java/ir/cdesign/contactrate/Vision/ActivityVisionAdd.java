@@ -105,8 +105,10 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                                     reminder,
                                     timestamp
                             )
-                            ) finish();
-                    else
+                            ) {
+                        Toast.makeText(ActivityVisionAdd.this, "Vision Added", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else
                         Toast.makeText(ActivityVisionAdd.this, "Error on Creating Vision", Toast.LENGTH_SHORT).show();
                     break;
             }
