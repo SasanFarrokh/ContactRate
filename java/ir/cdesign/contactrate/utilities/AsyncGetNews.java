@@ -46,16 +46,14 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
         this.context = context;
         this.recyclerView = recyclerView;
         try {
-            ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.VISIBLE);
-        } catch (Exception ignore){}
+            if (recyclerView.getAdapter().getItemCount() == 0)
+                ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.VISIBLE);
+        } catch (Exception ignore) {
+        }
     }
+
     public AsyncGetNews(Context context, RecyclerView recyclerView) {
-        this.limit = 10;
-        this.context = context;
-        this.recyclerView = recyclerView;
-        try {
-            ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.VISIBLE);
-        } catch (Exception ignore){}
+        this(context,recyclerView,10);
     }
 
     @Override
@@ -124,7 +122,7 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
 
     }
 
-    public static Bitmap downloadImage(String url,Context context) {
+    public static Bitmap downloadImage(String url, Context context) {
         Bitmap finalImage = null;
         try {
             InputStream in = new java.net.URL(url).openStream();

@@ -15,9 +15,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
+import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.RadialPickerLayout;
@@ -30,11 +32,15 @@ import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianDatePar
  */
 public class ActivityVisionAdd extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener
-{
-    Button backButton;
-    ImageView visionDate, visionRepeat;
-    TextView dateText, repeatText;
+        DatePickerDialog.OnDateSetListener {
+    private Button backButton;
+    private ImageView visionDate, visionRepeat, visionImage;
+    private TextView dateText, repeatText, subject, note;
+    private View done;
+
+    private String visionPath = "";
+    private int reminder = 0;
+
     private static final String TIMEPICKER = "TimePickerDialog",
             DATEPICKER = "DatePickerDialog";
 
@@ -53,15 +59,20 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         dateText = (TextView) findViewById(R.id.vision_add_date_text);
         visionDate = (ImageView) findViewById(R.id.vision_add_date_image);
         repeatText = (TextView) findViewById(R.id.vision_add_repeat_text);
+        subject = (TextView) findViewById(R.id.vision_subject);
+        note = (TextView) findViewById(R.id.vision_note);
         visionRepeat = (ImageView) findViewById(R.id.vision_add_repeat_image);
         backButton = (Button) findViewById(R.id.toolbar_iv);
+        done = findViewById(R.id.vision_done);
 
         dateText.setOnClickListener(listener);
         visionDate.setOnClickListener(listener);
         repeatText.setOnClickListener(listener);
         visionRepeat.setOnClickListener(listener);
         backButton.setOnClickListener(listener);
+        done.setOnClickListener(listener);
     }
+
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -82,10 +93,21 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                     dpd.show(getFragmentManager(), DATEPICKER);
                     break;
                 case R.id.vision_add_repeat_image:
-
-                    break;
                 case R.id.vision_add_repeat_text:
 
+                    break;
+                case R.id.vision_done:
+                    if (
+                            DatabaseCommands.getInstance().addVision(
+                                    subject.getText().toString(),
+                                    note.getText().toString(),
+                                    visionPath,
+                                    reminder,
+                                    timestamp
+                            )
+                            ) finish();
+                    else
+                        Toast.makeText(ActivityVisionAdd.this, "Error on Creating Vision", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -94,9 +116,9 @@ public class ActivityVisionAdd extends AppCompatActivity implements
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         // Note: monthOfYear is 0-indexed
-        String date =  year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
+        String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
         dateText.setText(date);
-        timestamp = (new PersianDateParser(date,"/")).getPersianDate().getTimeInMillis();
+        timestamp = (new PersianDateParser(date, "/")).getPersianDate().getTimeInMillis();
     }
 
     @Override

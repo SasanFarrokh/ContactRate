@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
         // Create Shared Preference
         reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
 
-        String lang = reg.getString("lang","fa");
+        String lang = reg.getString("lang","en");
         Settings.language = Settings.getLangIndex(lang);
         setLocale(lang);
 
@@ -236,11 +236,6 @@ public class SplashActivity extends AppCompatActivity {
         Log.i("sasan","local set to " + lang);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
     public static String titleCase(String str) {
         StringBuilder titleCase = new StringBuilder();
         boolean nextTitleCase = true;

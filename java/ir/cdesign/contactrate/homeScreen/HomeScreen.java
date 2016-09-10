@@ -103,6 +103,7 @@ public class HomeScreen extends AppCompatActivity {
         });
 
         init();
+        (new AsyncGetNews(this, news, 3)).execute();
     }
 
     @Override
@@ -130,12 +131,6 @@ public class HomeScreen extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        (new AsyncGetNews(this, news, 3)).execute();
     }
 
     private void init() {
