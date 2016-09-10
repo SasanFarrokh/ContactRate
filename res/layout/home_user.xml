@@ -19,7 +19,7 @@
             android:layout_height="120dp"
             android:id="@+id/profile_big"
             android:tint="#f2f2f2"
-            android:src="@drawable/accountcircle"/>
+            android:src="@drawable/accountcircle_white"/>
 
         <TextView
             android:layout_width="match_parent"

@@ -310,6 +310,14 @@
                 android:id="@+id/home_news_rv">
 
             </android.support.v7.widget.RecyclerView>
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal"/>
 
             <TextView
                 android:id="@+id/checkAll"

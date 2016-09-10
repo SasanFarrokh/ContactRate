@@ -70,7 +70,6 @@ public class SplashActivity extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.company_layout);
         textViewTwo = (TextView) findViewById(R.id.splash_text_two);
 
-
         textViewTwo.setAlpha(0);
         editText.setAlpha(0);
         editText.setVisibility(View.INVISIBLE);

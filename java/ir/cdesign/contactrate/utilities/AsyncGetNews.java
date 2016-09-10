@@ -8,7 +8,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,6 +19,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,11 +45,17 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
         this.limit = limit;
         this.context = context;
         this.recyclerView = recyclerView;
+        try {
+            ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.VISIBLE);
+        } catch (Exception ignore){}
     }
     public AsyncGetNews(Context context, RecyclerView recyclerView) {
         this.limit = 10;
         this.context = context;
         this.recyclerView = recyclerView;
+        try {
+            ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.VISIBLE);
+        } catch (Exception ignore){}
     }
 
     @Override
@@ -105,10 +115,12 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
         recyclerView.setAdapter(new NewsAdapter(context, data, limit));
         recyclerView.setLayoutManager(glm);
         try {
-            ((SwipeRefreshLayout) recyclerView.getParent()).setRefreshing(false);
+            if (recyclerView.getParent() instanceof SwipeRefreshLayout)
+                ((SwipeRefreshLayout) recyclerView.getParent()).setRefreshing(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.GONE);
     }
 
     public static Bitmap downloadImage(String url,Context context) {

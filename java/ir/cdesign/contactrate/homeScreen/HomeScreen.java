@@ -246,9 +246,11 @@ public class HomeScreen extends AppCompatActivity {
 
         int allTask = (doneTask + pendingTask == 0) ? 1 : doneTask + pendingTask;
 
+        Float pendingPercent = ((float) pendingTask) / allTask * 100;
+        Float donePercent = ((float) doneTask) / allTask * 100;
 
-        animateProgress(pending, 0, (pendingTask / allTask) * 100);
-        animateProgress(done, 0, (doneTask / allTask) * 100);
+        animateProgress(pending, 0, pendingPercent.intValue());
+        animateProgress(done, 0, donePercent.intValue());
         animateProgress(vision, 0, 60);
         if (!anim) {
             ObjectAnimator visionAnim = (ObjectAnimator) pending.getTag();
