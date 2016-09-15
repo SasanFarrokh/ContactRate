@@ -18,7 +18,7 @@
 
         <Button
             android:id="@+id/all_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="40dp"
             android:checked="true"
             android:text="all"
@@ -28,7 +28,7 @@
 
         <Button
             android:id="@+id/mark_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="40dp"
             android:checked="false"
             android:text="mark"
@@ -38,10 +38,6 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_margin="8dp"
-        android:layout_height="match_parent"/>
+    <include layout="@layout/lesson_all_row_layout"/>
 
 </LinearLayout>
