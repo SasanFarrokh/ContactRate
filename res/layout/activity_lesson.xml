@@ -38,6 +38,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/lesson_all_row_layout"/>
+    <include layout="@layout/lesson_mark_row_layout"/>
 
 </LinearLayout>

@@ -13,4 +13,10 @@
                 <item name="android:layoutDirection">ltr</item>
                 <item name="android:textDirection">ltr</item>
         </style>
+
+        <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
+                <item name="android:minHeight">10dip</item>
+                <item name="android:maxHeight">10dip</item>
+        </style>
+
 </resources>
