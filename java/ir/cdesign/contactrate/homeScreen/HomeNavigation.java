@@ -34,6 +34,7 @@ import ir.cdesign.contactrate.dialogs.DialogSettings;
 import ir.cdesign.contactrate.imagePicker.DefaultCallback;
 import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.lessons.Lesson;
+import ir.cdesign.contactrate.lessons.ReadLessonActivity;
 import ir.cdesign.contactrate.tutorial.Tutorial;
 import ir.cdesign.contactrate.utilities.Settings;
 
@@ -108,7 +109,7 @@ public class HomeNavigation extends Fragment {
                     break;
                 case R.id.tutorial:
                     ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
-                    intent = new Intent(getActivity(), Tutorial.class);
+                    intent = new Intent(getActivity(), ReadLessonActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.home:
