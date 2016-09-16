@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomDrawerContainer"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#90333333"
+    android:layout_height="60dp"
+    android:layout_gravity="bottom">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/fontSizeToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_margin="5dp"
+                    android:layout_width="50dp"
+                    android:src="@drawable/format_size"
+                    android:tint="#f2f2f2"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="#f2f2f2"
+                    android:text="Font Size = Small"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/colorModeToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp">
+
+                <ImageView
+                    android:layout_margin="5dp"
+                    android:layout_width="50dp"
+                    android:src="@drawable/sun"
+                    android:tint="#f2f2f2"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="#f2f2f2"
+                    android:text="Day Mode"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+</LinearLayout>

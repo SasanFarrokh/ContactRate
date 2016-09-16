@@ -12,6 +12,9 @@
     <color name="overLay">#919191</color>
     <color name="darkWhite">#c0c0c0</color>
 
+    <color name="backGroundTransparentBlack">#95333333</color>
+    <color name="backGroundTransparentWhite">#95f2f2f2</color>
+
     <color name="cyan">#00838f</color>
 
     <color name="starTint">#e6f20e</color>

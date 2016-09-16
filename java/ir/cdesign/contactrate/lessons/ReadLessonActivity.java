@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.utilities.BottomDrawer;
 
 public class ReadLessonActivity extends AppCompatActivity {
 
@@ -11,5 +12,8 @@ public class ReadLessonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_lesson);
+
+        BottomDrawer bottomDrawer = new BottomDrawer(this);
+
     }
 }

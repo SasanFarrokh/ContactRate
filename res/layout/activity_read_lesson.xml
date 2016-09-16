@@ -26,11 +26,13 @@
                 android:layout_margin="12dp">
 
                 <TextView
-                    android:background="#f2f2f2"
+                    android:background="#95f2f2f2"
                     android:id="@+id/lesson_read_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="8dp"
+                    android:textColor="#333333"
+                    android:textSize="15dp"
                     android:lineSpacingMultiplier="1.1"
                     android:text="@string/texttexttext" />
 
@@ -38,10 +40,16 @@
         </LinearLayout>
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/bottomDrawerButton"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:background="#000"
-            android:layout_gravity="bottom|end"/>
+            android:layout_marginBottom="60dp"
+            android:layout_gravity="bottom|start"/>
+
+        <include layout="@layout/layout_bottom_drawer"/>
 
     </FrameLayout>
 
