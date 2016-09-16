@@ -40,10 +40,11 @@ public class BottomDrawer {
         toggle.setOnClickListener(listener);
         colorToggle.setOnClickListener(listener);
         fontToggle.setOnClickListener(listener);
+//
 
-        container.setY(120);
-        toggle.setY(120);
-
+        float a = container.getHeight();
+        container.setY(-a);
+        toggle.setY(a*2);
     }
 
     private void colorModeToggle() {
@@ -78,15 +79,17 @@ public class BottomDrawer {
     }
 
     private void open() {
-        container.animate().yBy(-120).start();
-        toggle.animate().yBy(-120).rotationBy(180).start();
+        float a = container.getHeight();
+        container.animate().yBy(-a).start();
+        toggle.animate().yBy(-a).rotationBy(180).start();
         isDrawerOpen = true;
 
     }
 
     private void close() {
-        container.animate().yBy(120).start();
-        toggle.animate().yBy(120).rotationBy(180).start();
+        float a = container.getHeight();
+        container.animate().yBy(a).start();
+        toggle.animate().yBy(a).rotationBy(180).start();
         isDrawerOpen = false;
     }
 
