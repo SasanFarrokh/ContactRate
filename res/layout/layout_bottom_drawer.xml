@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="#90333333"
     android:layout_height="60dp"
-    android:layout_marginBottom="-61dp"
+    android:layout_marginBottom="-60dp"
     android:layout_gravity="bottom">
 
     <HorizontalScrollView
