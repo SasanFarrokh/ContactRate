@@ -33,19 +33,19 @@
                     android:padding="8dp"
                     android:textColor="#333333"
                     android:textSize="15dp"
-                    android:lineSpacingMultiplier="1.1"
+                    android:lineSpacingMultiplier="1.2"
                     android:text="@string/texttexttext" />
 
             </ScrollView>
         </LinearLayout>
 
-        <Button
+        <ImageView
             android:id="@+id/bottomDrawerButton"
             android:layout_width="60dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:background="#000"
+            android:src="@drawable/arroww"
             android:layout_marginBottom="60dp"
             android:layout_gravity="bottom|start"/>
 
