@@ -29,7 +29,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
     public VisionAdapter(Context context) {
         data = DatabaseCommands.getInstance().getVision(0);
         this.context = context;
-
+        Log.i("sasan","data size : " + data.size());
     }
 
     @Override
@@ -68,12 +68,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             subject.setText((String) vision.get("subject"));
             id = (int) vision.get("id");
 
-            long regtime = (long) vision.get("regtime");
-            long timestamp = (long) vision.get("timestamp");
-            Double progressPercent =  ((double) System.currentTimeMillis() - regtime) / (timestamp - regtime);
-            Log.i("sasan", "vision percent : "+progressPercent);
-
-            progress.setProgress(progressPercent.intValue());
+            progress.setProgress(60);
 
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

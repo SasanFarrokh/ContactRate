@@ -49,7 +49,7 @@ public class HomeScreen extends AppCompatActivity {
 
     GraphPage graphPage = new GraphPage();
     AllRankInv allRankInv = new AllRankInv();
-    ir.cdesign.contactrate.homeScreen.userTab userTab = new userTab();
+    UserTab userTab = new UserTab();
 
     Bitmap profileImage;
 

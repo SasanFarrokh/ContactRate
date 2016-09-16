@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,7 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
     protected void onResume() {
         super.onResume();
         visions.setAdapter(new VisionAdapter(this));
+        visions.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void init(){
