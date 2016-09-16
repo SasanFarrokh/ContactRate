@@ -45,7 +45,8 @@ public class HomeNavigation extends Fragment {
 
     private static final int IMAGE_PICKED = 9;
     Intent intent;
-    TextView settings, about, task, tutorial, home, vision, statistics, lessons, news;
+    TextView settings, about, task, tutorial, home, vision,
+            statistics, lessons, news ,contacts;
     ImageView profile;
     HomeScreen homeScreen;
     TextView profileName, profileNumber;
@@ -64,9 +65,11 @@ public class HomeNavigation extends Fragment {
         statistics = (TextView) view.findViewById(R.id.stats);
         lessons = (TextView) view.findViewById(R.id.lessons);
         news = (TextView) view.findViewById(R.id.news);
+        contacts = (TextView) view.findViewById(R.id.contacts);
         profile = (ImageView) view.findViewById(R.id.profile_photo);
         profileName = (TextView) view.findViewById(R.id.profile_name);
         profileNumber = (TextView) view.findViewById(R.id.profile_number);
+
 
         settings.setOnClickListener(listener);
         about.setOnClickListener(listener);
@@ -77,6 +80,7 @@ public class HomeNavigation extends Fragment {
         statistics.setOnClickListener(listener);
         lessons.setOnClickListener(listener);
         news.setOnClickListener(listener);
+        contacts.setOnClickListener(listener);
         profile.setOnClickListener(listener);
         profileName.setText(((HomeScreen) getActivity()).profileName);
         profileNumber.setText(((HomeScreen) getActivity()).profileNumber);
@@ -103,6 +107,11 @@ public class HomeNavigation extends Fragment {
                     dialogAbout.show(fm, "about");
                     break;
                 case R.id.task:
+                    //
+                    // activity for showing tasks only
+                    //
+                    break;
+                case R.id.contacts:
                     ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
