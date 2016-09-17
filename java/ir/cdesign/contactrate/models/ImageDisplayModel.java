@@ -9,6 +9,15 @@ import ir.cdesign.contactrate.R;
  */
 public class ImageDisplayModel {
     public int imageId ;
+    public int TagInt;
+
+    public int getTagInt() {
+        return TagInt;
+    }
+
+    public void setTagInt(int tagInt) {
+        TagInt = tagInt;
+    }
 
     public int getImageId() {
         return imageId;
@@ -22,11 +31,12 @@ public class ImageDisplayModel {
 
         ArrayList<ImageDisplayModel> dataList = new ArrayList<>();
         int[] images = getImages();
+        int[] tags = getTags();
 
         for (int i = 0 ; i <images.length ; i++){
             ImageDisplayModel imageDisplayModel = new ImageDisplayModel();
             imageDisplayModel.setImageId(images[i]);
-
+            imageDisplayModel.setTagInt(tags[i]);
             dataList.add(imageDisplayModel);
         }
 
@@ -44,6 +54,13 @@ public class ImageDisplayModel {
         };
 
         return getImages;
+    }
+
+    public static int[] getTags(){
+        int[] getTags = new int[]{
+              1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
+        };
+        return getTags;
     }
 
 }

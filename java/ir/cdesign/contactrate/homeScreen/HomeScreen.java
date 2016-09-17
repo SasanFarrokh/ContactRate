@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +34,7 @@ import ir.cdesign.contactrate.imagePicker.DefaultCallback;
 import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
 import ir.cdesign.contactrate.utilities.CalendarTool;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -53,8 +55,10 @@ public class HomeScreen extends AppCompatActivity {
 
     Bitmap profileImage;
 
-    DrawerLayout drawerLayout;
+    public static DrawerLayout drawerLayout;
     String profileName, profileNumber;
+
+    public static int manInTheMiddle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +70,10 @@ public class HomeScreen extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_home_screen);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+
+
+
 
         toolbarImage = (ImageView) findViewById(R.id.toolbar_iv);
         toolbarImage.setOnClickListener(listener);
@@ -266,10 +272,18 @@ public class HomeScreen extends AppCompatActivity {
         progressBar.setTag(visionAnim);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         setData(progressAnim);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
+        Intent intent = getIntent();
+        int postition = intent.getIntExtra("backGroundId",0);
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        Drawable drawable = wallpaperBoy.manSitting(postition,this);
+        manInTheMiddle = postition;
+        linearLayout.setBackground(drawable);
     }
 
     public void setProfileImage(Bitmap image) {

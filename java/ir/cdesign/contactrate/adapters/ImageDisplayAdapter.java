@@ -1,15 +1,18 @@
 package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.models.ImageDisplayModel;
 import ir.cdesign.contactrate.models.TaskModel;
 
@@ -39,6 +42,7 @@ public class ImageDisplayAdapter extends RecyclerView.Adapter<ImageDisplayAdapte
     public void onBindViewHolder(ImageDisplayAdapter.holder holder, int position) {
         ImageDisplayModel current = imageDisplayModels.get(position);
         holder.setData(current, position);
+        holder.view.setOnClickListener(holder.listener);
     }
 
     @Override
@@ -64,5 +68,15 @@ public class ImageDisplayAdapter extends RecyclerView.Adapter<ImageDisplayAdapte
             this.position = position;
             this.imageView.setImageResource(current.getImageId());
         }
+
+        public View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ImageDisplayAdapter.this.context, HomeScreen.class);
+                intent.putExtra("backGroundId",position);
+                Toast.makeText(context, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                ImageDisplayAdapter.this.context.startActivity(intent);
+            }
+        };
     }
 }

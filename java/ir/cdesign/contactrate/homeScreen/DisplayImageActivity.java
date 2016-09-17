@@ -27,6 +27,7 @@ public class DisplayImageActivity extends AppCompatActivity {
         ImageDisplayAdapter adapter = new ImageDisplayAdapter(this, ImageDisplayModel.getData());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
 
