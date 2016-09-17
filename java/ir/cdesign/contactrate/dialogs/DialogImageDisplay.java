@@ -33,7 +33,7 @@ public class DialogImageDisplay extends DialogFragment {
     private void setRecycler(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         ImageDisplayAdapter adapter = new ImageDisplayAdapter(getActivity(), ImageDisplayModel.getData());
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapter);
     }

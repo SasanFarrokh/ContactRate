@@ -25,7 +25,7 @@ public class DisplayImageActivity extends AppCompatActivity {
     private void setRecycler(){
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         ImageDisplayAdapter adapter = new ImageDisplayAdapter(this, ImageDisplayModel.getData());
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapter);
     }
