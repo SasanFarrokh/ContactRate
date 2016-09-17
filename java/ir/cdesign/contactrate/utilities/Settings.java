@@ -22,6 +22,7 @@ import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.dialogs.DialogImageDisplay;
 import ir.cdesign.contactrate.dialogs.DialogSettings;
+import ir.cdesign.contactrate.homeScreen.DisplayImageActivity;
 
 public class Settings extends AppCompatActivity {
 
@@ -45,8 +46,7 @@ public class Settings extends AppCompatActivity {
         backgroundOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogImageDisplay dialogImageDisplay = new DialogImageDisplay();
-                dialogImageDisplay.show(getSupportFragmentManager(),"ayeah");
+                startActivity(new Intent(Settings.this, DisplayImageActivity.class));
             }
         });
 
