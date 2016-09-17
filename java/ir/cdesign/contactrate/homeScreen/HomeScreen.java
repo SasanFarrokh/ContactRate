@@ -185,9 +185,9 @@ public class HomeScreen extends AppCompatActivity {
 
                 case 0:
                     return userTab;
-                case 1:
-                    return allRankInv;
                 case 2:
+                    return allRankInv;
+                case 1:
                     return graphPage;
                 default:
                     return userTab;
