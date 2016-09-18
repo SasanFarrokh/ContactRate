@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         int theSitter = HomeScreen.manInTheMiddle;
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        Drawable drawable = wallpaperBoy.manSitting(theSitter,this);
+        int drawable = wallpaperBoy.manSitting(theSitter,this);
         linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
-        linearLayout.setBackground(drawable);
+        linearLayout.setBackgroundResource(drawable);
 
         FarhooshPayment farhooshPayment = new FarhooshPayment();
 //        farhooshPayment.Start(this,26378337,R.mipmap.ic_launcher);

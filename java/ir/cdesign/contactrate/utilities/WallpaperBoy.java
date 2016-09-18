@@ -11,72 +11,69 @@ import ir.cdesign.contactrate.R;
  */
 public class WallpaperBoy {
 
-    public Drawable manSitting(int manInTheMiddle , Activity activity){
-        Drawable manSitting = activity.getResources().getDrawable(R.drawable.background);
+    public int manSitting(int manInTheMiddle , Activity activity){
+        int manSitting = R.drawable.background;
         switch (manInTheMiddle){
             case 0:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_1);
+                manSitting =R.drawable.bg_2;
                 break;
             case 1:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_2);
+                manSitting =R.drawable.bg_3;
                 break;
             case 2:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_3);
+                manSitting =R.drawable.bg_4;
                 break;
             case 3:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_4);
+                manSitting =R.drawable.bg_5;
                 break;
             case 4:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_5);
+                manSitting =R.drawable.bg_6;
                 break;
             case 5:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_6);
+                manSitting =R.drawable.bg_7;
                 break;
             case 6:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_7);
+                manSitting =R.drawable.bg_8;
                 break;
             case 7:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_8);
+                manSitting =R.drawable.bg_9;
                 break;
             case 8:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_9);
+                manSitting =R.drawable.bg_10;
                 break;
             case 9:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_10);
+                manSitting =R.drawable.bg_11;
                 break;
             case 10:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_11);
+                manSitting =R.drawable.bg_12;
                 break;
             case 11:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_12);
+                manSitting =R.drawable.bg_13;
                 break;
             case 12:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_13);
+                manSitting =R.drawable.bg_14;
                 break;
             case 13:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_14);
+                manSitting =R.drawable.bg_15;
                 break;
             case 14:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_15);
+                manSitting =R.drawable.bg_16;
                 break;
             case 15:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_16);
+                manSitting =R.drawable.bg_17;
                 break;
             case 16:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_17);
+                manSitting =R.drawable.bg_18;
                 break;
             case 17:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_18);
+                manSitting =R.drawable.bg_19;
                 break;
             case 18:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_19);
+                manSitting =R.drawable.bg_20;
                 break;
             case 19:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_20);
+                manSitting =R.drawable.bg_21;
                 break;
-            case 20:
-                manSitting =activity.getResources().getDrawable(R.drawable.bg_21);
-            break;
         }
         return manSitting;
     }

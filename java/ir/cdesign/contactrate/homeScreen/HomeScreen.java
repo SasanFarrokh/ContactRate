@@ -266,7 +266,7 @@ public class HomeScreen extends AppCompatActivity {
 
     private void animateProgress(ProgressBar progressBar, int start, int end) {
         ObjectAnimator visionAnim = ObjectAnimator.ofInt(progressBar, "progress", start, end); // see this max value coming back here, we animale towards that value
-        visionAnim.setDuration(3000); //in milliseconds
+        visionAnim.setDuration(3000);
         //visionAnim.setInterpolator(new DecelerateInterpolator());
         visionAnim.start();
         progressBar.setTag(visionAnim);
@@ -281,9 +281,9 @@ public class HomeScreen extends AppCompatActivity {
         Intent intent = getIntent();
         int postition = intent.getIntExtra("backGroundId",0);
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        Drawable drawable = wallpaperBoy.manSitting(postition,this);
+        int  drawable = wallpaperBoy.manSitting(postition,this);
         manInTheMiddle = postition;
-        linearLayout.setBackground(drawable);
+        linearLayout.setBackgroundResource(drawable);
     }
 
     public void setProfileImage(Bitmap image) {
