@@ -2,9 +2,9 @@ package ir.cdesign.contactrate.homeScreen;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -54,9 +54,14 @@ public class HomeScreen extends AppCompatActivity {
     UserTab userTab = new UserTab();
 
     Bitmap profileImage;
+    int theMan ;
 
     public static DrawerLayout drawerLayout;
     String profileName, profileNumber;
+
+    public static final String PREF_NAME = "backGroundId";
+    public static final String PREF_EDITOR_KEY = "int";
+    public static final String PREF_DEAFULT_EDITOR_KEY = "default";
 
     public static int manInTheMiddle;
 
@@ -272,19 +277,43 @@ public class HomeScreen extends AppCompatActivity {
         progressBar.setTag(visionAnim);
     }
 
+    private void setBackground(){
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
+        Bundle extras = getIntent().getExtras();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (extras == null){
+
+            if (theMan == 0){
+                theMan = sharedPreferences.getInt(PREF_DEAFULT_EDITOR_KEY,0);
+                manInTheMiddle = sharedPreferences.getInt(PREF_DEAFULT_EDITOR_KEY,0);
+            } else {
+                theMan = sharedPreferences.getInt(PREF_EDITOR_KEY,0);
+                manInTheMiddle = sharedPreferences.getInt(PREF_EDITOR_KEY,0);
+            }
+
+        } else if (extras != null){
+            int postition = extras.getInt(PREF_NAME);
+            editor.putInt(PREF_EDITOR_KEY,postition);
+            editor.apply();
+            theMan = sharedPreferences.getInt(PREF_EDITOR_KEY,0);
+            manInTheMiddle = sharedPreferences.getInt(PREF_EDITOR_KEY,0);
+        }
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int  drawable = wallpaperBoy.manSitting(theMan,this);
+
+        linearLayout.setBackgroundResource(drawable);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
         setData(progressAnim);
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
-        Intent intent = getIntent();
-        int postition = intent.getIntExtra("backGroundId",0);
-        WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int  drawable = wallpaperBoy.manSitting(postition,this);
-        manInTheMiddle = postition;
-        linearLayout.setBackgroundResource(drawable);
+        setBackground();
     }
 
     public void setProfileImage(Bitmap image) {

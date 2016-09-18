@@ -102,6 +102,12 @@ public class Settings extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(Settings.this,HomeScreen.class));
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         String lang = "en";

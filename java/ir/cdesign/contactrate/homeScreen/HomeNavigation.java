@@ -100,6 +100,7 @@ public class HomeNavigation extends Fragment {
                     ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Settings.class);
                     startActivity(intent);
+                    ((HomeScreen) getActivity()).finish();
                     break;
                 case R.id.about:
                     ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
