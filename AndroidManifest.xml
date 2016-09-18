@@ -78,7 +78,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".lessons.ReadLessonActivity" />
-        <activity android:name=".homeScreen.DisplayImageActivity"></activity>
+        <activity android:name=".homeScreen.DisplayImageActivity" />
+        <activity android:name=".homeScreen.ProfileActivity"></activity>
     </application>
 
 </manifest>
