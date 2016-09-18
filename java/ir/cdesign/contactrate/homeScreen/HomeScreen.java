@@ -276,7 +276,7 @@ public class HomeScreen extends AppCompatActivity {
         visionAnim.start();
         progressBar.setTag(visionAnim);
     }
-
+        //Think Bitch!
     private void setBackground(){
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
         Bundle extras = getIntent().getExtras();

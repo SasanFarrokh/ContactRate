@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
     public VisionAdapter(Context context) {
         data = DatabaseCommands.getInstance().getVision(0);
         this.context = context;
-        Log.i("sasan","data size : " + data.size());
+        Log.i("sasan", "data size : " + data.size());
     }
 
     @Override
@@ -53,6 +54,8 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
         private ProgressBar progress;
         private TextView subject;
         private View view;
+        private LinearLayout MoreInfo;
+        private LinearLayout SubjectBox;
         int position;
         int id;
 
@@ -60,6 +63,8 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             super(itemView);
             subject = (TextView) itemView.findViewById(R.id.vision_subject);
             progress = (ProgressBar) itemView.findViewById(R.id.vision_progress);
+            MoreInfo = (LinearLayout) itemView.findViewById(R.id.MoreInfo);
+            SubjectBox = (LinearLayout) itemView.findViewById(R.id.subject_box);
             view = itemView;
         }
 
@@ -67,8 +72,25 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             HashMap vision = data.get(position);
             subject.setText((String) vision.get("subject"));
             id = (int) vision.get("id");
-
+            MoreInfo.setAlpha(0);
+            MoreInfo.setTranslationY(-10);
             progress.setProgress(60);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (MoreInfo.getVisibility() == View.GONE) {
+                        MoreInfo.setVisibility(View.VISIBLE);
+                        MoreInfo.animate().alpha(1).translationYBy(10).start();
+                        SubjectBox.animate().alpha(0).translationYBy(10).start();
+
+                    } else {
+                        SubjectBox.animate().alpha(1).translationYBy(-10).start();
+                        MoreInfo.animate().alpha(1).translationYBy(-10).start();
+                        MoreInfo.setVisibility(View.GONE);
+                    }
+                }
+            });
 
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -85,7 +107,8 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
                                     notifyDataSetChanged();
                                     try {
                                         (((AdapterUpdate) context)).updateRecycler(position);
-                                    } catch (Exception ignore) {}
+                                    } catch (Exception ignore) {
+                                    }
                                     break;
                             }
                         }
@@ -96,6 +119,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             });
         }
     }
+
     public interface AdapterUpdate {
         void updateRecycler(int pos);
     }
