@@ -3,16 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    tools:context="ir.cdesign.contactrate.homeScreen.ProfileActivity">
+    tools:context=".profile.ProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/colorAccent"
-        android:fitsSystemWindows="false"
-        android:layout_height="200dp">
+        android:orientation="vertical"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="false"
+            android:background="@color/colorAccent"
+            android:layout_height="180dp">
 
+            <ir.cdesign.contactrate.utilities.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/dog"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/profile_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 

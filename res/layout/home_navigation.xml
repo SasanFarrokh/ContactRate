@@ -77,7 +77,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="5dp"
-                    android:src="@drawable/home"
+                    android:src="@drawable/account"
                     android:tint="#e2e2e2" />
 
                 <TextView
@@ -86,7 +86,7 @@
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Home"
+                    android:text="Profile"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
 
