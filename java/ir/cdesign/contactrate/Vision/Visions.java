@@ -9,17 +9,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.VisionAdapter;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class Visions extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     FloatingActionButton fab;
     Button toolbarImage;
     RecyclerView visions;
+    FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,11 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
         setContentView(R.layout.activity_visions);
 
         init();
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        frameLayout= (FrameLayout) findViewById(R.id.FrameParent);
+        frameLayout.setBackgroundResource(drawable);
 
     }
 

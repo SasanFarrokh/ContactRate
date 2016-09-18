@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ import java.util.HashMap;
 
 import ir.cdesign.contactrate.adapters.InvitationAdapter;
 import ir.cdesign.contactrate.adapters.RankAdapter;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class ContactRankShow extends AppCompatActivity {
 
@@ -34,6 +37,7 @@ public class ContactRankShow extends AppCompatActivity {
 
     // Points of each title
     int lesson, time, motive;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,12 @@ public class ContactRankShow extends AppCompatActivity {
         }
 
         contactId = getIntent().getIntExtra("contact_id",0);
+
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        coordinatorLayout= (CoordinatorLayout) findViewById(R.id.Coordinato);
+        coordinatorLayout.setBackgroundResource(drawable);
 
 
     }

@@ -12,14 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import ir.cdesign.contactrate.adapters.RankAdapter;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class AddContact extends AppCompatActivity {
 
     String name,phone;
     int lesson,time,motive;
+    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,12 @@ public class AddContact extends AppCompatActivity {
 
 //        init
         setToolbar();
+
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
+        linearLayout.setBackgroundResource(drawable);
 
     }
 

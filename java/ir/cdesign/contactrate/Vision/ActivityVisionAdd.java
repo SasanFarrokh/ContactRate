@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,11 +22,13 @@ import java.util.Calendar;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.TimePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianDateParser;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 /**
  * Created by amin pc on 02/09/2016.
@@ -46,12 +49,19 @@ public class ActivityVisionAdd extends AppCompatActivity implements
 
     private long timestamp;
 
+    FrameLayout frameLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vision_add_activity);
 
         init();
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        frameLayout= (FrameLayout) findViewById(R.id.FrameParent);
+        frameLayout.setBackgroundResource(drawable);
 
     }
 

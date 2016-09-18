@@ -31,4 +31,11 @@ public class DisplayImageActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }

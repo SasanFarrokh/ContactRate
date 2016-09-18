@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ir.cdesign.contactrate.adapters.RankAdapter;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class ContactShow extends AppCompatActivity {
 
@@ -43,6 +46,7 @@ public class ContactShow extends AppCompatActivity {
 
     // Points of each title
     int lesson, time, motive;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,11 @@ public class ContactShow extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setBackgroundDrawable(null);
         }
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        coordinatorLayout= (CoordinatorLayout) findViewById(R.id.Coordinato);
+        coordinatorLayout.setBackgroundResource(drawable);
 
         contactId = getIntent().getLongExtra("contact_id",0);
         if (contactId == 0) finish();

@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.dialogs.DialogImageDisplay;
 import ir.cdesign.contactrate.dialogs.DialogSettings;
 import ir.cdesign.contactrate.homeScreen.DisplayImageActivity;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 
 public class Settings extends AppCompatActivity {
 
@@ -35,12 +37,20 @@ public class Settings extends AppCompatActivity {
 
     public static int language = 0;
 
+    LinearLayout linearLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
         container = (ViewGroup) findViewById(R.id.english).getParent();
+
+        //Background Setting ! :D
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
+        linearLayout.setBackgroundResource(drawable);
 
         backgroundOpen = (LinearLayout) findViewById(R.id.background_open);
         backgroundOpen.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +116,13 @@ public class Settings extends AppCompatActivity {
         getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putString("lang",lang).commit();
         setLocale(lang);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);
         Resources res = getResources();

@@ -15,6 +15,7 @@ import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.models.ImageDisplayModel;
 import ir.cdesign.contactrate.models.TaskModel;
+import ir.cdesign.contactrate.utilities.Settings;
 
 /**
  * Created by amin pc on 06/09/2016.

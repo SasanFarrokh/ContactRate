@@ -52,9 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int theSitter = HomeScreen.manInTheMiddle;
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int drawable = wallpaperBoy.manSitting(theSitter,this);
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
         linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
         linearLayout.setBackgroundResource(drawable);
 

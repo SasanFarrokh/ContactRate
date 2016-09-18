@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate;
 
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +13,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import ir.cdesign.contactrate.adapters.TaskAdapter;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.models.TaskModel;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class NewTaskActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     TextView toolbarText;
     FloatingActionButton fab;
+    CoordinatorLayout coordinatorLayout;
 
     long contactId;
 
@@ -36,6 +40,11 @@ public class NewTaskActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        coordinatorLayout= (CoordinatorLayout) findViewById(R.id.Coordinato);
+        coordinatorLayout.setBackgroundResource(drawable);
 
         contactId = getIntent().getLongExtra("contact_id",0);
         if (contactId == 0) finish();

@@ -3,6 +3,7 @@ package ir.cdesign.contactrate;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -23,11 +25,13 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianDateParser;
 import ir.cdesign.contactrate.utilities.CalendarTool;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -38,7 +42,7 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
     TextView note;
 
     Calendar taskCalendar = Calendar.getInstance();
-
+    ScrollView scrollView;
 
     int type, inviteId;
 
@@ -63,6 +67,10 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
 
         setToolbar();
 
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        scrollView= (ScrollView) findViewById(R.id.scrollView);
+        scrollView.setBackgroundResource(drawable);
 
         timePick = (LinearLayout) findViewById(R.id.time);
         timePick.setOnClickListener(new View.OnClickListener() {

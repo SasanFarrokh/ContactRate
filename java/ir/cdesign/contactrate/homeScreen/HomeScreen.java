@@ -277,6 +277,7 @@ public class HomeScreen extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setData(progressAnim);
+
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
         Intent intent = getIntent();
         int postition = intent.getIntExtra("backGroundId",0);
