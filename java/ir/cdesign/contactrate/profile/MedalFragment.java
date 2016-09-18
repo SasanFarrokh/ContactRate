@@ -23,7 +23,7 @@ public class MedalFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.medals_layout,null);
+        View view = inflater.inflate(R.layout.medals_layout,container,false);
 
         setRecyclerView(view);
 

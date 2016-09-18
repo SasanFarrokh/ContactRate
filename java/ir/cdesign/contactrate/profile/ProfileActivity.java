@@ -7,11 +7,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import ir.cdesign.contactrate.MedalsActivity;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.homeScreen.AllRankInv;
 
 public class ProfileActivity extends AppCompatActivity {
 
     ViewPager viewPager;
+    MedalFragment medalFragment = new MedalFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +42,17 @@ public class ProfileActivity extends AppCompatActivity {
             switch (pos) {
 
                 case 0:
-                    return new MedalFragment();
+                    return medalFragment;
+                case 1 :
+                    return new AllRankInv();
                 default:
-                    return new MedalFragment();
+                    return medalFragment;
             }
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 2 ;
         }
 
     }
