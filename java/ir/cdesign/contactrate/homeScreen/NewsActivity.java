@@ -2,14 +2,18 @@ package ir.cdesign.contactrate.homeScreen;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import ir.cdesign.contactrate.DatabaseCommands;
@@ -72,6 +76,20 @@ public class NewsActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         }
     };
+
+    public void loadingFail() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView text = new TextView(NewsActivity.this);
+                text.setText("Failed to connect to network");
+                text.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                text.setGravity(Gravity.CENTER);
+                text.setTextColor(getResources().getColor(R.color.white));
+                ((ViewGroup) news.getRootView()).addView(text);
+            }
+        });
+    }
 
     @Override
     public void onRefresh() {
