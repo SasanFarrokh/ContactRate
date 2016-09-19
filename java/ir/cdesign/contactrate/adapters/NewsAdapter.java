@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.dialogs.DialogNews;
 import ir.cdesign.contactrate.models.TaskModel;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
 
@@ -71,35 +74,35 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
             bodyText = (TextView) itemView.findViewById(R.id.news_body_text);
             view = itemView;
         }
-        public void setData(int position) {
+        public void setData(final int position) {
             final HashMap<String,Object> dataItem = data.get(position);
             title.setText((String) dataItem.get("title"));
             bodyText.setText((String) dataItem.get("text"));
-            /*(new Thread(new Runnable() {
+            if (imageView.getDrawingCache() == null)
+                (new BitmapWorkerTask(imageView)).execute((String) dataItem.get("image"));
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void run() {
-                    imageView.setImageBitmap(AsyncGetNews.downloadImage((String) dataItem.get("image"),context));
+                public void onClick(View v) {
+                    DialogNews dialogNews = new DialogNews();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("data",dataItem);
+                    bundle.putParcelable("image",(itemView.findViewById(R.id.news_image)).getDrawingCache());
+                    dialogNews.setArguments(bundle);
+                    dialogNews.show(((AppCompatActivity) context).getSupportFragmentManager(), "news");
                 }
-            })).start();*/
-            /*(new AsyncTask<ImageView,Void,Void>() {
-                @Override
-                protected Void doInBackground(ImageView... params) {
-                    setImage(AsyncGetNews.downloadImage((String) dataItem.get("image"),context));
-                    return null;
-                }
-            }).execute();*/
-            (new BitmapWorkerTask(imageView)).execute((String) dataItem.get("image"));
-            //imageView.setImageBitmap((Bitmap) dataItem.get("image"));
+            });
         }
         public void setImage(Bitmap bitmap) {
             imageView.setImageBitmap(bitmap);
         }
     }
-    public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
+    public static class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         private final WeakReference<ImageView> imageViewReference;
+        private Context context;
 
         public BitmapWorkerTask(ImageView imageView) {
             imageViewReference = new WeakReference<ImageView>(imageView);
+            context = imageView.getContext();
         }
 
         @Override
@@ -113,6 +116,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
                 final ImageView imageView = imageViewReference.get();
                 if (imageView != null) {
                     imageView.setImageBitmap(bitmap);
+                    imageView.buildDrawingCache();
                 }
             }
         }

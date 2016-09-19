@@ -49,7 +49,7 @@ public class AsyncServerCheck extends AsyncTask<Integer, Void, Integer> {
     @Override
     protected Integer doInBackground(Integer... params) {
 
-        SharedPreferences pref = MyService.instance.getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         try {
             try {
                 URL url = new URL(DOMAIN_NAME);
