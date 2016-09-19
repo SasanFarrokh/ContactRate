@@ -2,7 +2,6 @@ package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,15 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.dialogs.DialogNews;
-import ir.cdesign.contactrate.models.TaskModel;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
 
 /**
@@ -30,6 +26,8 @@ import ir.cdesign.contactrate.utilities.AsyncGetNews;
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
 
+
+    public static HashMap<Integer,Bitmap> cacheBitmaps;
     private LayoutInflater layoutInflater;
     private Context context;
     private List<HashMap> data;
@@ -40,6 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
         this.context = context;
         this.limit = limit;
         this.data = data;
+        cacheBitmaps = new HashMap<>();
     }
 
     @Override
@@ -78,8 +77,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
             final HashMap<String,Object> dataItem = data.get(position);
             title.setText((String) dataItem.get("title"));
             bodyText.setText((String) dataItem.get("text"));
-            if (imageView.getDrawingCache() == null)
-                (new BitmapWorkerTask(imageView)).execute((String) dataItem.get("image"));
+            if (!cacheBitmaps.containsKey(dataItem.get("id"))) {
+                (new BitmapWorkerTask(imageView,(int) dataItem.get("id"))).execute((String) dataItem.get("image"));
+            } else {
+                imageView.setImageBitmap(cacheBitmaps.get(dataItem.get("id")));
+                imageView.buildDrawingCache();
+            }
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,10 +102,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     public static class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         private final WeakReference<ImageView> imageViewReference;
         private Context context;
+        int newsId;
 
-        public BitmapWorkerTask(ImageView imageView) {
+        public BitmapWorkerTask(ImageView imageView,int newsId) {
             imageViewReference = new WeakReference<ImageView>(imageView);
             context = imageView.getContext();
+            this.newsId = newsId;
         }
 
         @Override
@@ -117,6 +122,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
                 if (imageView != null) {
                     imageView.setImageBitmap(bitmap);
                     imageView.buildDrawingCache();
+                    Log.i("sasan","newsid : " +newsId);
+                    cacheBitmaps.put(newsId,bitmap);
                 }
             }
         }

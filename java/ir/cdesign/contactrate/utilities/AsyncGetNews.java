@@ -29,6 +29,7 @@ import java.util.List;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.NewsAdapter;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.homeScreen.NewsActivity;
 
 /**
  * Created by Sasan on 2016-09-09.
@@ -36,6 +37,7 @@ import ir.cdesign.contactrate.homeScreen.HomeScreen;
 public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
 
     private static final String DOMAIN_NAME = "http://cdesign.ir/mlm/news.php";
+    public static List<HashMap> cacheData;
 
     private Context context;
     private RecyclerView recyclerView;
@@ -50,10 +52,30 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
                 ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.VISIBLE);
         } catch (Exception ignore) {
         }
+        if (cacheData != null) {
+            recyclerView.setAdapter(new NewsAdapter(context, cacheData, limit));
+            GridLayoutManager glm = new GridLayoutManager(context, 2) {
+                @Override
+                public boolean canScrollVertically() {
+                    return AsyncGetNews.this.limit >= 4 && super.canScrollVertically();
+                }
+            };
+            glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    try {
+                        return (Integer.parseInt((String) cacheData.get(position).get("type")) == 0) ? 1 : 2;
+                    } catch (Exception e) {
+                        return 1;
+                    }
+                }
+            });
+            recyclerView.setLayoutManager(glm);
+        }
     }
 
     public AsyncGetNews(Context context, RecyclerView recyclerView) {
-        this(context,recyclerView,10);
+        this(context, recyclerView, 10);
     }
 
     @Override
@@ -78,7 +100,7 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
                 newsMap.put("title", newsObj.getString("title"));
                 newsMap.put("text", newsObj.getString("text"));
                 newsMap.put("type", newsObj.getString("type"));
-                newsMap.put("id", newsObj.getString("id"));
+                newsMap.put("id", newsObj.getInt("id"));
                 newsMap.put("category", newsObj.getString("category"));
                 newsMap.put("viewed", newsObj.getString("viewed"));
                 data.add(newsMap);
@@ -86,6 +108,10 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
             return data;
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                ((NewsActivity) context).loadingFail();
+            } catch (Exception ignore) {
+            }
         }
         return new ArrayList<>();
     }
@@ -93,6 +119,7 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
     @Override
     protected void onPostExecute(final List<HashMap> data) {
         super.onPostExecute(data);
+        cacheData = data;
         GridLayoutManager glm = new GridLayoutManager(context, 2) {
             @Override
             public boolean canScrollVertically() {
@@ -109,7 +136,6 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
                 }
             }
         });
-
         recyclerView.setAdapter(new NewsAdapter(context, data, limit));
         recyclerView.setLayoutManager(glm);
         try {

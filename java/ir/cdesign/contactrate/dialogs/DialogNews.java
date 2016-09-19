@@ -52,7 +52,7 @@ public class DialogNews extends DialogFragment {
         if (bitmap != null)
             image.setImageBitmap(bitmap);
         else {
-            new NewsAdapter.BitmapWorkerTask(image).execute((String) data.get("image"));
+            new NewsAdapter.BitmapWorkerTask(image, (int) data.get("id")).execute((String) data.get("image"));
         }
         return view;
     }
