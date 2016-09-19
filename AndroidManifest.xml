@@ -79,7 +79,8 @@
 
         <activity android:name=".lessons.ReadLessonActivity" />
         <activity android:name=".homeScreen.DisplayImageActivity" />
-        <activity android:name=".profile.ProfileActivity"></activity>
+        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".lessons.LessonPartActivity"></activity>
     </application>
 
 </manifest>
