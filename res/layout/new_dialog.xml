@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333333"
@@ -8,21 +8,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minWidth="500dp"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
+            android:id="@+id/news_image"
+            android:layout_marginBottom="8dp"
+            android:background="#222"
+            android:scaleType="centerInside"
             android:src="@drawable/news_land" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="5dp"
+            android:id="@+id/news_title_text"
+            android:gravity="right"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
             android:text="This Is News Title"
-            android:textColor="#f2f2f2"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:textSize="17dp" />
 
         <ScrollView
@@ -32,12 +40,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="300dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/news_body_text"
                     android:layout_marginBottom="10dp"
+                    android:gravity="right"
                     android:padding="10dp"
                     android:text="@string/lorem"
                     android:textColor="#f2f2f2"
@@ -56,20 +68,20 @@
                         android:src="@drawable/like0" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:gravity="center"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:id="@+id/news_counter"
                         android:text="124"
-                        android:textColor="#f2f2f2"
+                        android:textColor="@color/white"
                         android:textSize="15dp" />
-
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
+                        android:id="@+id/news_close"
                         android:padding="5dp"
-                        android:src="@drawable/dislike0" />
+                        android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
                 </LinearLayout>
 
@@ -80,4 +92,4 @@
 
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>
