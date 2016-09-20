@@ -27,7 +27,7 @@ import ir.cdesign.contactrate.utilities.AsyncGetNews;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
 
 
-    public static HashMap<Integer,Bitmap> cacheBitmaps;
+    public static HashMap<Integer,Bitmap> cacheBitmaps  = new HashMap<>();
     private LayoutInflater layoutInflater;
     private Context context;
     private List<HashMap> data;
@@ -38,7 +38,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
         this.context = context;
         this.limit = limit;
         this.data = data;
-        cacheBitmaps = new HashMap<>();
     }
 
     @Override

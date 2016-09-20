@@ -25,6 +25,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
 
     private Context context;
     private List<HashMap> data;
+    public static VisionHolder selectedView;
 
 
     public VisionAdapter(Context context) {
@@ -79,15 +80,23 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (MoreInfo.getVisibility() == View.GONE) {
+
+                    if (VisionHolder.this != selectedView) {
                         MoreInfo.setVisibility(View.VISIBLE);
                         MoreInfo.animate().alpha(1).translationYBy(10).start();
                         SubjectBox.animate().alpha(0).translationYBy(10).start();
+                        if (selectedView != null) {
+                            selectedView.SubjectBox.animate().alpha(1).translationYBy(-10).start();
+                            selectedView.MoreInfo.animate().alpha(1).translationYBy(-10).start();
+                            selectedView.MoreInfo.setVisibility(View.GONE);
+                        }
+                        selectedView = VisionHolder.this;
 
                     } else {
-                        SubjectBox.animate().alpha(1).translationYBy(-10).start();
-                        MoreInfo.animate().alpha(1).translationYBy(-10).start();
-                        MoreInfo.setVisibility(View.GONE);
+                        selectedView.SubjectBox.animate().alpha(1).translationYBy(-10).start();
+                        selectedView.MoreInfo.animate().alpha(1).translationYBy(-10).start();
+                        selectedView.MoreInfo.setVisibility(View.GONE);
+                        selectedView = null;
                     }
                 }
             });
