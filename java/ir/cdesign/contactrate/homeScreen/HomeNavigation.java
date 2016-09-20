@@ -132,6 +132,10 @@ public class HomeNavigation extends Fragment {
                 case R.id.vision:
                     ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Visions.class);
+<<<<<<< HEAD
+=======
+//                    intent = new Intent(getActivity(), VisionDemo.class);
+>>>>>>> refs/remotes/origin/master
                     startActivity(intent);
                     break;
                 case R.id.stats:
