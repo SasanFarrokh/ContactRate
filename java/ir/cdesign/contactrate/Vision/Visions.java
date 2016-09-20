@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.VisionAdapter;
+import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -38,6 +39,7 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
         frameLayout= (FrameLayout) findViewById(R.id.FrameParent);
         frameLayout.setBackgroundResource(drawable);
 
+        startActivity(new Intent(this, VisionDemo.class));
     }
 
     @Override

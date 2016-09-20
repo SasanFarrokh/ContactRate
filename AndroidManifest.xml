@@ -17,7 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:replace="android:supportsRtl">
         <activity
             android:name=".MainActivity"
@@ -81,7 +81,7 @@
         <activity android:name=".homeScreen.DisplayImageActivity" />
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".lessons.LessonPartActivity" />
-        <activity android:name=".demoedition.VisionDemo" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".demoedition.VisionDemo" android:theme="@style/Theme.AppCompat.Dialog"/>
     </application>
 
 </manifest>
