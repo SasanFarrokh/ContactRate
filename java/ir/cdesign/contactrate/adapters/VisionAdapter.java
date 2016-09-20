@@ -2,6 +2,7 @@ package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
     private Context context;
     private List<HashMap> data;
     public static VisionHolder selectedView;
+    CountDownTimer countDownTimer;
 
 
     public VisionAdapter(Context context) {
@@ -53,7 +55,8 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
 
     public class VisionHolder extends RecyclerView.ViewHolder {
         private ProgressBar progress;
-        private TextView subject;
+        private TextView subject,timer;
+        long timestamp;
         private View view;
         private LinearLayout MoreInfo;
         private LinearLayout SubjectBox;
@@ -66,17 +69,19 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             progress = (ProgressBar) itemView.findViewById(R.id.vision_progress);
             MoreInfo = (LinearLayout) itemView.findViewById(R.id.MoreInfo);
             SubjectBox = (LinearLayout) itemView.findViewById(R.id.subject_box);
+            timer = (TextView) itemView.findViewById(R.id.vision_timer);
             view = itemView;
         }
 
         public void setData(final int position) {
-            HashMap vision = data.get(position);
+            final HashMap vision = data.get(position);
+            timestamp = (long) vision.get("timestamp") - System.currentTimeMillis();
             subject.setText((String) vision.get("subject"));
             id = (int) vision.get("id");
             MoreInfo.setAlpha(0);
             MoreInfo.setTranslationY(-10);
             progress.setProgress(60);
-
+            Log.i("sasan","vision timestamp : " + (timestamp - System.currentTimeMillis()));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -90,12 +95,39 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
                             selectedView.MoreInfo.animate().alpha(1).translationYBy(-10).start();
                             selectedView.MoreInfo.setVisibility(View.GONE);
                         }
+                        if (countDownTimer != null) countDownTimer.cancel();
+                        timestamp = (long) vision.get("timestamp") - System.currentTimeMillis();
+                        countDownTimer = new CountDownTimer(timestamp,1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                timestamp -= 1000;
+
+                                Log.i("sasan","counting timestamp : " + timestamp);
+                                try {
+                                    timer.setText(
+                                            "" + (int) Math.floor(timestamp / 86400000)
+                                                    + " days and \n" + (int) Math.floor(timestamp / 3600000) % 24
+                                                    + " : " + (int) Math.floor(timestamp / 60000) % 60 +
+                                                    " : " + (int) Math.floor(timestamp / 1000) % 60
+                                    );
+                                } catch (Exception e) {
+                                    cancel();
+                                }
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+                        };
+                        countDownTimer.start();
                         selectedView = VisionHolder.this;
 
                     } else {
                         selectedView.SubjectBox.animate().alpha(1).translationYBy(-10).start();
                         selectedView.MoreInfo.animate().alpha(1).translationYBy(-10).start();
                         selectedView.MoreInfo.setVisibility(View.GONE);
+                        countDownTimer.cancel();
                         selectedView = null;
                     }
                 }
