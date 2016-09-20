@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.Vision.Visions;
+import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.dialogs.DialogAbout;
 import ir.cdesign.contactrate.dialogs.DialogSettings;
 import ir.cdesign.contactrate.imagePicker.DefaultCallback;
@@ -130,7 +131,8 @@ public class HomeNavigation extends Fragment {
                     break;
                 case R.id.vision:
                     ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
-                    intent = new Intent(getActivity(), Visions.class);
+//                    intent = new Intent(getActivity(), Visions.class);
+                    intent = new Intent(getActivity(), VisionDemo.class);
                     startActivity(intent);
                     break;
                 case R.id.stats:

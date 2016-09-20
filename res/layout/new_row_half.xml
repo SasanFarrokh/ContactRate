@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
     android:layout_weight="0.5"
-    android:foreground="@drawable/news_bg"
     android:background="#70333333"
     android:orientation="vertical"
     app:cardBackgroundColor="#70333333"
