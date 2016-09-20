@@ -4,19 +4,39 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context="ir.cdesign.contactrate.demoedition.VisionDemo">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:src="@drawable/under"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="16dp"
+        android:paddingTop="-10dp"
         android:paddingLeft="16dp"
+        android:paddingBottom="16dp"
         android:textColor="#212121"
         android:text="are dadach"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="بازگشت"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="مشاهده"/>
+    </LinearLayout>
 
 </LinearLayout>
