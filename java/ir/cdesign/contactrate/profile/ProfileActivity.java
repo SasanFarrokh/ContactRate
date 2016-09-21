@@ -6,14 +6,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import ir.cdesign.contactrate.MedalsActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.AllRankInv;
+import ir.cdesign.contactrate.homeScreen.HomeNavigation;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 
 public class ProfileActivity extends AppCompatActivity {
 
     ViewPager viewPager;
+    ImageView profilePhoto;
     MedalFragment medalFragment = new MedalFragment();
 
     @Override
@@ -22,11 +26,12 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         init();
+        profilePhoto.setImageBitmap(HomeScreen.profileImage);
     }
 
     private void init(){
         viewPager = (ViewPager) findViewById(R.id.profile_viewPager);
-
+        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
     }
 

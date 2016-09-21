@@ -23,10 +23,10 @@
             <ir.cdesign.contactrate.utilities.CircleImageView
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
+                android:id="@+id/profile_photo"
                 android:layout_gravity="center"
                 android:paddingBottom="25dp"
                 android:paddingTop="25dp"
-                android:src="@drawable/dog"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="2dp" />
         </LinearLayout>

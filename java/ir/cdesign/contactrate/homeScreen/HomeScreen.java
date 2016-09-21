@@ -55,7 +55,7 @@ public class HomeScreen extends AppCompatActivity {
     AllRankInv allRankInv = new AllRankInv();
     UserTab userTab = new UserTab();
 
-    Bitmap profileImage;
+    public static Bitmap profileImage;
     int theMan ;
 
     public static DrawerLayout drawerLayout;
