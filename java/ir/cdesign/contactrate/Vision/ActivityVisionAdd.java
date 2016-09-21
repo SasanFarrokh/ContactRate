@@ -1,6 +1,10 @@
 package ir.cdesign.contactrate.Vision;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -22,6 +26,7 @@ import java.util.Calendar;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.homeScreen.HomeNavigation;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.RadialPickerLayout;
@@ -36,10 +41,13 @@ import ir.cdesign.contactrate.utilities.WallpaperBoy;
 public class ActivityVisionAdd extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
+    private static final int IMAGE_PICKED = 12;
+
     private Button backButton;
-    private ImageView visionDate, visionRepeat, visionImage;
+    private ImageView visionDate, visionRepeat, visionImage,imageSet;
     private TextView dateText, repeatText, subject, note;
     private View done;
+
 
     private String visionPath = "";
     private int reminder = 0;
@@ -68,6 +76,8 @@ public class ActivityVisionAdd extends AppCompatActivity implements
     private void init() {
         dateText = (TextView) findViewById(R.id.vision_add_date_text);
         visionDate = (ImageView) findViewById(R.id.vision_add_date_image);
+        imageSet = (ImageView) findViewById(R.id.vision_image_set);
+        visionImage = (ImageView) findViewById(R.id.vision_image);
         repeatText = (TextView) findViewById(R.id.vision_add_repeat_text);
         subject = (TextView) findViewById(R.id.vision_subject);
         note = (TextView) findViewById(R.id.vision_note);
@@ -81,6 +91,8 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         visionRepeat.setOnClickListener(listener);
         backButton.setOnClickListener(listener);
         done.setOnClickListener(listener);
+        imageSet.setOnClickListener(listener);
+        visionImage.setOnClickListener(listener);
     }
 
 
@@ -121,6 +133,13 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                     } else
                         Toast.makeText(ActivityVisionAdd.this, "Error on Creating Vision", Toast.LENGTH_SHORT).show();
                     break;
+                case R.id.vision_image:
+                case R.id.vision_image_set:
+                    Intent i = new Intent(
+                            Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, IMAGE_PICKED);
+
+                    break;
             }
         }
     };
@@ -139,5 +158,22 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         String minuteString = minute < 10 ? "0" + minute : "" + minute;
         String time = "You picked the following time: " + hourString + ":" + minuteString;
 //        timeTextView.setText(time);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case IMAGE_PICKED:
+                if (data == null) return;
+                Uri selectedImage = data.getData();
+                visionPath = selectedImage.toString();
+
+                Bitmap image = HomeNavigation.getProfileBitmap(this, selectedImage);
+
+                visionImage.setImageBitmap(image);
+
+                break;
+        }
     }
 }

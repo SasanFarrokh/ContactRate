@@ -379,6 +379,7 @@ public class DatabaseCommands {
         values.put("image", image);
         values.put("reminder", reminder);
         values.put("timestamp", timestamp);
+        values.put("regdate", System.currentTimeMillis());
         values.put("active", 0);
 
         return database.insert(TABLE_VISIONS, null, values) != -1;
@@ -400,6 +401,7 @@ public class DatabaseCommands {
                 vision.put("image", c.getString(c.getColumnIndex("image")));
                 vision.put("reminder", c.getString(c.getColumnIndex("reminder")));
                 vision.put("timestamp", c.getLong(c.getColumnIndex("timestamp")));
+                vision.put("regdate", c.getLong(c.getColumnIndex("regdate")));
                 vision.put("active", c.getInt(c.getColumnIndex("active")));
                 list.add(vision);
             }

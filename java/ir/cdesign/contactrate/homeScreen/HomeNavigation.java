@@ -196,8 +196,6 @@ public class HomeNavigation extends Fragment {
             int imageSize = ctx.getResources().getDimensionPixelSize(R.dimen.nav_profile_image);
             imageSize *= 7;
             float ratio = ((float) bigImage.getWidth()) / bigImage.getHeight();
-            Log.i("sasan", "gallery pick ratio : " + ratio);
-            Log.i("sasan", "gallery pick imagesize: " + imageSize);
             Bitmap image = null;
             if (ratio >= 1) {
                 Float height = imageSize / ratio;

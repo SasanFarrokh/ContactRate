@@ -76,6 +76,7 @@ public class MyService extends Service {
                 "image VARCHAR," +
                 "reminder INTEGER," +
                 "timestamp INTEGER," +
+                "regdate INTEGER," +
                 "active INTEGER);");
     }
     public SQLiteDatabase databaseConnect() {
