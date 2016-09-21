@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
@@ -156,6 +157,7 @@ public class HomeScreen extends AppCompatActivity {
         pendingText = (TextView) findViewById(R.id.pending_text);
         points = (TextView) findViewById(R.id.points);
         todayDate = (TextView) findViewById(R.id.today_date);
+        visions = (TextView) findViewById(R.id.vision_text);
 
         news = (RecyclerView) findViewById(R.id.home_news_rv);
 
@@ -246,19 +248,25 @@ public class HomeScreen extends AppCompatActivity {
         CalendarTool calendar = new CalendarTool();
         String date = calendar.getIranianDate();
 
+        List<HashMap> visionsData = db.getVision(0);
+
         points.setText(String.valueOf(p));
         doneText.setText(String.valueOf(doneTask));
         pendingText.setText(String.valueOf(pendingTask));
         todayDate.setText("Today : \n" + String.valueOf(date));
+        visions.setText(String.valueOf(visionsData.size()));
 
         int allTask = (doneTask + pendingTask == 0) ? 1 : doneTask + pendingTask;
 
         Float pendingPercent = ((float) pendingTask) / allTask * 100;
         Float donePercent = ((float) doneTask) / allTask * 100;
+        Double visionPercent = (visionsData.size() != 0)?
+                ((double) (System.currentTimeMillis() - (long) visionsData.get(0).get("regdate")) /
+                        ((long) visionsData.get(0).get("timestamp") - (long) visionsData.get(0).get("regdate"))) * 100:0;
 
         animateProgress(pending, 0, pendingPercent.intValue());
         animateProgress(done, 0, donePercent.intValue());
-        animateProgress(vision, 0, 60);
+        animateProgress(vision, 0, visionPercent.intValue());
         if (!anim) {
             ObjectAnimator visionAnim = (ObjectAnimator) pending.getTag();
             visionAnim.end();

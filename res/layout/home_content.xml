@@ -93,7 +93,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingTop="8dp"
                                 android:gravity="center"
-                                android:text="25"
+                                android:text="0"
                                 android:textColor="#f2f2f2"
                                 android:textSize="26dp" />
 
@@ -140,7 +140,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingTop="8dp"
                                 android:gravity="center"
-                                android:text="28"
+                                android:text="0"
                                 android:textColor="#f2f2f2"
                                 android:textSize="26dp" />
 
@@ -193,7 +193,7 @@
                                 android:id="@+id/points"
                                 android:layout_marginBottom="10dp"
                                 android:gravity="center"
-                                android:text="1125"
+                                android:text="0"
                                 android:textColor="#eeff41" />
 
                         </LinearLayout>
@@ -249,7 +249,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="5"
+                                android:text="0"
                                 android:textColor="#f2f2f2"
                                 android:textSize="25dp" />
 

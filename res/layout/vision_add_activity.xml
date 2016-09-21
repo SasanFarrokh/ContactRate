@@ -19,14 +19,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/custombg"/>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_margin="5dp"
-            android:id="@+id/vision_image_set"
-            android:layout_alignParentRight="true"
-            android:layout_height="40dp"
-            android:src="@drawable/camera"/>
-
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_alignParentTop="true"
@@ -49,6 +41,14 @@
                 android:text="Add Your Vision"/>
 
         </android.support.v7.widget.Toolbar>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_margin="5dp"
+            android:id="@+id/vision_image_set"
+            android:layout_alignParentRight="true"
+            android:layout_height="40dp"
+            android:src="@drawable/camera"/>
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"

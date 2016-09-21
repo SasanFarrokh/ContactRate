@@ -2,6 +2,7 @@ package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,6 +20,8 @@ import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.homeScreen.HomeNavigation;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 
 /**
  * Created by Sasan on 2016-09-10.
@@ -60,6 +64,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
         private View view;
         private LinearLayout MoreInfo;
         private LinearLayout SubjectBox;
+        private ImageView visionImage;
         int position;
         int id;
 
@@ -69,25 +74,31 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             progress = (ProgressBar) itemView.findViewById(R.id.vision_progress);
             MoreInfo = (LinearLayout) itemView.findViewById(R.id.MoreInfo);
             SubjectBox = (LinearLayout) itemView.findViewById(R.id.subject_box);
+            visionImage = (ImageView) itemView.findViewById(R.id.vision_image);
             timer = (TextView) itemView.findViewById(R.id.vision_timer);
             view = itemView;
         }
 
         public void setData(final int position) {
-            final HashMap vision = data.get(position);
+            final HashMap vision = data.get(data.size() - 1 - position);
             timestamp = (long) vision.get("timestamp") - System.currentTimeMillis();
+            String imagePath = (String) vision.get("image");
             subject.setText((String) vision.get("subject"));
+            if (!imagePath.isEmpty()) {
+                visionImage.setImageBitmap(HomeNavigation.getProfileBitmap(context, Uri.parse(imagePath)));
+            }
             id = (int) vision.get("id");
-            MoreInfo.setAlpha(0);
             MoreInfo.setTranslationY(-10);
-            progress.setProgress(60);
-            Log.i("sasan","vision timestamp : " + (timestamp - System.currentTimeMillis()));
+            Double visionPercent = ((double) (System.currentTimeMillis() - (long) vision.get("regdate")) /
+                    ((long) vision.get("timestamp") - (long) vision.get("regdate"))) * 100;
+            progress.setProgress(visionPercent.intValue());
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     if (VisionHolder.this != selectedView) {
                         MoreInfo.setVisibility(View.VISIBLE);
+                        MoreInfo.setAlpha(0);
                         MoreInfo.animate().alpha(1).translationYBy(10).start();
                         SubjectBox.animate().alpha(0).translationYBy(10).start();
                         if (selectedView != null) {
@@ -101,8 +112,6 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
                             @Override
                             public void onTick(long millisUntilFinished) {
                                 timestamp -= 1000;
-
-                                Log.i("sasan","counting timestamp : " + timestamp);
                                 try {
                                     timer.setText(
                                             "" + (int) Math.floor(timestamp / 86400000)

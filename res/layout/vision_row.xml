@@ -8,8 +8,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:id="@id/vision_image"
         android:background="#404040"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:src="@drawable/custombg" />
 
     <LinearLayout
@@ -42,7 +43,7 @@
         android:id="@+id/MoreInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#70f2f2f2"
+        android:background="#90f2f2f2"
         android:gravity="center_vertical"
         android:visibility="gone"
         android:orientation="vertical">
@@ -84,7 +85,7 @@
                 android:id="@+id/vision_timer"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="10. 25/12"
+                android:text="Finished !"
                 android:textColor="#212121"
                 android:textSize="26sp" />
         </LinearLayout>
