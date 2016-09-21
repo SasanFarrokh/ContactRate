@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate.Vision;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.VisionAdapter;
+import ir.cdesign.contactrate.caligraphy.CalligraphyContextWrapper;
 import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
@@ -42,6 +44,11 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
 
         VisionDemo visionDemo = new VisionDemo();
         visionDemo.show(getSupportFragmentManager(),"VisionDemo");
+    }
+    // font library
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

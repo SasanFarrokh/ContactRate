@@ -18,6 +18,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import ir.cdesign.contactrate.R;
+
 /**
  * Created by chris on 20/12/2013
  * Project: Calligraphy
@@ -83,38 +85,20 @@ public class CalligraphyConfig {
         return sInstance;
     }
 
-    /**
-     * Is a default font set?
-     */
     private final boolean mIsFontSet;
-    /**
-     * The default Font Path if nothing else is setup.
-     */
+
     private final String mFontPath;
-    /**
-     * Default Font Path Attr Id to lookup
-     */
+
     private final int mAttrId;
-    /**
-     * Use Reflection to inject the private factory.
-     */
+
     private final boolean mReflection;
-    /**
-     * Use Reflection to intercept CustomView inflation with the correct Context.
-     */
+
     private final boolean mCustomViewCreation;
-    /**
-     * Use Reflection to try to set typeface for custom views if they has setTypeface method
-     */
+
     private final boolean mCustomViewTypefaceSupport;
-    /**
-     * Class Styles. Build from DEFAULT_STYLES and the builder.
-     */
+
     private final Map<Class<? extends TextView>, Integer> mClassStyleAttributeMap;
-    /**
-     * Collection of custom non-{@code TextView}'s registered for applying typeface during inflation
-     * @see uk.co.chrisjenx.calligraphy.CalligraphyConfig.Builder#addCustomViewWithSetTypeface(Class)
-     */
+
     private final Set<Class<?>> hasTypefaceViews;
 
     protected CalligraphyConfig(Builder builder) {
@@ -253,29 +237,6 @@ public class CalligraphyConfig {
             return this;
         }
 
-        /**
-         * Due to the poor inflation order where custom views are created and never returned inside an
-         * {@code onCreateView(...)} method. We have to create CustomView's at the latest point in the
-         * overrideable injection flow.
-         *
-         * On HoneyComb+ this is inside the {@link android.app.Activity#onCreateView(android.view.View, String, android.content.Context, android.util.AttributeSet)}
-         * Pre HoneyComb this is in the {@link android.view.LayoutInflater.Factory#onCreateView(String, android.util.AttributeSet)}
-         *
-         * We wrap base implementations, so if you LayoutInflater/Factory/Activity creates the
-         * custom view before we get to this point, your view is used. (Such is the case with the
-         * TintEditText etc)
-         *
-         * The problem is, the native methods pass there parents context to the constructor in a really
-         * specific place. We have to mimic this in {@link uk.co.chrisjenx.calligraphy.CalligraphyLayoutInflater#createCustomViewInternal(android.view.View, android.view.View, String, android.content.Context, android.util.AttributeSet)}
-         * To mimic this we have to use reflection as the Class constructor args are hidden to us.
-         *
-         * We have discussed other means of doing this but this is the only semi-clean way of doing it.
-         * (Without having to do proxy classes etc).
-         *
-         * Calling this will of course speed up inflation by turning off reflection, but not by much,
-         * But if you want Calligraphy to inject the correct typeface then you will need to make sure your CustomView's
-         * are created before reaching the LayoutInflater onViewCreated.
-         */
         public Builder disableCustomViewInflation() {
             this.customViewCreation = false;
             return this;

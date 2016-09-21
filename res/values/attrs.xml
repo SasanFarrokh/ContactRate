@@ -19,7 +19,5 @@
         <attr name="civ_fill_color" format="color" />
     </declare-styleable>
 
-    <resources>
-        <attr name="fontPath" format="string"/>
-    </resources>
+    <attr name="fontPath" format="string"/>
 </resources>

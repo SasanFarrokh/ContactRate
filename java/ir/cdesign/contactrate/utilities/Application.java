@@ -12,7 +12,7 @@ public class Application extends android.app.Application{
     public void onCreate() {
         super.onCreate();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("iransans.ttf")
+                .setDefaultFontPath("seoge.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
