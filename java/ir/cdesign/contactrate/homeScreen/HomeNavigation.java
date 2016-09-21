@@ -47,8 +47,7 @@ public class HomeNavigation extends Fragment {
 
     private static final int IMAGE_PICKED = 9;
     Intent intent;
-    TextView settings, about, task, tutorial, home, vision,
-            statistics, lessons, news ,contacts;
+    View settings,about,task,tutorial,home,vision,statistics,lessons,news,contacts;
     ImageView profile;
     HomeScreen homeScreen;
     TextView profileName, profileNumber;
@@ -58,16 +57,16 @@ public class HomeNavigation extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_navigation, container, false);
 
-        settings = (TextView) view.findViewById(R.id.settings);
-        about = (TextView) view.findViewById(R.id.about);
-        task = (TextView) view.findViewById(R.id.task);
-        tutorial = (TextView) view.findViewById(R.id.tutorial);
-        home = (TextView) view.findViewById(R.id.home);
-        vision = (TextView) view.findViewById(R.id.vision);
-        statistics = (TextView) view.findViewById(R.id.stats);
-        lessons = (TextView) view.findViewById(R.id.lessons);
-        news = (TextView) view.findViewById(R.id.news);
-        contacts = (TextView) view.findViewById(R.id.contacts);
+        settings = view.findViewById(R.id.settings);
+        about = view.findViewById(R.id.about);
+        task = view.findViewById(R.id.task);
+        tutorial = view.findViewById(R.id.tutorial);
+        home =  view.findViewById(R.id.home);
+        vision = view.findViewById(R.id.vision);
+        statistics = view.findViewById(R.id.stats);
+        lessons = view.findViewById(R.id.lessons);
+        news = view.findViewById(R.id.news);
+        contacts = view.findViewById(R.id.contacts);
         profile = (ImageView) view.findViewById(R.id.profile_photo);
         profileName = (TextView) view.findViewById(R.id.profile_name);
         profileNumber = (TextView) view.findViewById(R.id.profile_number);
