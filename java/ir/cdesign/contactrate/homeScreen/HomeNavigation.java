@@ -83,6 +83,7 @@ public class HomeNavigation extends Fragment {
         news.setOnClickListener(listener);
         contacts.setOnClickListener(listener);
         profile.setOnClickListener(listener);
+        
         profileName.setText(((HomeScreen) getActivity()).profileName);
         profileNumber.setText(((HomeScreen) getActivity()).profileNumber);
         if (((HomeScreen) getActivity()).profileImage != null)

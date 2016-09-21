@@ -5,21 +5,30 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class Lesson extends AppCompatActivity implements View.OnClickListener{
 
     Button all ,mark ;
     RecyclerView recyclerView;
     TextView toolbarText;
+    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
+        linearLayout.setBackgroundResource(drawable);
 
         init();
     }

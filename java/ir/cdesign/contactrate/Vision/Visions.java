@@ -37,6 +37,7 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
 
         init();
 
+        //set BackGround
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
         frameLayout= (FrameLayout) findViewById(R.id.FrameParent);
