@@ -99,15 +99,14 @@ public class HomeNavigation extends Fragment {
 
             switch (v.getId()) {
                 case R.id.settings:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Settings.class);
                     startActivity(intent);
                     ((HomeScreen) getActivity()).finish();
                     break;
                 case R.id.about:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     DialogAbout dialogAbout = new DialogAbout();
                     dialogAbout.show(fm, "about");
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.task:
                     //
@@ -115,44 +114,42 @@ public class HomeNavigation extends Fragment {
                     //
                     break;
                 case R.id.contacts:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.tutorial:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), ReadLessonActivity.class);
                     startActivity(intent);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.home:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), ProfileActivity.class);
                     startActivity(intent);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.vision:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Visions.class);
-//                    intent = new Intent(getActivity(), VisionDemo.class);
                     startActivity(intent);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.stats:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Statistics.class);
                     startActivity(intent);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.lessons:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), Lesson.class);
                     startActivity(intent);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.news:
-                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     intent = new Intent(getActivity(), NewsActivity.class);
                     startActivity(intent);
+                    ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case R.id.profile_photo:
                     ((HomeScreen) getActivity()).drawerLayout.closeDrawer(Gravity.LEFT);
-                    //EasyImage.openGallery(getActivity(),0);
                     Intent i = new Intent(
                             Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(i, IMAGE_PICKED);

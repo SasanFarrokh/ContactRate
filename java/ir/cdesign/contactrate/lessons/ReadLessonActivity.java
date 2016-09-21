@@ -13,6 +13,7 @@ public class ReadLessonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_lesson);
 
+        // read utilities setup
         BottomDrawer bottomDrawer = new BottomDrawer(this);
 
     }

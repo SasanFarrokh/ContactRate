@@ -55,6 +55,7 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
     protected void onResume() {
         super.onResume();
         visions.setAdapter(new VisionAdapter(this));
+        visions.setHasFixedSize(true);
         visions.setLayoutManager(new LinearLayoutManager(this));
     }
 

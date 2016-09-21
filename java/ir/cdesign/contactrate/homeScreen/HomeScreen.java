@@ -277,7 +277,7 @@ public class HomeScreen extends AppCompatActivity {
         visionAnim.start();
         progressBar.setTag(visionAnim);
     }
-    
+
     private void setBackground(){
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
 
