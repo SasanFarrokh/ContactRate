@@ -81,7 +81,6 @@
         <activity android:name=".homeScreen.DisplayImageActivity" />
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".lessons.LessonPartActivity" />
-        <activity android:name=".demoedition.VisionDemo" android:theme="@style/Theme.AppCompat.Dialog"/>
     </application>
 
 </manifest>

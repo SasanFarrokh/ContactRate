@@ -40,7 +40,8 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
         frameLayout= (FrameLayout) findViewById(R.id.FrameParent);
         frameLayout.setBackgroundResource(drawable);
 
-        startActivity(new Intent(this, VisionDemo.class));
+        VisionDemo visionDemo = new VisionDemo();
+        visionDemo.show(getSupportFragmentManager(),"VisionDemo");
     }
 
     @Override
