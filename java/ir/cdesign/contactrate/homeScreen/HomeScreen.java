@@ -1,6 +1,7 @@
 package ir.cdesign.contactrate.homeScreen;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -59,9 +60,9 @@ public class HomeScreen extends AppCompatActivity {
     public static DrawerLayout drawerLayout;
     String profileName, profileNumber;
 
-    public static final String PREF_NAME = "backGroundId";
-    public static final String PREF_EDITOR_KEY = "int";
-    public static final String PREF_DEAFULT_EDITOR_KEY = "default";
+    SharedPreferences sharedPreferences;
+    public static String PREF_NAME = "sharedPreference";
+    public static String INT_NAME = "shareInt";
 
     public static int manInTheMiddle;
 
@@ -276,34 +277,15 @@ public class HomeScreen extends AppCompatActivity {
         visionAnim.start();
         progressBar.setTag(visionAnim);
     }
-        //Think Bitch!
+    
     private void setBackground(){
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
-        Bundle extras = getIntent().getExtras();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME,MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        if (extras == null){
-
-            if (theMan == 0){
-                theMan = sharedPreferences.getInt(PREF_DEAFULT_EDITOR_KEY,0);
-                manInTheMiddle = sharedPreferences.getInt(PREF_DEAFULT_EDITOR_KEY,0);
-            } else {
-                theMan = sharedPreferences.getInt(PREF_EDITOR_KEY,0);
-                manInTheMiddle = sharedPreferences.getInt(PREF_EDITOR_KEY,0);
-            }
-
-        } else if (extras != null){
-            int postition = extras.getInt(PREF_NAME);
-            editor.putInt(PREF_EDITOR_KEY,postition);
-            editor.apply();
-            theMan = sharedPreferences.getInt(PREF_EDITOR_KEY,0);
-            manInTheMiddle = sharedPreferences.getInt(PREF_EDITOR_KEY,0);
-        }
+        sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        manInTheMiddle = sharedPreferences.getInt(INT_NAME,0);
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int  drawable = wallpaperBoy.manSitting(theMan,this);
+        int  drawable = wallpaperBoy.manSitting(manInTheMiddle,this);
 
         linearLayout.setBackgroundResource(drawable);
     }

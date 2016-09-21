@@ -1,8 +1,8 @@
 package ir.cdesign.contactrate.demoedition;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import ir.cdesign.contactrate.R;
 
-public class ContactsDemo extends DialogFragment {
+/**
+ * Created by amin pc on 21/09/2016.
+ */
+public class LessonDemo extends DialogFragment {
 
     @Nullable
     @Override
@@ -43,7 +46,7 @@ public class ContactsDemo extends DialogFragment {
             }
         });
 
-        demo.setText(Html.fromHtml(getString(R.string.contacts_demo)));
+        demo.setText(Html.fromHtml(getString(R.string.lessons_demo)));
 
     }
 }

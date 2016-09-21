@@ -2,6 +2,7 @@ package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,9 @@ public class ImageDisplayAdapter extends RecyclerView.Adapter<ImageDisplayAdapte
     private ArrayList<ImageDisplayModel> imageDisplayModels;
     private LayoutInflater layoutInflater;
     private Context context;
+    SharedPreferences sharedPreferences;
+    public static String PREF_NAME = "sharedPreference";
+    public static String INT_NAME = "shareInt";
 
     public ImageDisplayAdapter(Context context, ArrayList<ImageDisplayModel> imageDisplayModels) {
         this.imageDisplayModels = imageDisplayModels;
@@ -73,9 +77,12 @@ public class ImageDisplayAdapter extends RecyclerView.Adapter<ImageDisplayAdapte
         public View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sharedPreferences = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
+                sharedPreferences.getInt(INT_NAME,0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(INT_NAME,position);
+                editor.apply();
                 Intent intent = new Intent(ImageDisplayAdapter.this.context, HomeScreen.class);
-                intent.putExtra("backGroundId",position);
-                Toast.makeText(context, String.valueOf(position), Toast.LENGTH_SHORT).show();
                 ImageDisplayAdapter.this.context.startActivity(intent);
             }
         };
