@@ -78,11 +78,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
             bodyText.setText((String) dataItem.get("text"));
             if (!cacheBitmaps.containsKey(dataItem.get("id"))) {
                 (new BitmapWorkerTask(imageView,(int) dataItem.get("id"))).execute((String) dataItem.get("image"));
-                Log.i("sasan","bitmap not set");
             } else {
                 imageView.setImageBitmap(cacheBitmaps.get(dataItem.get("id")));
-                Log.i("sasan","bitmap set: " + dataItem.get("id"));
-                imageView.buildDrawingCache();
             }
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,7 +87,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
                     DialogNews dialogNews = new DialogNews();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("data",dataItem);
-                    bundle.putParcelable("image",(itemView.findViewById(R.id.news_image)).getDrawingCache());
+                    if (cacheBitmaps.containsKey(dataItem.get("id")))
+                        bundle.putParcelable("image",cacheBitmaps.get(dataItem.get("id")));
                     dialogNews.setArguments(bundle);
                     dialogNews.show(((AppCompatActivity) context).getSupportFragmentManager(), "news");
                 }
