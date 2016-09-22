@@ -71,31 +71,6 @@ public class SplashActivity extends AppCompatActivity {
         regHelp = !reg.getString("userName","").isEmpty();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(SplashActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
 
     private void init() {
         editText = (EditText) findViewById(R.id.splash_edit_text);
@@ -129,12 +104,6 @@ public class SplashActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.splash_text);
         linearLayout = (LinearLayout) findViewById(R.id.company_layout);
         nextButton = (Button) findViewById(R.id.next_button);
-
-        //getting permissions
-        ActivityCompat.requestPermissions(SplashActivity.this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE , Manifest.permission.READ_CALENDAR,
-                        Manifest.permission.WRITE_CALENDAR , Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.READ_CONTACTS , Manifest.permission.CALL_PHONE}, 1);
 
         imageView.animate().alpha(1).scaleX(1f).scaleY(1f).setDuration(1000).setListener(new Animator.AnimatorListener() {
             @Override
