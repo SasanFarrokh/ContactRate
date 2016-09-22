@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -22,6 +23,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     RecyclerView recyclerView;
     TextView toolbarText;
     LinearLayout linearLayout;
+    Button toolbarImage;
 
     //demo edition
     FrameLayout lessonAllRow ,lessonMarkRow;
@@ -46,6 +48,9 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         all = (Button) findViewById(R.id.all_btn);
         mark = (Button) findViewById(R.id.mark_btn);
         toolbarText = (TextView) findViewById(R.id.toolbar_tv);
+
+        toolbarImage = (Button) findViewById(R.id.toolbar_iv);
+        toolbarImage.setOnClickListener(this);
 
         //demo edition
         lessonAllRow = (FrameLayout) findViewById(R.id.lesson_all_row_layout);
@@ -83,6 +88,9 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
                 break;
             case R.id.lesson_mark_row_layout:
                 startActivity(new Intent(Lesson.this,LessonPartActivity.class));
+                break;
+            case R.id.toolbar_iv:
+                finish();
                 break;
         }
     }
