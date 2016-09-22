@@ -14,6 +14,8 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.demoedition.LessonDemo;
+import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
@@ -38,6 +40,10 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
         linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
         linearLayout.setBackgroundResource(drawable);
+
+
+        LessonDemo visionDemo = new LessonDemo();
+        visionDemo.show(getSupportFragmentManager(),"VisionDemo");
 
         init();
     }

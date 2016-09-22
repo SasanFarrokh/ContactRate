@@ -43,7 +43,7 @@ public class VisionDemo extends DialogFragment {
             }
         });
 
-        demo.setText(Html.fromHtml(getString(R.string.task_demo)));
+        demo.setText(Html.fromHtml(getString(R.string.vision_demo)));
 
     }
 }

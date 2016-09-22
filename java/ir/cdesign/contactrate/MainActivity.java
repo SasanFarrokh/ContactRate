@@ -26,6 +26,8 @@ import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
 
 import java.util.Calendar;
 
+import ir.cdesign.contactrate.demoedition.ContactsDemo;
+import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.JalaliCalendar;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+
+
+        ContactsDemo visionDemo = new ContactsDemo();
+        visionDemo.show(getSupportFragmentManager(),"VisionDemo");
 
     }
 

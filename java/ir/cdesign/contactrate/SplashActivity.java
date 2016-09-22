@@ -2,11 +2,13 @@ package ir.cdesign.contactrate;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,7 @@ public class SplashActivity extends AppCompatActivity {
 
     SharedPreferences reg;
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,19 +56,7 @@ public class SplashActivity extends AppCompatActivity {
         reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
 
 
-        //getting permissions
-        ActivityCompat.requestPermissions(SplashActivity.this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        ActivityCompat.requestPermissions(SplashActivity.this,
-                new String[]{Manifest.permission.READ_CALENDAR}, 1);
-        ActivityCompat.requestPermissions(SplashActivity.this,
-                new String[]{Manifest.permission.WRITE_CALENDAR}, 1);
-        ActivityCompat.requestPermissions(SplashActivity.this,
-                new String[]{Manifest.permission.WRITE_CONTACTS}, 1);
-        ActivityCompat.requestPermissions(SplashActivity.this,
-                new String[]{Manifest.permission.READ_CONTACTS}, 1);
-        ActivityCompat.requestPermissions(SplashActivity.this,
-                new String[]{Manifest.permission.CALL_PHONE}, 1);
+
 
         //
         String lang = reg.getString("lang","en");
@@ -138,6 +129,12 @@ public class SplashActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.splash_text);
         linearLayout = (LinearLayout) findViewById(R.id.company_layout);
         nextButton = (Button) findViewById(R.id.next_button);
+
+        //getting permissions
+        ActivityCompat.requestPermissions(SplashActivity.this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE , Manifest.permission.READ_CALENDAR,
+                        Manifest.permission.WRITE_CALENDAR , Manifest.permission.WRITE_CONTACTS,
+                        Manifest.permission.READ_CONTACTS , Manifest.permission.CALL_PHONE}, 1);
 
         imageView.animate().alpha(1).scaleX(1f).scaleY(1f).setDuration(1000).setListener(new Animator.AnimatorListener() {
             @Override
