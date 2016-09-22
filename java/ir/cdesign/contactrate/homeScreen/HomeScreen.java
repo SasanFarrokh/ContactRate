@@ -306,6 +306,12 @@ public class HomeScreen extends AppCompatActivity {
         setBackground();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
     public void setProfileImage(Bitmap image) {
         profileImage = image;
         userTab.updateProfileImage();
