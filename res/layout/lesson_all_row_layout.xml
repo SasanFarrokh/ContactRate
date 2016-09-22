@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/lesson_all_row_layout"
     android:layout_height="285dp"
     android:background="#70333333"
     android:layout_margin="8dp">

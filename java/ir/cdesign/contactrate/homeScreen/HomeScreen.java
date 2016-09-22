@@ -309,7 +309,7 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        drawerLayout.closeDrawer(Gravity.LEFT);
+//        drawerLayout.closeDrawer(Gravity.LEFT);
     }
 
     public void setProfileImage(Bitmap image) {

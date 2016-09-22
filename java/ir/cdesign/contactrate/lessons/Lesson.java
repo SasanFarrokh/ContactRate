@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate.lessons;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
@@ -19,6 +22,10 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     RecyclerView recyclerView;
     TextView toolbarText;
     LinearLayout linearLayout;
+
+    //demo edition
+    FrameLayout lessonAllRow ,lessonMarkRow;
+    ViewFlipper viewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,17 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         mark = (Button) findViewById(R.id.mark_btn);
         toolbarText = (TextView) findViewById(R.id.toolbar_tv);
 
+        //demo edition
+        lessonAllRow = (FrameLayout) findViewById(R.id.lesson_all_row_layout);
+        lessonMarkRow = (FrameLayout) findViewById(R.id.lesson_mark_row_layout);
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+
         toolbarText.setText("Lesson");
+
+        lessonAllRow.setOnClickListener(this);
+        lessonMarkRow.setOnClickListener(this);
+        all.setOnClickListener(this);
+        mark.setOnClickListener(this);
     }
 
     private void adapterSwitch(){
@@ -54,13 +71,19 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.all_btn: {
-
+                viewFlipper.setDisplayedChild(0);
                 break;
             }
             case R.id.mark_btn: {
-
+                viewFlipper.setDisplayedChild(1);
                 break;
             }
+            case R.id.lesson_all_row_layout:
+                Toast.makeText(Lesson.this, "Lesson Added to Mark", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.lesson_mark_row_layout:
+                startActivity(new Intent(Lesson.this,LessonPartActivity.class));
+                break;
         }
     }
 }
