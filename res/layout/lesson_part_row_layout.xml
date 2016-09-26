@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/libraryphoto"/>
+        android:src="@drawable/library_photo"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
