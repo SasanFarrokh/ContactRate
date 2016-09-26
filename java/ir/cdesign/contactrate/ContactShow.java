@@ -71,6 +71,7 @@ public class ContactShow extends AppCompatActivity {
         contactId = getIntent().getLongExtra("contact_id",0);
         if (contactId == 0) finish();
 
+        getWindow().getDecorView().getRootView().requestFocus();
     }
 
     @Override

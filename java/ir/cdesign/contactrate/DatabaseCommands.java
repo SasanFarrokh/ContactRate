@@ -264,6 +264,13 @@ public class DatabaseCommands {
             default:
                 query = "SELECT * FROM " + TABLE_INVITES + " ORDER BY timestamp DESC";
                 break;
+
+            case 3:
+                query = "SELECT * FROM " + TABLE_INVITES + " WHERE active = 0 ORDER BY timestamp DESC";
+                break;
+            case 4:
+                query = "SELECT * FROM " + TABLE_INVITES + " WHERE active = 1 ORDER BY timestamp DESC";
+                break;
         }
         Cursor result = database.rawQuery(query, null);
         if (result != null) {

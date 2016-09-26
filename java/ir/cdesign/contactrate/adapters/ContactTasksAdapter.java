@@ -176,7 +176,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     final View view = (View) buttonView.getParent();
-                    ViewHolder viewHolder = (ViewHolder) view.getTag();
+                    ViewHolder viewHolder = (ViewHolder) ((View) view.getParent()).getTag();
                     DatabaseCommands.getInstance().activateInvite(viewHolder.id, isChecked);
                     viewHolder.completed.setVisibility(View.VISIBLE);
                     view.animate()

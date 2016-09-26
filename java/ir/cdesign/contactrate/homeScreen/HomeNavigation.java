@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ import ir.cdesign.contactrate.lessons.ReadLessonActivity;
 import ir.cdesign.contactrate.profile.ProfileActivity;
 import ir.cdesign.contactrate.tutorial.Tutorial;
 import ir.cdesign.contactrate.utilities.Settings;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 /**
  * Created by amin pc on 31/08/2016.
@@ -88,6 +90,10 @@ public class HomeNavigation extends Fragment {
         profileNumber.setText(((HomeScreen) getActivity()).profileNumber);
         if (((HomeScreen) getActivity()).profileImage != null)
             profile.setImageBitmap(((HomeScreen) getActivity()).profileImage);
+
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting((HomeScreen.manInTheMiddle +1) % 21,getActivity());
+        view.setBackgroundResource(drawable);
 
         return view;
     }
