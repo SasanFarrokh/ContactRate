@@ -38,6 +38,7 @@ import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.lessons.Lesson;
 import ir.cdesign.contactrate.lessons.ReadLessonActivity;
 import ir.cdesign.contactrate.profile.ProfileActivity;
+import ir.cdesign.contactrate.tasks.TasksActivity;
 import ir.cdesign.contactrate.tutorial.Tutorial;
 import ir.cdesign.contactrate.utilities.Settings;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
@@ -107,16 +108,15 @@ public class HomeNavigation extends Fragment {
                 case R.id.settings:
                     intent = new Intent(getActivity(), Settings.class);
                     startActivity(intent);
-                    ((HomeScreen) getActivity()).finish();
+                    getActivity().finish();
                     break;
                 case R.id.about:
                     DialogAbout dialogAbout = new DialogAbout();
                     dialogAbout.show(fm, "about");
                     break;
                 case R.id.task:
-                    //
-                    // activity for showing tasks only
-                    //
+                    intent = new Intent(getActivity(), TasksActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.contacts:
                     intent = new Intent(getActivity(), MainActivity.class);
