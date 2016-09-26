@@ -146,7 +146,7 @@ public class DatabaseCommands {
 
         List<Object[]> contacts = new ArrayList<>();
         String nestedQuery = "(SELECT COUNT(*) FROM " + TABLE_INVITES + " WHERE contact = " + TABLE_CONTACTS + ".id)";
-        String query = "SELECT *,"+nestedQuery+" as taskcount FROM " +
+        String query = "SELECT *," + nestedQuery + " as taskcount FROM " +
                 TABLE_CONTACTS + " WHERE LENGTH(invites) != 0 " +
                 " ORDER BY lesson+motive+time DESC";
         Cursor result = database.rawQuery(query, null);
@@ -158,7 +158,7 @@ public class DatabaseCommands {
                         result.getInt(result.getColumnIndex("time")) +
                         result.getInt(result.getColumnIndex("motive"));
                 contact[2] = result.getString(result.getColumnIndex("invites"));
-                contact[3] = result.getInt(result.getColumnIndex("id"));
+                contact[3] = result.getLong(result.getColumnIndex("id"));
                 contact[4] = result.getInt(result.getColumnIndex("taskcount"));
                 contacts.add(contact);
             }
@@ -241,13 +241,13 @@ public class DatabaseCommands {
         return false;
     }
 
-    public boolean editInvite(int id, long contactId, int type, String note, long timestamp, int active) {
+    public boolean editInvite(long id, long contactId, int type, String note, long timestamp, int active) {
 
         removeInvite(id);
         return addInvite(contactId, type, note, timestamp, active);
     }
 
-    public List<HashMap> getInvite(int mode, int id) {
+    public List<HashMap> getInvite(int mode, long id) {
         List<HashMap> list = new ArrayList<>();
         String query;
         switch (mode) {
@@ -269,9 +269,9 @@ public class DatabaseCommands {
         if (result != null) {
             while (result.moveToNext()) {
                 HashMap invite = new HashMap();
-                invite.put("id", result.getInt(result.getColumnIndex("id")));
+                invite.put("id", result.getLong(result.getColumnIndex("id")));
                 invite.put("type", result.getInt(result.getColumnIndex("type")));
-                invite.put("contact", result.getInt(result.getColumnIndex("contact")));
+                invite.put("contact", result.getLong(result.getColumnIndex("contact")));
                 invite.put("note", result.getString(result.getColumnIndex("note")));
                 invite.put("timestamp", result.getLong(result.getColumnIndex("timestamp")));
                 invite.put("eventid", result.getLong(result.getColumnIndex("eventid")));
@@ -283,7 +283,7 @@ public class DatabaseCommands {
         return list;
     }
 
-    public void removeInvite(int inviteId) {
+    public void removeInvite(long inviteId) {
 
         HashMap invite = getInvite(1, inviteId).get(0);
 
@@ -293,13 +293,13 @@ public class DatabaseCommands {
                 (Long) invite.get("eventid"));
         MainActivity.instance.getContentResolver().delete(uri, null, null);
         if (MyService.instance != null && MainActivity.instance.alarm != null)
-            MainActivity.instance.alarm.cancelAlarm(MainActivity.instance, inviteId);
+            MainActivity.instance.alarm.cancelAlarm(MainActivity.instance, ((Long) inviteId).intValue());
     }
 
     public boolean activateInvite(long id, boolean active) {
         int act = (active) ? 1 : 0;
 
-        HashMap invite = getInvite(1,((Long) id).intValue()).get(0);
+        HashMap invite = getInvite(1, id).get(0);
         int point = 10;
         if ((int) invite.get("type") == 4) point = 100;
 
@@ -308,6 +308,29 @@ public class DatabaseCommands {
         database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)});
         if (active) addUserPoints(point, true);
         return true;
+    }
+
+    public boolean moveOnInvite(long id, long timestamp) {
+
+        HashMap invite = getInvite(1,  id).get(0);
+        HashMap contact = getContactById((long) invite.get("contact"));
+
+        ContentValues values = new ContentValues();
+        values.put("timestamp", (long) invite.get("timestamp") + timestamp);
+
+        Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
+                (Long) invite.get("eventid"));
+        MainActivity.instance.getContentResolver().delete(uri, null, null);
+        if (MyService.instance != null && MainActivity.instance.alarm != null) {
+            MainActivity.instance.alarm.cancelAlarm(MainActivity.instance, ((Long) id).intValue());
+            MainActivity.instance.alarm.setAlarm(MainActivity.instance, values.getAsLong("timestamp"), ((Long) id).intValue());
+        }
+        long reminderid = addAppointmentsToCalender(context,
+                ContactShowModel.getTitles()[(int) invite.get("type") - 1] + " with : " + contact.get("name")
+                , ContactShowModel.getTitles()[(int) invite.get("type") - 1] + " with : " + contact.get("name") + " \n Description : " +
+                        invite.get("note"), 1, values.getAsLong("timestamp"), true, false);
+        values.put("eventid",reminderid);
+        return database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)}) != -1;
     }
 
 
@@ -411,6 +434,7 @@ public class DatabaseCommands {
         } else {
             pref.edit().putInt("point", pref.getInt("point", 0) - point).apply();
         }
+        if (TabFragment.instance != null) TabFragment.instance.setPoint();
     }
 
     public static long WritePhoneContact(String displayName, String number, Context context) {

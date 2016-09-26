@@ -62,8 +62,7 @@ public class HomeScreen extends AppCompatActivity {
     String profileName, profileNumber;
 
     SharedPreferences sharedPreferences;
-    public static String PREF_NAME = "sharedPreference";
-    public static String INT_NAME = "shareInt";
+    public static String BACKGROUND_KEY = "shareInt";
 
     public static int manInTheMiddle;
 
@@ -289,8 +288,8 @@ public class HomeScreen extends AppCompatActivity {
     private void setBackground(){
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
 
-        sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        manInTheMiddle = sharedPreferences.getInt(INT_NAME,0);
+        sharedPreferences = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
+        manInTheMiddle = sharedPreferences.getInt(BACKGROUND_KEY,20);
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int  drawable = wallpaperBoy.manSitting(manInTheMiddle,this);

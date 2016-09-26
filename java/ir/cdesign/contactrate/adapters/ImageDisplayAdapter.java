@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.models.ImageDisplayModel;
@@ -27,8 +28,6 @@ public class ImageDisplayAdapter extends RecyclerView.Adapter<ImageDisplayAdapte
     private LayoutInflater layoutInflater;
     private Context context;
     SharedPreferences sharedPreferences;
-    public static String PREF_NAME = "sharedPreference";
-    public static String INT_NAME = "shareInt";
 
     public ImageDisplayAdapter(Context context, ArrayList<ImageDisplayModel> imageDisplayModels) {
         this.imageDisplayModels = imageDisplayModels;
@@ -77,10 +76,10 @@ public class ImageDisplayAdapter extends RecyclerView.Adapter<ImageDisplayAdapte
         public View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPreferences = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
-                sharedPreferences.getInt(INT_NAME,0);
+                sharedPreferences = context.getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE);
+                sharedPreferences.getInt(HomeScreen.BACKGROUND_KEY,0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt(INT_NAME,position);
+                editor.putInt(HomeScreen.BACKGROUND_KEY,position);
                 editor.apply();
                 Intent intent = new Intent(ImageDisplayAdapter.this.context, HomeScreen.class);
                 ImageDisplayAdapter.this.context.startActivity(intent);

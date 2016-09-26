@@ -39,7 +39,7 @@ import ir.cdesign.contactrate.utilities.CustomLayoutManager;
 public class ContactShowInvite extends AppCompatActivity {
 
     long contactId;
-    TextView contactName, point;
+    TextView contactName;
     EditText phone, note;
     FloatingActionButton fab;
     public ListView listView;
@@ -70,14 +70,12 @@ public class ContactShowInvite extends AppCompatActivity {
         contactName = (TextView) findViewById(R.id.contact_name);
         phone = (EditText) findViewById(R.id.contact_phone);
         note = (EditText) findViewById(R.id.contact_note);
-        point = (TextView) findViewById(R.id.contact_ipoint);
 
         final HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
 
         contactName.setText((String) contact.get("name"));
         phone.setText((String) contact.get("phone"));
         note.setText((String) contact.get("note"));
-        point.setText(String.valueOf(contact.get("point")));
 
         final Button call = (Button) findViewById(R.id.call_btn);
         call.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +106,7 @@ public class ContactShowInvite extends AppCompatActivity {
 
     private void setListView(){
         listView = (ListView) findViewById(R.id.contact_task_rv);
-        ContactTasksAdapter adapter = new ContactTasksAdapter(this);
+        ContactTasksAdapter adapter = new ContactTasksAdapter(this,contactId);
         listView.setAdapter(adapter);
 
     }
@@ -153,11 +151,6 @@ public class ContactShowInvite extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         DatabaseCommands.getInstance().addNoteToContact(contactId,note.getText().toString());
-    }
-
-    public void updatePoint() {
-        HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
-        point.setText(String.valueOf(contact.get("point")));
     }
 
 }

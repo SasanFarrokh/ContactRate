@@ -30,12 +30,13 @@ public class Settings extends AppCompatActivity {
 
     public static final int ENGLISH = 0;
     public static final int PERSIAN = 1;
-    public static final String[] LANGUAGES = {"en","fa"};
+    public static final String[] LANGUAGES = {"en", "fa"};
 
     LinearLayout backgroundOpen;
     ViewGroup container;
 
     public static int language = 0;
+    private boolean langChanged = false;
 
     LinearLayout linearLayout;
 
@@ -48,8 +49,8 @@ public class Settings extends AppCompatActivity {
 
         //Background Setting ! :D
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
-        linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
+        linearLayout = (LinearLayout) findViewById(R.id.LinearLayout);
         linearLayout.setBackgroundResource(drawable);
 
         backgroundOpen = (LinearLayout) findViewById(R.id.background_open);
@@ -73,14 +74,13 @@ public class Settings extends AppCompatActivity {
 
     private void selectLang(int lang) {
         language = lang;
-        for (int i = 0; i < 2 ; i++) {
+        for (int i = 0; i < 2; i++) {
             ImageView iv = (ImageView) ((ViewGroup) container.getChildAt(i)).getChildAt(0);
             float scale;
             if (i == lang) {
                 scale = 1.25f;
                 iv.setColorFilter(Color.parseColor("#40ffffff"));
-            }
-            else {
+            } else {
                 scale = 1f;
                 iv.setColorFilter(Color.parseColor("#00ffffff"));
             }
@@ -91,6 +91,7 @@ public class Settings extends AppCompatActivity {
     private class langItemClick implements View.OnClickListener {
 
         private int i;
+
         public langItemClick(int i) {
             this.i = i;
         }
@@ -98,13 +99,14 @@ public class Settings extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             selectLang(i);
+            langChanged = true;
         }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(Settings.this,HomeScreen.class));
+        startActivity(new Intent(Settings.this, HomeScreen.class));
     }
 
     @Override
@@ -119,7 +121,7 @@ public class Settings extends AppCompatActivity {
                 lang = "fa";
                 break;
         }
-        getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putString("lang",lang).commit();
+        getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).edit().putString("lang", lang).commit();
         setLocale(lang);
     }
 
@@ -136,8 +138,10 @@ public class Settings extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        Toast.makeText(this,"Restart app for take changes",Toast.LENGTH_SHORT).show();
+        if (langChanged)
+            Toast.makeText(this, "Restart app for take changes", Toast.LENGTH_SHORT).show();
     }
+
     public static int getLangIndex(String lang) {
         return Arrays.asList(LANGUAGES).indexOf(lang);
     }

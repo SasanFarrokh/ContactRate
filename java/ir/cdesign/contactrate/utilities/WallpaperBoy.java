@@ -74,6 +74,9 @@ public class WallpaperBoy {
             case 19:
                 manSitting = R.drawable.bg_21;
                 break;
+            case 20:
+                manSitting = R.drawable.background;
+                break;
         }
         return manSitting;
     }

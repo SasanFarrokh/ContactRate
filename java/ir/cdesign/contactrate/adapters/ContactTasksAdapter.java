@@ -33,10 +33,15 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
     private List<HashMap> invites;
     private List<Object[]> contacts;
+    long contactId;
 
-    public ContactTasksAdapter(Context context) {
+    public ContactTasksAdapter(Context context, long id) {
         super(context, -1);
-        invites = DatabaseCommands.getInstance().getInvite(0, 0);
+        contactId = id;
+        if (id == 0)
+            invites = DatabaseCommands.getInstance().getInvite(0, 0);
+        else
+            invites = DatabaseCommands.getInstance().getInvite(2, id);
         contacts = DatabaseCommands.getInstance().getContactsForInvitation();
     }
 
@@ -53,7 +58,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
             viewHolder = new ViewHolder();
 
-            viewHolder.id = (int) invite.get("id");
+            viewHolder.id = (long) invite.get("id");
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.task_img);
             viewHolder.title = (TextView) convertView.findViewById(R.id.task_title);
             viewHolder.subtitle = (TextView) convertView.findViewById(R.id.task_subtitle);
@@ -73,13 +78,13 @@ public class ContactTasksAdapter extends ArrayAdapter {
                 public boolean onLongClick(final View v) {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
                     alertBuilder.setItems(new String[]{
-                            "Done", "Move On", "Edit","Delete"
+                            "Done", "Move On", "Edit", "Delete"
                     }, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 3:
-                                    DatabaseCommands.getInstance().removeInvite(((ViewHolder) v.getTag()).id);
+                                    DatabaseCommands.getInstance(getContext()).removeInvite(((ViewHolder) v.getTag()).id);
                                     v.animate()
                                             .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
                                             .setListener(new Animator.AnimatorListener() {
@@ -90,7 +95,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
                                                 @Override
                                                 public void onAnimationEnd(Animator animation) {
-                                                    ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext()));
+                                                    ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
                                                 }
 
                                                 @Override
@@ -106,11 +111,8 @@ public class ContactTasksAdapter extends ArrayAdapter {
                                             .start();
                                     break;
                                 case 0:
-                                    DatabaseCommands.getInstance().activateInvite(viewHolder.id,true);
-                                    HashMap newInvite = invites.get(viewHolder.position);
-                                    newInvite.put("active",1);
-                                    invites.set(viewHolder.position,newInvite);
-                                    notifyDataSetChanged();
+                                    DatabaseCommands.getInstance().activateInvite(viewHolder.id, true);
+                                    ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
                                     break;
                                 case 2:
                                     finalConvertView.callOnClick();
@@ -123,8 +125,20 @@ public class ContactTasksAdapter extends ArrayAdapter {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             switch (which) {
-
+                                                case 0:
+                                                    DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
+                                                            86400000L);
+                                                    break;
+                                                case 1:
+                                                    DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
+                                                            86400000L * 3);
+                                                    break;
+                                                case 2:
+                                                    DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
+                                                            86400000L * 7);
+                                                    break;
                                             }
+                                            ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
                                         }
                                     });
                                     alertBuilder.show();
@@ -145,8 +159,8 @@ public class ContactTasksAdapter extends ArrayAdapter {
             calendar.setTimeInMillis((long) invite.get("timestamp"));
 
             String contactName = "Unknown";
-            for (Object[] contact: contacts) {
-                if ((int) contact[3] == (int) invite.get("contact")) {
+            for (Object[] contact : contacts) {
+                if ((long) contact[3] == (long) invite.get("contact")) {
                     contactName = (String) contact[0];
                 }
             }
@@ -160,9 +174,34 @@ public class ContactTasksAdapter extends ArrayAdapter {
             viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    ViewHolder viewHolder = (ViewHolder) ((View) buttonView.getParent().getParent()).getTag();
+                    final View view = (View) buttonView.getParent().getParent();
+                    ViewHolder viewHolder = (ViewHolder) view.getTag();
                     DatabaseCommands.getInstance().activateInvite(viewHolder.id, isChecked);
-                    ((ContactShowInvite) getContext()).updatePoint();
+                    view.animate()
+                            .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
+                            .setListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    ((ListView) view.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
+                                }
+
+                                @Override
+                                public void onAnimationCancel(Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {
+
+                                }
+                            })
+                            .start();
+
                 }
             });
         }
@@ -182,7 +221,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
         public TextView title, subtitle;
         public CheckBox checkBox;
         public int position;
-        public int id;
+        public long id;
     }
 
 }

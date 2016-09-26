@@ -44,7 +44,8 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
     Calendar taskCalendar = Calendar.getInstance();
     ScrollView scrollView;
 
-    int type, inviteId;
+    int type;
+    long inviteId;
 
     boolean edit = false;
 
@@ -57,7 +58,7 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
 
         contactId = getIntent().getLongExtra("contact_id", 0);
         type = getIntent().getIntExtra("type", 0);
-        inviteId = getIntent().getIntExtra("invite_id", 0);
+        inviteId = getIntent().getLongExtra("invite_id", 0);
 
         init();
 
@@ -149,9 +150,9 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
         setSupportActionBar(toolbar);
     }
 
-    public void setByInviteId(int inviteId) {
+    public void setByInviteId(long inviteId) {
         invite = DatabaseCommands.getInstance().getInvite(1, inviteId).get(0);
-        contactId = ((Integer) invite.get("contact")).longValue();
+        contactId = (long) invite.get("contact");
         type = (int) invite.get("type");
         edit = true;
 
