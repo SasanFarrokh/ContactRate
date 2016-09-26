@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startService(new Intent(this, MyService.class));
-        new AsyncServerCheck(this).execute();
     }
 
 

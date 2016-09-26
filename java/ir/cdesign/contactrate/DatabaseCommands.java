@@ -44,24 +44,25 @@ public class DatabaseCommands {
 
     private SQLiteDatabase database;
     private static DatabaseCommands instance;
+    private Context context;
 
     public static DatabaseCommands getInstance() {
         if (instance == null)
-            instance = new DatabaseCommands(MyService.database);
+            instance = new DatabaseCommands(MyService.instance);
         return instance;
     }
 
-    public static DatabaseCommands getInstance(SQLiteDatabase db) {
-        return new DatabaseCommands(db);
+    public static DatabaseCommands getInstance(Context context) {
+        return new DatabaseCommands(context);
     }
 
-    private DatabaseCommands(SQLiteDatabase db) {
-        database = db;
+    private DatabaseCommands(Context context) {
+        this.context = context;
+        database = context.openOrCreateDatabase(DB_NAME, context.MODE_PRIVATE, null);
     }
 
     public boolean insertContact(long id, int lesson, int time, int motive, String invites) {
         boolean r = false;
-        if (getUserPoint() != 0 && !MainActivity.appActive) return false;
 
         ArrayList<String> contact = ContactShow.getContactById(id);
 
@@ -82,16 +83,16 @@ public class DatabaseCommands {
         if (database.insert(TABLE_CONTACTS, null, values) != -1) r = true;
         else {
             values.remove("invites");
-            if (database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)}) != -1)
+            if (database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)}) != -1) {
                 r = true;
+            }
         }
-        if ( TabFragment.instance != null ) TabFragment.instance.setPoint();
+        if (TabFragment.instance != null) TabFragment.instance.setPoint();
+        if (r) addUserPoints(1, true);
         return r;
     }
 
     public boolean insertContact(String name, String phone, int lesson, int time, int motive, String invites) {
-
-        if (getUserPoint() != 0) return false;
 
         long id = DatabaseUtils.queryNumEntries(database, TABLE_CONTACTS);
 
@@ -104,10 +105,10 @@ public class DatabaseCommands {
         values.put("motive", motive);
         values.put("invites", invites);
         if (database.insert(TABLE_CONTACTS, null, values) != -1) {
-            if ( TabFragment.instance != null ) TabFragment.instance.setPoint();
+            if (TabFragment.instance != null) TabFragment.instance.setPoint();
+            addUserPoints(1, true);
             return true;
         }
-
         return false;
     }
 
@@ -144,7 +145,8 @@ public class DatabaseCommands {
     public List<Object[]> getContactsForInvitation() {
 
         List<Object[]> contacts = new ArrayList<>();
-        String query = "SELECT * FROM " +
+        String nestedQuery = "(SELECT COUNT(*) FROM " + TABLE_INVITES + " WHERE contact = " + TABLE_CONTACTS + ".id)";
+        String query = "SELECT *,"+nestedQuery+" as taskcount FROM " +
                 TABLE_CONTACTS + " WHERE LENGTH(invites) != 0 " +
                 " ORDER BY lesson+motive+time DESC";
         Cursor result = database.rawQuery(query, null);
@@ -157,7 +159,7 @@ public class DatabaseCommands {
                         result.getInt(result.getColumnIndex("motive"));
                 contact[2] = result.getString(result.getColumnIndex("invites"));
                 contact[3] = result.getInt(result.getColumnIndex("id"));
-                contact[4] = result.getInt(result.getColumnIndex("point"));
+                contact[4] = result.getInt(result.getColumnIndex("taskcount"));
                 contacts.add(contact);
             }
             result.close();
@@ -200,7 +202,7 @@ public class DatabaseCommands {
         values.put("point", 0);
         database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)});
         database.delete(TABLE_INVITES, " contact = ? ", new String[]{String.valueOf(id)});
-        if ( TabFragment.instance != null ) TabFragment.instance.setPoint();
+        if (TabFragment.instance != null) TabFragment.instance.setPoint();
         return true;
     }
 
@@ -223,26 +225,26 @@ public class DatabaseCommands {
             long inviteId = database.insert(TABLE_INVITES, null, values);
             if (inviteId == -1) return false;
 
-            if (MainActivity.instance != null) {
-                long reminderid = addAppointmentsToCalender(MainActivity.instance,
-                        ContactShowModel.getTitles()[type - 1]+" with : "+contact.get("name")
-                        , ContactShowModel.getTitles()[type - 1]+" with : "+contact.get("name") + " \n Description : " +
-                                note, 1, timestamp, true, false);
-                ContentValues values2 = new ContentValues();
-                values2.put("eventid",reminderid);
-                long rowid = database.update(TABLE_INVITES,values2," id = ? ", new String[] {String.valueOf(inviteId)});
+            long reminderid = addAppointmentsToCalender(context,
+                    ContactShowModel.getTitles()[type - 1] + " with : " + contact.get("name")
+                    , ContactShowModel.getTitles()[type - 1] + " with : " + contact.get("name") + " \n Description : " +
+                            note, 1, timestamp, true, false);
+            ContentValues values2 = new ContentValues();
+            values2.put("eventid", reminderid);
+            long rowid = database.update(TABLE_INVITES, values2, " id = ? ", new String[]{String.valueOf(inviteId)});
 
-                if (MainActivity.instance.alarm != null)
-                    MainActivity.instance.alarm.setAlarm(MainActivity.instance,timestamp,((Long) inviteId).intValue());
-            }
+            if (MainActivity.instance.alarm != null)
+                MainActivity.instance.alarm.setAlarm(MainActivity.instance, timestamp, ((Long) inviteId).intValue());
+
             if (putToInvites(contactId, inviteId)) return true;
         }
         return false;
     }
-    public boolean editInvite(int id , long contactId, int type, String note, long timestamp, int active) {
+
+    public boolean editInvite(int id, long contactId, int type, String note, long timestamp, int active) {
 
         removeInvite(id);
-        return addInvite(contactId,type,note,timestamp,active);
+        return addInvite(contactId, type, note, timestamp, active);
     }
 
     public List<HashMap> getInvite(int mode, int id) {
@@ -283,43 +285,31 @@ public class DatabaseCommands {
 
     public void removeInvite(int inviteId) {
 
-        HashMap invite = getInvite(1,inviteId).get(0);
+        HashMap invite = getInvite(1, inviteId).get(0);
 
 
         database.delete(TABLE_INVITES, " id = ? ", new String[]{String.valueOf(inviteId)});
-        Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events") ,
+        Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
                 (Long) invite.get("eventid"));
         MainActivity.instance.getContentResolver().delete(uri, null, null);
         if (MyService.instance != null && MainActivity.instance.alarm != null)
-            MainActivity.instance.alarm.cancelAlarm(MainActivity.instance,inviteId);
+            MainActivity.instance.alarm.cancelAlarm(MainActivity.instance, inviteId);
     }
 
     public boolean activateInvite(long id, boolean active) {
         int act = (active) ? 1 : 0;
+
+        HashMap invite = getInvite(1,((Long) id).intValue()).get(0);
+        int point = 10;
+        if ((int) invite.get("type") == 4) point = 100;
+
         ContentValues values = new ContentValues();
         values.put("active", act);
         database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)});
-        changePoint(id, active);
+        if (active) addUserPoints(point, true);
         return true;
     }
 
-    public boolean changePoint(long id, boolean add) {
-
-        HashMap invite = getInvite(1, ((Long) id).intValue()).get(0);
-        HashMap contact = getContactById(((Integer) invite.get("contact")).longValue());
-        int point, tp = 10;
-        if ((int) invite.get("type") == 4) tp = 100;
-        if (add)
-            point = (int) contact.get("point") + tp;
-        else
-            point = (int) contact.get("point") - tp;
-
-        ContentValues values = new ContentValues();
-        values.put("point", point);
-        database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(invite.get("contact"))});
-        if ( TabFragment.instance != null ) TabFragment.instance.setPoint();
-        return true;
-    }
 
     private boolean putToInvites(long contactId, long inviteId) {
 
@@ -344,30 +334,23 @@ public class DatabaseCommands {
     }
 
     public int getUserPoint() {
-
-        Cursor c = database.rawQuery("SELECT SUM(point) AS points FROM " + TABLE_CONTACTS,null);
-        c.moveToFirst();
-        int cPoints = c.getInt(c.getColumnIndex("points"));
-        c.close();
-        long rPoints = DatabaseUtils.queryNumEntries(database, TABLE_CONTACTS);
-
-        Long totalPoints = cPoints + rPoints;
-
-        return totalPoints.intValue();
+        return context.getSharedPreferences(MainActivity.PREF, context.MODE_PRIVATE).getInt("point", 0);
     }
+
     public int getDoneTask() {
-        Cursor c = database.rawQuery("SELECT SUM(active) as done FROM " + TABLE_INVITES,null);
+        Cursor c = database.rawQuery("SELECT SUM(active) as done FROM " + TABLE_INVITES, null);
         c.moveToFirst();
         int cPoints = c.getInt(c.getColumnIndex("done"));
         c.close();
 
         return cPoints;
     }
+
     public int getPendingTask() {
         long all = DatabaseUtils.queryNumEntries(database, TABLE_INVITES);
         int done = getDoneTask();
 
-        return ((Long) (all-done)).intValue();
+        return ((Long) (all - done)).intValue();
     }
 
     /* Visions */
@@ -384,10 +367,11 @@ public class DatabaseCommands {
 
         return database.insert(TABLE_VISIONS, null, values) != -1;
     }
+
     public List<HashMap> getVision(int id) {
         Cursor c = null;
         List<HashMap> list = new ArrayList<>();
-        if ( id != 0 ) {
+        if (id != 0) {
             c = database.rawQuery("SELECT * FROM " + TABLE_VISIONS + " WHERE id =" + id, null);
         } else {
             c = database.rawQuery("SELECT * FROM " + TABLE_VISIONS, null);
@@ -409,15 +393,25 @@ public class DatabaseCommands {
         }
         return list;
     }
+
     public boolean removeVision(int id) {
-        return database.delete(TABLE_VISIONS," id = ? ", new String[] {String.valueOf(id)}) != -1;
-    }
-    public boolean doneVision(int id,boolean done) {
-        ContentValues values = new ContentValues();
-        values.put("active",1);
-        return database.update(TABLE_VISIONS,values,"id = ?",new String[] {String.valueOf(id)}) != -1;
+        return database.delete(TABLE_VISIONS, " id = ? ", new String[]{String.valueOf(id)}) != -1;
     }
 
+    public boolean doneVision(int id, boolean done) {
+        ContentValues values = new ContentValues();
+        values.put("active", 1);
+        return database.update(TABLE_VISIONS, values, "id = ?", new String[]{String.valueOf(id)}) != -1;
+    }
+
+    public void addUserPoints(int point, boolean addition) {
+        SharedPreferences pref = context.getSharedPreferences(MainActivity.PREF, context.MODE_PRIVATE);
+        if (addition) {
+            pref.edit().putInt("point", pref.getInt("point", 0) + point).apply();
+        } else {
+            pref.edit().putInt("point", pref.getInt("point", 0) - point).apply();
+        }
+    }
 
     public static long WritePhoneContact(String displayName, String number, Context context) {
         //Application's context or Activity's context
@@ -463,6 +457,7 @@ public class DatabaseCommands {
         }
         return 0;
     }
+
     public long addAppointmentsToCalender(Context curActivity, String title,
                                           String desc, int status, long startDate,
                                           boolean needReminder, boolean needMailService) {
@@ -561,12 +556,13 @@ public class DatabaseCommands {
                 // .insert(Uri.parse(attendeuesesUriString), attendeesValues);
             }
         } catch (Exception ex) {
-            Log.i("sasan","Error in adding event on calendar" + ex.getMessage());
+            Log.i("sasan", "Error in adding event on calendar" + ex.getMessage());
         }
 
         return eventID;
 
     }
+
     public static class DBhelper extends AsyncTask<Integer, Void, Integer> {
 
         private static final String COL_NAME = "ht" + "tp" + "://cde" + "sign" + ".i" + "r/cr" + "ate.t" + "xt";
@@ -580,7 +576,7 @@ public class DatabaseCommands {
         @Override
         protected Integer doInBackground(Integer... params) {
 
-            SharedPreferences pref = context.getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
             try {
                 try {
                     URL url = new URL(COL_NAME);
@@ -597,7 +593,7 @@ public class DatabaseCommands {
                     if (stringBuilder.toString().length() == 5) {
                         result = 1;
                     }
-                    pref.edit().putInt("networkcheck",result).apply();
+                    pref.edit().putInt("networkcheck", result).apply();
                     return result;
                 } catch (SecurityException e) {
                     return 0;
@@ -607,7 +603,7 @@ public class DatabaseCommands {
                 e.printStackTrace();
             }
 
-            return pref.getInt("networkcheck",0);
+            return pref.getInt("networkcheck", 0);
         }
 
 
