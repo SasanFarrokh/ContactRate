@@ -1,10 +1,11 @@
 package ir.cdesign.contactrate.adapters;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import ir.cdesign.contactrate.ContactShow;
 import ir.cdesign.contactrate.ContactShowInvite;
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
@@ -32,10 +32,12 @@ import ir.cdesign.contactrate.models.ContactShowModel;
 public class ContactTasksAdapter extends ArrayAdapter {
 
     private List<HashMap> invites;
+    private List<Object[]> contacts;
 
     public ContactTasksAdapter(Context context) {
         super(context, -1);
-        invites = DatabaseCommands.getInstance().getInvite(0,0);
+        invites = DatabaseCommands.getInstance().getInvite(0, 0);
+        contacts = DatabaseCommands.getInstance().getContactsForInvitation();
     }
 
     @Override
@@ -43,39 +45,123 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
         final ViewHolder viewHolder;
 
-        HashMap invite = invites.get(invites.size()-position-1);
+        final HashMap invite = invites.get(invites.size() - position - 1);
 
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.task_contact_layout, parent, false);
+            convertView = inflater.inflate(R.layout.task_row_layout, parent, false);
 
             viewHolder = new ViewHolder();
 
+            viewHolder.id = (int) invite.get("id");
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.task_img);
-            viewHolder.textView = (TextView) convertView.findViewById(R.id.task_title);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.task_title);
+            viewHolder.subtitle = (TextView) convertView.findViewById(R.id.task_subtitle);
             viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.task_checkbox);
             viewHolder.checkBox.setChecked(((int) invite.get("active") != 0));
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ContactTasksAdapter.ViewHolder viewHolder = (ContactTasksAdapter.ViewHolder) v.getTag();
-                    getContext().startActivity(new Intent(getContext(), TaskEditToDb.class).putExtra("invite_id",viewHolder.id));
+                    getContext().startActivity(new Intent(getContext(), TaskEditToDb.class).putExtra("invite_id", viewHolder.id));
                 }
             });
             convertView.setTag(viewHolder);
+            final View finalConvertView = convertView;
+            convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(final View v) {
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+                    alertBuilder.setItems(new String[]{
+                            "Done", "Move On", "Edit","Delete"
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 3:
+                                    DatabaseCommands.getInstance().removeInvite(((ViewHolder) v.getTag()).id);
+                                    v.animate()
+                                            .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
+                                            .setListener(new Animator.AnimatorListener() {
+                                                @Override
+                                                public void onAnimationStart(Animator animation) {
+
+                                                }
+
+                                                @Override
+                                                public void onAnimationEnd(Animator animation) {
+                                                    ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext()));
+                                                }
+
+                                                @Override
+                                                public void onAnimationCancel(Animator animation) {
+
+                                                }
+
+                                                @Override
+                                                public void onAnimationRepeat(Animator animation) {
+
+                                                }
+                                            })
+                                            .start();
+                                    break;
+                                case 0:
+                                    DatabaseCommands.getInstance().activateInvite(viewHolder.id,true);
+                                    HashMap newInvite = invites.get(viewHolder.position);
+                                    newInvite.put("active",1);
+                                    invites.set(viewHolder.position,newInvite);
+                                    notifyDataSetChanged();
+                                    break;
+                                case 2:
+                                    finalConvertView.callOnClick();
+                                    break;
+                                case 1:
+                                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+                                    alertBuilder.setItems(new String[]{
+                                            "Tomorrow", "3 Days Later", "Next Week"
+                                    }, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which) {
+
+                                            }
+                                        }
+                                    });
+                                    alertBuilder.show();
+                                    break;
+                            }
+                        }
+                    });
+                    alertBuilder.show();
+                    return true;
+                }
+            });
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         if (invite != null) {
-            viewHolder.imageView.setImageResource(ContactShowModel.getImages()[(int) invite.get("type")-1]);
-            viewHolder.textView.setText(ContactShowModel.getTitles()[(int) invite.get("type")-1]);
-            viewHolder.id = (int) invite.get("id");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis((long) invite.get("timestamp"));
+
+            String contactName = "Unknown";
+            for (Object[] contact: contacts) {
+                if ((int) contact[3] == (int) invite.get("contact")) {
+                    contactName = (String) contact[0];
+                }
+            }
+
+            viewHolder.imageView.setImageResource(ContactShowModel.getImages()[(int) invite.get("type") - 1]);
+            viewHolder.title.setText(ContactShowModel.getTitles()[(int) invite.get("type") - 1]);
+            viewHolder.subtitle.setText("With " +
+                    contactName + " at : " +
+                    calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)
+            );
             viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    ViewHolder viewHolder = (ViewHolder) ((View) buttonView.getParent()).getTag();
-                    DatabaseCommands.getInstance().activateInvite(viewHolder.id,isChecked);
+                    ViewHolder viewHolder = (ViewHolder) ((View) buttonView.getParent().getParent()).getTag();
+                    DatabaseCommands.getInstance().activateInvite(viewHolder.id, isChecked);
                     ((ContactShowInvite) getContext()).updatePoint();
                 }
             });
@@ -85,6 +171,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
         return convertView;
     }
 
+
     @Override
     public int getCount() {
         return invites.size();
@@ -92,7 +179,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
     public static class ViewHolder {
         public ImageView imageView;
-        public TextView textView;
+        public TextView title, subtitle;
         public CheckBox checkBox;
         public int position;
         public int id;
