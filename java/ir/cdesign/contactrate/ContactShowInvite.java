@@ -23,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +33,8 @@ import java.util.HashMap;
 import ir.cdesign.contactrate.adapters.ContactTasksAdapter;
 import ir.cdesign.contactrate.adapters.InvitationAdapter;
 import ir.cdesign.contactrate.adapters.RankAdapter;
-import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.adapters.VisionAdapter;
 import ir.cdesign.contactrate.utilities.CustomLayoutManager;
-import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class ContactShowInvite extends AppCompatActivity {
 
@@ -44,8 +42,7 @@ public class ContactShowInvite extends AppCompatActivity {
     TextView contactName, point;
     EditText phone, note;
     FloatingActionButton fab;
-    ListView listView;
-    LinearLayout linearLayout;
+    public ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +58,6 @@ public class ContactShowInvite extends AppCompatActivity {
         });
 //        init
         setToolbar();
-
-        WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
-        linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
-        linearLayout.setBackgroundResource(drawable);
 
         contactId = getIntent().getLongExtra("contact_id", 0);
         if (contactId == 0) finish();
@@ -167,4 +159,5 @@ public class ContactShowInvite extends AppCompatActivity {
         HashMap contact = DatabaseCommands.getInstance().getContactById(contactId);
         point.setText(String.valueOf(contact.get("point")));
     }
+
 }
