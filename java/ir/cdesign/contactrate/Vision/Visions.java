@@ -4,14 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import ir.cdesign.contactrate.R;
@@ -26,7 +30,7 @@ import ir.cdesign.contactrate.utilities.WallpaperBoy;
 public class Visions extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     FloatingActionButton fab;
-    Button toolbarImage;
+    ImageView toolbarImage;
     RecyclerView visions;
     FrameLayout frameLayout;
 
@@ -62,11 +66,26 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
 
     private void init(){
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        toolbarImage = (Button) findViewById(R.id.toolbar_iv);
         visions = (RecyclerView) findViewById(R.id.vision_rv);
 
+        setToolbar();
+
         fab.setOnClickListener(listener);
-        toolbarImage.setOnClickListener(listener);
+    }
+    private void setToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Visions");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setBackgroundDrawable(null);
+
+        }
+
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -89,5 +108,16 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
         // Note: monthOfYear is 0-indexed
         String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
 //        dateTextView.setText(date);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Visions.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

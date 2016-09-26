@@ -262,7 +262,7 @@ public class DatabaseCommands {
                 break;
             case 0:
             default:
-                query = "SELECT * FROM " + TABLE_INVITES;
+                query = "SELECT * FROM " + TABLE_INVITES + " ORDER BY timestamp DESC";
                 break;
         }
         Cursor result = database.rawQuery(query, null);

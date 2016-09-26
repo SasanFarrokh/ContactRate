@@ -175,7 +175,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
             viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    final View view = (View) buttonView.getParent().getParent();
+                    final View view = (View) buttonView.getParent();
                     ViewHolder viewHolder = (ViewHolder) view.getTag();
                     DatabaseCommands.getInstance().activateInvite(viewHolder.id, isChecked);
                     viewHolder.completed.setVisibility(View.VISIBLE);
@@ -189,7 +189,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
-                                    ((ListView) view.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
+                                    ((ListView) view.getParent().getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
                                 }
 
                                 @Override

@@ -1,6 +1,7 @@
 package ir.cdesign.contactrate.lessons;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +27,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     RecyclerView recyclerView;
     TextView toolbarText;
     LinearLayout linearLayout;
-    Button toolbarImage;
+    ImageView toolbarImage;
 
     //demo edition
     FrameLayout lessonAllRow ,lessonMarkRow;
@@ -55,20 +57,32 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         mark = (Button) findViewById(R.id.mark_btn);
         toolbarText = (TextView) findViewById(R.id.toolbar_tv);
 
-        toolbarImage = (Button) findViewById(R.id.toolbar_iv);
-        toolbarImage.setOnClickListener(this);
+        setToolbar();
 
         //demo edition
         lessonAllRow = (FrameLayout) findViewById(R.id.lesson_all_row_layout);
         lessonMarkRow = (FrameLayout) findViewById(R.id.lesson_mark_row_layout);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
 
-        toolbarText.setText("Lesson");
-
         lessonAllRow.setOnClickListener(this);
         lessonMarkRow.setOnClickListener(this);
         all.setOnClickListener(this);
         mark.setOnClickListener(this);
+    }
+    private void setToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Lessons");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setBackgroundDrawable(null);
+
+        }
+
     }
 
     private void adapterSwitch(){

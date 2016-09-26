@@ -12,7 +12,7 @@
     android:paddingTop="5dp"
     tools:context="ir.cdesign.contactrate.homeScreen.NewsActivity">
 
-    <include layout="@layout/toolbar" android:id="@+id/toolbar" />
+    <include layout="@layout/toolbar_back_button" />
 
     <ProgressBar
         android:id="@+id/progress"

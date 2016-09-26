@@ -4,8 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import ir.cdesign.contactrate.MedalsActivity;
@@ -17,7 +21,7 @@ import ir.cdesign.contactrate.homeScreen.HomeScreen;
 public class ProfileActivity extends AppCompatActivity {
 
     ViewPager viewPager;
-    ImageView profilePhoto;
+    ImageView profilePhoto,toolbarImage;
     MedalFragment medalFragment = new MedalFragment();
 
     @Override
@@ -26,13 +30,31 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         init();
-        profilePhoto.setImageBitmap(HomeScreen.profileImage);
+        if (HomeScreen.profileImage != null)
+            profilePhoto.setImageBitmap(HomeScreen.profileImage);
     }
 
-    private void init(){
+    private void init() {
         viewPager = (ViewPager) findViewById(R.id.profile_viewPager);
         profilePhoto = (ImageView) findViewById(R.id.profile_photo);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        setToolbar();
+
+    }
+    private void setToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Profile");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setBackgroundDrawable(null);
+
+        }
+
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -48,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 case 0:
                     return medalFragment;
-                case 1 :
+                case 1:
                     return new AllRankInv();
                 default:
                     return medalFragment;
@@ -57,10 +79,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2 ;
+            return 2;
         }
 
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                ProfileActivity.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

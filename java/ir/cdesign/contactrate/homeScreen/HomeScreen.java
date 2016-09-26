@@ -262,6 +262,7 @@ public class HomeScreen extends AppCompatActivity {
         Double visionPercent = (visionsData.size() != 0)?
                 ((double) (System.currentTimeMillis() - (long) visionsData.get(0).get("regdate")) /
                         ((long) visionsData.get(0).get("timestamp") - (long) visionsData.get(0).get("regdate"))) * 100:0;
+        visionPercent = Math.max(0,Math.min(visionPercent,100));
 
         animateProgress(pending, 0, pendingPercent.intValue());
         animateProgress(done, 0, donePercent.intValue());

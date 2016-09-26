@@ -117,7 +117,7 @@ public class HomeNavigation extends Fragment {
                     startActivity(intent);
                     break;
                 case R.id.tutorial:
-                    intent = new Intent(getActivity(), ReadLessonActivity.class);
+                    intent = new Intent(getActivity(), Tutorial.class);
                     startActivity(intent);
                     break;
                 case R.id.home:
@@ -168,48 +168,50 @@ public class HomeNavigation extends Fragment {
     }
 
     public static Bitmap getProfileBitmap(Context ctx, Uri selectedImage) {
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        Cursor cursor = ctx.getContentResolver().query(selectedImage,
-                filePathColumn, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+        try {
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = ctx.getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
 
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = false;
-            Bitmap bigImage = BitmapFactory.decodeFile(picturePath, options);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inScaled = false;
+                Bitmap bigImage = BitmapFactory.decodeFile(picturePath, options);
 
-            int imageSize = ctx.getResources().getDimensionPixelSize(R.dimen.nav_profile_image);
-            imageSize *= 7;
-            float ratio = ((float) bigImage.getWidth()) / bigImage.getHeight();
-            Bitmap image = null;
-            if (ratio >= 1) {
-                Float height = imageSize / ratio;
-                Log.i("sasan", "gallery pick h : " + height.intValue());
-                image = Bitmap.createScaledBitmap(bigImage, imageSize, height.intValue(), true);
-                image = Bitmap.createBitmap(
-                        image,
-                        image.getWidth() / 2 - image.getHeight() / 2,
-                        0,
-                        image.getHeight(),
-                        image.getHeight()
-                );
-            } else {
-                Float width = imageSize * ratio;
-                Log.i("sasan", "gallery pick w : " + width.intValue());
-                image = Bitmap.createScaledBitmap(bigImage, width.intValue(), imageSize, true);
-                image = Bitmap.createBitmap(
-                        image,
-                        0,
-                        image.getHeight() / 2 - image.getWidth() / 2,
-                        image.getWidth(),
-                        image.getWidth()
-                );
+                int imageSize = ctx.getResources().getDimensionPixelSize(R.dimen.nav_profile_image);
+                imageSize *= 7;
+                float ratio = ((float) bigImage.getWidth()) / bigImage.getHeight();
+                Bitmap image = null;
+                if (ratio >= 1) {
+                    Float height = imageSize / ratio;
+                    Log.i("sasan", "gallery pick h : " + height.intValue());
+                    image = Bitmap.createScaledBitmap(bigImage, imageSize, height.intValue(), true);
+                    image = Bitmap.createBitmap(
+                            image,
+                            image.getWidth() / 2 - image.getHeight() / 2,
+                            0,
+                            image.getHeight(),
+                            image.getHeight()
+                    );
+                } else {
+                    Float width = imageSize * ratio;
+                    Log.i("sasan", "gallery pick w : " + width.intValue());
+                    image = Bitmap.createScaledBitmap(bigImage, width.intValue(), imageSize, true);
+                    image = Bitmap.createBitmap(
+                            image,
+                            0,
+                            image.getHeight() / 2 - image.getWidth() / 2,
+                            image.getWidth(),
+                            image.getWidth()
+                    );
+                }
+                return image;
             }
-            return image;
-        }
+        } catch (Exception ignore) {}
         return null;
     }
 }

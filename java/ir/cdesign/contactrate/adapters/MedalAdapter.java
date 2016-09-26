@@ -23,7 +23,6 @@ public class MedalAdapter extends RecyclerView.Adapter<MedalAdapter.MedalHolder>
     private ArrayList<MedalModel> medalModels;
     private LayoutInflater layoutInflater;
     private Context context;
-//    final float scale = MainActivity.instance.getResources().getDisplayMetrics().density;
 
 
     public MedalAdapter(Context context, ArrayList<MedalModel> medals) {
@@ -35,9 +34,6 @@ public class MedalAdapter extends RecyclerView.Adapter<MedalAdapter.MedalHolder>
     @Override
     public MedalHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.medal_row_layout, parent, false);
-//        int padding_in_dp = 18;
-//        int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
-//        view.setPadding(padding_in_px,padding_in_px,padding_in_px,padding_in_px);
         MedalHolder holder = new MedalHolder(view);
         return holder;
     }
@@ -62,7 +58,7 @@ public class MedalAdapter extends RecyclerView.Adapter<MedalAdapter.MedalHolder>
         public MedalHolder(View itemView) {
             super(itemView);
             Title = (TextView) itemView.findViewById(R.id.task_title);
-            imageView = (ImageView) itemView.findViewById(R.id.task_img);
+            imageView = (ImageView) itemView.findViewById(R.id.medal_iv);
         }
 
 

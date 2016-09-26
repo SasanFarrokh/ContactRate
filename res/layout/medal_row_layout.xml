@@ -6,13 +6,13 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/task_img"
+        android:id="@+id/medal_iv"
         android:layout_width="match_parent"
         android:clickable="true"
         style="@style/selectable"
         android:layout_gravity="center"
         android:layout_height="80dp"
-        android:src="@drawable/invitation"/>
+        android:src="@drawable/medal"/>
 
     <TextView
         android:id="@+id/task_title"

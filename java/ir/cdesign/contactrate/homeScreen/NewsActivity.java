@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,46 +38,40 @@ public class NewsActivity extends AppCompatActivity implements SwipeRefreshLayou
         news = (RecyclerView) findViewById(R.id.news_rv);
         swipeRefresh = (SwipeRefreshLayout) news.getParent();
         point = (TextView) findViewById(R.id.toolbar_tv);
-        toolbarImage = (Button) findViewById(R.id.toolbar_iv);
-        if (toolbarImage != null) {
-            toolbarImage.setOnClickListener(listener);
-        }
         swipeRefresh.setOnRefreshListener(this);
+        setToolbar();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        setPoint();
         (new AsyncGetNews(this,news)).execute();
     }
-    public void setPoint() {
+    private void setToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        ((View) point.getParent()).setVisibility(View.GONE);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
 
-        //int p = DatabaseCommands.getInstance().getUserPoint();
-        //point.setText(String.valueOf(p));
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("News");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setBackgroundDrawable(null);
+
+        }
+
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
-
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NewsActivity.this.finish();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-
-    private View.OnClickListener listener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.toolbar_iv:
-                    finish();
-                    break;
-            }
-        }
-    };
 
     public void loadingFail() {
         runOnUiThread(new Runnable() {
