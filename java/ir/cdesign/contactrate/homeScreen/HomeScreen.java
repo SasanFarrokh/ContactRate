@@ -70,7 +70,7 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         profileName = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("userName", "Unknown");
-        profileNumber = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("number", "0912 000 00 00");
+        profileNumber = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("phoneNumber", "09XXXXXXXXX");
         if ((new File(getFilesDir(), "profile.jpg")).exists()) {
             profileImage = BitmapFactory.decodeFile((new File(getFilesDir(), "profile.jpg")).getAbsolutePath());
         }

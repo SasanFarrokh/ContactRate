@@ -1,16 +1,11 @@
 package ir.cdesign.contactrate;
 
-import android.Manifest;
 import android.animation.Animator;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -36,13 +31,12 @@ public class SplashActivity extends AppCompatActivity {
     Boolean regHelp;
     ImageView imageView;
     TextView textView, textViewTwo;
-    EditText editText;
+    EditText nameEditText, phoneNumber;
     LinearLayout linearLayout;
     Button nextButton, nextButtonTwo;
 
     SharedPreferences reg;
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +67,8 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void init() {
-        editText = (EditText) findViewById(R.id.splash_edit_text);
+        nameEditText = (EditText) findViewById(R.id.splash_edit_text);
+        phoneNumber = (EditText) findViewById(R.id.splash_phone_number);
         textView = (TextView) findViewById(R.id.splash_text);
         nextButtonTwo = (Button) findViewById(R.id.next_button_two);
         imageView = (ImageView) findViewById(R.id.splash_logo);
@@ -82,8 +77,10 @@ public class SplashActivity extends AppCompatActivity {
         textViewTwo = (TextView) findViewById(R.id.splash_text_two);
 
         textViewTwo.setAlpha(0);
-        editText.setAlpha(0);
-        editText.setVisibility(View.INVISIBLE);
+        nameEditText.setAlpha(0);
+        nameEditText.setVisibility(View.INVISIBLE);
+        phoneNumber.setAlpha(0);
+        phoneNumber.setVisibility(View.INVISIBLE);
 
         textView.setAlpha(0f);
         textView.setScaleX(0.8f);
@@ -100,10 +97,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void onStartViewAnimator() {
-        imageView = (ImageView) findViewById(R.id.splash_logo);
-        textView = (TextView) findViewById(R.id.splash_text);
-        linearLayout = (LinearLayout) findViewById(R.id.company_layout);
-        nextButton = (Button) findViewById(R.id.next_button);
 
         imageView.animate().alpha(1).scaleX(1f).scaleY(1f).setDuration(1000).setListener(new Animator.AnimatorListener() {
             @Override
@@ -146,20 +139,16 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void viewAnimator() {
-        textView = (TextView) findViewById(R.id.splash_text);
-        textViewTwo = (TextView) findViewById(R.id.splash_text_two);
-        imageView = (ImageView) findViewById(R.id.splash_logo);
-        editText = (EditText) findViewById(R.id.splash_edit_text);
-        nextButtonTwo = (Button) findViewById(R.id.next_button_two);
-        nextButton = (Button) findViewById(R.id.next_button);
 
         textView.animate().yBy(-200).setDuration(400).start();
         imageView.animate().yBy(-50).alpha(0).setDuration(400).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 textViewTwo.animate().yBy(-200).alpha(1).setDuration(300).start();
-                editText.setVisibility(View.VISIBLE);
-                editText.animate().yBy(-150).alpha(1).setDuration(300).start();
+                nameEditText.setVisibility(View.VISIBLE);
+                nameEditText.animate().yBy(-150).alpha(1).setDuration(300).start();
+                phoneNumber.setVisibility(View.VISIBLE);
+                phoneNumber.animate().yBy(-150).alpha(1).setDuration(300).start();
                 nextButton.animate().alpha(0).translationYBy(-20).start();
             }
 
@@ -184,7 +173,9 @@ public class SplashActivity extends AppCompatActivity {
     private void regSave() {
         SharedPreferences reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = reg.edit();
-        editor.putString("userName", titleCase(editText.getText().toString())).apply();
+        editor.putString("userName", titleCase(nameEditText.getText().toString()));
+        editor.putString("phoneNumber", titleCase(phoneNumber.getText().toString()));
+        editor.apply();
     }
 
     public void onOkClick(View view) {
@@ -192,24 +183,21 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void onDoneClick(View view) {
-        String userName = String.valueOf(editText.getText());
-        if (userName.equals("")) {
-            Toast.makeText(this, "You Can't Leave The Name Field Empty", Toast.LENGTH_LONG).show();
+        String userName = String.valueOf(nameEditText.getText());
+        String phoneNumberStr = String.valueOf(phoneNumber.getText());
+        if (userName.isEmpty() || phoneNumberStr.isEmpty()) {
+            Toast.makeText(this, "You Can't Leave Fields Empty", Toast.LENGTH_SHORT).show();
         } else {
-            textView = (TextView) findViewById(R.id.splash_text);
-            textViewTwo = (TextView) findViewById(R.id.splash_text_two);
-            editText = (EditText) findViewById(R.id.splash_edit_text);
-            nextButtonTwo = (Button) findViewById(R.id.next_button_two);
-            editText = (EditText) findViewById(R.id.splash_edit_text);
 
             nextButtonTwo.animate().alpha(0).translationYBy(-20).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
 
-                    editText.animate().alpha(0).translationYBy(-20).start();
+                    nameEditText.animate().alpha(0).translationYBy(-20).start();
+                    phoneNumber.animate().alpha(0).translationYBy(-20).start();
                     textView.animate().alpha(0).translationYBy(-20).start();
                     textViewTwo.animate().alpha(0).translationYBy(-20).start();
-                    editText.setVisibility(View.INVISIBLE);
+                    //nameEditText.setVisibility(View.INVISIBLE);
                     textView.setVisibility(View.INVISIBLE);
                     textViewTwo.setVisibility(View.INVISIBLE);
                     startActivity(new Intent(SplashActivity.this, HomeScreen.class));
