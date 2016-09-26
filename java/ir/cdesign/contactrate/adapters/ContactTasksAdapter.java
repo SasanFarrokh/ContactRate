@@ -49,7 +49,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.task_row_layout, parent, false);
+            convertView = inflater.inflate(R.layout.task_contact_layout, parent, false);
 
             viewHolder = new ViewHolder();
 
