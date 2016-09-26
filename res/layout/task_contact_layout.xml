@@ -8,6 +8,15 @@
     android:clipToPadding="false"
     android:clickable="true">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/task_completed"
+        android:layout_centerInParent="true"
+        android:textColor="@color/green"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:text="Completed !"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,10 +66,4 @@
             android:layout_height="40dp"
             android:layout_margin="5dp" />
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textColor="@color/green"
-        android:text="Completed !"/>
 </RelativeLayout>

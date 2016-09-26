@@ -62,6 +62,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.task_img);
             viewHolder.title = (TextView) convertView.findViewById(R.id.task_title);
             viewHolder.subtitle = (TextView) convertView.findViewById(R.id.task_subtitle);
+            viewHolder.completed = (TextView) convertView.findViewById(R.id.task_completed);
             viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.task_checkbox);
             viewHolder.checkBox.setChecked(((int) invite.get("active") != 0));
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +178,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
                     final View view = (View) buttonView.getParent().getParent();
                     ViewHolder viewHolder = (ViewHolder) view.getTag();
                     DatabaseCommands.getInstance().activateInvite(viewHolder.id, isChecked);
+                    viewHolder.completed.setVisibility(View.VISIBLE);
                     view.animate()
                             .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
                             .setListener(new Animator.AnimatorListener() {
@@ -218,7 +220,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
     public static class ViewHolder {
         public ImageView imageView;
-        public TextView title, subtitle;
+        public TextView title, subtitle,completed;
         public CheckBox checkBox;
         public int position;
         public long id;
