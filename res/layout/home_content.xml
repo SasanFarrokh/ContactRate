@@ -19,316 +19,51 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp">
+                android:layout_height="wrap_content">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp">
 
 
-            </android.support.v4.view.ViewPager>
-
+                </android.support.v4.view.ViewPager>
+            </RelativeLayout>
             <LinearLayout
                 android:id="@+id/tutorial_indicators"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_margin="3dp"
                     android:src="@drawable/home_view_pager_indicator" />
 
                 <ImageView
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_margin="3dp"
                     android:src="@drawable/home_view_pager_indicator" />
 
                 <ImageView
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_margin="4dp"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_margin="3dp"
                     android:src="@drawable/home_view_pager_indicator" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:orientation="vertical"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        app:cardBackgroundColor="#70333333"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/done_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="8dp"
-                                android:gravity="center"
-                                android:text="0"
-                                android:textColor="#f2f2f2"
-                                android:textSize="26dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Completed\nTasks"
-                                android:textColor="#f2f2f2"
-                                android:textSize="10dp" />
-                        </LinearLayout>
-
-                        <ProgressBar
-                            android:id="@+id/done"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:padding="10dp"
-                            android:progress="0"
-                            android:progressDrawable="@drawable/circle_porgress" />
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        app:cardBackgroundColor="#70333333"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/pending_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="8dp"
-                                android:gravity="center"
-                                android:text="0"
-                                android:textColor="#f2f2f2"
-                                android:textSize="26dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Pending\nTasks"
-                                android:textColor="#f2f2f2"
-                                android:textSize="10dp" />
-                        </LinearLayout>
-
-                        <ProgressBar
-                            android:id="@+id/pending"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:padding="10dp"
-                            android:progress="0"
-                            android:progressDrawable="@drawable/circle_porgress" />
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        app:cardElevation="0dp"
-                        app:cardBackgroundColor="#70333333"
-                        app:cardCornerRadius="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="15dp"
-                                android:src="@drawable/point" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/points"
-                                android:layout_marginBottom="10dp"
-                                android:gravity="center"
-                                android:text="0"
-                                android:textColor="#eeff41" />
-
-                        </LinearLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        app:cardElevation="0dp"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        app:cardBackgroundColor="#70333333"
-                        app:cardCornerRadius="0dp">
-
-                        <TextView
-                            android:id="@+id/today_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:padding="3dp"
-                            android:text="Today's Date"
-                            android:textColor="#f2f2f2"
-                            android:textSize="16dp" />
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        app:cardBackgroundColor="#70333333"
-                        app:cardElevation="0dp"
-                        app:cardCornerRadius="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/vision_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="0"
-                                android:textColor="#f2f2f2"
-                                android:textSize="25dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Visions"
-                                android:textColor="#f2f2f2"
-                                android:textSize="10dp" />
-                        </LinearLayout>
-
-                        <ProgressBar
-                            android:id="@+id/vision"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:padding="10dp"
-                            android:progress="0"
-                            android:progressDrawable="@drawable/circle_porgress" />
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        app:cardElevation="0dp"
-                        app:cardBackgroundColor="#70333333"
-                        app:cardCornerRadius="0dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textColor="#f2f2f2"
-                            android:textSize="20dp"
-                            android:gravity="center"
-                            android:text="Lessons" />
-
-                    </android.support.v7.widget.CardView>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="5dp"
-                    android:background="#f2f2f2" />
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/progress"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/circle_porgress"
-                android:visibility="visible"
-                android:layout_gravity="center_horizontal"/>
-            <android.support.v7.widget.RecyclerView
+            <ir.cdesign.contactrate.utilities.CustomListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/home_news_rv">
+                android:id="@+id/home_tasks_lv">
 
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/checkAll"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:text="Check All News ..."
-                style="@style/selectable"
-                android:layout_height="wrap_content" />
+            </ir.cdesign.contactrate.utilities.CustomListView>
 
         </LinearLayout>
 

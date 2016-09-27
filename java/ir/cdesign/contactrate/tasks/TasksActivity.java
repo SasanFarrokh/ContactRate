@@ -22,7 +22,7 @@ import ir.cdesign.contactrate.utilities.WallpaperBoy;
  */
 public class TasksActivity extends AppCompatActivity {
 
-    private static final String PAGE_SCROLL = "page";
+    public static final String PAGE_SCROLL = "page";
     LinearLayout linearLayout;
     private TabLayout tabLayout;
     public ViewPager viewPager;
@@ -46,6 +46,8 @@ public class TasksActivity extends AppCompatActivity {
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
+
+        viewPager.setCurrentItem(getIntent().getIntExtra(PAGE_SCROLL,0));
     }
 
     private void init() {

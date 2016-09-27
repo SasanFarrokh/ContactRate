@@ -28,6 +28,7 @@ public class GraphPage extends Fragment {
         View view = inflater.inflate(R.layout.home_graph,container,false);
 
         PieChart chart = (PieChart) view.findViewById(R.id.chart);
+        chart.setTouchEnabled(false);
 
         List<PieEntry> entries = new ArrayList<PieEntry>();
 

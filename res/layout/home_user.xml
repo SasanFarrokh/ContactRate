@@ -1,61 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:weightSum="2"
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="240dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginRight="-10dp"
-        android:gravity="center"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:id="@+id/containerLayout"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_margin="5dp"
+            android:layout_weight="0.3">
 
-        <ir.cdesign.contactrate.utilities.RoundedImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:id="@+id/profile_big"
-            android:tint="#f2f2f2"
-            android:src="@drawable/accountcircle"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/vision_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#f2f2f2"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Visions"
+                    android:textColor="#f2f2f2"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/profile_name"
-            android:layout_margin="10dp"
-            android:text="User Name"
-            android:gravity="center"
-            android:textColor="#f2f2f2"
-            android:textSize="20dp"/>
+            android:orientation="vertical"
+            android:layout_weight="0.4"
+            android:gravity="center_horizontal">
+            <ir.cdesign.contactrate.utilities.RoundedImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/profile_big"
+                android:tint="#f2f2f2"
+                android:src="@drawable/accountcircle"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profile_name"
+                android:padding="5dp"
+                android:text="User Name"
+                android:gravity="center"
+                android:textColor="#f2f2f2"
+                android:textSize="16dp"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_margin="5dp"
+            android:layout_weight="0.3">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/point" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/points"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#eeff41" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginLeft="-10dp"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/containerLayout">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            style="@style/selectable">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:tint="#f2f2f2"
-            android:src="@drawable/androidstudio"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="#30797221">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="inja levelo inaro miznm"
-            android:gravity="center"
-            android:textColor="#f2f2f2"
-            android:textSize="20dp"/>
+                <TextView
+                    android:id="@+id/pending_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#f2f2f2"
+                    android:textSize="26dp" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Pending\nTasks"
+                    android:textColor="#f2f2f2"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            style="@style/selectable">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="#3029602b">
+
+                <TextView
+                    android:id="@+id/done_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#f2f2f2"
+                    android:textSize="26dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Completed\nTasks"
+                    android:textColor="#f2f2f2"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

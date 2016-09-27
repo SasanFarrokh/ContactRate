@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,14 +43,10 @@ public class HomeScreen extends AppCompatActivity {
 
     ViewPager viewPager;
     ImageView toolbarImage;
-    TextView checkAll;
     private List<ImageView> dots;
-    boolean bn = true, progressAnim = true;
     LinearLayout homeContent;
-    RecyclerView news;
+    ListView tasks;
 
-    TextView doneText, pendingText, points, todayDate, visions;
-    ProgressBar pending, done, vision;
 
     GraphPage graphPage = new GraphPage();
     AllRankInv allRankInv = new AllRankInv();
@@ -85,12 +82,6 @@ public class HomeScreen extends AppCompatActivity {
         toolbarImage.setOnClickListener(listener);
 
         homeContent = (LinearLayout) findViewById(R.id.home_content);
-        if (bn) {
-            //homeContent.setBackground(getResources().getDrawable(R.drawable.custombg));
-            bn = false;
-            Log.d("aha", String.valueOf(bn) + "xeyle xo");
-
-        }
 
         addDots();
         selectDot(0);
@@ -115,7 +106,6 @@ public class HomeScreen extends AppCompatActivity {
         });
 
         init();
-        (new AsyncGetNews(this, news, 3)).execute();
     }
 
     @Override
@@ -146,21 +136,8 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     private void init() {
-        //Set Progress Bars
-        pending = (ProgressBar) findViewById(R.id.pending);
-        done = (ProgressBar) findViewById(R.id.done);
-        vision = (ProgressBar) findViewById(R.id.vision);
 
-        checkAll = (TextView) findViewById(R.id.checkAll);
-        doneText = (TextView) findViewById(R.id.done_text);
-        pendingText = (TextView) findViewById(R.id.pending_text);
-        points = (TextView) findViewById(R.id.points);
-        todayDate = (TextView) findViewById(R.id.today_date);
-        visions = (TextView) findViewById(R.id.vision_text);
-
-        news = (RecyclerView) findViewById(R.id.home_news_rv);
-
-        checkAll.setOnClickListener(listener);
+        tasks = (ListView) findViewById(R.id.home_tasks_lv);
 
     }
 
@@ -177,12 +154,6 @@ public class HomeScreen extends AppCompatActivity {
             }
         }
     };
-
-    //Temporary Just For Testing
-    public void onNews(View view) {
-        NewsDialog newsDialog = new NewsDialog();
-        newsDialog.show(getSupportFragmentManager(), "are");
-    }
 
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -232,50 +203,11 @@ public class HomeScreen extends AppCompatActivity {
             dot.setImageResource(drawableId);
             if (i == idx) {
                 dot.setAlpha(0.5f);
-                dot.animate().setDuration(250).scaleY(1.25f).scaleX(1.25f).alpha(1f).start();
+                dot.animate().setDuration(250).scaleY(1.4f).scaleX(1.4f).alpha(1f).start();
             } else {
                 dot.animate().setDuration(1).scaleY(1.0f).scaleX(1.0f).alpha(1f).start();
             }
         }
-    }
-
-    private void setData(boolean anim) {
-        DatabaseCommands db = DatabaseCommands.getInstance();
-        int p = db.getUserPoint();
-        int doneTask = db.getDoneTask();
-        int pendingTask = db.getPendingTask();
-        CalendarTool calendar = new CalendarTool();
-        String date = calendar.getIranianDate();
-
-        List<HashMap> visionsData = db.getVision(0);
-
-        points.setText(String.valueOf(p));
-        doneText.setText(String.valueOf(doneTask));
-        pendingText.setText(String.valueOf(pendingTask));
-        todayDate.setText("Today : \n" + String.valueOf(date));
-        visions.setText(String.valueOf(visionsData.size()));
-
-        int allTask = (doneTask + pendingTask == 0) ? 1 : doneTask + pendingTask;
-
-        Float pendingPercent = ((float) pendingTask) / allTask * 100;
-        Float donePercent = ((float) doneTask) / allTask * 100;
-        Double visionPercent = (visionsData.size() != 0)?
-                ((double) (System.currentTimeMillis() - (long) visionsData.get(0).get("regdate")) /
-                        ((long) visionsData.get(0).get("timestamp") - (long) visionsData.get(0).get("regdate"))) * 100:0;
-        visionPercent = Math.max(0,Math.min(visionPercent,100));
-
-        animateProgress(pending, 0, pendingPercent.intValue());
-        animateProgress(done, 0, donePercent.intValue());
-        animateProgress(vision, 0, visionPercent.intValue());
-        if (!anim) {
-            ObjectAnimator visionAnim = (ObjectAnimator) pending.getTag();
-            visionAnim.end();
-            visionAnim = (ObjectAnimator) done.getTag();
-            visionAnim.end();
-            visionAnim = (ObjectAnimator) vision.getTag();
-            visionAnim.end();
-        }
-        progressAnim = false;
     }
 
     private void animateProgress(ProgressBar progressBar, int start, int end) {
@@ -301,7 +233,6 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setData(progressAnim);
 
         setBackground();
     }
