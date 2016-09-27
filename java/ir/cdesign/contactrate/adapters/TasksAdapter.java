@@ -1,28 +1,23 @@
 package ir.cdesign.contactrate.adapters;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import ir.cdesign.contactrate.ContactShowInvite;
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.TaskEditToDb;
@@ -132,12 +127,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                     viewHolder.completed.setVisibility(View.VISIBLE);
                     view.animate()
                             .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
-                            .setListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-
-                                }
-
+                            .setListener(new SimpleAnimationEndListener() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
                                     try {
@@ -145,16 +135,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                                     } catch (Exception ignore) {
                                     }
                                     ((TasksActivity) view.getContext()).viewPager.getAdapter().notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animator animation) {
-
                                 }
                             })
                             .start();
@@ -187,32 +167,29 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                                     DatabaseCommands.getInstance(context).removeInvite(((TaskHolder) v.getTag()).id);
                                     v.animate()
                                             .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
-                                            .setListener(new Animator.AnimatorListener() {
-                                                @Override
-                                                public void onAnimationStart(Animator animation) {
-
-                                                }
-
+                                            .setListener(new SimpleAnimationEndListener() {
                                                 @Override
                                                 public void onAnimationEnd(Animator animation) {
                                                     ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
-                                                }
-
-                                                @Override
-                                                public void onAnimationCancel(Animator animation) {
-
-                                                }
-
-                                                @Override
-                                                public void onAnimationRepeat(Animator animation) {
-
                                                 }
                                             })
                                             .start();
                                     break;
                                 case 0:
-                                    DatabaseCommands.getInstance().activateInvite(id, true);
-                                    ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                    if (mode == PEND_TASKS) {
+                                        DatabaseCommands.getInstance().activateInvite(id, true);
+                                        ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                    } else {
+                                        v.animate()
+                                                .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
+                                                .setListener(new SimpleAnimationEndListener() {
+                                                    @Override
+                                                    public void onAnimationEnd(Animator animation) {
+                                                        ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                                    }
+                                                })
+                                                .start();
+                                    }
                                     break;
                                 case 2:
                                     view.callOnClick();
@@ -250,6 +227,24 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                     return true;
                 }
             });
+        }
+    }
+
+    public static abstract class SimpleAnimationEndListener implements Animator.AnimatorListener {
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
         }
     }
 }

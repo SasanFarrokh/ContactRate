@@ -27,7 +27,8 @@ import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialo
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
-public class Visions extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class Visions extends AppCompatActivity implements
+        DatePickerDialog.OnDateSetListener, VisionAdapter.AdapterUpdate{
 
     FloatingActionButton fab;
     ImageView toolbarImage;
@@ -119,5 +120,17 @@ public class Visions extends AppCompatActivity implements DatePickerDialog.OnDat
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void updateRecycler(int pos,int mode) {
+        switch (mode) {
+            case 0:
+                visions.setAdapter(new VisionAdapter(this));
+                break;
+            case 1:
+                visions.getAdapter().notifyDataSetChanged();
+                break;
+        }
     }
 }

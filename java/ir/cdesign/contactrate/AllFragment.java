@@ -34,7 +34,6 @@ public class AllFragment extends Fragment {
     RecyclerView recyclerView;
     TextView search;
     AllModel model = new AllModel();
-    FloatingActionButton fab;
     CoordinatorLayout coordinatorLayout;
 
     @Nullable
@@ -78,18 +77,8 @@ public class AllFragment extends Fragment {
         return view;
     }
 
-    private void showSnackBar(View view){
-        String user = getActivity().getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE).getString("userName","");
-        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.mother);
-        if (MainActivity.firstTime && user != null){
-            Snackbar.make(coordinatorLayout,"Welcome " + NavigationDrawer.titleCase(user),Snackbar.LENGTH_LONG).show();
-            MainActivity.firstTime = false;
-        }
-    }
-
     private void setRecyclerView(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.all_rv);
-        fab = (FloatingActionButton) view.findViewById(R.id.all_fab);
         AllAdapter adapter = new AllAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -102,29 +91,7 @@ public class AllFragment extends Fragment {
             }
         });
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
-                if (dy > 0 ||dy<0 && fab.isShown())
-                    fab.hide();
-            }
 
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
-                    fab.show();
-                }
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(),AddContact.class));
-            }
-        });
 
     }
 

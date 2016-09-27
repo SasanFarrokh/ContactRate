@@ -45,15 +45,4 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/all_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_margin="20dp"
-        android:scaleType="center"
-        android:onClick="addContact"
-        android:src="@android:drawable/ic_input_add"
-        android:tint="#f2f2f2" />
-
 </android.support.design.widget.CoordinatorLayout>

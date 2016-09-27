@@ -152,13 +152,10 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
-                                default:
-                                    DatabaseCommands.getInstance().removeVision(id);
+                                case 0:
+                                    DatabaseCommands.getInstance(context).removeVision(id);
+                                    data.remove(position);
                                     notifyDataSetChanged();
-                                    try {
-                                        (((AdapterUpdate) context)).updateRecycler(position);
-                                    } catch (Exception ignore) {
-                                    }
                                     break;
                             }
                         }
@@ -171,6 +168,6 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
     }
 
     public interface AdapterUpdate {
-        void updateRecycler(int pos);
+        void updateRecycler(int pos,int mode);
     }
 }
