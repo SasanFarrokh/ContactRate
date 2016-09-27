@@ -116,10 +116,10 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onClick(View v) {
                 if (!edit)
-                    DatabaseCommands.getInstance().addInvite(contactId, type, note.getText().toString(),
+                    DatabaseCommands.getInstance(TaskEditToDb.this).addInvite(contactId, type, note.getText().toString(),
                             taskCalendar.getTimeInMillis(), 0);
                 else
-                    DatabaseCommands.getInstance().editInvite(inviteId, contactId, type, note.getText().toString(),
+                    DatabaseCommands.getInstance(TaskEditToDb.this).editInvite(inviteId, contactId, type, note.getText().toString(),
                             taskCalendar.getTimeInMillis(), 0);
                 finish();
             }

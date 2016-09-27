@@ -6,6 +6,7 @@
     android:layout_margin="3dp"
     android:layout_weight="0.5"
     android:background="#70333333"
+    android:foreground="@drawable/news_bg"
     android:orientation="vertical"
     app:cardBackgroundColor="#70333333"
     app:cardCornerRadius="0dp"

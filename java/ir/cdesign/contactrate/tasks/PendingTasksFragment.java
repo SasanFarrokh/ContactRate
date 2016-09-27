@@ -27,7 +27,6 @@ public class PendingTasksFragment extends Fragment implements TasksActivity.Upda
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tasks_recycler, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.tasks_rv);
-        setRecycler(getContext());
 
         return view;
     }
@@ -35,7 +34,7 @@ public class PendingTasksFragment extends Fragment implements TasksActivity.Upda
     @Override
     public void onResume() {
         super.onResume();
-
+        setRecycler(getContext());
     }
 
     @Override

@@ -233,8 +233,8 @@ public class DatabaseCommands {
             values2.put("eventid", reminderid);
             long rowid = database.update(TABLE_INVITES, values2, " id = ? ", new String[]{String.valueOf(inviteId)});
 
-            if (MainActivity.instance.alarm != null)
-                MainActivity.instance.alarm.setAlarm(MainActivity.instance, timestamp, ((Long) inviteId).intValue());
+            if (MainActivity.alarm != null)
+                MainActivity.alarm.setAlarm(context, timestamp, ((Long) inviteId).intValue());
 
             if (putToInvites(contactId, inviteId)) return true;
         }
@@ -298,9 +298,9 @@ public class DatabaseCommands {
         database.delete(TABLE_INVITES, " id = ? ", new String[]{String.valueOf(inviteId)});
         Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
                 (Long) invite.get("eventid"));
-        MainActivity.instance.getContentResolver().delete(uri, null, null);
-        if (MyService.instance != null && MainActivity.instance.alarm != null)
-            MainActivity.instance.alarm.cancelAlarm(MainActivity.instance, ((Long) inviteId).intValue());
+        context.getContentResolver().delete(uri, null, null);
+        if (MainActivity.alarm != null)
+            MainActivity.alarm.cancelAlarm(context, ((Long) inviteId).intValue());
     }
 
     public boolean activateInvite(long id, boolean active) {
@@ -327,10 +327,10 @@ public class DatabaseCommands {
 
         Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
                 (Long) invite.get("eventid"));
-        MainActivity.instance.getContentResolver().delete(uri, null, null);
-        if (MyService.instance != null && MainActivity.instance.alarm != null) {
-            MainActivity.instance.alarm.cancelAlarm(MainActivity.instance, ((Long) id).intValue());
-            MainActivity.instance.alarm.setAlarm(MainActivity.instance, values.getAsLong("timestamp"), ((Long) id).intValue());
+        context.getContentResolver().delete(uri, null, null);
+        if (MainActivity.alarm != null) {
+            MainActivity.alarm.cancelAlarm(context, ((Long) id).intValue());
+            MainActivity.alarm.setAlarm(context, values.getAsLong("timestamp"), ((Long) id).intValue());
         }
         long reminderid = addAppointmentsToCalender(context,
                 ContactShowModel.getTitles()[(int) invite.get("type") - 1] + " with : " + contact.get("name")

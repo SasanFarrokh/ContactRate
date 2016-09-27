@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green">#388e3c</color>
+    <color name="green">#81c784</color>
     <color name="accent">#00ffbb</color>
 
     <color name="colorAccent">#00acc1</color>
@@ -11,6 +11,7 @@
     <color name="darkGrey">#333</color>
     <color name="overLay">#919191</color>
     <color name="darkWhite">#c0c0c0</color>
+    <color name="black_overlay">#5000</color>
 
     <color name="backGroundTransparentBlack">#95333333</color>
     <color name="backGroundTransparentWhite">#95f2f2f2</color>

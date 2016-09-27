@@ -22,9 +22,10 @@ import ir.cdesign.contactrate.utilities.WallpaperBoy;
  */
 public class TasksActivity extends AppCompatActivity {
 
+    private static final String PAGE_SCROLL = "page";
     LinearLayout linearLayout;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    public ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +44,6 @@ public class TasksActivity extends AppCompatActivity {
             @Override
             public void run() {
                 tabLayout.setupWithViewPager(viewPager);
-            }
-        });
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                //((FragmentPagerAdapter) viewPager.getAdapter()).notifyDataSetChanged();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
@@ -107,6 +92,11 @@ public class TasksActivity extends AppCompatActivity {
 
             return int_items;
 
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override

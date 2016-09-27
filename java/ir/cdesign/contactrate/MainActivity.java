@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static MainActivity instance;
 
-    public AlarmReciever alarm;
+    public static AlarmReciever alarm = new AlarmReciever();;
 
     LinearLayout linearLayout;
 
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 //        farhooshPayment.Start(this,26378337,R.mipmap.ic_launcher);
 
         instance = this;
-        alarm = new AlarmReciever();
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();

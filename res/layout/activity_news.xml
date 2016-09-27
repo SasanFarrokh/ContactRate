@@ -12,20 +12,12 @@
     android:paddingTop="5dp"
     tools:context="ir.cdesign.contactrate.homeScreen.NewsActivity">
 
-    <include layout="@layout/toolbar_back_button" />
+    <include layout="@layout/toolbar_back_button" android:id="@+id/toolbar_layout" />
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:progressDrawable="@drawable/circular_progress_bar"
-        android:visibility="visible"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/toolbar_layout">
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -34,5 +26,13 @@
 
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:visibility="visible"/>
 
 </RelativeLayout>

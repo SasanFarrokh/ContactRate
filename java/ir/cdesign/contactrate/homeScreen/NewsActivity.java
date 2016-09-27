@@ -35,11 +35,11 @@ public class NewsActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+        setToolbar();
         news = (RecyclerView) findViewById(R.id.news_rv);
         swipeRefresh = (SwipeRefreshLayout) news.getParent();
         point = (TextView) findViewById(R.id.toolbar_tv);
         swipeRefresh.setOnRefreshListener(this);
-        setToolbar();
     }
 
     @Override

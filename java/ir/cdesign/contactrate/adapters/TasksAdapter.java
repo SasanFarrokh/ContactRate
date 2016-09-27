@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.TaskEditToDb;
 import ir.cdesign.contactrate.models.ContactShowModel;
+import ir.cdesign.contactrate.tasks.TasksActivity;
 
 /**
  * Created by Sasan on 2016-08-25.
@@ -86,7 +88,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         public CheckBox checkBox;
         public int position;
         public long id;
-        public View view;
+        public View view,strikeThrough;
 
         public TaskHolder(View itemView) {
             super(itemView);
@@ -96,6 +98,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             subtitle = (TextView) itemView.findViewById(R.id.task_subtitle);
             completed = (TextView) itemView.findViewById(R.id.task_completed);
             checkBox = (CheckBox) itemView.findViewById(R.id.task_checkbox);
+            //strikeThrough = itemView.findViewById(R.id.task_strike);
         }
 
         public void setData(int position) {
@@ -109,13 +112,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 }
             }
             id = (long) invite.get("id");
-            checkBox.setChecked(((int) invite.get("active") != 0));
             imageView.setImageResource(ContactShowModel.getImages()[(int) invite.get("type") - 1]);
             title.setText(ContactShowModel.getTitles()[(int) invite.get("type") - 1]);
             subtitle.setText("With " +
                     contactName + " at : " +
                     calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)
             );
+            checkBox.setChecked(((int) invite.get("active") != 0));
+            if (mode == CM_TASKS) {
+                checkBox.setEnabled(false);
+                title.append(" - Completed");
+            }
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -133,7 +140,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
-                                    ((RecyclerView) view.getParent().getParent()).setAdapter(new TasksAdapter(context,mode));
+                                    try {
+                                        ((RecyclerView) view.getParent().getParent()).setAdapter(new TasksAdapter(context, mode));
+                                    } catch (Exception ignore) {
+                                    }
+                                    ((TasksActivity) view.getContext()).viewPager.getAdapter().notifyDataSetChanged();
                                 }
 
                                 @Override
@@ -151,21 +162,24 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
                 }
             });
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ContactTasksAdapter.ViewHolder viewHolder = (ContactTasksAdapter.ViewHolder) v.getTag();
-                    context.startActivity(new Intent(context, TaskEditToDb.class).putExtra("invite_id", viewHolder.id));
-                }
-            });
+            if (mode == PEND_TASKS) {
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TaskHolder viewHolder = (TaskHolder) v.getTag();
+                        context.startActivity(new Intent(context, TaskEditToDb.class).putExtra("invite_id", viewHolder.id));
+                    }
+                });
+            }
             view.setTag(this);
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(final View v) {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-                    alertBuilder.setItems(new String[]{
-                            "Done", "Move On", "Edit", "Delete"
-                    }, new DialogInterface.OnClickListener() {
+                    String[] options = (mode == PEND_TASKS)?new String[]{ "Done", "Move On", "Edit", "Delete"}:
+                            new String[]{ "Delete"};;
+                    alertBuilder.setItems( options
+                    , new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
@@ -181,7 +195,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
                                                 @Override
                                                 public void onAnimationEnd(Animator animation) {
-                                                    ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context,mode));
+                                                    ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
                                                 }
 
                                                 @Override
