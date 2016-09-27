@@ -39,9 +39,9 @@ public class ContactTasksAdapter extends ArrayAdapter {
         super(context, -1);
         contactId = id;
         if (id == 0)
-            invites = DatabaseCommands.getInstance().getInvite(0, 0);
+            invites = DatabaseCommands.getInstance(context).getInvite(5, 0);
         else
-            invites = DatabaseCommands.getInstance().getInvite(2, id);
+            invites = DatabaseCommands.getInstance(context).getInvite(2, id);
         contacts = DatabaseCommands.getInstance().getContactsForInvitation();
     }
 
@@ -88,25 +88,10 @@ public class ContactTasksAdapter extends ArrayAdapter {
                                     DatabaseCommands.getInstance(getContext()).removeInvite(((ViewHolder) v.getTag()).id);
                                     v.animate()
                                             .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
-                                            .setListener(new Animator.AnimatorListener() {
-                                                @Override
-                                                public void onAnimationStart(Animator animation) {
-
-                                                }
-
+                                            .setListener(new TasksAdapter.SimpleAnimationEndListener() {
                                                 @Override
                                                 public void onAnimationEnd(Animator animation) {
                                                     ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
-                                                }
-
-                                                @Override
-                                                public void onAnimationCancel(Animator animation) {
-
-                                                }
-
-                                                @Override
-                                                public void onAnimationRepeat(Animator animation) {
-
                                                 }
                                             })
                                             .start();
@@ -181,25 +166,10 @@ public class ContactTasksAdapter extends ArrayAdapter {
                     viewHolder.completed.setVisibility(View.VISIBLE);
                     view.animate()
                             .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
-                            .setListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-
-                                }
-
+                            .setListener(new TasksAdapter.SimpleAnimationEndListener() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
                                     ((ListView) view.getParent().getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
-                                }
-
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animator animation) {
-
                                 }
                             })
                             .start();

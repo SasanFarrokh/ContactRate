@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,13 +16,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -33,6 +38,7 @@ import java.util.List;
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.adapters.ContactTasksAdapter;
 import ir.cdesign.contactrate.imagePicker.DefaultCallback;
 import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
@@ -47,13 +53,15 @@ public class HomeScreen extends AppCompatActivity {
     LinearLayout homeContent;
     ListView tasks;
 
+    Handler handler;
+    boolean pageChanged;
 
     GraphPage graphPage = new GraphPage();
     AllRankInv allRankInv = new AllRankInv();
     UserTab userTab = new UserTab();
 
     public static Bitmap profileImage;
-    int theMan ;
+    int theMan;
 
     public static DrawerLayout drawerLayout;
     String profileName, profileNumber;
@@ -74,8 +82,6 @@ public class HomeScreen extends AppCompatActivity {
 
         setContentView(R.layout.activity_home_screen);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
-
 
 
         toolbarImage = (ImageView) findViewById(R.id.toolbar_iv);
@@ -101,7 +107,11 @@ public class HomeScreen extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if (state == ViewPager.SCROLL_STATE_DRAGGING) pageChanged = true;
+                else if (state==ViewPager.SCROLL_STATE_IDLE) {
+                    pageChanged = false;
+                    pageAutoChange();
+                }
             }
         });
 
@@ -137,8 +147,27 @@ public class HomeScreen extends AppCompatActivity {
 
     private void init() {
 
+        handler = new Handler();
         tasks = (ListView) findViewById(R.id.home_tasks_lv);
+        TextView textView = new TextView(this);
+        textView.setText("No Tasks Today");
+        textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.WHITE);
+        tasks.setEmptyView(textView);
+        pageAutoChange();
+    }
 
+    private void pageAutoChange() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!pageChanged) {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1 % 3, true);
+                    pageAutoChange();
+                }
+            }
+        }, 5000);
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -147,9 +176,6 @@ public class HomeScreen extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.toolbar_iv:
                     drawerLayout.openDrawer(Gravity.LEFT);
-                    break;
-                case R.id.checkAll:
-                    startActivity(new Intent(HomeScreen.this, NewsActivity.class));
                     break;
             }
         }
@@ -218,14 +244,14 @@ public class HomeScreen extends AppCompatActivity {
         progressBar.setTag(visionAnim);
     }
 
-    private void setBackground(){
+    private void setBackground() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
 
         sharedPreferences = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
-        manInTheMiddle = sharedPreferences.getInt(BACKGROUND_KEY,20);
+        manInTheMiddle = sharedPreferences.getInt(BACKGROUND_KEY, 20);
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int  drawable = wallpaperBoy.manSitting(manInTheMiddle,this);
+        int drawable = wallpaperBoy.manSitting(manInTheMiddle, this);
 
         linearLayout.setBackgroundResource(drawable);
     }
@@ -233,7 +259,7 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        tasks.setAdapter(new ContactTasksAdapter(this, 0));
         setBackground();
     }
 
@@ -246,7 +272,7 @@ public class HomeScreen extends AppCompatActivity {
     public void setProfileImage(Bitmap image) {
         profileImage = image;
         userTab.updateProfileImage();
-        File file = new File(getFilesDir(),"profile.jpg");
+        File file = new File(getFilesDir(), "profile.jpg");
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(file);

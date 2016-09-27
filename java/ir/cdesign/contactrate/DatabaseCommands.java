@@ -30,6 +30,7 @@ import java.util.Objects;
 
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.models.TaskModel;
+import ir.cdesign.contactrate.utilities.CalendarTool;
 
 /**
  * Created by Sasan on 2016-08-21.
@@ -258,18 +259,29 @@ public class DatabaseCommands {
                 break;
             case 2:
                 query = "SELECT * FROM " +
-                        TABLE_INVITES + " WHERE contact = " + String.valueOf(id) + " ORDER BY timestamp DESC";
+                        TABLE_INVITES + " WHERE contact = " + String.valueOf(id) + " ORDER BY timestamp ASC";
                 break;
             case 0:
             default:
-                query = "SELECT * FROM " + TABLE_INVITES + " ORDER BY timestamp DESC";
+                query = "SELECT * FROM " + TABLE_INVITES + " ORDER BY timestamp ASC";
                 break;
 
             case 3:
-                query = "SELECT * FROM " + TABLE_INVITES + " WHERE active = 0 ORDER BY timestamp DESC";
+                query = "SELECT * FROM " + TABLE_INVITES + " WHERE active = 0 ORDER BY timestamp ASC";
                 break;
             case 4:
-                query = "SELECT * FROM " + TABLE_INVITES + " WHERE active = 1 ORDER BY timestamp DESC";
+                query = "SELECT * FROM " + TABLE_INVITES + " WHERE active = 1 ORDER BY timestamp ASC";
+                break;
+            case 5:
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR,0);
+                calendar.set(Calendar.MINUTE,0);
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,0);
+                query = "SELECT * FROM " + TABLE_INVITES + " WHERE timestamp BETWEEN "+
+                        calendar.getTimeInMillis()+" AND "+
+                        (calendar.getTimeInMillis()+86399000)+" ORDER BY active ASC,timestamp ASC";
+                Log.i("sasan","Today Query : " + query);
                 break;
         }
         Cursor result = database.rawQuery(query, null);
