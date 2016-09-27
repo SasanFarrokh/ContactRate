@@ -34,7 +34,9 @@ import ir.cdesign.contactrate.adapters.ContactTasksAdapter;
 import ir.cdesign.contactrate.adapters.InvitationAdapter;
 import ir.cdesign.contactrate.adapters.RankAdapter;
 import ir.cdesign.contactrate.adapters.VisionAdapter;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.CustomLayoutManager;
+import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class ContactShowInvite extends AppCompatActivity {
 
@@ -49,6 +51,9 @@ public class ContactShowInvite extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_show_invite);
 
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
+
         fab = (FloatingActionButton) findViewById(R.id.add_invite_btn);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +61,7 @@ public class ContactShowInvite extends AppCompatActivity {
                 startActivity(new Intent(ContactShowInvite.this, NewTaskActivity.class).putExtra("contact_id", contactId));
             }
         });
+        ((View) fab.getParent()).setBackgroundResource(drawable);
 //        init
         setToolbar();
 

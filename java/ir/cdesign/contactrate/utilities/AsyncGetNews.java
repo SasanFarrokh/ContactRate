@@ -109,7 +109,8 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                ((NewsActivity) context).loadingFail();
+                if (context instanceof NewsActivity)
+                    ((NewsActivity) context).loadingFail();
             } catch (Exception ignore) {
             }
         }

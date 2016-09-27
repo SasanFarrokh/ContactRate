@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.MainActivity;
@@ -50,11 +52,12 @@ public class HomeScreen extends AppCompatActivity {
     ViewPager viewPager;
     ImageView toolbarImage;
     private List<ImageView> dots;
-    LinearLayout homeContent;
+    RelativeLayout homeContent;
     ListView tasks;
+    TextView emptyTasksMsg;
 
     Handler handler;
-    boolean pageChanged;
+    boolean pageChanged,pageChanging;
 
     GraphPage graphPage = new GraphPage();
     AllRankInv allRankInv = new AllRankInv();
@@ -87,7 +90,7 @@ public class HomeScreen extends AppCompatActivity {
         toolbarImage = (ImageView) findViewById(R.id.toolbar_iv);
         toolbarImage.setOnClickListener(listener);
 
-        homeContent = (LinearLayout) findViewById(R.id.home_content);
+        homeContent = (RelativeLayout) findViewById(R.id.home_content);
 
         addDots();
         selectDot(0);
@@ -107,8 +110,9 @@ public class HomeScreen extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (state == ViewPager.SCROLL_STATE_DRAGGING) pageChanged = true;
-                else if (state==ViewPager.SCROLL_STATE_IDLE) {
+                if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                    pageChanged = true;
+                } else if (state == ViewPager.SCROLL_STATE_IDLE) {
                     pageChanged = false;
                     pageAutoChange();
                 }
@@ -149,25 +153,23 @@ public class HomeScreen extends AppCompatActivity {
 
         handler = new Handler();
         tasks = (ListView) findViewById(R.id.home_tasks_lv);
-        TextView textView = new TextView(this);
-        textView.setText("No Tasks Today");
-        textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(Color.WHITE);
-        tasks.setEmptyView(textView);
+        emptyTasksMsg = (TextView) findViewById(R.id.task_empty);
         pageAutoChange();
     }
 
     private void pageAutoChange() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!pageChanged) {
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1 % 3, true);
-                    pageAutoChange();
+        /*if (!pageChanging) {
+            pageChanging = true;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (!pageChanged) {
+                        viewPager.setCurrentItem((viewPager.getCurrentItem() + 1) % 3, true);
+                        pageChanging = false;
+                    }
                 }
-            }
-        }, 5000);
+            }, 10000);
+        }*/
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -245,7 +247,6 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     private void setBackground() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_content);
 
         sharedPreferences = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         manInTheMiddle = sharedPreferences.getInt(BACKGROUND_KEY, 20);
@@ -253,13 +254,18 @@ public class HomeScreen extends AppCompatActivity {
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int drawable = wallpaperBoy.manSitting(manInTheMiddle, this);
 
-        linearLayout.setBackgroundResource(drawable);
+        homeContent.setBackgroundResource(drawable);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         tasks.setAdapter(new ContactTasksAdapter(this, 0));
+        if (tasks.getAdapter().getCount() == 0) {
+            emptyTasksMsg.setVisibility(View.VISIBLE);
+        } else {
+            emptyTasksMsg.setVisibility(View.GONE);
+        }
         setBackground();
     }
 

@@ -280,7 +280,7 @@ public class DatabaseCommands {
                 calendar.set(Calendar.MILLISECOND,0);
                 query = "SELECT * FROM " + TABLE_INVITES + " WHERE timestamp BETWEEN "+
                         calendar.getTimeInMillis()+" AND "+
-                        (calendar.getTimeInMillis()+86399000)+" ORDER BY active ASC,timestamp ASC";
+                        (calendar.getTimeInMillis()+86399000)+" ORDER BY active DESC,timestamp ASC";
                 Log.i("sasan","Today Query : " + query);
                 break;
         }
@@ -325,7 +325,15 @@ public class DatabaseCommands {
         ContentValues values = new ContentValues();
         values.put("active", act);
         database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)});
-        if (active) addUserPoints(point, true);
+
+        if (active) {
+            addUserPoints(point, true);
+            Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
+                    (Long) invite.get("eventid"));
+            context.getContentResolver().delete(uri, null, null);
+            if (MainActivity.alarm != null)
+                MainActivity.alarm.cancelAlarm(context, ((Long) id).intValue());
+        }
         return true;
     }
 

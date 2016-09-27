@@ -112,6 +112,7 @@
             <Button
                 android:layout_width="80dp"
                 android:layout_height="30dp"
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:background="#e2e2e2"
                 android:layout_marginEnd="10dp"
@@ -121,6 +122,7 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:id="@+id/vision_checkbox"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:gravity="center_vertical"

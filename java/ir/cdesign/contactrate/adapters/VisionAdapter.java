@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +68,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
         private LinearLayout MoreInfo;
         private LinearLayout SubjectBox;
         private ImageView visionImage;
+        private CheckBox checkBox;
         int position;
         int id;
 
@@ -76,6 +80,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             SubjectBox = (LinearLayout) itemView.findViewById(R.id.subject_box);
             visionImage = (ImageView) itemView.findViewById(R.id.vision_image);
             timer = (TextView) itemView.findViewById(R.id.vision_timer);
+            checkBox = (CheckBox) itemView.findViewById(R.id.vision_checkbox);
             view = itemView;
         }
 
@@ -92,6 +97,16 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             Double visionPercent = ((double) (System.currentTimeMillis() - (long) vision.get("regdate")) /
                     ((long) vision.get("timestamp") - (long) vision.get("regdate"))) * 100;
             progress.setProgress(visionPercent.intValue());
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    String message = "Congragulations ! You just achieved your goal ";
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                    DatabaseCommands.getInstance(context).removeVision(id);
+                    data.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

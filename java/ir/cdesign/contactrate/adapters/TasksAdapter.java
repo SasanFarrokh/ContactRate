@@ -157,7 +157,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 public boolean onLongClick(final View v) {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                     String[] options = (mode == PEND_TASKS)?new String[]{ "Done", "Move On", "Edit", "Delete"}:
-                            new String[]{ "Delete"};;
+                            new String[]{ "Delete"};
                     alertBuilder.setItems( options
                     , new DialogInterface.OnClickListener() {
                         @Override
@@ -180,6 +180,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                                         DatabaseCommands.getInstance().activateInvite(id, true);
                                         ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
                                     } else {
+                                        DatabaseCommands.getInstance().removeInvite(id);
                                         v.animate()
                                                 .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
                                                 .setListener(new SimpleAnimationEndListener() {
