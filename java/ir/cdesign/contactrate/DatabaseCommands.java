@@ -414,11 +414,11 @@ public class DatabaseCommands {
         values.put("active", 0);
 
         boolean result = database.insert(TABLE_VISIONS, null, values) != -1;
-        
+
         return result;
     }
 
-    public List<HashMap> getVision(int id) {
+    public List<HashMap> getVision(long id) {
         Cursor c = null;
         List<HashMap> list = new ArrayList<>();
         if (id != 0) {

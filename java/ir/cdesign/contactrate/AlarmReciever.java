@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.TimeZone;
 
+import ir.cdesign.contactrate.Vision.ActivityVisionAdd;
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.models.TaskModel;
 
@@ -33,55 +34,80 @@ public class AlarmReciever extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        DatabaseCommands db = DatabaseCommands.getInstance(context);
-        Long inviteId = intent.getLongExtra("rc", 0);
         try {
-            HashMap invite = db.getInvite(1, inviteId).get(0);
-            HashMap contact = db.getContactById((Long) invite.get("contact"));
-
-
+            DatabaseCommands db = DatabaseCommands.getInstance(context);
+            Long id = intent.getLongExtra("rc", 0);
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
             wl.acquire();
+            if (id != 0) {
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis((Long) invite.get("timestamp"));
+                HashMap invite = db.getInvite(1, id).get(0);
+                HashMap contact = db.getContactById((Long) invite.get("contact"));
 
-            int[] notImages = {
-                    R.drawable.invitationnot , R.drawable.presentationnot ,
-                    R.drawable.followupnot , R.drawable.enrollnot ,
-                    R.drawable.trainingnot , R.drawable.team_buildingnot ,
-                    R.drawable.buynot , R.drawable.promotingeventsnot ,
-                    R.drawable.othernot
-            };
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis((Long) invite.get("timestamp"));
 
-            // Put here YOUR code.
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationCompat.Builder bBuilder =
-                    new NotificationCompat.Builder(context)
-                            .setSmallIcon(notImages[(int) invite.get("type") - 1])
-                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),notImages[(int) invite.get("type") - 1]))
-                            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                            .setVibrate(new long[]{0, 600, 100, 600})
-                            .setContentIntent(PendingIntent.getActivity(context,
-                                    inviteId.intValue(),
-                                    new Intent(context, TaskEditToDb.class)
-                                    .putExtra("invite_id",(long) invite.get("id")),
-                                    PendingIntent.FLAG_UPDATE_CURRENT))
-                            .setLights(Color.RED, 3000, 3000)
-                            .setAutoCancel(true)
-                            .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type") - 1])
-                            .setContentText("with " + contact.get("name") + " at : "
-                                    + calendar.getTime().getHours() + " : "
-                                    + calendar.getTime().getMinutes());
-            Notification barNotif = bBuilder.build();
-            notificationManager.notify(inviteId.intValue(), barNotif);
+                int[] notImages = {
+                        R.drawable.invitationnot, R.drawable.presentationnot,
+                        R.drawable.followupnot, R.drawable.enrollnot,
+                        R.drawable.trainingnot, R.drawable.team_buildingnot,
+                        R.drawable.buynot, R.drawable.promotingeventsnot,
+                        R.drawable.othernot
+                };
 
+                // Put here YOUR code.
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationCompat.Builder bBuilder =
+                        new NotificationCompat.Builder(context)
+                                .setSmallIcon(notImages[(int) invite.get("type") - 1])
+                                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), notImages[(int) invite.get("type") - 1]))
+                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                                .setVibrate(new long[]{0, 600, 100, 600})
+                                .setContentIntent(PendingIntent.getActivity(context,
+                                        id.intValue(),
+                                        new Intent(context, TaskEditToDb.class)
+                                                .putExtra("invite_id", (long) invite.get("id")),
+                                        PendingIntent.FLAG_UPDATE_CURRENT))
+                                .setLights(Color.RED, 3000, 3000)
+                                .setAutoCancel(true)
+                                .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type") - 1])
+                                .setContentText("with " + contact.get("name") + " at : "
+                                        + calendar.getTime().getHours() + " : "
+                                        + calendar.getTime().getMinutes());
+                Notification barNotif = bBuilder.build();
+                notificationManager.notify(id.intValue(), barNotif);
+
+
+            } else {
+                id = intent.getLongExtra("vision", 0);
+                HashMap vision = db.getVision(id).get(0);
+
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationCompat.Builder bBuilder =
+                        new NotificationCompat.Builder(context)
+                                .setSmallIcon(0)
+                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                                .setVibrate(new long[]{0, 300, 100, 300})
+                                .setContentIntent(PendingIntent.getActivity(context,
+                                        id.intValue(),
+                                        new Intent(context, ActivityVisionAdd.class),
+                                        PendingIntent.FLAG_UPDATE_CURRENT))
+                                .setLights(Color.RED, 3000, 3000)
+                                .setAutoCancel(true)
+                                .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type") - 1])
+                                .setContentText("with " + contact.get("name") + " at : "
+                                        + calendar.getTime().getHours() + " : "
+                                        + calendar.getTime().getMinutes());
+                Notification barNotif = bBuilder.build();
+                notificationManager.notify(id.intValue(), barNotif);
+            }
             wl.release();
-        } catch (Exception e) {
+            db.closeDB();
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-        db.closeDB();
     }
 
     public void setAlarm(Context context,long time, Long requestCode)
@@ -104,7 +130,7 @@ public class AlarmReciever extends BroadcastReceiver
     }
     public void setRepeatingAlarm(Context context,long time, Long visionId) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, AlarmReciever.class).putExtra("vision",0);
+        Intent i = new Intent(context, AlarmReciever.class).putExtra("vision",visionId);
         PendingIntent sender = PendingIntent.getBroadcast(context, -1, i,0);
         am.setRepeating(AlarmManager.RTC_WAKEUP, time,0,sender);
     }
