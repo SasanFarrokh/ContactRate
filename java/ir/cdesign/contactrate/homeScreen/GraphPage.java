@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
+//import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -45,7 +45,7 @@ public class GraphPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_graph, container, false);
 
-        chart = (LineChart) view.findViewById(R.id.chart);
+        /*chart = (LineChart) view.findViewById(R.id.chart);
         chart.setTouchEnabled(false);
 
         setChartConfig();
@@ -54,11 +54,11 @@ public class GraphPage extends Fragment {
 
         setChartData();
 
-        chart.invalidate();
+        chart.invalidate();*/
 
         return view;
     }
-
+/*
     private void setChartAliases() {
         HashMap<Float, String> weekMap = new HashMap<>();
         weekMap.put(1f, "Sat");
@@ -130,5 +130,5 @@ public class GraphPage extends Fragment {
         chart.getAxis(YAxis.AxisDependency.RIGHT).setAxisMinimum(0);
         chart.getXAxis().setAxisMaximum(7.5f);
         chart.getXAxis().setAxisMinimum(0.5f);
-    }
+    }*/
 }

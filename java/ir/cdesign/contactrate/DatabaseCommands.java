@@ -42,6 +42,8 @@ public class DatabaseCommands {
     public static final String TABLE_INVITES = "ContactInvites";
     public static final String TABLE_VISIONS = "Visions";
     public static final String TABLE_MEDALS = "Medals";
+    public static final String TABLE_LESSONS = "Lessons";
+    public static final String TABLE_LESSON_PARTS = "LessonParts";
 
 
     private SQLiteDatabase database;

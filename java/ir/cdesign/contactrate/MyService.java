@@ -30,7 +30,7 @@ public class MyService extends Service {
     Calendar calendar;
     public static MyService instance;
 
-    public static SQLiteDatabase database;
+    public SQLiteDatabase database;
 
     public void onCreate() {
         super.onCreate();
@@ -91,6 +91,25 @@ public class MyService extends Service {
                 "complete INTEGER NOT NULL," +
                 "point INTEGER NOT NULL DEFAULT 10," +
                 "achieved INTEGER NOT NULL DEFAULT 0);");
+        database.execSQL("CREATE TABLE IF NOT EXISTS" + DatabaseCommands.TABLE_LESSONS +
+                "(id INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT," +
+                "title VARCHAR NOT NULL UNIQUE," +
+                "parts VARCHAR NOT NULL," +
+                "image VARCHAR," +
+                "image_downloaded INTEGER," +
+                "showcase TEXT," +
+                "author VARCHAR," +
+                "award INTEGER," +
+                "unlock INTEGER);"
+        );
+        database.execSQL("CREATE TABLE IF NOT EXISTS" + DatabaseCommands.TABLE_LESSON_PARTS +
+                "(id INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT," +
+                "title VARCHAR NOT NULL UNIQUE," +
+                "image VARCHAR," +
+                "image_downloaded INTEGER," +
+                "body TEXT," +
+                "seen INTEGER);"
+        );
         List<MedalModel> medals = MedalModel.getData();
         for (MedalModel medal : medals) {
             ContentValues values = new ContentValues();
