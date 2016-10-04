@@ -9,20 +9,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import ir.cdesign.contactrate.MedalsActivity;
+import java.util.Calendar;
+import java.util.Locale;
+
+import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
-import ir.cdesign.contactrate.homeScreen.AllRankInv;
-import ir.cdesign.contactrate.homeScreen.HomeNavigation;
-import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.adapters.MedalAdapter;
+import ir.cdesign.contactrate.models.MedalModel;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
+import ir.cdesign.contactrate.utilities.Settings;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements MedalAdapter.MedalShow {
 
     ViewPager viewPager;
-    ImageView profilePhoto,toolbarImage;
+    ImageView medalImage,toolbarImage;
     MedalFragment medalFragment = new MedalFragment();
+
+    TextView medalTitle,medalSubtitle,medalProgressText;
+    ProgressBar medalProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +38,17 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         init();
-        if (HomeScreen.profileImage != null)
-            profilePhoto.setImageBitmap(HomeScreen.profileImage);
     }
 
     private void init() {
         viewPager = (ViewPager) findViewById(R.id.profile_viewPager);
-        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
+
+        medalImage = (ImageView) findViewById(R.id.medal_last_iv);
+        medalTitle = (TextView) findViewById(R.id.medal_last_title);
+        medalSubtitle = (TextView) findViewById(R.id.medal_last_subtitle);
+        medalProgressText = (TextView) findViewById(R.id.medal_progress_tv);
+        medalProgress = (ProgressBar) findViewById(R.id.medal_progress);
+
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         setToolbar();
 
@@ -49,12 +61,38 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Profile");
+            actionBar.setTitle("Medals");
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setBackgroundDrawable(null);
 
         }
 
+    }
+
+    @Override
+    public void show(MedalModel medal) {
+        medalImage.setImageResource(medal.imageId);
+        medalTitle.setText(medal.title);
+        medalSubtitle.setText(medal.subtitle);
+
+        int percent = Math.max(0,Math.min(medal.progress*100/medal.completeMax,100));
+        medalProgress.setProgress(percent);
+        if (percent<100) {
+            medalProgressText.setText("Progress : " + medal.progress + " / " + medal.completeMax);
+        } else {
+            PersianCalendar calendar = new PersianCalendar();
+            calendar.setTimeInMillis(medal.achieved);
+            String date = (Settings.calendarType == 1)?calendar.getPersianLongDate():
+                    calendar.get(Calendar.YEAR) + "-"
+                            + (calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH)) + "-" + calendar.get(Calendar.DAY_OF_MONTH)
+                            + "  " + calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH);
+            medalProgressText.setText("Achieved at : " + date);
+        }
+    }
+
+    @Override
+    public int getMedal() {
+        return getIntent().getIntExtra("medal",0);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -68,18 +106,15 @@ public class ProfileActivity extends AppCompatActivity {
         public Fragment getItem(int pos) {
             switch (pos) {
 
-                case 0:
-                    return medalFragment;
-                case 1:
-                    return new AllRankInv();
                 default:
+                case 0:
                     return medalFragment;
             }
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
 
     }

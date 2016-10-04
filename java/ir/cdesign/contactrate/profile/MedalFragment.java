@@ -32,7 +32,7 @@ public class MedalFragment extends Fragment {
 
     private void setRecyclerView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.medals_recycler);
-        MedalAdapter medalAdapter = new MedalAdapter(getActivity(), MedalModel.getData());
+        MedalAdapter medalAdapter = new MedalAdapter(getActivity());
         GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(glm);
         recyclerView.setHasFixedSize(true);

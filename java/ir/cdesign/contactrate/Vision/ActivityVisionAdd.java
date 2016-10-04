@@ -1,28 +1,18 @@
 package ir.cdesign.contactrate.Vision;
 
-import android.content.DialogInterface;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Calendar;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
@@ -33,13 +23,13 @@ import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.RadialPickerLay
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.TimePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianDateParser;
+import ir.cdesign.contactrate.utilities.CalendarStrategy;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 /**
  * Created by amin pc on 02/09/2016.
  */
 public class ActivityVisionAdd extends AppCompatActivity implements
-        TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
     private static final int IMAGE_PICKED = 12;
 
@@ -55,9 +45,9 @@ public class ActivityVisionAdd extends AppCompatActivity implements
     private static final String TIMEPICKER = "TimePickerDialog",
             DATEPICKER = "DatePickerDialog";
 
-    private long timestamp;
+    CalendarStrategy calendar = new CalendarStrategy(new PersianCalendar());
 
-    FrameLayout frameLayout;
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,8 +58,8 @@ public class ActivityVisionAdd extends AppCompatActivity implements
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
-        frameLayout= (FrameLayout) findViewById(R.id.FrameParent);
-        frameLayout.setBackgroundResource(drawable);
+        relativeLayout = (RelativeLayout) findViewById(R.id.containerLayout);
+        relativeLayout.setBackgroundResource(drawable);
 
     }
 
@@ -105,12 +95,8 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                     break;
                 case R.id.vision_add_date_image:
                 case R.id.vision_add_date_text:
-                    PersianCalendar now = new PersianCalendar();
-                    DatePickerDialog dpd = DatePickerDialog.newInstance(
-                            ActivityVisionAdd.this,
-                            now.getPersianYear(),
-                            now.getPersianMonth(),
-                            now.getPersianDay()
+                    DialogFragment dpd = CalendarStrategy.getDatePicker(
+                            ActivityVisionAdd.this
                     );
                     dpd.show(getFragmentManager(), DATEPICKER);
                     break;
@@ -125,7 +111,7 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                                     note.getText().toString(),
                                     visionPath,
                                     reminder,
-                                    timestamp
+                                    calendar.getTimeInMillis()
                             )
                             ) {
                         Toast.makeText(ActivityVisionAdd.this, "Vision Added", Toast.LENGTH_SHORT).show();
@@ -145,19 +131,10 @@ public class ActivityVisionAdd extends AppCompatActivity implements
     };
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+    public void onDateSet(DialogFragment view, int year, int monthOfYear, int dayOfMonth) {
         // Note: monthOfYear is 0-indexed
-        String date = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
-        dateText.setText(date);
-        timestamp = (new PersianDateParser(date, "/")).getPersianDate().getTimeInMillis();
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        String hourString = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
-        String minuteString = minute < 10 ? "0" + minute : "" + minute;
-        String time = "You picked the following time: " + hourString + ":" + minuteString;
-//        timeTextView.setText(time);
+        calendar.set(year,monthOfYear,dayOfMonth);
+        dateText.setText(calendar.getDate());
     }
 
     @Override

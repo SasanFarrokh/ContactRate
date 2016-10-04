@@ -1,6 +1,9 @@
 package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,26 +12,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import ir.cdesign.contactrate.MainActivity;
+import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.models.MedalModel;
-import ir.cdesign.contactrate.models.TaskModel;
 
 /**
  * Created by amin pc on 23/08/2016.
  */
 public class MedalAdapter extends RecyclerView.Adapter<MedalAdapter.MedalHolder> {
 
-    private ArrayList<MedalModel> medalModels;
+    private List<MedalModel> medalModels;
     private LayoutInflater layoutInflater;
     private Context context;
 
 
-    public MedalAdapter(Context context, ArrayList<MedalModel> medals) {
-        this.medalModels = medals;
+    public MedalAdapter(Context context) {
         this.layoutInflater = LayoutInflater.from(context);
         this.context = context;
+
+        medalModels = DatabaseCommands.getInstance(context).getMedals(0);
+        if (context instanceof MedalShow)
+            ((MedalShow) context).show(medalModels.get(((MedalShow) context).getMedal()));
     }
 
     @Override
@@ -50,25 +56,49 @@ public class MedalAdapter extends RecyclerView.Adapter<MedalAdapter.MedalHolder>
     }
 
     public class MedalHolder extends RecyclerView.ViewHolder {
-        TextView Title;
-        ImageView imageView;
+        TextView title;
+        ImageView imageView, lock;
+        View view;
         MedalModel current;
         int position;
 
         public MedalHolder(View itemView) {
             super(itemView);
-            Title = (TextView) itemView.findViewById(R.id.task_title);
+            view = itemView;
+            title = (TextView) itemView.findViewById(R.id.medal_title);
             imageView = (ImageView) itemView.findViewById(R.id.medal_iv);
+            lock = (ImageView) itemView.findViewById(R.id.medal_lock);
         }
 
 
-        public void setData(MedalModel current, int position) {
-
+        public void setData(final MedalModel current, int position) {
             this.current = current;
             this.position = position;
-            this.imageView.setImageResource(current.getImageId());
-            this.Title.setText(current.getTitle());
+            imageView.setImageResource(current.imageId);
+            title.setText(current.title);
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (context instanceof MedalShow)
+                        ((MedalShow) context).show(current);
+                }
+            });
+
+            if (current.progress >= current.completeMax) {
+                achieved();
+            } else {
+                imageView.setColorFilter(0x77000000);
+            }
         }
+
+        public void achieved() {
+            lock.setVisibility(View.GONE);
+        }
+    }
+
+    public interface MedalShow {
+        void show(MedalModel medal);
+        int getMedal();
     }
 }

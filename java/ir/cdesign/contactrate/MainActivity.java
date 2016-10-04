@@ -1,35 +1,18 @@
 package ir.cdesign.contactrate;
 
-import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
 
-import java.util.Calendar;
 
 import ir.cdesign.contactrate.demoedition.ContactsDemo;
-import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
-import ir.cdesign.contactrate.utilities.JalaliCalendar;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 
@@ -59,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
         linearLayout.setBackgroundResource(drawable);
 
-        FarhooshPayment farhooshPayment = new FarhooshPayment();
+//        FarhooshPayment farhooshPayment = new FarhooshPayment();
 //        farhooshPayment.Start(this,26378337,R.mipmap.ic_launcher);
 
         instance = this;
@@ -68,10 +51,11 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
 
-
-        ContactsDemo visionDemo = new ContactsDemo();
-        visionDemo.show(getSupportFragmentManager(),"VisionDemo");
-
+        if (!getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).getBoolean("contacts_demo",false)) {
+            ContactsDemo demo = new ContactsDemo();
+            demo.show(getSupportFragmentManager(),"demo");
+            getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putBoolean("contacts_demo",true).apply();
+        }
     }
 
     @Override
@@ -80,10 +64,5 @@ public class MainActivity extends AppCompatActivity {
         startService(new Intent(this, MyService.class));
     }
 
-
-    /*@Override
-    public void onBackPressed() {
-        finish();
-    }*/
 
 }

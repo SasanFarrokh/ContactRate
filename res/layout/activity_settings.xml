@@ -1,98 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/LinearLayout"
-    android:orientation="vertical"
     android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="ir.cdesign.contactrate.utilities.Settings">
 
-    <include layout="@layout/realtoolbar"/>
+    <include layout="@layout/realtoolbar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp"
-        android:weightSum="2">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:textColor="#f2f2f2"
-            android:textSize="18dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Change Language"/>
-
-        <TextView
-            android:textColor="#f2f2f2"
-            android:textSize="18dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="تغییر زبان"/>
-
-    </LinearLayout>
-
-    <View style="@style/nav_seperator"/>
-
-    <include layout="@layout/custom_radio_group"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp"
-        android:weightSum="2">
-
-        <TextView
-            android:textColor="#f2f2f2"
-            android:textSize="18dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Change Background"/>
-
-        <TextView
-            android:textColor="#f2f2f2"
-            android:textSize="18dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="تغییر عکس پس زمینه"/>
-
-    </LinearLayout>
-
-    <View style="@style/nav_seperator"/>
-
-    <LinearLayout
-        android:id="@+id/background_open"
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/background_thumbnail"
-            android:layout_width="80dp"
-            android:layout_height="120dp"
-            android:background="@drawable/background"/>
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="#f2f2f2"
-            android:textSize="18dp"
-            android:text="@string/choose_a_new_background"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/change_language"
+                    android:textColor="#f2f2f2"
+                    android:textSize="18dp" />
+
+
+            </LinearLayout>
+
+            <View style="@style/nav_seperator" />
+
+            <include layout="@layout/custom_radio_group" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/calendar_type"
+                    android:textColor="#f2f2f2"
+                    android:textSize="18dp" />
+
+
+            </LinearLayout>
+
+            <View style="@style/nav_seperator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_marginTop="10dp">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/calendar_type_rg"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/calendar_greg"
+                        android:layout_weight="0.5"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/gregorian_text"
+                        android:textColor="@color/white" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/calendar_shamsi"
+                        android:layout_weight="0.5"
+                        android:text="@string/shamsi_text"
+                        android:gravity="center_vertical|left"
+                        android:textColor="@color/white" />
+                </RadioGroup>
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reminder_set_cb"
+                    android:layout_marginTop="10dp"
+                    android:checked="true"
+                    android:text="@string/set_reminder_text"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/change_background"
+                    android:textColor="#f2f2f2"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+            <View style="@style/nav_seperator" />
+
+            <LinearLayout
+                android:id="@+id/background_open"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/background_thumbnail"
+                    android:layout_width="80dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/background" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/choose_a_new_background"
+                    android:textColor="#f2f2f2"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>

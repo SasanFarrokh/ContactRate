@@ -55,6 +55,8 @@ public class SplashActivity extends AppCompatActivity {
         //
         String lang = reg.getString("lang","en");
         Settings.language = Settings.getLangIndex(lang);
+        Settings.calendarType = reg.getInt("calendar",1);
+        Settings.reminderSet = reg.getBoolean("reminder",true);
         setLocale(lang);
 
         setContentView(R.layout.activity_splash);
@@ -83,12 +85,12 @@ public class SplashActivity extends AppCompatActivity {
         phoneNumber.setVisibility(View.INVISIBLE);
 
         textView.setAlpha(0f);
-        textView.setScaleX(0.8f);
-        textView.setScaleY(0.8f);
+        textView.setScaleX(0.9f);
+        textView.setScaleY(0.9f);
 
         imageView.setAlpha(0f);
-        imageView.setScaleX(0.8f);
-        imageView.setScaleY(0.8f);
+        imageView.setScaleX(0.9f);
+        imageView.setScaleY(0.9f);
 
         linearLayout.setTranslationY(150);
 
@@ -98,10 +100,11 @@ public class SplashActivity extends AppCompatActivity {
 
     private void onStartViewAnimator() {
 
+        textView.animate().scaleX(1).scaleY(1).alpha(1).setDuration(800).start();
         imageView.animate().alpha(1).scaleX(1f).scaleY(1f).setDuration(1000).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                textView.animate().scaleX(1).scaleY(1).alpha(1).setDuration(800).start();
+
             }
 
             @Override

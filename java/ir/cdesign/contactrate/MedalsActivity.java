@@ -33,7 +33,7 @@ public class MedalsActivity extends AppCompatActivity {
 
     private void setRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.medals_recycler);
-        MedalAdapter medalAdapter = new MedalAdapter(MedalsActivity.this, MedalModel.getData());
+        MedalAdapter medalAdapter = new MedalAdapter(MedalsActivity.this);
         GridLayoutManager glm = new GridLayoutManager(MedalsActivity.this, 3);
         recyclerView.setLayoutManager(glm);
         recyclerView.setHasFixedSize(true);

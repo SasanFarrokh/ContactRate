@@ -1,9 +1,12 @@
 package ir.cdesign.contactrate;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -90,14 +93,14 @@ public class AsyncServerCheck extends AsyncTask<Integer, Void, Integer> {
             case 0:
                 break;
             case 1:
-                MainActivity.instance.finish();
+                ((Activity) context).finish();
                 System.exit(0);
                 break;
             case 2:
                 try {
                     Integer updateVersion = Integer.parseInt(response.split(":")[1]);
                     if (BuildConfig.VERSION_CODE < updateVersion) {
-                        FragmentManager fm = MainActivity.instance.getSupportFragmentManager();
+                        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                         DialogUpdate dialogUpdate = new DialogUpdate();
                         dialogUpdate.show(fm, "UpdateDialog");
                     }

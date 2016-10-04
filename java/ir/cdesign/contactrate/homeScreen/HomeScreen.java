@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -33,18 +34,23 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
+import java.util.Locale;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.MainActivity;
+import ir.cdesign.contactrate.NewTaskActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.ContactTasksAdapter;
+import ir.cdesign.contactrate.dialogs.DialogMedal;
 import ir.cdesign.contactrate.imagePicker.DefaultCallback;
 import ir.cdesign.contactrate.imagePicker.EasyImage;
-import ir.cdesign.contactrate.utilities.AsyncGetNews;
-import ir.cdesign.contactrate.utilities.CalendarTool;
+import ir.cdesign.contactrate.models.MedalModel;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
+import ir.cdesign.contactrate.tasks.TasksActivity;
+import ir.cdesign.contactrate.utilities.Settings;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class HomeScreen extends AppCompatActivity {
@@ -54,10 +60,11 @@ public class HomeScreen extends AppCompatActivity {
     private List<ImageView> dots;
     RelativeLayout homeContent;
     ListView tasks;
-    TextView emptyTasksMsg;
+    TextView emptyTasksMsg, todayText;
+    FloatingActionButton fab;
 
     Handler handler;
-    boolean pageChanged,pageChanging;
+    boolean pageChanged, pageChanging;
 
     GraphPage graphPage = new GraphPage();
     AllRankInv allRankInv = new AllRankInv();
@@ -77,8 +84,9 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profileName = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("userName", "Unknown");
-        profileNumber = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).getString("phoneNumber", "09XXXXXXXXX");
+        sharedPreferences = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
+        profileName = sharedPreferences.getString("userName", "Unknown");
+        profileNumber = sharedPreferences.getString("phoneNumber", "09XXXXXXXXX");
         if ((new File(getFilesDir(), "profile.jpg")).exists()) {
             profileImage = BitmapFactory.decodeFile((new File(getFilesDir(), "profile.jpg")).getAbsolutePath());
         }
@@ -120,7 +128,23 @@ public class HomeScreen extends AppCompatActivity {
         });
 
         init();
+        PersianCalendar persianCalendar = new PersianCalendar();
+        String dateStr;
+        if (Settings.calendarType == 1) {
+            dateStr = persianCalendar.getPersianLongDate();
+        } else {
+            dateStr = persianCalendar.get(Calendar.YEAR) + "-"
+                    + (persianCalendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH)) + "-" + persianCalendar.get(Calendar.DAY_OF_MONTH)
+                    + "  " + persianCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH);
+        }
+        dateStr += " - " + getResources().getString(R.string.today);
+        todayText.setText(dateStr);
+
+        fab.setOnClickListener(addTaskListener);
+
+        progressMedalDay();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -151,6 +175,8 @@ public class HomeScreen extends AppCompatActivity {
 
     private void init() {
 
+        todayText = (TextView) findViewById(R.id.today_tv);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         handler = new Handler();
         tasks = (ListView) findViewById(R.id.home_tasks_lv);
         emptyTasksMsg = (TextView) findViewById(R.id.task_empty);
@@ -238,14 +264,6 @@ public class HomeScreen extends AppCompatActivity {
         }
     }
 
-    private void animateProgress(ProgressBar progressBar, int start, int end) {
-        ObjectAnimator visionAnim = ObjectAnimator.ofInt(progressBar, "progress", start, end); // see this max value coming back here, we animale towards that value
-        visionAnim.setDuration(3000);
-        //visionAnim.setInterpolator(new DecelerateInterpolator());
-        visionAnim.start();
-        progressBar.setTag(visionAnim);
-    }
-
     private void setBackground() {
 
         sharedPreferences = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
@@ -267,6 +285,7 @@ public class HomeScreen extends AppCompatActivity {
             emptyTasksMsg.setVisibility(View.GONE);
         }
         setBackground();
+        DialogMedal.fragmentManager = getSupportFragmentManager();
     }
 
     @Override
@@ -295,5 +314,33 @@ public class HomeScreen extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static final View.OnClickListener addTaskListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            v.getContext().startActivity(new Intent(v.getContext(), MainActivity.class)
+                    .putExtra("addtask",true)
+                    .putExtra(TasksActivity.PAGE_SCROLL,2));
+        }
+    };
+
+    private void progressMedalDay() {
+        DatabaseCommands db = DatabaseCommands.getInstance(this);
+        MedalModel medal = db.getMedals(MedalModel.MLM_PRO).get(0);
+        long deltaTime = System.currentTimeMillis() - medal.achieved;
+        if ( deltaTime > 86400000L) {
+            if (deltaTime > 86400000L * 2) {
+                db.progressMedal(MedalModel.MLM_PRO,1-medal.progress);
+            } else {
+                db.progressMedal(MedalModel.MLM_PRO,1);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        DatabaseCommands.getInstance(this).closeDB();
+        super.onDestroy();
     }
 }

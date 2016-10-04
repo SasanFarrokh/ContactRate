@@ -12,14 +12,10 @@
     tools:context=".NewTaskActivity">
 
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/medals_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="15dp" />
+        android:layout_gravity="center" />
 
 </LinearLayout>

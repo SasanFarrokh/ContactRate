@@ -1,20 +1,16 @@
 package ir.cdesign.contactrate;
 
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.RemoteException;
-import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -26,11 +22,15 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import ir.cdesign.contactrate.dialogs.DialogMedal;
 import ir.cdesign.contactrate.models.ContactShowModel;
-import ir.cdesign.contactrate.models.TaskModel;
-import ir.cdesign.contactrate.utilities.CalendarTool;
+import ir.cdesign.contactrate.models.MedalModel;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
+import ir.cdesign.contactrate.utilities.CalendarStrategy;
+import ir.cdesign.contactrate.utilities.Settings;
 
 /**
  * Created by Sasan on 2016-08-21.
@@ -41,6 +41,7 @@ public class DatabaseCommands {
     public static final String TABLE_CONTACTS = "ContactRank";
     public static final String TABLE_INVITES = "ContactInvites";
     public static final String TABLE_VISIONS = "Visions";
+    public static final String TABLE_MEDALS = "Medals";
 
 
     private SQLiteDatabase database;
@@ -200,9 +201,8 @@ public class DatabaseCommands {
     public boolean removeFromInvitation(long id) {
         ContentValues values = new ContentValues();
         values.put("invites", "");
-        values.put("point", 0);
         database.update(TABLE_CONTACTS, values, " id = ? ", new String[]{String.valueOf(id)});
-        database.delete(TABLE_INVITES, " contact = ? ", new String[]{String.valueOf(id)});
+        //database.delete(TABLE_INVITES, " contact = ? ", new String[]{String.valueOf(id)});
         if (TabFragment.instance != null) TabFragment.instance.setPoint();
         return true;
     }
@@ -235,9 +235,9 @@ public class DatabaseCommands {
             long rowid = database.update(TABLE_INVITES, values2, " id = ? ", new String[]{String.valueOf(inviteId)});
 
             if (MainActivity.alarm != null)
-                MainActivity.alarm.setAlarm(context, timestamp, ((Long) inviteId).intValue());
+                MainActivity.alarm.setAlarm(context, timestamp, inviteId);
 
-            if (putToInvites(contactId, inviteId)) return true;
+            return true;
         }
         return false;
     }
@@ -259,7 +259,7 @@ public class DatabaseCommands {
                 break;
             case 2:
                 query = "SELECT * FROM " +
-                        TABLE_INVITES + " WHERE contact = " + String.valueOf(id) + " ORDER BY timestamp ASC";
+                        TABLE_INVITES + " WHERE contact = " + String.valueOf(id) + " ORDER BY active ASC, timestamp ASC";
                 break;
             case 0:
             default:
@@ -273,15 +273,14 @@ public class DatabaseCommands {
                 query = "SELECT * FROM " + TABLE_INVITES + " WHERE active = 1 ORDER BY timestamp ASC";
                 break;
             case 5:
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR,0);
+                CalendarStrategy calendar = new CalendarStrategy(new PersianCalendar());
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
                 calendar.set(Calendar.MINUTE,0);
                 calendar.set(Calendar.SECOND,0);
                 calendar.set(Calendar.MILLISECOND,0);
                 query = "SELECT * FROM " + TABLE_INVITES + " WHERE timestamp BETWEEN "+
                         calendar.getTimeInMillis()+" AND "+
-                        (calendar.getTimeInMillis()+86399000)+" ORDER BY active DESC,timestamp ASC";
-                Log.i("sasan","Today Query : " + query);
+                        (calendar.getTimeInMillis()+86340000)+" ORDER BY active ASC,timestamp ASC";
                 break;
         }
         Cursor result = database.rawQuery(query, null);
@@ -306,11 +305,12 @@ public class DatabaseCommands {
 
         HashMap invite = getInvite(1, inviteId).get(0);
 
-
-        database.delete(TABLE_INVITES, " id = ? ", new String[]{String.valueOf(inviteId)});
-        Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
-                (Long) invite.get("eventid"));
-        context.getContentResolver().delete(uri, null, null);
+        try {
+            database.delete(TABLE_INVITES, " id = ? ", new String[]{String.valueOf(inviteId)});
+            Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
+                    (Long) invite.get("eventid"));
+            context.getContentResolver().delete(uri, null, null);
+        } catch (Exception ignored) {}
         if (MainActivity.alarm != null)
             MainActivity.alarm.cancelAlarm(context, ((Long) inviteId).intValue());
     }
@@ -328,9 +328,14 @@ public class DatabaseCommands {
 
         if (active) {
             addUserPoints(point, true);
-            Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
-                    (Long) invite.get("eventid"));
-            context.getContentResolver().delete(uri, null, null);
+            progressMedal(MedalModel.TASK_1,1);
+            progressMedal(MedalModel.TASK_25,1);
+            progressMedal(MedalModel.TASK_100,1);
+            try {
+                Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
+                        (Long) invite.get("eventid"));
+                context.getContentResolver().delete(uri, null, null);
+            } catch (Exception ignored) {}
             if (MainActivity.alarm != null)
                 MainActivity.alarm.cancelAlarm(context, ((Long) id).intValue());
         }
@@ -345,12 +350,18 @@ public class DatabaseCommands {
         ContentValues values = new ContentValues();
         values.put("timestamp", (long) invite.get("timestamp") + timestamp);
 
-        Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
-                (Long) invite.get("eventid"));
-        context.getContentResolver().delete(uri, null, null);
+        try {
+            long eventid = (Long) invite.get("eventid");
+            if (eventid > 0) {
+                Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
+                        eventid);
+                context.getContentResolver().delete(uri, null, null);
+            }
+        } catch (Exception ignored) {}
+
         if (MainActivity.alarm != null) {
             MainActivity.alarm.cancelAlarm(context, ((Long) id).intValue());
-            MainActivity.alarm.setAlarm(context, values.getAsLong("timestamp"), ((Long) id).intValue());
+            MainActivity.alarm.setAlarm(context, values.getAsLong("timestamp"), id);
         }
         long reminderid = addAppointmentsToCalender(context,
                 ContactShowModel.getTitles()[(int) invite.get("type") - 1] + " with : " + contact.get("name")
@@ -360,21 +371,6 @@ public class DatabaseCommands {
         return database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)}) != -1;
     }
 
-
-    private boolean putToInvites(long contactId, long inviteId) {
-
-        HashMap contact = getContactById(contactId);
-
-        String inviteStr = (String) contact.get("invites");
-        inviteStr += "," + String.valueOf(inviteId);
-
-
-        ContentValues contactValues = new ContentValues();
-        contactValues.put("invites", inviteStr);
-
-        database.update(TABLE_CONTACTS, contactValues, " id = ? ", new String[]{String.valueOf(contactId)});
-        return true;
-    }
 
     public boolean addNoteToContact(long id, String note) {
         ContentValues values = new ContentValues();
@@ -458,160 +454,172 @@ public class DatabaseCommands {
         SharedPreferences pref = context.getSharedPreferences(MainActivity.PREF, context.MODE_PRIVATE);
         if (addition) {
             pref.edit().putInt("point", pref.getInt("point", 0) + point).apply();
+
+            progressMedal(MedalModel.POINT_500,point);
+            progressMedal(MedalModel.POINT_5000,point);
+            progressMedal(MedalModel.POINT_50000,point);
         } else {
             pref.edit().putInt("point", pref.getInt("point", 0) - point).apply();
         }
         if (TabFragment.instance != null) TabFragment.instance.setPoint();
     }
 
-    public static long WritePhoneContact(String displayName, String number, Context context) {
-        //Application's context or Activity's context
-        // Name of the Person to add
-        //number of the person to add with the Contact
-
-        ArrayList<ContentProviderOperation> cntProOper = new ArrayList<ContentProviderOperation>();
-        int contactIndex = cntProOper.size();//ContactSize
-
-        //Newly Inserted contact
-        // A raw contact will be inserted ContactsContract.RawContacts table in contacts database.
-        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)//Step1
-                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null).build());
-
-        //Display name will be inserted in ContactsContract.Data table
-        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)//Step2
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, contactIndex)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName) // Name of the contact
-                .build());
-        //Mobile number will be inserted in ContactsContract.Data table
-        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)//Step 3
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, contactIndex)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number) // Number to be added
-                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).build()); //Type like HOME, MOBILE etc
-        try {
-            // We will do batch operation to insert all above data
-            //Contains the output of the app of a ContentProviderOperation.
-            //It is sure to have exactly one of uri or count set
-            ContentProviderResult[] contentProresult = null;
-            contentProresult = context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, cntProOper); //apply above data insertion into contacts list
-            if (contentProresult != null && contentProresult[0] != null) {
-                String uri = contentProresult[0].uri.getPath().substring(14);
-                long contact_id = new Long(uri).longValue();
-                return contact_id;
-            }
-        } catch (RemoteException exp) {
-            //logs;
-        } catch (OperationApplicationException exp) {
-            //logs
+    public List<MedalModel> getMedals(int id) {
+        Cursor c;
+        List<MedalModel> list = new ArrayList<>();
+        if (id != 0) {
+            c = database.rawQuery("SELECT * FROM " + TABLE_MEDALS + " WHERE id =" + id, null);
+        } else {
+            c = database.rawQuery("SELECT * FROM " + TABLE_MEDALS, null);
         }
-        return 0;
+        if (c != null) {
+            while (c.moveToNext()) {
+                MedalModel medalModel = new MedalModel();
+                medalModel.id = c.getInt(c.getColumnIndex("id"));
+                medalModel.title = c.getString(c.getColumnIndex("title"));
+                medalModel.subtitle = c.getString(c.getColumnIndex("subtitle"));
+                medalModel.imageId = c.getInt(c.getColumnIndex("image"));
+                medalModel.completeMax = c.getInt(c.getColumnIndex("complete"));
+                medalModel.progress = c.getInt(c.getColumnIndex("progress"));
+                medalModel.achieved = c.getLong(c.getColumnIndex("achieved"));
+                list.add(medalModel);
+            }
+            c.close();
+        }
+        return list;
+    }
+
+    public void progressMedal(int id,int step) {
+
+        MedalModel medal = getMedals(id).get(0);
+
+        database.execSQL("UPDATE " + TABLE_MEDALS + " SET progress = progress + ? , achieved = "
+                + System.currentTimeMillis()
+                +" WHERE id = ? AND progress < complete"
+                ,new Integer[] {step,id});
+        if (medal.progress < medal.completeMax && medal.progress + step >= medal.completeMax && context != null) {
+
+            try {
+                DialogMedal dialogMedal = new DialogMedal();
+                dialogMedal.medal = medal;
+                dialogMedal.show(DialogMedal.fragmentManager,"Medal");
+
+            } catch (Exception e){
+                Toast.makeText(context, "New Achievement! : " + medal.title, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void closeDB() {
+        if (database != null) {
+            database.close();
+            database = null;
+        }
     }
 
     public long addAppointmentsToCalender(Context curActivity, String title,
                                           String desc, int status, long startDate,
                                           boolean needReminder, boolean needMailService) {
-/***************** Event: add event *******************/
         long eventID = -1;
-        try {
-            String eventUriString = "content://com.android.calendar/events";
-            ContentValues eventValues = new ContentValues();
-            eventValues.put("calendar_id", 1); // id, We need to choose from
-            // our mobile for primary its 1
-            eventValues.put("title", title);
-            eventValues.put("description", desc);
+        if (Settings.reminderSet) {
+/***************** Event: add event *******************/
+            try {
+                String eventUriString = "content://com.android.calendar/events";
+                ContentValues eventValues = new ContentValues();
+                eventValues.put("calendar_id", 1); // id, We need to choose from
+                // our mobile for primary its 1
+                eventValues.put("title", title);
+                eventValues.put("description", desc);
 
-            long endDate = startDate + 1000 * 10 * 10; // For next 10min
-            eventValues.put("dtstart", startDate);
-            eventValues.put("dtend", endDate);
+                long endDate = startDate + 1000 * 10 * 10; // For next 10min
+                eventValues.put("dtstart", startDate);
+                eventValues.put("dtend", endDate);
 
-            // values.put("allDay", 1); //If it is bithday alarm or such
-            // kind (which should remind me for whole day) 0 for false, 1
-            // for true
-            eventValues.put("eventStatus", status); // This information is
-            // sufficient for most
-            // entries tentative (0),
-            // confirmed (1) or canceled
-            // (2):
-            eventValues.put("eventTimezone", "UTC/GMT +5:30");
+                // values.put("allDay", 1); //If it is bithday alarm or such
+                // kind (which should remind me for whole day) 0 for false, 1
+                // for true
+                eventValues.put("eventStatus", status); // This information is
+                // sufficient for most
+                // entries tentative (0),
+                // confirmed (1) or canceled
+                // (2):
+                eventValues.put("eventTimezone", TimeZone.getDefault().toString());
  /*
   * Comment below visibility and transparency column to avoid
   * java.lang.IllegalArgumentException column visibility is invalid
   * error
   */
-            // eventValues.put("allDay", 1);
-            // eventValues.put("visibility", 0); // visibility to default (0),
-            // confidential (1), private
-            // (2), or public (3):
-            // eventValues.put("transparency", 0); // You can control whether
-            // an event consumes time
-            // opaque (0) or transparent (1).
+                // eventValues.put("allDay", 1);
+                // eventValues.put("visibility", 0); // visibility to default (0),
+                // confidential (1), private
+                // (2), or public (3):
+                // eventValues.put("transparency", 0); // You can control whether
+                // an event consumes time
+                // opaque (0) or transparent (1).
 
-            eventValues.put("hasAlarm", 1); // 0 for false, 1 for true
+                eventValues.put("hasAlarm", 1); // 0 for false, 1 for true
 
-            Uri eventUri = curActivity.getApplicationContext()
-                    .getContentResolver()
-                    .insert(Uri.parse(eventUriString), eventValues);
-            eventID = Long.parseLong(eventUri.getLastPathSegment());
-
-            if (needReminder) {
-                /***************** Event: Reminder(with alert) Adding reminder to event ***********        ********/
-
-                String reminderUriString = "content://com.android.calendar/reminders";
-                ContentValues reminderValues = new ContentValues();
-                reminderValues.put("event_id", eventID);
-                reminderValues.put("minutes", 5); // Default value of the
-                // system. Minutes is a integer
-                reminderValues.put("method", 1); // Alert Methods: Default(0),
-                // Alert(1), Email(2),SMS(3)
-
-                Uri reminderUri = curActivity.getApplicationContext()
+                Uri eventUri = curActivity.getApplicationContext()
                         .getContentResolver()
-                        .insert(Uri.parse(reminderUriString), reminderValues);
-            }
+                        .insert(Uri.parse(eventUriString), eventValues);
+                eventID = Long.parseLong(eventUri.getLastPathSegment());
+
+                if (needReminder) {
+                    /***************** Event: Reminder(with alert) Adding reminder to event ***********        ********/
+
+                    String reminderUriString = "content://com.android.calendar/reminders";
+                    ContentValues reminderValues = new ContentValues();
+                    reminderValues.put("event_id", eventID);
+                    reminderValues.put("minutes", 5); // Default value of the
+                    // system. Minutes is a integer
+                    reminderValues.put("method", 1); // Alert Methods: Default(0),
+                    // Alert(1), Email(2),SMS(3)
+
+                    Uri reminderUri = curActivity.getApplicationContext()
+                            .getContentResolver()
+                            .insert(Uri.parse(reminderUriString), reminderValues);
+                }
 
 /***************** Event: Meeting(without alert) Adding Attendies to the meeting *******************/
 
-            if (needMailService) {
-                String attendeuesesUriString = "content://com.android.calendar/attendees";
-                /********
-                 * To add multiple attendees need to insert ContentValues
-                 * multiple times
-                 ***********/
-                ContentValues attendeesValues = new ContentValues();
-                attendeesValues.put("event_id", eventID);
-                attendeesValues.put("attendeeName", "xxxxx"); // Attendees name
-                attendeesValues.put("attendeeEmail", "yyyy@gmail.com");// Attendee Email
-                attendeesValues.put("attendeeRelationship", 0); // Relationship_Attendee(1),
-                // Relationship_None(0),
-                // Organizer(2),
-                // Performer(3),
-                // Speaker(4)
-                attendeesValues.put("attendeeType", 0); // None(0), Optional(1),
-                // Required(2),
-                // Resource(3)
-                attendeesValues.put("attendeeStatus", 0); // NOne(0),
-                // Accepted(1),
-                // Decline(2),
-                // Invited(3),
-                // Tentative(4)
+                if (needMailService) {
+                    String attendeuesesUriString = "content://com.android.calendar/attendees";
+                    /********
+                     * To add multiple attendees need to insert ContentValues
+                     * multiple times
+                     ***********/
+                    ContentValues attendeesValues = new ContentValues();
+                    attendeesValues.put("event_id", eventID);
+                    attendeesValues.put("attendeeName", "xxxxx"); // Attendees name
+                    attendeesValues.put("attendeeEmail", "yyyy@gmail.com");// Attendee Email
+                    attendeesValues.put("attendeeRelationship", 0); // Relationship_Attendee(1),
+                    // Relationship_None(0),
+                    // Organizer(2),
+                    // Performer(3),
+                    // Speaker(4)
+                    attendeesValues.put("attendeeType", 0); // None(0), Optional(1),
+                    // Required(2),
+                    // Resource(3)
+                    attendeesValues.put("attendeeStatus", 0); // NOne(0),
+                    // Accepted(1),
+                    // Decline(2),
+                    // Invited(3),
+                    // Tentative(4)
 
-                Uri eventsUri = Uri.parse("content://calendar/events");
-                Uri url = curActivity.getApplicationContext()
-                        .getContentResolver()
-                        .insert(eventsUri, attendeesValues);
+                    Uri eventsUri = Uri.parse("content://calendar/events");
+                    Uri url = curActivity.getApplicationContext()
+                            .getContentResolver()
+                            .insert(eventsUri, attendeesValues);
 
-                // Uri attendeuesesUri = curActivity.getApplicationContext()
-                // .getContentResolver()
-                // .insert(Uri.parse(attendeuesesUriString), attendeesValues);
+                    // Uri attendeuesesUri = curActivity.getApplicationContext()
+                    // .getContentResolver()
+                    // .insert(Uri.parse(attendeuesesUriString), attendeesValues);
+                }
+            } catch (Exception ex) {
+                Log.i("sasan", "Error in adding event on calendar" + ex.getMessage());
             }
-        } catch (Exception ex) {
-            Log.i("sasan", "Error in adding event on calendar" + ex.getMessage());
         }
-
         return eventID;
-
     }
 
     public static class DBhelper extends AsyncTask<Integer, Void, Integer> {

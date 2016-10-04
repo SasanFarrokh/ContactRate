@@ -169,7 +169,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
                             switch (which) {
                                 case 0:
                                     DatabaseCommands.getInstance(context).removeVision(id);
-                                    data.remove(position);
+                                    data.remove(data.size()-1-position);
                                     notifyDataSetChanged();
                                     break;
                             }

@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ir.cdesign.contactrate.tasks.TasksActivity;
+
 //import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 /**
@@ -70,6 +72,8 @@ public class TabFragment extends Fragment {
                     tabLayout.setupWithViewPager(viewPager);
                    }
         });
+
+        viewPager.setCurrentItem(getActivity().getIntent().getIntExtra(TasksActivity.PAGE_SCROLL,0));
 
         instance = this;
 

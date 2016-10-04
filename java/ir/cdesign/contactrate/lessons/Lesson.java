@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.demoedition.LessonDemo;
 import ir.cdesign.contactrate.demoedition.VisionDemo;
@@ -44,9 +45,12 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
         linearLayout.setBackgroundResource(drawable);
 
+        if (!getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).getBoolean("lesson_demo",false)) {
+            LessonDemo demo = new LessonDemo();
+            demo.show(getSupportFragmentManager(),"demo");
+            getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putBoolean("lesson_demo",true).apply();
+        }
 
-        LessonDemo visionDemo = new LessonDemo();
-        visionDemo.show(getSupportFragmentManager(),"VisionDemo");
 
         init();
     }

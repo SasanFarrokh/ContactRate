@@ -1,38 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FrameParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/FrameParent"
     android:background="@drawable/background"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="ir.cdesign.contactrate.Vision.Visions">
 
-    <LinearLayout
+    <include layout="@layout/toolbar_back_button" android:id="@id/toolbar_layout" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/vision_rv"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_layout">
 
-        <include layout="@layout/toolbar_back_button" />
-
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/vision_rv">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="center"
-        android:layout_margin="20dp"
-        android:layout_gravity="bottom|right"
-        android:src="@android:drawable/ic_input_add"
-        android:tint="@color/white"/>
+        style="@style/fabAdd"
+        app:rippleColor="@color/white" />
 
-</FrameLayout>
+</RelativeLayout>

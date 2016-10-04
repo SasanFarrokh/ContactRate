@@ -121,4 +121,11 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</string>
     <string name="choose_a_new_background">عکس پس زمینه را انتخاب کنید</string>
     <string name="welcome">خوش آمدید !</string>
+    <string name="today"> امروز </string>
+    <string name="set_reminder_text">اضافه کردن کار ها به تقویم</string>
+    <string name="gregorian_text">میلادی</string>
+    <string name="shamsi_text">شمسی</string>
+    <string name="change_language">تغییر زبان</string>
+    <string name="calendar_type">نوع تقویم</string>
+    <string name="change_background">تغییر عکس پس زمینه</string>
 </resources>

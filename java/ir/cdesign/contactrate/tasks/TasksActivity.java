@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.dialogs.DialogMedal;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
@@ -48,6 +49,13 @@ public class TasksActivity extends AppCompatActivity {
         });
 
         viewPager.setCurrentItem(getIntent().getIntExtra(PAGE_SCROLL,0));
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DialogMedal.fragmentManager = getSupportFragmentManager();
     }
 
     private void init() {

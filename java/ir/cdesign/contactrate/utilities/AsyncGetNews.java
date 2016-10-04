@@ -36,7 +36,7 @@ import ir.cdesign.contactrate.homeScreen.NewsActivity;
  */
 public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
 
-    private static final String DOMAIN_NAME = "http://cdesign.ir/mlm/news.php";
+    public static final String DOMAIN_NAME = "http://cdesign.ir/mlm/news.php";
     public static List<HashMap> cacheData;
 
     private Context context;

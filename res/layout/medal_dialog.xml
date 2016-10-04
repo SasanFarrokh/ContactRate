@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
@@ -10,7 +9,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:id="@+id/containerLayout">
 
         <pl.bclogic.pulsator4droid.library.PulsatorLayout
             android:id="@+id/pulsator"
@@ -22,31 +22,25 @@
             app:pulse_color="#ea0000"
             android:layout_centerInParent="true"
             app:pulse_startFromScratch="true">
+
         </pl.bclogic.pulsator4droid.library.PulsatorLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <ImageView
             android:id="@+id/medal_iv"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ddddd"/>
-
+            android:src="@drawable/ddddd"
+            android:layout_margin="20dp"/>
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/medal_ll"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_marginTop="12dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/containerLayout"
+        android:layout_marginTop="-50dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
 
         <TextView
             android:id="@+id/medal_tv"
@@ -62,9 +56,11 @@
         <Button
             android:layout_width="120dp"
             android:layout_height="32dp"
+            android:id="@+id/medal_btn"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#f2f2f2"
+            android:layout_marginTop="5dp"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:background="#30ffffff"
@@ -72,4 +68,4 @@
 
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

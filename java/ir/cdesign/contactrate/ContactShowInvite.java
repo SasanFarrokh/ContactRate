@@ -34,6 +34,7 @@ import ir.cdesign.contactrate.adapters.ContactTasksAdapter;
 import ir.cdesign.contactrate.adapters.InvitationAdapter;
 import ir.cdesign.contactrate.adapters.RankAdapter;
 import ir.cdesign.contactrate.adapters.VisionAdapter;
+import ir.cdesign.contactrate.dialogs.DialogMedal;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.CustomLayoutManager;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
@@ -108,6 +109,7 @@ public class ContactShowInvite extends AppCompatActivity {
         super.onResume();
         setListView();
         startService(new Intent(this, MyService.class));
+        DialogMedal.fragmentManager = getSupportFragmentManager();
     }
 
     private void setListView(){

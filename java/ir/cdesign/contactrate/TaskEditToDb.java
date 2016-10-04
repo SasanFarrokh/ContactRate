@@ -1,20 +1,13 @@
 package ir.cdesign.contactrate;
 
+import android.app.DialogFragment;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.net.Uri;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -29,8 +22,7 @@ import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
-import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianDateParser;
-import ir.cdesign.contactrate.utilities.CalendarTool;
+import ir.cdesign.contactrate.utilities.CalendarStrategy;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -41,7 +33,7 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
     TextView timeTxt,dateTxt;
     TextView note;
 
-    Calendar taskCalendar = Calendar.getInstance();
+    CalendarStrategy taskCalendar = new CalendarStrategy(new PersianCalendar());
     ScrollView scrollView;
 
     int type;
@@ -63,6 +55,8 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
         init();
 
         if (inviteId != 0) setByInviteId(inviteId);
+
+        timeSet();
 
         if (contactId == 0 || type == 0) finish();
 
@@ -89,22 +83,9 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
         timeTxt = (TextView) findViewById(R.id.timeTxt);
     }
 
-    private void calendarGet() {
-
-        PersianCalendar date =  new PersianCalendar();
-        date.setTimeInMillis(taskCalendar.getTimeInMillis());
-        String dateStr =  date.getPersianYear() + "/" + (date.getPersianMonth() + 1) + "/" + date.getPersianDay();
-        dateTxt.setText(dateStr);
-        timeTxt.setText(new DecimalFormat("00").format(taskCalendar.get(Calendar.HOUR_OF_DAY)) +
-                " : " + new DecimalFormat("00").format(taskCalendar.get(Calendar.MINUTE)));
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
-
-        calendarGet();
 
         contact = DatabaseCommands.getInstance().getContactById(contactId);
 
@@ -160,9 +141,6 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
 
         taskCalendar.setTimeInMillis(timestamp);
 
-        timeTxt.setText(new DecimalFormat("00").format(Calendar.HOUR_OF_DAY) +
-                " : " + new DecimalFormat("00").format(taskCalendar.get(Calendar.MINUTE)));
-
         note.setText((String) invite.get("note"));
 
     }
@@ -171,19 +149,16 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
 
         FragmentManager fm = getSupportFragmentManager();
         EnterTextDialog enterTextDialog = new EnterTextDialog();
-        enterTextDialog.show(fm, "Sample Fragment");
+        enterTextDialog.show(fm, "NoteDialog");
     }
 
     public View.OnClickListener datePicker = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            PersianCalendar now = new PersianCalendar();
-            DatePickerDialog dpd = DatePickerDialog.newInstance(
-                    TaskEditToDb.this,
-                    now.getPersianYear(),
-                    now.getPersianMonth(),
-                    now.getPersianDay()
+            DialogFragment dpd = CalendarStrategy.getDatePicker(
+                    TaskEditToDb.this
             );
+
             dpd.show(getFragmentManager(), DATEPICKER);
         }
     };
@@ -196,25 +171,24 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
 
-                        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
                         taskCalendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                         taskCalendar.set(Calendar.MINUTE,minute);
+                        timeTxt.setText(new DecimalFormat("00").format(hourOfDay) + " : " + new DecimalFormat("00").format(minute));
                     }
                 }, taskCalendar.get(Calendar.HOUR_OF_DAY), taskCalendar.get(Calendar.MINUTE), false);
         timePickerDialog.show();
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date =  year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
-        dateTxt.setText(date);
-        timeSet((new PersianDateParser(date,"/")).getPersianDate().getTimeInMillis());
+    public void onDateSet(DialogFragment view, int year, int monthOfYear, int dayOfMonth) {
+        taskCalendar.set(year,monthOfYear,dayOfMonth);
+        timeSet();
     }
 
-    private void timeSet(long time) {
-        taskCalendar.setTimeInMillis(time);
+    private void timeSet() {
         timeTxt.setText(new DecimalFormat("00").format(taskCalendar.get(Calendar.HOUR_OF_DAY)) +
                 " : " + new DecimalFormat("00").format(taskCalendar.get(Calendar.MINUTE)));
+        dateTxt.setText(taskCalendar.getDate());
     }
 
 }

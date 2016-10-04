@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +15,21 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.TaskEditToDb;
 import ir.cdesign.contactrate.models.ContactShowModel;
+import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.tasks.TasksActivity;
+import ir.cdesign.contactrate.utilities.CalendarStrategy;
+import ir.cdesign.contactrate.utilities.Settings;
 
 /**
  * Created by Sasan on 2016-08-25.
@@ -31,7 +38,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
     public static final int CM_TASKS = 1;
     public static final int PEND_TASKS = 0;
+    public static final int TYPE_TASK = 0;
+    public static final int TYPE_SEPERATOR = 1;
     private final LayoutInflater layoutInflater;
+
+    private List<Integer> types;
 
     public int mode;
 
@@ -40,7 +51,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
     private List<HashMap> invites;
     private List<Object[]> contacts;
 
-    Calendar calendar = Calendar.getInstance();
+    CalendarStrategy calendar = new CalendarStrategy(new PersianCalendar());
 
     public TasksAdapter(Context context, int mode) {
         this.context = context;
@@ -56,14 +67,53 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 break;
 
         }
+        types = new ArrayList<>();
+        int dayTemp = -1;
+        boolean todaySet = false;
+        if (!invites.isEmpty()) {
+            for (int i = 0; i<invites.size(); i++) {
+                PersianCalendar persianCalendar = new PersianCalendar();
+                persianCalendar.setTimeInMillis((Long) invites.get(i).get("timestamp"));
+                int day = persianCalendar.get(Calendar.DAY_OF_MONTH);
+                if (day != dayTemp) {
+                    String dateStr;
+                    if (Settings.calendarType == 1) {
+                        dateStr = persianCalendar.getPersianLongDate();
+                    } else {
+                        dateStr = persianCalendar.get(Calendar.YEAR) + "-"
+                                +(persianCalendar.getDisplayName(Calendar.MONTH,Calendar.SHORT, Locale.ENGLISH))+"-"+day
+                                + "  "+persianCalendar.getDisplayName(Calendar.DAY_OF_WEEK,Calendar.SHORT, Locale.ENGLISH);
+                    }
+                    if (!todaySet) {
+                        if (persianCalendar.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)) {
+                            dateStr += " - " + context.getResources().getString(R.string.today);
+                            todaySet = true;
+                        }
+                    }
+
+                    HashMap<String, String> date = new HashMap<>();
+                    date.put("date", dateStr);
+                    invites.add(i, date);
+                    dayTemp = day;
+                    types.add(i);
+                }
+            }
+        }
         contacts = db.getContactsForInvitation();
         layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public TaskHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.task_contact_layout, parent, false);
-        return new TaskHolder(view);
+        View view;
+        if (viewType == 0) {
+            view = layoutInflater.inflate(R.layout.task_contact_layout, parent, false);
+            return new TaskHolder(view);
+        }
+        else {
+            view = layoutInflater.inflate(R.layout.task_separator, parent, false);
+            return new TaskSeperatorHolder(view);
+        }
     }
 
     @Override
@@ -76,6 +126,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         return invites.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return (types.contains(position)) ? TYPE_SEPERATOR : TYPE_TASK;
+    }
 
     public class TaskHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
@@ -83,17 +137,19 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         public CheckBox checkBox;
         public int position;
         public long id;
-        public View view,strikeThrough;
+        public View view, strikeThrough;
 
         public TaskHolder(View itemView) {
             super(itemView);
-            view = itemView;
-            imageView = (ImageView) itemView.findViewById(R.id.task_img);
-            title = (TextView) itemView.findViewById(R.id.task_title);
-            subtitle = (TextView) itemView.findViewById(R.id.task_subtitle);
-            completed = (TextView) itemView.findViewById(R.id.task_completed);
-            checkBox = (CheckBox) itemView.findViewById(R.id.task_checkbox);
-            //strikeThrough = itemView.findViewById(R.id.task_strike);
+            if (!(this instanceof TaskSeperatorHolder)) {
+                view = itemView;
+                imageView = (ImageView) itemView.findViewById(R.id.task_img);
+                title = (TextView) itemView.findViewById(R.id.task_title);
+                subtitle = (TextView) itemView.findViewById(R.id.task_subtitle);
+                completed = (TextView) itemView.findViewById(R.id.task_completed);
+                checkBox = (CheckBox) itemView.findViewById(R.id.task_checkbox);
+                //strikeThrough = itemView.findViewById(R.id.task_strike);
+            }
         }
 
         public void setData(int position) {
@@ -111,89 +167,72 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             title.setText(ContactShowModel.getTitles()[(int) invite.get("type") - 1]);
             subtitle.setText("With " +
                     contactName + " at : " +
-                    calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)
+                    new DecimalFormat("00").format(calendar.get(Calendar.HOUR_OF_DAY)) +
+                    ":" + new DecimalFormat("00").format(calendar.get(Calendar.MINUTE))
             );
-            checkBox.setChecked(((int) invite.get("active") != 0));
+            boolean active = ((int) invite.get("active") != 0);
+            checkBox.setChecked(active);
             if (mode == CM_TASKS) {
                 checkBox.setEnabled(false);
                 title.append(" - Completed");
             }
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    final View view = (View) buttonView.getParent();
-                    TaskHolder viewHolder = (TaskHolder) ((View) view.getParent()).getTag();
-                    DatabaseCommands.getInstance().activateInvite(viewHolder.id, isChecked);
-                    viewHolder.completed.setVisibility(View.VISIBLE);
-                    view.animate()
-                            .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
-                            .setListener(new SimpleAnimationEndListener() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    try {
-                                        ((RecyclerView) view.getParent().getParent()).setAdapter(new TasksAdapter(context, mode));
-                                    } catch (Exception ignore) {
-                                    }
-                                    ((TasksActivity) view.getContext()).viewPager.getAdapter().notifyDataSetChanged();
-                                }
-                            })
-                            .start();
-
-
-                }
-            });
-            if (mode == PEND_TASKS) {
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        TaskHolder viewHolder = (TaskHolder) v.getTag();
-                        context.startActivity(new Intent(context, TaskEditToDb.class).putExtra("invite_id", viewHolder.id));
-                    }
-                });
-            }
+            checkBox.setOnCheckedChangeListener(itemCheck);
             view.setTag(this);
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(final View v) {
-                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-                    String[] options = (mode == PEND_TASKS)?new String[]{ "Done", "Move On", "Edit", "Delete"}:
-                            new String[]{ "Delete"};
-                    alertBuilder.setItems( options
+
+            if (!active) {
+                view.setOnClickListener(pendTaskClick);
+                view.setOnLongClickListener(pendTaskLongClick);
+            } else {
+                view.setOnLongClickListener(doneTaskLongClick);
+            }
+        }
+    }
+
+    private final View.OnClickListener pendTaskClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            TaskHolder viewHolder = (TaskHolder) v.getTag();
+            context.startActivity(new Intent(context, TaskEditToDb.class).putExtra("invite_id", viewHolder.id));
+        }
+    };
+    private final View.OnLongClickListener pendTaskLongClick = new View.OnLongClickListener() {
+
+        @Override
+        public boolean onLongClick(final View v) {
+            final TaskHolder taskHolder = (TaskHolder) v.getTag();
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+            String[] options = new String[]{"Done", "Move On", "Edit", "Delete"};
+            alertBuilder.setItems(options
                     , new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 3:
-                                    DatabaseCommands.getInstance(context).removeInvite(((TaskHolder) v.getTag()).id);
+                                    DatabaseCommands.getInstance(context).removeInvite(taskHolder.id);
                                     v.animate()
                                             .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
                                             .setListener(new SimpleAnimationEndListener() {
                                                 @Override
                                                 public void onAnimationEnd(Animator animation) {
-                                                    ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                                    try {
+                                                        ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                                    } finally {
+                                                        ((TasksActivity) v.getContext()).viewPager.getAdapter().notifyDataSetChanged();
+                                                    }
                                                 }
                                             })
                                             .start();
                                     break;
                                 case 0:
-                                    if (mode == PEND_TASKS) {
-                                        DatabaseCommands.getInstance().activateInvite(id, true);
+                                    DatabaseCommands.getInstance().activateInvite(taskHolder.id, true);
+                                    try {
                                         ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
-                                    } else {
-                                        DatabaseCommands.getInstance().removeInvite(id);
-                                        v.animate()
-                                                .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
-                                                .setListener(new SimpleAnimationEndListener() {
-                                                    @Override
-                                                    public void onAnimationEnd(Animator animation) {
-                                                        ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
-                                                    }
-                                                })
-                                                .start();
+                                    } finally {
+                                        ((TasksActivity) v.getContext()).viewPager.getAdapter().notifyDataSetChanged();
                                     }
                                     break;
                                 case 2:
-                                    view.callOnClick();
+                                    v.callOnClick();
                                     break;
                                 case 1:
                                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
@@ -204,19 +243,23 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                                         public void onClick(DialogInterface dialog, int which) {
                                             switch (which) {
                                                 case 0:
-                                                    DatabaseCommands.getInstance(context).moveOnInvite(id,
+                                                    DatabaseCommands.getInstance(context).moveOnInvite(taskHolder.id,
                                                             86400000L);
                                                     break;
                                                 case 1:
-                                                    DatabaseCommands.getInstance(context).moveOnInvite(id,
+                                                    DatabaseCommands.getInstance(context).moveOnInvite(taskHolder.id,
                                                             86400000L * 3);
                                                     break;
                                                 case 2:
-                                                    DatabaseCommands.getInstance(context).moveOnInvite(id,
+                                                    DatabaseCommands.getInstance(context).moveOnInvite(taskHolder.id,
                                                             86400000L * 7);
                                                     break;
                                             }
-                                            ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                            try {
+                                                ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                            } finally {
+                                                ((TasksActivity) v.getContext()).viewPager.getAdapter().notifyDataSetChanged();
+                                            }
                                         }
                                     });
                                     alertBuilder.show();
@@ -224,10 +267,101 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                             }
                         }
                     });
-                    alertBuilder.show();
-                    return true;
-                }
-            });
+            alertBuilder.show();
+            return true;
+        }
+    };
+
+    private final View.OnLongClickListener doneTaskLongClick = new View.OnLongClickListener() {
+
+        @Override
+        public boolean onLongClick(final View v) {
+            final TaskHolder taskHolder = (TaskHolder) v.getTag();
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+            String[] options = new String[]{"Undone", "Delete"};
+            alertBuilder.setItems(options
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    DatabaseCommands.getInstance().activateInvite(taskHolder.id,false);
+                                    v.animate()
+                                            .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
+                                            .setListener(new SimpleAnimationEndListener() {
+                                                @Override
+                                                public void onAnimationEnd(Animator animation) {
+                                                    try {
+                                                        ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                                    } finally {
+                                                        ((TasksActivity) v.getContext()).viewPager.getAdapter().notifyDataSetChanged();
+                                                    }
+                                                }
+                                            })
+                                            .start();
+                                    break;
+                                case 1:
+                                    DatabaseCommands.getInstance().removeInvite(taskHolder.id);
+                                    v.animate()
+                                            .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
+                                            .setListener(new SimpleAnimationEndListener() {
+                                                @Override
+                                                public void onAnimationEnd(Animator animation) {
+                                                    try {
+                                                        ((RecyclerView) v.getParent()).setAdapter(new TasksAdapter(context, mode));
+                                                    } finally {
+                                                        ((TasksActivity) v.getContext()).viewPager.getAdapter().notifyDataSetChanged();
+                                                    }
+                                                }
+                                            })
+                                            .start();
+                            }
+                        }
+                    });
+            alertBuilder.show();
+            return true;
+        }
+    };
+
+    private final CompoundButton.OnCheckedChangeListener itemCheck = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            final View view = (View) buttonView.getParent();
+            TaskHolder viewHolder = (TaskHolder) ((View) view.getParent()).getTag();
+            DatabaseCommands.getInstance().activateInvite(viewHolder.id, isChecked);
+            viewHolder.completed.setVisibility(View.VISIBLE);
+            viewHolder.completed.setAlpha(0f);
+            viewHolder.completed.animate().alpha(1).setDuration(250).start();
+            view.animate()
+                    .alpha(0f).translationX(context.getResources().getDimension(R.dimen.swipeMove))
+                    .setListener(new SimpleAnimationEndListener() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            try {
+                                ((RecyclerView) view.getParent().getParent()).setAdapter(new TasksAdapter(context, mode));
+                            } finally {
+                                ((TasksActivity) view.getContext()).viewPager.getAdapter().notifyDataSetChanged();
+                            }
+                        }
+                    })
+                    .start();
+
+
+        }
+    };
+
+    private class TaskSeperatorHolder extends TaskHolder {
+
+        private TextView dateText;
+
+        public TaskSeperatorHolder(View itemView) {
+            super(itemView);
+            dateText = (TextView) itemView.findViewById(R.id.task_date);
+        }
+
+        @Override
+        public void setData(int position) {
+            dateText.setText((String) TasksAdapter.this.invites.get(position).get("date"));
         }
     }
 

@@ -3,6 +3,7 @@ package ir.cdesign.contactrate.tasks;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.RankAdapter;
 import ir.cdesign.contactrate.adapters.TasksAdapter;
+import ir.cdesign.contactrate.homeScreen.HomeScreen;
 
 /**
  * Created by Sasan on 2016-09-27.
@@ -21,12 +23,16 @@ import ir.cdesign.contactrate.adapters.TasksAdapter;
 public class PendingTasksFragment extends Fragment implements TasksActivity.UpdateRecycler {
 
     RecyclerView recyclerView;
+    FloatingActionButton fab;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tasks_recycler, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.tasks_rv);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+
+        fab.setOnClickListener(HomeScreen.addTaskListener);
 
         return view;
     }

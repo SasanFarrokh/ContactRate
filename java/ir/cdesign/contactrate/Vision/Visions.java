@@ -1,9 +1,9 @@
 package ir.cdesign.contactrate.Vision;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,28 +12,25 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.VisionAdapter;
 import ir.cdesign.contactrate.caligraphy.CalligraphyContextWrapper;
 import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
-import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
-public class Visions extends AppCompatActivity implements
-        DatePickerDialog.OnDateSetListener, VisionAdapter.AdapterUpdate{
+public class Visions extends AppCompatActivity implements VisionAdapter.AdapterUpdate{
 
     FloatingActionButton fab;
     ImageView toolbarImage;
     RecyclerView visions;
-    FrameLayout frameLayout;
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +42,14 @@ public class Visions extends AppCompatActivity implements
         //set BackGround
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
-        frameLayout= (FrameLayout) findViewById(R.id.FrameParent);
-        frameLayout.setBackgroundResource(drawable);
+        relativeLayout = (RelativeLayout) findViewById(R.id.FrameParent);
+        relativeLayout.setBackgroundResource(drawable);
 
-        VisionDemo visionDemo = new VisionDemo();
-        visionDemo.show(getSupportFragmentManager(),"VisionDemo");
+        if (!getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).getBoolean("vision_demo",false)) {
+            VisionDemo demo = new VisionDemo();
+            demo.show(getSupportFragmentManager(), "demo");
+            getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putBoolean("vision_demo",true).apply();
+        }
     }
     // font library
     @Override
@@ -103,13 +103,6 @@ public class Visions extends AppCompatActivity implements
             }
         }
     };
-
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        // Note: monthOfYear is 0-indexed
-        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-//        dateTextView.setText(date);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

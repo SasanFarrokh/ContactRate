@@ -9,7 +9,6 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>
         <item name="android:selectableItemBackground">@color/overLay</item>
-        <item name="android:layoutDirection">ltr</item>
 
     </style>
 
@@ -53,10 +52,10 @@
     <style name="nav_seperator">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginBottom">14dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginTop">12dp</item>
         <item name="android:background">#70f2f2f2</item>
     </style>
     <style name="nav_rows">
@@ -111,6 +110,16 @@
     <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:minHeight">10dip</item>
         <item name="android:maxHeight">10dip</item>
+    </style>
+
+    <style name="fabAdd">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:src">@android:drawable/ic_input_add</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:layout_margin">20dp</item>
     </style>
 
 </resources>

@@ -17,11 +17,11 @@
 
         <ImageView
             android:id="@+id/splash_logo"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_marginTop="50dp"
-            android:layout_height="150dp"
+            android:layout_height="140dp"
             android:layout_gravity="center"
-            android:src="@drawable/mlmtallk" />
+            android:src="@drawable/ic_launcher" />
 
 
         <TextView

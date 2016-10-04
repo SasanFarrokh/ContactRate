@@ -49,7 +49,7 @@ public class ContactShowModel {
         String[] getTitles = {
                 "Invitation"  ,"Present"  ,"Follow Up"  ,
                 "Enroll"      ,"Training" ,"Build Team",
-                "Buy"         ,"Promoting Event","other"
+                "Buy"         ,"Promoting Event","Other"
         };
         return getTitles;
     }

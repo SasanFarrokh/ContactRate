@@ -17,7 +17,6 @@ import java.util.List;
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.tasks.TasksActivity;
-import ir.cdesign.contactrate.utilities.CalendarTool;
 
 /**
  * Created by sasan pc on 31/08/2016.
@@ -26,6 +25,8 @@ public class UserTab extends Fragment {
 
     ImageView profileBig;
     TextView profileName;
+
+    public static UserTab instance;
 
     private View view;
 
@@ -40,6 +41,8 @@ public class UserTab extends Fragment {
 
         updateProfileImage();
 
+        instance = this;
+
         return view;
     }
 
@@ -50,7 +53,7 @@ public class UserTab extends Fragment {
     }
 
     public void updateProfileImage() {
-        if (HomeScreen.profileImage != null) {
+        if (HomeScreen.profileImage != null && profileBig != null) {
             profileBig.setColorFilter(Color.TRANSPARENT);
             profileBig.setImageBitmap(HomeScreen.profileImage);
         }
@@ -81,14 +84,13 @@ public class UserTab extends Fragment {
     }
 
     public void setData() {
-        DatabaseCommands db = DatabaseCommands.getInstance();
-        int p = db.getUserPoint();
+        DatabaseCommands db = DatabaseCommands.getInstance(getContext());
+        setPoints();
         int doneTask = db.getDoneTask();
         int pendingTask = db.getPendingTask();
 
         List<HashMap> visionsData = db.getVision(0);
 
-        points.setText(String.valueOf(p));
         doneText.setText(String.valueOf(doneTask));
         pendingText.setText(String.valueOf(pendingTask));
         visions.setText(String.valueOf(visionsData.size()));
@@ -97,5 +99,11 @@ public class UserTab extends Fragment {
                 ((double) (System.currentTimeMillis() - (long) visionsData.get(0).get("regdate")) /
                         ((long) visionsData.get(0).get("timestamp") - (long) visionsData.get(0).get("regdate"))) * 100:0;
         visionPercent = Math.max(0,Math.min(visionPercent,100));
+    }
+
+    public void setPoints() {
+        DatabaseCommands db = DatabaseCommands.getInstance(getContext());
+        int p = db.getUserPoint();
+        points.setText(String.valueOf(p));
     }
 }

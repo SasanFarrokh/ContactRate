@@ -33,15 +33,13 @@ public class AllFragment extends Fragment {
 
     RecyclerView recyclerView;
     TextView search;
-    AllModel model = new AllModel();
-    CoordinatorLayout coordinatorLayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.all_tab_layout,container , false);
 
-        //showSnackBar(view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.all_rv);
 
         search = (EditText) view.findViewById(R.id.search);
         search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -53,7 +51,7 @@ public class AllFragment extends Fragment {
                 }
             }
         });
-        setRecyclerView(view);
+        setRecyclerView();
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -77,8 +75,8 @@ public class AllFragment extends Fragment {
         return view;
     }
 
-    private void setRecyclerView(View view){
-        recyclerView = (RecyclerView) view.findViewById(R.id.all_rv);
+    private void setRecyclerView(){
+
         AllAdapter adapter = new AllAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -90,8 +88,6 @@ public class AllFragment extends Fragment {
                 return false;
             }
         });
-
-
 
     }
 

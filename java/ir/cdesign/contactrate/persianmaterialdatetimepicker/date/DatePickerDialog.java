@@ -129,7 +129,7 @@ public class DatePickerDialog extends DialogFragment implements
          *            with {@link Calendar}.
          * @param dayOfMonth The day of the month that was set.
          */
-        void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth);
+        void onDateSet(DialogFragment view, int year, int monthOfYear, int dayOfMonth);
     }
 
     /**

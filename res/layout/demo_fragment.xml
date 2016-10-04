@@ -22,7 +22,7 @@
         android:paddingLeft="16dp"
         android:textSize="18sp"
         android:textColor="#212121"
-        android:text="are dadach"/>
+        android:text=""/>
 
     <LinearLayout
         android:layout_width="match_parent"

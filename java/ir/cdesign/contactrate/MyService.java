@@ -17,7 +17,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import ir.cdesign.contactrate.adapters.TasksAdapter;
 import ir.cdesign.contactrate.models.ContactShowModel;
+import ir.cdesign.contactrate.models.MedalModel;
 
 /**
  * Created by Sasan on 2016-08-23.
@@ -32,7 +34,9 @@ public class MyService extends Service {
 
     public void onCreate() {
         super.onCreate();
-        databaseInit();
+        if (getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).getString("userName",null) == null) {
+            databaseInit();
+        }
         instance = this;
     }
 
@@ -78,6 +82,26 @@ public class MyService extends Service {
                 "timestamp INTEGER," +
                 "regdate INTEGER," +
                 "active INTEGER);");
+        database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_MEDALS +
+                "(id INTEGER PRIMARY KEY NOT NULL," +
+                "title VARCHAR NOT NULL UNIQUE," +
+                "subtitle VARCHAR NOT NULL," +
+                "image INTEGER NOT NULL," +
+                "progress INTEGER NOT NULL DEFAULT 0," +
+                "complete INTEGER NOT NULL," +
+                "point INTEGER NOT NULL DEFAULT 10," +
+                "achieved INTEGER NOT NULL DEFAULT 0);");
+        List<MedalModel> medals = MedalModel.getData();
+        for (MedalModel medal : medals) {
+            ContentValues values = new ContentValues();
+            values.put("id", medal.id);
+            values.put("title", medal.title);
+            values.put("subtitle", medal.subtitle);
+            values.put("image", medal.imageId);
+            values.put("complete", medal.completeMax);
+            values.put("point", medal.point);
+            database.insert(DatabaseCommands.TABLE_MEDALS,null,values);
+        }
     }
     public SQLiteDatabase databaseConnect() {
         return openOrCreateDatabase(DatabaseCommands.DB_NAME, MODE_PRIVATE, null);

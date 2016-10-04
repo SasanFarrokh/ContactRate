@@ -21,12 +21,14 @@ public class InvitationFragment extends Fragment {
     public static InvitationFragment instance;
     RecyclerView recyclerView;
 
-    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.invitation_tab_layout,null);
+        View view = inflater.inflate(R.layout.invitation_tab_layout,null);
+        recyclerView = (RecyclerView) view.findViewById(R.id.inv_rv);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         instance = this;
 
         return view;
@@ -35,14 +37,11 @@ public class InvitationFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setRecyclerView(view);
+        setRecyclerView();
     }
 
-    private void setRecyclerView(View view){
-        recyclerView = (RecyclerView) view.findViewById(R.id.inv_rv);
-        InvitationAdapter adapter = new InvitationAdapter(getActivity());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    private void setRecyclerView(){
+        recyclerView.setAdapter(new InvitationAdapter(getActivity()));
     }
 
 }

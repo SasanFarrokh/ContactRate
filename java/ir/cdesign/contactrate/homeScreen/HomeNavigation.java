@@ -12,31 +12,18 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.transition.Slide;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.File;
-import java.io.OutputStream;
 
 import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.Vision.Visions;
-import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.dialogs.DialogAbout;
-import ir.cdesign.contactrate.dialogs.DialogSettings;
-import ir.cdesign.contactrate.imagePicker.DefaultCallback;
-import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.lessons.Lesson;
-import ir.cdesign.contactrate.lessons.ReadLessonActivity;
 import ir.cdesign.contactrate.profile.ProfileActivity;
 import ir.cdesign.contactrate.tasks.TasksActivity;
 import ir.cdesign.contactrate.tutorial.Tutorial;
@@ -50,7 +37,7 @@ public class HomeNavigation extends Fragment {
 
     private static final int IMAGE_PICKED = 9;
     Intent intent;
-    View settings,about,task,tutorial,home,vision,statistics,lessons,news,contacts;
+    View settings,about,task,tutorial, medals,vision,statistics,lessons,news,contacts;
     ImageView profile;
     HomeScreen homeScreen;
     TextView profileName, profileNumber;
@@ -64,7 +51,7 @@ public class HomeNavigation extends Fragment {
         about = view.findViewById(R.id.about);
         task = view.findViewById(R.id.task);
         tutorial = view.findViewById(R.id.tutorial);
-        home =  view.findViewById(R.id.home);
+        medals =  view.findViewById(R.id.medals);
         vision = view.findViewById(R.id.vision);
         statistics = view.findViewById(R.id.stats);
         lessons = view.findViewById(R.id.lessons);
@@ -79,7 +66,7 @@ public class HomeNavigation extends Fragment {
         about.setOnClickListener(listener);
         task.setOnClickListener(listener);
         tutorial.setOnClickListener(listener);
-        home.setOnClickListener(listener);
+        medals.setOnClickListener(listener);
         vision.setOnClickListener(listener);
         statistics.setOnClickListener(listener);
         lessons.setOnClickListener(listener);
@@ -126,7 +113,7 @@ public class HomeNavigation extends Fragment {
                     intent = new Intent(getActivity(), Tutorial.class);
                     startActivity(intent);
                     break;
-                case R.id.home:
+                case R.id.medals:
                     intent = new Intent(getActivity(), ProfileActivity.class);
                     startActivity(intent);
                     break;
