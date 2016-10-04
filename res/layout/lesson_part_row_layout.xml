@@ -12,27 +12,52 @@
         android:src="@drawable/library_photo"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:background="#70333333"
-        android:layout_gravity="end"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:textColor="#f2f2f2"
-            android:text="Part"/>
-
-        <TextView
-            android:layout_gravity="end"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="70sp"
-            android:textColor="#f2f2f2"
-            android:text="1"/>
+            android:orientation="vertical"
+            android:background="#70333333"
+            android:layout_gravity="end"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textColor="#f2f2f2"
+                android:text="Part"/>
+
+            <TextView
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="70sp"
+                android:textColor="#f2f2f2"
+                android:text="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#70333333"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/partTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="This Is Shit"
+                android:textSize="25dp"
+                android:textColor="#f2f2f2"
+                android:gravity="center"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

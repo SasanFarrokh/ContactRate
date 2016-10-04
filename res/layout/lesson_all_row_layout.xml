@@ -12,6 +12,7 @@
         android:orientation="vertical">
         <!--Image view for toggling lock and unlock-->
         <ImageView
+            android:id="@+id/allImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
@@ -26,13 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="5dp"
-                    android:src="@drawable/broken_heart" />
-
                 <TextView
+                    android:id="@+id/lessonTitleText"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
@@ -47,6 +43,7 @@
                 android:layout_height="30dp">
 
                 <TextView
+                    android:id="@+id/authorText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -69,6 +66,7 @@
                     android:layout_marginRight="5dp">
 
                     <TextView
+                        android:id="@+id/lessonUnlockPoint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2000"
@@ -120,6 +118,7 @@
                 android:src="@drawable/heart"/>
 
             <TextView
+                android:id="@+id/seenCount"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="#f2f2f2"

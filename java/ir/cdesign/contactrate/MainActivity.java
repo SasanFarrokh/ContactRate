@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
 
 
-import ir.cdesign.contactrate.demoedition.ContactsDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
@@ -51,11 +50,6 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
 
-        if (!getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).getBoolean("contacts_demo",false)) {
-            ContactsDemo demo = new ContactsDemo();
-            demo.show(getSupportFragmentManager(),"demo");
-            getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putBoolean("contacts_demo",true).apply();
-        }
     }
 
     @Override

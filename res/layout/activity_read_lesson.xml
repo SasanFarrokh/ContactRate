@@ -32,7 +32,7 @@
 
                     <TextView
                         android:background="#95f2f2f2"
-                        android:id="@+id/lesson_read_text"
+                        android:id="@+id/lessonReadText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
@@ -40,8 +40,6 @@
                         android:textSize="15dp"
                         android:lineSpacingMultiplier="1.2"
                         android:text="@string/texttexttext" />
-
-
 
                 </LinearLayout>
             </ScrollView>

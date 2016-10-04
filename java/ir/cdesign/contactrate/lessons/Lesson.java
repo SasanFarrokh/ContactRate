@@ -1,6 +1,7 @@
 package ir.cdesign.contactrate.lessons;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,27 +14,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
-import ir.cdesign.contactrate.demoedition.LessonDemo;
-import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class Lesson extends AppCompatActivity implements View.OnClickListener{
 
-    Button all ,mark ;
     RecyclerView recyclerView;
     TextView toolbarText;
-    LinearLayout linearLayout;
-    ImageView toolbarImage;
-
-    //demo edition
-    FrameLayout lessonAllRow ,lessonMarkRow;
-    ViewFlipper viewFlipper;
+    FrameLayout frameLayout;
+    FloatingActionButton fab ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,40 +34,27 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
-        linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
-        linearLayout.setBackgroundResource(drawable);
-
-        if (!getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).getBoolean("lesson_demo",false)) {
-            LessonDemo demo = new LessonDemo();
-            demo.show(getSupportFragmentManager(),"demo");
-            getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putBoolean("lesson_demo",true).apply();
-        }
-
+        frameLayout = (FrameLayout) findViewById(R.id.FrameParent);
+        frameLayout.setBackgroundResource(drawable);
 
         init();
     }
 
     private void init(){
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        all = (Button) findViewById(R.id.all_btn);
-        mark = (Button) findViewById(R.id.mark_btn);
         toolbarText = (TextView) findViewById(R.id.toolbar_tv);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         setToolbar();
-
-        //demo edition
-        lessonAllRow = (FrameLayout) findViewById(R.id.lesson_all_row_layout);
-        lessonMarkRow = (FrameLayout) findViewById(R.id.lesson_mark_row_layout);
-        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-
-        lessonAllRow.setOnClickListener(this);
-        lessonMarkRow.setOnClickListener(this);
-        all.setOnClickListener(this);
-        mark.setOnClickListener(this);
+        fab.setOnClickListener(this);
     }
+
+    private void setRecyclerView(){
+
+    }
+
     private void setToolbar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = new Toolbar(this);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -90,32 +69,14 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    private void adapterSwitch(){
-
-        all.setOnClickListener(this);
-        mark.setOnClickListener(this);
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.all_btn: {
-                viewFlipper.setDisplayedChild(0);
-                break;
-            }
-            case R.id.mark_btn: {
-                viewFlipper.setDisplayedChild(1);
-                break;
-            }
-            case R.id.lesson_all_row_layout:
-                Toast.makeText(Lesson.this, "Lesson Added to Mark", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.lesson_mark_row_layout:
-                startActivity(new Intent(Lesson.this,LessonPartActivity.class));
-                break;
             case R.id.toolbar_iv:
                 finish();
+                break;
+            case R.id.fab :
+                startActivity(new Intent(Lesson.this , LessonMarkActivity.class));
                 break;
         }
     }

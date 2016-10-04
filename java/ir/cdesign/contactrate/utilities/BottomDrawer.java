@@ -31,7 +31,7 @@ public class BottomDrawer {
 
         toggle = (ImageView) activity.findViewById(R.id.bottomDrawerButton);
         container = (LinearLayout) activity.findViewById(R.id.bottomDrawerContainer);
-        readText = (TextView) activity.findViewById(R.id.lesson_read_text);
+        readText = (TextView) activity.findViewById(R.id.lessonReadText);
         colorToggle = (LinearLayout) activity.findViewById(R.id.colorModeToggle);
         fontToggle = (LinearLayout) activity.findViewById(R.id.fontSizeToggle);
         fontSizeStatus = (TextView) activity.findViewById(R.id.fontSizeStatus);
