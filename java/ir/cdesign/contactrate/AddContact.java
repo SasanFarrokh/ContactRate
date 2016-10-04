@@ -51,9 +51,7 @@ public class AddContact extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setBackgroundDrawable(null);
-
         }
-
     }
 
     @Override

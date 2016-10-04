@@ -102,4 +102,10 @@ public class AlarmReciever extends BroadcastReceiver
         alarmManager.cancel(sender);
         Log.i("timestamp","Alarm Cancel : " + requestCode);
     }
+    public void setRepeatingAlarm(Context context,long time, Long visionId) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, AlarmReciever.class).putExtra("vision",0);
+        PendingIntent sender = PendingIntent.getBroadcast(context, -1, i,0);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, time,0,sender);
+    }
 }

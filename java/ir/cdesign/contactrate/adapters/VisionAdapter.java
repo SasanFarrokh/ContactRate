@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,6 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
     public VisionAdapter(Context context) {
         data = DatabaseCommands.getInstance().getVision(0);
         this.context = context;
-        Log.i("sasan", "data size : " + data.size());
     }
 
     @Override
@@ -64,11 +64,10 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
         private ProgressBar progress;
         private TextView subject,timer;
         long timestamp;
-        private View view;
-        private LinearLayout MoreInfo;
+        private View view,options;
+        private RelativeLayout MoreInfo;
         private LinearLayout SubjectBox;
         private ImageView visionImage;
-        private CheckBox checkBox;
         int position;
         int id;
 
@@ -76,11 +75,11 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             super(itemView);
             subject = (TextView) itemView.findViewById(R.id.vision_subject);
             progress = (ProgressBar) itemView.findViewById(R.id.vision_progress);
-            MoreInfo = (LinearLayout) itemView.findViewById(R.id.MoreInfo);
+            MoreInfo = (RelativeLayout) itemView.findViewById(R.id.MoreInfo);
             SubjectBox = (LinearLayout) itemView.findViewById(R.id.subject_box);
             visionImage = (ImageView) itemView.findViewById(R.id.vision_image);
             timer = (TextView) itemView.findViewById(R.id.vision_timer);
-            checkBox = (CheckBox) itemView.findViewById(R.id.vision_checkbox);
+            options = itemView.findViewById(R.id.vision_options);
             view = itemView;
         }
 
@@ -97,16 +96,6 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             Double visionPercent = ((double) (System.currentTimeMillis() - (long) vision.get("regdate")) /
                     ((long) vision.get("timestamp") - (long) vision.get("regdate"))) * 100;
             progress.setProgress(visionPercent.intValue());
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    String message = "Congragulations ! You just achieved your goal ";
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                    DatabaseCommands.getInstance(context).removeVision(id);
-                    data.remove(position);
-                    notifyDataSetChanged();
-                }
-            });
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -156,31 +145,43 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
                     }
                 }
             });
-
-            view.setOnLongClickListener(new View.OnLongClickListener() {
+            final Runnable runnable = new Runnable() {
                 @Override
-                public boolean onLongClick(View v) {
+                public void run() {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                     alertBuilder.setItems(new String[]{
-                            "Delete"
+                            "Remove","Edit"
                     }, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 0:
                                     DatabaseCommands.getInstance(context).removeVision(id);
-                                    data.remove(data.size()-1-position);
+                                    data.remove(position);
                                     notifyDataSetChanged();
-                                    break;
                             }
                         }
                     });
                     alertBuilder.show();
+                }
+            };
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    runnable.run();
                     return true;
                 }
             });
+            options.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    runnable.run();
+                }
+            });
+
         }
     }
+
 
     public interface AdapterUpdate {
         void updateRecycler(int pos,int mode);

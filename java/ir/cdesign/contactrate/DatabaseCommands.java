@@ -413,7 +413,9 @@ public class DatabaseCommands {
         values.put("regdate", System.currentTimeMillis());
         values.put("active", 0);
 
-        return database.insert(TABLE_VISIONS, null, values) != -1;
+        boolean result = database.insert(TABLE_VISIONS, null, values) != -1;
+        
+        return result;
     }
 
     public List<HashMap> getVision(int id) {

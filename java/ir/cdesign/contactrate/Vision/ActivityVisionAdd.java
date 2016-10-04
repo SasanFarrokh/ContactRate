@@ -6,9 +6,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,10 +21,7 @@ import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.HomeNavigation;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
-import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.RadialPickerLayout;
-import ir.cdesign.contactrate.persianmaterialdatetimepicker.time.TimePickerDialog;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
-import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianDateParser;
 import ir.cdesign.contactrate.utilities.CalendarStrategy;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
@@ -33,14 +32,14 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener {
     private static final int IMAGE_PICKED = 12;
 
-    private Button backButton;
-    private ImageView visionDate, visionRepeat, visionImage,imageSet;
+    private ImageView visionDate, repeatImage, visionImage,imageSet;
     private TextView dateText, repeatText, subject, note;
     private View done;
 
+    private int repeaterCounter = 0;
+    private static final String[] repeaterStrings = {"Daily","Weekly","Monthly"};
 
     private String visionPath = "";
-    private int reminder = 0;
 
     private static final String TIMEPICKER = "TimePickerDialog",
             DATEPICKER = "DatePickerDialog";
@@ -61,6 +60,8 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         relativeLayout = (RelativeLayout) findViewById(R.id.containerLayout);
         relativeLayout.setBackgroundResource(drawable);
 
+        setToolbar();
+
     }
 
     private void init() {
@@ -71,18 +72,32 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         repeatText = (TextView) findViewById(R.id.vision_add_repeat_text);
         subject = (TextView) findViewById(R.id.vision_subject);
         note = (TextView) findViewById(R.id.vision_note);
-        visionRepeat = (ImageView) findViewById(R.id.vision_add_repeat_image);
-        backButton = (Button) findViewById(R.id.toolbar_iv);
+        repeatImage = (ImageView) findViewById(R.id.vision_add_repeat_image);
         done = findViewById(R.id.vision_done);
 
         dateText.setOnClickListener(listener);
         visionDate.setOnClickListener(listener);
         repeatText.setOnClickListener(listener);
-        visionRepeat.setOnClickListener(listener);
-        backButton.setOnClickListener(listener);
+        repeatImage.setOnClickListener(listener);
         done.setOnClickListener(listener);
         imageSet.setOnClickListener(listener);
         visionImage.setOnClickListener(listener);
+    }
+
+    private void setToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle("Add Visions");
+            actionBar.setBackgroundDrawable(null);
+
+        }
+
     }
 
 
@@ -102,7 +117,7 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                     break;
                 case R.id.vision_add_repeat_image:
                 case R.id.vision_add_repeat_text:
-
+                    setRepeaterCounter();
                     break;
                 case R.id.vision_done:
                     if (
@@ -110,7 +125,7 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                                     subject.getText().toString(),
                                     note.getText().toString(),
                                     visionPath,
-                                    reminder,
+                                    repeaterCounter,
                                     calendar.getTimeInMillis()
                             )
                             ) {
@@ -129,6 +144,12 @@ public class ActivityVisionAdd extends AppCompatActivity implements
             }
         }
     };
+
+    private void setRepeaterCounter() {
+        repeaterCounter += 1;
+        repeaterCounter %= 3;
+        repeatText.setText(repeaterStrings[repeaterCounter]);
+    }
 
     @Override
     public void onDateSet(DialogFragment view, int year, int monthOfYear, int dayOfMonth) {
@@ -152,5 +173,15 @@ public class ActivityVisionAdd extends AppCompatActivity implements
 
                 break;
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                ActivityVisionAdd.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

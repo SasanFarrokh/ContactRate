@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -32,6 +34,8 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
     long contactId;
     TextView timeTxt,dateTxt;
     TextView note;
+
+    LinearLayout completed;
 
     CalendarStrategy taskCalendar = new CalendarStrategy(new PersianCalendar());
     ScrollView scrollView;
@@ -131,7 +135,7 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
         setSupportActionBar(toolbar);
     }
 
-    public void setByInviteId(long inviteId) {
+    public void setByInviteId(final long inviteId) {
         invite = DatabaseCommands.getInstance().getInvite(1, inviteId).get(0);
         contactId = (long) invite.get("contact");
         type = (int) invite.get("type");
@@ -142,6 +146,21 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
         taskCalendar.setTimeInMillis(timestamp);
 
         note.setText((String) invite.get("note"));
+
+        completed = (LinearLayout) findViewById(R.id.task_completed);
+        completed.setVisibility(View.VISIBLE);
+        CheckBox checkBox = (CheckBox) completed.getChildAt(2);
+        checkBox.setChecked((int) invite.get("active") ==0 ?false:true);
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                DatabaseCommands.getInstance(TaskEditToDb.this).activateInvite(
+                        ((int) invite.get("id")),
+                        isChecked
+                );
+            }
+        });
 
     }
 
