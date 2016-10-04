@@ -1,79 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/LinearLayout"
+    android:id="@+id/FrameParent"
     android:background="@drawable/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="ir.cdesign.contactrate.lessons.Lesson">
 
-    <include layout="@layout/toolbar_back_button" />
-
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/all_btn"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:background="#70333333"
-            android:checked="true"
-            android:text="all"
-            android:textColor="#f2f2f2" />
-
-        <Button
-            android:id="@+id/mark_btn"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:background="#70333333"
-            android:checked="false"
-            android:text="mark"
-            android:textColor="#f2f2f2" />
-
-    </LinearLayout>
-
-    <ViewFlipper
-        android:id="@+id/viewFlipper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
-                <include layout="@layout/lesson_all_row_layout" />
-                <include layout="@layout/lesson_all_row_layout" />
-                <include layout="@layout/lesson_all_row_layout" />
-            </LinearLayout>
-        </ScrollView>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
-                <include layout="@layout/lesson_mark_row_layout" />
-                <include layout="@layout/lesson_mark_row_layout" />
-                <include layout="@layout/lesson_mark_row_layout" />
-            </LinearLayout>
-        </ScrollView>
-
-    </ViewFlipper>
-
-</LinearLayout>
+        android:layout_gravity="bottom|end"
+        style="@style/fabAdd"/>
+</FrameLayout>

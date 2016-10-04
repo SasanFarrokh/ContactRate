@@ -20,7 +20,6 @@ import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.VisionAdapter;
 import ir.cdesign.contactrate.caligraphy.CalligraphyContextWrapper;
-import ir.cdesign.contactrate.demoedition.VisionDemo;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.date.DatePickerDialog;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
@@ -45,11 +44,6 @@ public class Visions extends AppCompatActivity implements VisionAdapter.AdapterU
         relativeLayout = (RelativeLayout) findViewById(R.id.FrameParent);
         relativeLayout.setBackgroundResource(drawable);
 
-        if (!getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).getBoolean("vision_demo",false)) {
-            VisionDemo demo = new VisionDemo();
-            demo.show(getSupportFragmentManager(), "demo");
-            getSharedPreferences(MainActivity.PREF,MODE_PRIVATE).edit().putBoolean("vision_demo",true).apply();
-        }
     }
     // font library
     @Override
