@@ -8,11 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.utilities.Application;
 
 /**
  * Created by amin pc on 15/09/2016.
@@ -22,6 +26,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
     Context context;
     List<LessonSubjectModel> list = new ArrayList<>();
     LayoutInflater inflater ;
+
 
     public LessonAllAdapter(Context context ,List<LessonSubjectModel> list){
         this.context = context ;
@@ -51,13 +56,15 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
     public class Holder extends RecyclerView.ViewHolder {
 
         TextView title , seenCount  ,point , author;
-        ImageView image ;
+        NetworkImageView image ;
         LessonSubjectModel current;
         int position ;
 
+        ImageLoader imageLoader = Application.getInstance().getImageLoader();
+
         public Holder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.allImage);
+            image = (NetworkImageView) itemView.findViewById(R.id.allImage);
             title = (TextView) itemView.findViewById(R.id.lessonTitleText);
             seenCount = (TextView) itemView.findViewById(R.id.seenCount);
             point = (TextView) itemView.findViewById(R.id.lessonUnlockPoint);
@@ -72,7 +79,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
             seenCount.setText(String.valueOf(current.getSeenCount()));
             point.setText(String.valueOf(current.getUnlock()));
             author.setText(current.getAuthor());
-//            image.setImageBitmap(current.getImage());
+            image.setImageUrl(  current.getImageUrl(),imageLoader);
         }
     }
 }
