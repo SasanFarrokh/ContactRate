@@ -30,8 +30,8 @@ import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class LessonAllActivity extends AppCompatActivity {
 
-    Toolbar toolbar ;
-    RecyclerView recyclerView ;
+    Toolbar toolbar;
+    RecyclerView recyclerView;
     ProgressDialog pDialog;
     LessonAllAdapter adapter;
     List<LessonSubjectModel> lessonAllList = new ArrayList<>();
@@ -47,7 +47,7 @@ public class LessonAllActivity extends AppCompatActivity {
 
         // set wallpaper
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setBackgroundResource(drawable);
 
@@ -55,65 +55,54 @@ public class LessonAllActivity extends AppCompatActivity {
 
     }
 
-    private void init(){
+    private void init() {
         toolbar = new Toolbar(this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
         setSupportActionBar(toolbar);
     }
 
-    private void setRecyclerView(){
+    private void setRecyclerView() {
 
         pDialog = new ProgressDialog(this);
         // Showing progress dialog before making http request
         pDialog.setMessage("Loading...");
         pDialog.show();
 
-        adapter = new LessonAllAdapter(this , lessonAllList);
+        adapter = new LessonAllAdapter(this, lessonAllList);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(adapter);
 
-        JsonArrayRequest movieReq = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        hidePDialog();
-                    Log.d("amin", "doing shit");
-                        // Parsing json
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
+        JsonArrayRequest movieReq = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                hidePDialog();
+                Log.d("amin", "doing shit");
+                // Parsing json
+                for (int i = 0; i < response.length(); i++) {
+                    try {
 
-                                JSONObject obj = response.getJSONObject(i);
-                                LessonSubjectModel lesson = new LessonSubjectModel();
-                                lesson.setTitle(obj.getString("title"));
-                                lesson.setImageUrl(obj.getString("image"));
-                                lesson.setUnlock(((Number) obj.get("rating"))
-                                        .intValue());
-                                lesson.setAuthor(String.valueOf(obj.getInt("releaseYear")));
+                        JSONObject obj = response.getJSONObject(i);
+                        LessonSubjectModel lesson = new LessonSubjectModel();
+                        lesson.setTitle(obj.getString("title"));
+                        lesson.setImageUrl(obj.getString("image"));
+                        lesson.setUnlock(((Number) obj.get("rating"))
+                                .intValue());
+                        lesson.setAuthor(String.valueOf(obj.getInt("releaseYear")));
 
-                                // Genre is json array
-//                                JSONArray genreArry = obj.getJSONArray("genre");
-//                                ArrayList<String> genre = new ArrayList<String>();
-//                                for (int j = 0; j < genreArry.length(); j++) {
-//                                    genre.add((String) genreArry.get(j));
-//                                }
+                        // adding movie to movies array
+                        lessonAllList.add(lesson);
 
-                                // adding movie to movies array
-                                lessonAllList.add(lesson);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                        // notifying list adapter about data changes
-                        // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
+
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("amin", "Error: " + error.getMessage());
