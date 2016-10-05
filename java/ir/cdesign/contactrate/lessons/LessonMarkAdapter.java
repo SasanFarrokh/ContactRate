@@ -40,7 +40,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
 
     @Override
     public void onBindViewHolder(LessonMarkAdapter.Holder holder, int position) {
-        LessonSubjectModel current = new LessonSubjectModel();
+        LessonSubjectModel current = list.get(position);
         holder.setData(current , position);
     }
 

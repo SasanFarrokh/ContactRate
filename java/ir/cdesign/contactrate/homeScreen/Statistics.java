@@ -34,6 +34,7 @@ import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.models.TaskModel;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class Statistics extends AppCompatActivity {
@@ -68,17 +69,19 @@ public class Statistics extends AppCompatActivity {
     private void setPieChart() {
         List<PieEntry> entries = new ArrayList<PieEntry>();
 
-        entries.add(0,new PieEntry(12,"mamad"));
-        entries.add(1,new PieEntry(18,"maafgad"));
-        entries.add(2,new PieEntry(16,"maad"));
-        entries.add(3,new PieEntry(35,"mad"));
-        entries.add(4,new PieEntry(25,"mad"));
+        int[] data = DatabaseCommands.getInstance(this).getTaskTypeCounts();
+
+        for (int i = 0; i < 9 ; i++) {
+            entries.add(i, new PieEntry(data[i] * 10, TaskModel.getTitles()[i]));
+        }
+
 
         PieDataSet dataSet = new PieDataSet(entries, "Label");
         PieData pieData = new PieData(dataSet);
 
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);
 
+        pieChart.setRotationEnabled(false);
         pieChart.setData(pieData);
         pieChart.invalidate();
     }

@@ -6,9 +6,37 @@ import android.graphics.Bitmap;
  * Created by amin pc on 15/09/2016.
  */
 public class LessonSubjectModel {
-    int ID , IDPart , seenCount , award , unlock ;
+    int ID;
+    int IDPart;
+    int seenCount;
+    int award;
+    int unlock;
+
+    String imageUrl;
     String title , showCase , author ;
     Bitmap image ;
+
+    //lesson all constructor
+    public LessonSubjectModel(String title , String author , int seenCount , int unlock , String imageUrl){
+        this.title = title;
+        this.author = author;
+        this.imageUrl = imageUrl;
+        this.seenCount = seenCount ;
+        this.unlock = unlock;
+    }
+
+    // empty constructor
+    public LessonSubjectModel(){
+
+    }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public int getID() {
         return ID;

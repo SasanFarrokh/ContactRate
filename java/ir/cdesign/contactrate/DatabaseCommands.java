@@ -304,11 +304,24 @@ public class DatabaseCommands {
         return list;
     }
 
-    public void getTaskTypeCounts() {
-        for (int i = 0; i<9; i++) {
-            String query = "SELECT COUNT(*) FROM " + TABLE_INVITES + " WHERE type = 0 AND active = 1";
+    public int[] getTaskTypeCounts() {
+        int[] list = new int[9];
+        String query = "SELECT ";
+        for (int i = 0; i < 9; i++) {
+            String q = " (SELECT COUNT(*) FROM " + TABLE_INVITES + " WHERE type = " + i + " AND active = 1) as type" + i + " ";
+            query += (i == 0) ? "" : ",";
+            query += q;
         }
-
+        query += " FROM " + TABLE_INVITES;
+        Cursor result = database.rawQuery(query, null);
+        if (result != null) {
+            result.moveToFirst();
+            for (int i = 0; i < 9; i++) {
+                list[i] = result.getInt(i);
+            }
+            result.close();
+        }
+        return list;
     }
 
     public void removeInvite(long inviteId) {

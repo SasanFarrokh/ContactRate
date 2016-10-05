@@ -30,23 +30,23 @@ import ir.cdesign.contactrate.models.TaskModel;
 /**
  * Created by Sasan on 2016-08-23.
  */
-public class AlarmReciever extends BroadcastReceiver
-{
+public class AlarmReciever extends BroadcastReceiver {
+
+
     @Override
     public void onReceive(Context context, Intent intent)
     {
+        Calendar calendar = Calendar.getInstance();
         DatabaseCommands db = DatabaseCommands.getInstance(context);
+        Long id = intent.getLongExtra("rc", 0);
+        HashMap invite = db.getInvite(1, id).get(0);
+        HashMap contact = db.getContactById((Long) invite.get("contact"));
         try {
-            Long id = intent.getLongExtra("rc", 0);
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
             wl.acquire();
             if (id != 0) {
 
-                HashMap invite = db.getInvite(1, id).get(0);
-                HashMap contact = db.getContactById((Long) invite.get("contact"));
-
-                Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis((Long) invite.get("timestamp"));
 
                 int[] notImages = {

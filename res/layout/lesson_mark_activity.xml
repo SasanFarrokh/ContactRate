@@ -5,7 +5,7 @@
     android:id="@+id/recycler"
     android:background="@drawable/background"
     android:layout_height="match_parent"
-    tools:context="ir.cdesign.contactrate.lessons.LessonMarkActivity">
+    tools:context=".lessons.LessonAllActivity">
 
 
 

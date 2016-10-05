@@ -83,7 +83,7 @@
         <activity android:name=".homeScreen.DisplayImageActivity" />
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".lessons.LessonPartActivity" />
-        <activity android:name=".lessons.LessonMarkActivity"></activity>
+        <activity android:name=".lessons.LessonAllActivity"></activity>
     </application>
 
 </manifest>
