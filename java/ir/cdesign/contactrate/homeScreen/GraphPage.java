@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-//import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendarConstants;
@@ -45,20 +46,23 @@ public class GraphPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_graph, container, false);
 
-        /*chart = (LineChart) view.findViewById(R.id.chart);
+        chart = (LineChart) view.findViewById(R.id.chart);
         chart.setTouchEnabled(false);
 
         setChartConfig();
 
         setChartAliases();
 
-        setChartData();
-
-        chart.invalidate();*/
-
         return view;
     }
-/*
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setChartData();
+        chart.invalidate();
+    }
+
     private void setChartAliases() {
         HashMap<Float, String> weekMap = new HashMap<>();
         weekMap.put(1f, "Sat");
@@ -74,13 +78,36 @@ public class GraphPage extends Fragment {
     private void setChartData() {
         List<Entry> entries = new ArrayList<>();
 
-        entries.add(new Entry(1, 5));
-        entries.add(new Entry(2, 8));
-        entries.add(new Entry(3, 9));
-        entries.add(new Entry(4, 8));
-        entries.add(new Entry(5, 5));
-        entries.add(new Entry(6, 12));
-        entries.add(new Entry(7, 2));
+        List<HashMap> invites = DatabaseCommands.getInstance(getContext()).getInvite(0,0);
+
+        DatabaseCommands.getInstance().getInvite(0,0);
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        List<Integer> weekActivity = new ArrayList<>();
+        for (int i = 0 ; i <= 6; i++) {
+            weekActivity.add(i,0);
+            if (i > dayOfWeek) continue;
+            calendar.set(Calendar.HOUR_OF_DAY,0);
+            calendar.set(Calendar.MINUTE,0);
+            calendar.set(Calendar.DAY_OF_WEEK,i);
+            long time = calendar.getTimeInMillis();
+
+            for (HashMap invite : invites) {
+                long taskTime = (long) invite.get("done_time");
+                if (taskTime !=0 && taskTime > time && taskTime < time + 86399000L) {
+                    weekActivity.set(i,weekActivity.get(i) + 1);
+                }
+            }
+        }
+
+
+        entries.add(new Entry(1, weekActivity.get(0)));
+        entries.add(new Entry(2, weekActivity.get(1)));
+        entries.add(new Entry(3, weekActivity.get(2)));
+        entries.add(new Entry(4, weekActivity.get(3)));
+        entries.add(new Entry(5, weekActivity.get(4)));
+        entries.add(new Entry(6, weekActivity.get(5)));
+        entries.add(new Entry(7, weekActivity.get(6)));
 
         LineDataSet dataSet = new LineDataSet(entries, null);
         dataSet.setMode(LineDataSet.Mode.LINEAR);
@@ -130,5 +157,5 @@ public class GraphPage extends Fragment {
         chart.getAxis(YAxis.AxisDependency.RIGHT).setAxisMinimum(0);
         chart.getXAxis().setAxisMaximum(7.5f);
         chart.getXAxis().setAxisMinimum(0.5f);
-    }*/
+    }
 }

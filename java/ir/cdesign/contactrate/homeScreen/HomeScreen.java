@@ -50,10 +50,11 @@ import ir.cdesign.contactrate.imagePicker.EasyImage;
 import ir.cdesign.contactrate.models.MedalModel;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
 import ir.cdesign.contactrate.tasks.TasksActivity;
+import ir.cdesign.contactrate.utilities.AsyncGetNews;
 import ir.cdesign.contactrate.utilities.Settings;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
-public class HomeScreen extends AppCompatActivity {
+public class HomeScreen extends AppCompatActivity implements AsyncGetNews.LoadingFail {
 
     ViewPager viewPager;
     ImageView toolbarImage;
@@ -336,6 +337,21 @@ public class HomeScreen extends AppCompatActivity {
                 db.progressMedal(MedalModel.MLM_PRO,1);
             }
         }
+    }
+    public void fail() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    TextView text = new TextView(HomeScreen.this);
+                    text.setText("Failed to connect to network");
+                    text.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    text.setGravity(Gravity.CENTER);
+                    text.setTextColor(getResources().getColor(R.color.white));
+                    ((ViewGroup) allRankInv.news.getParent()).addView(text);
+                } catch (Exception ignored) {}
+            }
+        });
     }
 
     @Override

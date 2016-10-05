@@ -24,7 +24,9 @@ import ir.cdesign.contactrate.Vision.ActivityVisionAdd;
 import ir.cdesign.contactrate.adapters.NewsAdapter;
 import ir.cdesign.contactrate.utilities.AsyncGetNews;
 
-public class NewsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class NewsActivity extends AppCompatActivity implements
+        SwipeRefreshLayout.OnRefreshListener,
+        AsyncGetNews.LoadingFail {
 
     TextView point;
     RecyclerView news;
@@ -73,7 +75,7 @@ public class NewsActivity extends AppCompatActivity implements SwipeRefreshLayou
         return super.onOptionsItemSelected(item);
     }
 
-    public void loadingFail() {
+    public void fail() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

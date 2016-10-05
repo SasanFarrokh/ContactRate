@@ -71,6 +71,7 @@ public class MyService extends Service {
                 "contact INTEGER," +
                 "note TEXT," +
                 "timestamp INTEGER," +
+                "done_time INTEGER NOT NULL DEFAULT 0," +
                 "eventid INTEGER," +
                 "active INTEGER);");
         database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_VISIONS +

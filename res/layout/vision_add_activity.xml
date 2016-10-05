@@ -99,46 +99,27 @@
                 android:layout_margin="5dp"
                 android:background="#70333333"
                 android:orientation="horizontal"
-                android:padding="10dp"
-                android:weightSum="6">
+                android:padding="15dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/vision_add_date_image"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_weight="1"
                     android:src="@drawable/calendar" />
 
                 <TextView
                     android:id="@+id/vision_add_date_text"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="2"
-                    android:background="#80212121"
-                    android:gravity="center"
-                    android:text="18/10/95"
-                    android:textColor="#f2f2f2" />
-
-                <ImageView
-                    android:id="@+id/vision_add_repeat_image"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:src="@drawable/hjj" />
-
-                <TextView
-                    android:id="@+id/vision_add_repeat_text"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="2"
                     android:background="#80212121"
                     android:gravity="center"
-                    android:text="Weekly"
+                    android:text="--/--/--"
                     android:textColor="#f2f2f2" />
+
 
             </LinearLayout>
 

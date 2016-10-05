@@ -35,6 +35,8 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
     TextView timeTxt,dateTxt;
     TextView note;
 
+    int active = 0;
+
     LinearLayout completed;
 
     CalendarStrategy taskCalendar = new CalendarStrategy(new PersianCalendar());
@@ -102,10 +104,10 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
             public void onClick(View v) {
                 if (!edit)
                     DatabaseCommands.getInstance(TaskEditToDb.this).addInvite(contactId, type, note.getText().toString(),
-                            taskCalendar.getTimeInMillis(), 0);
+                            taskCalendar.getTimeInMillis(), active);
                 else
                     DatabaseCommands.getInstance(TaskEditToDb.this).editInvite(inviteId, contactId, type, note.getText().toString(),
-                            taskCalendar.getTimeInMillis(), 0);
+                            taskCalendar.getTimeInMillis(), active);
                 finish();
             }
         });
@@ -156,9 +158,10 @@ public class TaskEditToDb extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 DatabaseCommands.getInstance(TaskEditToDb.this).activateInvite(
-                        ((int) invite.get("id")),
+                        ((long) invite.get("id")),
                         isChecked
                 );
+                active = isChecked ? 1:0;
             }
         });
 

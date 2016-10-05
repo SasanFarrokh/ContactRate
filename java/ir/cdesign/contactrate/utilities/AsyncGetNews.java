@@ -109,8 +109,8 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                if (context instanceof NewsActivity)
-                    ((NewsActivity) context).loadingFail();
+                if (context instanceof LoadingFail)
+                    ((LoadingFail) context).fail();
             } catch (Exception ignore) {
             }
         }
@@ -161,4 +161,8 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
         return finalImage;
     }
 
+
+    public interface LoadingFail {
+        void fail();
+    }
 }
