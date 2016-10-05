@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import ir.cdesign.contactrate.R;
@@ -38,7 +39,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        LessonSubjectModel current = new LessonSubjectModel();
+        LessonSubjectModel current = list.get(position);
         holder.setData(current , position);
     }
 
@@ -59,7 +60,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
             image = (ImageView) itemView.findViewById(R.id.allImage);
             title = (TextView) itemView.findViewById(R.id.lessonTitleText);
             seenCount = (TextView) itemView.findViewById(R.id.seenCount);
-            point = (TextView) itemView.findViewById(R.id.points);
+            point = (TextView) itemView.findViewById(R.id.lessonUnlockPoint);
             author = (TextView) itemView.findViewById(R.id.authorText);
 
         }
@@ -67,6 +68,11 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
         public void setData(LessonSubjectModel current, int position) {
             this.position = position ;
             this.current = current ;
+            title.setText(current.getTitle());
+            seenCount.setText(String.valueOf(current.getSeenCount()));
+            point.setText(String.valueOf(current.getUnlock()));
+            author.setText(current.getAuthor());
+//            image.setImageBitmap(current.getImage());
         }
     }
 }

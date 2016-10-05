@@ -9,13 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
@@ -76,7 +72,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
                 finish();
                 break;
             case R.id.fab :
-                startActivity(new Intent(Lesson.this , LessonMarkActivity.class));
+                startActivity(new Intent(Lesson.this , LessonAllActivity.class));
                 break;
         }
     }
