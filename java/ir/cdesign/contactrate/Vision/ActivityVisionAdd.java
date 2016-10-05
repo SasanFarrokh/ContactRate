@@ -32,12 +32,12 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener {
     private static final int IMAGE_PICKED = 12;
 
-    private ImageView visionDate, repeatImage, visionImage,imageSet;
-    private TextView dateText, repeatText, subject, note;
+    private ImageView visionDate, visionImage,imageSet;
+    private TextView dateText, subject, note;
     private View done;
 
-    private int repeaterCounter = 0;
-    private static final String[] repeaterStrings = {"Daily","Weekly","Monthly"};
+    private int repeaterCounter = -1;
+    private static final String[] repeaterStrings = {"None","Daily","Weekly","Monthly"};
 
     private String visionPath = "";
 
@@ -69,16 +69,12 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         visionDate = (ImageView) findViewById(R.id.vision_add_date_image);
         imageSet = (ImageView) findViewById(R.id.vision_image_set);
         visionImage = (ImageView) findViewById(R.id.vision_image);
-        repeatText = (TextView) findViewById(R.id.vision_add_repeat_text);
         subject = (TextView) findViewById(R.id.vision_subject);
         note = (TextView) findViewById(R.id.vision_note);
-        repeatImage = (ImageView) findViewById(R.id.vision_add_repeat_image);
         done = findViewById(R.id.vision_done);
 
         dateText.setOnClickListener(listener);
         visionDate.setOnClickListener(listener);
-        repeatText.setOnClickListener(listener);
-        repeatImage.setOnClickListener(listener);
         done.setOnClickListener(listener);
         imageSet.setOnClickListener(listener);
         visionImage.setOnClickListener(listener);
@@ -115,10 +111,6 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                     );
                     dpd.show(getFragmentManager(), DATEPICKER);
                     break;
-                case R.id.vision_add_repeat_image:
-                case R.id.vision_add_repeat_text:
-                    setRepeaterCounter();
-                    break;
                 case R.id.vision_done:
                     if (
                             DatabaseCommands.getInstance().addVision(
@@ -145,11 +137,11 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         }
     };
 
-    private void setRepeaterCounter() {
+    /*private void setRepeaterCounter() {
         repeaterCounter += 1;
-        repeaterCounter %= 3;
+        repeaterCounter %= 4;
         repeatText.setText(repeaterStrings[repeaterCounter]);
-    }
+    }*/
 
     @Override
     public void onDateSet(DialogFragment view, int year, int monthOfYear, int dayOfMonth) {

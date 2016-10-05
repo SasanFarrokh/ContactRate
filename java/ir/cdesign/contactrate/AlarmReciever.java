@@ -18,6 +18,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.TimeZone;
@@ -73,8 +74,8 @@ public class AlarmReciever extends BroadcastReceiver {
                                 .setAutoCancel(true)
                                 .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type") - 1])
                                 .setContentText("with " + contact.get("name") + " at : "
-                                        + calendar.getTime().getHours() + " : "
-                                        + calendar.getTime().getMinutes());
+                                        + new DecimalFormat("00").format(calendar.get(Calendar.HOUR_OF_DAY) + " : "
+                                        + new DecimalFormat("00").format(calendar.get(Calendar.MINUTE))));
                 Notification barNotif = bBuilder.build();
                 notificationManager.notify(id.intValue(), barNotif);
 
@@ -83,10 +84,12 @@ public class AlarmReciever extends BroadcastReceiver {
                 id = intent.getLongExtra("vision", 0);
                 HashMap vision = db.getVision(id).get(0);
 
+                long time = System.currentTimeMillis() - (long) vision.get("timestamp");
+
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 NotificationCompat.Builder bBuilder =
                         new NotificationCompat.Builder(context)
-                                .setSmallIcon(0)
+                                .setSmallIcon(R.drawable.bell)
                                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                                 .setVibrate(new long[]{0, 300, 100, 300})
                                 .setContentIntent(PendingIntent.getActivity(context,
@@ -95,19 +98,18 @@ public class AlarmReciever extends BroadcastReceiver {
                                         PendingIntent.FLAG_UPDATE_CURRENT))
                                 .setLights(Color.RED, 3000, 3000)
                                 .setAutoCancel(true)
-                                .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type") - 1])
-                                .setContentText("with " + contact.get("name") + " at : "
-                                        + calendar.getTime().getHours() + " : "
-                                        + calendar.getTime().getMinutes());
+                                .setContentText((String) vision.get("subject"))
+                                .setContentTitle(time / 86400000 +
+                                        " Days left to vision");
                 Notification barNotif = bBuilder.build();
                 notificationManager.notify(id.intValue(), barNotif);
             }
             wl.release();
-            db.closeDB();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        db.closeDB();
     }
 
     public void setAlarm(Context context,long time, Long requestCode)
@@ -128,10 +130,13 @@ public class AlarmReciever extends BroadcastReceiver {
         alarmManager.cancel(sender);
         Log.i("timestamp","Alarm Cancel : " + requestCode);
     }
-    public void setRepeatingAlarm(Context context,long time, Long visionId) {
+    /*public void setRepeatingAlarm(Context context, Long visionId,long interval) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, AlarmReciever.class).putExtra("vision",visionId);
         PendingIntent sender = PendingIntent.getBroadcast(context, -1, i,0);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, time,0,sender);
-    }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,9);
+        calendar.set(Calendar.MINUTE,0);
+        am.setRepeating(AlarmManager.RTC_WAKEUP,  calendar.getTimeInMillis() + interval,interval,sender);
+    }*/
 }

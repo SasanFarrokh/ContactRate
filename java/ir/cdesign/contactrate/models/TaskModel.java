@@ -45,7 +45,7 @@ public class TaskModel {
         return dataList;
     }
 
-    private static String[] getTitles() {
+    public static String[] getTitles() {
 
         String[] getTitles = {
               "Invitation"  ,"Present"  ,"Follow Up"  ,

@@ -277,12 +277,12 @@ public class DatabaseCommands {
             case 5:
                 CalendarStrategy calendar = new CalendarStrategy(new PersianCalendar());
                 calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.MINUTE,0);
-                calendar.set(Calendar.SECOND,0);
-                calendar.set(Calendar.MILLISECOND,0);
-                query = "SELECT * FROM " + TABLE_INVITES + " WHERE timestamp BETWEEN "+
-                        calendar.getTimeInMillis()+" AND "+
-                        (calendar.getTimeInMillis()+86340000)+" ORDER BY active ASC,timestamp ASC";
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                query = "SELECT * FROM " + TABLE_INVITES + " WHERE timestamp BETWEEN " +
+                        calendar.getTimeInMillis() + " AND " +
+                        (calendar.getTimeInMillis() + 86340000) + " ORDER BY active ASC,timestamp ASC";
                 break;
         }
         Cursor result = database.rawQuery(query, null);
@@ -294,9 +294,30 @@ public class DatabaseCommands {
                 invite.put("contact", result.getLong(result.getColumnIndex("contact")));
                 invite.put("note", result.getString(result.getColumnIndex("note")));
                 invite.put("timestamp", result.getLong(result.getColumnIndex("timestamp")));
+                invite.put("done_time", result.getLong(result.getColumnIndex("done_time")));
                 invite.put("eventid", result.getLong(result.getColumnIndex("eventid")));
                 invite.put("active", result.getInt(result.getColumnIndex("active")));
                 list.add(invite);
+            }
+            result.close();
+        }
+        return list;
+    }
+
+    public int[] getTaskTypeCounts() {
+        int[] list = new int[9];
+        String query = "SELECT ";
+        for (int i = 0; i < 9; i++) {
+            String q = " (SELECT COUNT(*) FROM " + TABLE_INVITES + " WHERE type = " + i + " AND active = 1) as type" + i + " ";
+            query += (i == 0) ? "" : ",";
+            query += q;
+        }
+        query += " FROM " + TABLE_INVITES;
+        Cursor result = database.rawQuery(query, null);
+        if (result != null) {
+            result.moveToFirst();
+            for (int i = 0; i < 9; i++) {
+                list[i] = result.getInt(i);
             }
             result.close();
         }
@@ -312,7 +333,8 @@ public class DatabaseCommands {
             Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
                     (Long) invite.get("eventid"));
             context.getContentResolver().delete(uri, null, null);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         if (MainActivity.alarm != null)
             MainActivity.alarm.cancelAlarm(context, ((Long) inviteId).intValue());
     }
@@ -326,18 +348,23 @@ public class DatabaseCommands {
 
         ContentValues values = new ContentValues();
         values.put("active", act);
+        if (active)
+            values.put("done_time", System.currentTimeMillis());
+        else
+            values.put("done_time", 0);
         database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)});
 
         if (active) {
             addUserPoints(point, true);
-            progressMedal(MedalModel.TASK_1,1);
-            progressMedal(MedalModel.TASK_25,1);
-            progressMedal(MedalModel.TASK_100,1);
+            progressMedal(MedalModel.TASK_1, 1);
+            progressMedal(MedalModel.TASK_25, 1);
+            progressMedal(MedalModel.TASK_100, 1);
             try {
                 Uri uri = ContentUris.withAppendedId(Uri.parse("content://com.android.calendar/events"),
                         (Long) invite.get("eventid"));
                 context.getContentResolver().delete(uri, null, null);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             if (MainActivity.alarm != null)
                 MainActivity.alarm.cancelAlarm(context, ((Long) id).intValue());
         }
@@ -346,7 +373,7 @@ public class DatabaseCommands {
 
     public boolean moveOnInvite(long id, long timestamp) {
 
-        HashMap invite = getInvite(1,  id).get(0);
+        HashMap invite = getInvite(1, id).get(0);
         HashMap contact = getContactById((long) invite.get("contact"));
 
         ContentValues values = new ContentValues();
@@ -359,7 +386,8 @@ public class DatabaseCommands {
                         eventid);
                 context.getContentResolver().delete(uri, null, null);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         if (MainActivity.alarm != null) {
             MainActivity.alarm.cancelAlarm(context, ((Long) id).intValue());
@@ -369,7 +397,7 @@ public class DatabaseCommands {
                 ContactShowModel.getTitles()[(int) invite.get("type") - 1] + " with : " + contact.get("name")
                 , ContactShowModel.getTitles()[(int) invite.get("type") - 1] + " with : " + contact.get("name") + " \n Description : " +
                         invite.get("note"), 1, values.getAsLong("timestamp"), true, false);
-        values.put("eventid",reminderid);
+        values.put("eventid", reminderid);
         return database.update(TABLE_INVITES, values, " id = ? ", new String[]{String.valueOf(id)}) != -1;
     }
 
@@ -413,9 +441,13 @@ public class DatabaseCommands {
         values.put("regdate", System.currentTimeMillis());
         values.put("active", 0);
 
-        boolean result = database.insert(TABLE_VISIONS, null, values) != -1;
+        long result = database.insert(TABLE_VISIONS, null, values);
+        /*if (result != -1 && reminder != 0) {
+            long[] interval = {0,86400000,86400000*7,86400000*30};
+            MainActivity.alarm.setRepeatingAlarm(context,result,interval[reminder]);
+        }*/
 
-        return result;
+        return result != -1;
     }
 
     public List<HashMap> getVision(long id) {
@@ -459,9 +491,9 @@ public class DatabaseCommands {
         if (addition) {
             pref.edit().putInt("point", pref.getInt("point", 0) + point).apply();
 
-            progressMedal(MedalModel.POINT_500,point);
-            progressMedal(MedalModel.POINT_5000,point);
-            progressMedal(MedalModel.POINT_50000,point);
+            progressMedal(MedalModel.POINT_500, point);
+            progressMedal(MedalModel.POINT_5000, point);
+            progressMedal(MedalModel.POINT_50000, point);
         } else {
             pref.edit().putInt("point", pref.getInt("point", 0) - point).apply();
         }
@@ -493,22 +525,22 @@ public class DatabaseCommands {
         return list;
     }
 
-    public void progressMedal(int id,int step) {
+    public void progressMedal(int id, int step) {
 
         MedalModel medal = getMedals(id).get(0);
 
         database.execSQL("UPDATE " + TABLE_MEDALS + " SET progress = progress + ? , achieved = "
-                + System.currentTimeMillis()
-                +" WHERE id = ? AND progress < complete"
-                ,new Integer[] {step,id});
+                        + System.currentTimeMillis()
+                        + " WHERE id = ? AND progress < complete"
+                , new Integer[]{step, id});
         if (medal.progress < medal.completeMax && medal.progress + step >= medal.completeMax && context != null) {
 
             try {
                 DialogMedal dialogMedal = new DialogMedal();
                 dialogMedal.medal = medal;
-                dialogMedal.show(DialogMedal.fragmentManager,"Medal");
+                dialogMedal.show(DialogMedal.fragmentManager, "Medal");
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 Toast.makeText(context, "New Achievement! : " + medal.title, Toast.LENGTH_LONG).show();
             }
         }
