@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
 
     ViewFlipper viewFlipper ;
     TextView signUp , langSelect;
-    ImageView cLogo , designLogo , mlmLogo;
+    ImageView cLogo , designLogo , mlmLogo , mlmLogoText;
     ImageView account;
 
     EditText nameSignUp , numberSignUp ;
@@ -73,6 +73,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         numberSignUp = (EditText) findViewById(R.id.number_input_sign);
         nameSignUp = (EditText) findViewById(R.id.name_input_sign);
         submitSignUp = (Button) findViewById(R.id.submit_sign);
+        mlmLogoText = (ImageView) findViewById(R.id.mlm_logo_text);
 
         viewFlipper.setDisplayedChild(0);
 
@@ -81,6 +82,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         cLogo.setTranslationY(5);   designLogo.setTranslationX(5);
         mlmLogo.setTranslationY(-50) ; mlmLogo.setAlpha(0f);
         registrationLayout.setAlpha(0);
+        mlmLogoText.setAlpha(0f);   mlmLogoText.setTranslationY(-50);
 
         account.setAlpha(0f);       account.setTranslationY(-20);
         nameSignUp.setAlpha(0f);    nameSignUp.setTranslationY(-20);
@@ -118,6 +120,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
 
     private void mainAnimator(){
         mlmLogo.animate().setStartDelay(300).alpha(1).translationY(0).setDuration(700).start();
+        mlmLogoText.animate().setStartDelay(300).alpha(1).translationY(0).setDuration(800).start();
         registrationLayout.animate().alpha(1).setStartDelay(900).setDuration(500);
         cLogo.animate().translationY(0).alpha(1).setDuration(500).setStartDelay(1500).start();
         designLogo.animate().alpha(1).translationX(0).setDuration(800).setStartDelay(1800).start();

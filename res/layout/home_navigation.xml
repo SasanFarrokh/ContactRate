@@ -192,6 +192,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/medals"
                 style="@style/selectable"
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:layoutDirection="locale">
 
@@ -253,7 +254,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="5dp"
-                    android:src="@drawable/school"
+                    android:src="@drawable/view"
                     android:tint="#e2e2e2" />
 
                 <TextView

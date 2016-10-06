@@ -4,11 +4,26 @@
     android:gravity="center"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/mlm_logo"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:src="@drawable/mlmtallk"/>
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/mlm_logo"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:src="@drawable/ic_launcher"/>
+
+        <ImageView
+            android:id="@+id/mlm_logo_text"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/mlm_logo_text"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/registration_layout"
