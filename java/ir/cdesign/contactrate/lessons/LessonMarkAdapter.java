@@ -52,7 +52,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
 
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        int id;
+        long id;
         TextView title, progress;
         ProgressBar progressBar;
         ImageView imageView;

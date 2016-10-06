@@ -26,8 +26,9 @@ public class LessonPartActivity extends AppCompatActivity implements View.OnClic
     TextView toolbarText;
     RelativeLayout container;
     FloatingActionButton fab;
-    LessonMarkAdapter adapter;
-    List<LessonModel> list ;
+    LessonPartAdapter adapter;
+
+    LessonModel lesson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,10 @@ public class LessonPartActivity extends AppCompatActivity implements View.OnClic
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
         container = (RelativeLayout) findViewById(R.id.FrameParent);
         container.setBackgroundResource(drawable);
+
+        long id = getIntent().getLongExtra("id",0);
+        if (id == 0) finish();
+        lesson = DatabaseCommands.getInstance(this).getLessons(id).get(0);
 
         init();
         setRecyclerView();
@@ -53,8 +58,8 @@ public class LessonPartActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void setRecyclerView() {
-        list = DatabaseCommands.getInstance(this).getLessons();
-        adapter = new LessonMarkAdapter(this , list);
+
+        adapter = new LessonPartAdapter(this , lesson.parts);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
@@ -73,9 +78,7 @@ public class LessonPartActivity extends AppCompatActivity implements View.OnClic
             actionBar.setTitle("Lessons");
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setBackgroundDrawable(null);
-
         }
-
     }
 
     @Override

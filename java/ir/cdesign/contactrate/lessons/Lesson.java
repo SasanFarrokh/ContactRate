@@ -53,7 +53,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void setRecyclerView() {
-        list = DatabaseCommands.getInstance(this).getLessons();
+        list = DatabaseCommands.getInstance(this).getLessons(0);
         adapter = new LessonMarkAdapter(this , list);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);

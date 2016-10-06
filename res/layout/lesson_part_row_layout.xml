@@ -8,6 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:id="@+id/part_image"
         android:scaleType="centerCrop"
         android:src="@drawable/library_photo"/>
 
@@ -36,6 +37,7 @@
                 android:layout_gravity="end"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:id="@+id/part_number"
                 android:gravity="center"
                 android:textSize="70sp"
                 android:textColor="#f2f2f2"
@@ -49,13 +51,15 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/partTitle"
+                android:id="@+id/part_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:text="This Is Shit"
                 android:textSize="25dp"
                 android:textColor="#f2f2f2"
-                android:gravity="center"/>
+                android:gravity="center_vertical"/>
 
         </LinearLayout>
 

@@ -531,36 +531,60 @@ public class DatabaseCommands {
         values.put("showcase", model.showCase);
         values.put("title", model.title);
         values.put("author", model.author);
-        values.put("parts", 1);
         values.put("image", String.valueOf(model.internalImageUrl));
 
         return database.insert(TABLE_LESSONS, null, values) != -1;
     }
 
     public void removeLesson(long id) {
-        database.delete(TABLE_LESSONS," id = ? ",new String[] {String.valueOf(id)});
+        database.delete(TABLE_LESSONS, " id = ? ", new String[]{String.valueOf(id)});
     }
 
-    public List<LessonModel> getLessons() {
+    public List<LessonModel> getLessons(long id) {
 
         List<LessonModel> list = new ArrayList<>();
-        String selectQuery = "SELECT  * FROM " + TABLE_LESSONS;
+        String selectQuery;
+        if (id <= 0) {
+            selectQuery = "SELECT  * FROM " + TABLE_LESSONS;
+        } else {
+            selectQuery = "SELECT * FROM " + TABLE_LESSONS + " WHERE id = " + id;
+        }
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         while (cursor.moveToNext()) {
             LessonModel lesson = new LessonModel();
-            lesson.showCase = cursor.getString(0);
-            lesson.title = cursor.getString(1);
-            lesson.author = cursor.getString(2);
-            lesson.internalImageUrl = Uri.parse(cursor.getString(3));
+            lesson.id = cursor.getLong(cursor.getColumnIndex("id"));
+            lesson.showCase = cursor.getString(cursor.getColumnIndex("showcase"));
+            lesson.title = cursor.getString(cursor.getColumnIndex("title"));
+            lesson.author = cursor.getString(cursor.getColumnIndex("author"));
+            lesson.internalImageUrl = Uri.parse(cursor.getString(cursor.getColumnIndex("image")));
+            lesson.parts = getLessonParts(lesson.id,0);
             list.add(lesson);
         }
+        cursor.close();
         return list;
     }
 
-    public LessonPartModel[] getLessonParts(long id) {
+    public boolean addLessonPart(LessonPartModel part) {
+        ContentValues values = new ContentValues();
+        values.put("title", part.title);
+        values.put("body", part.body);
+        values.put("seen", part.seen);
+        values.put("image", part.image.toString());
+
+        return database.insert(TABLE_LESSONS, null, values) != -1;
+    }
+
+    public LessonPartModel[] getLessonParts(long id, int mode) {
         List<LessonPartModel> list = new ArrayList<>();
-        String selectQuery = "SELECT  * FROM " + TABLE_LESSON_PARTS + " WHERE lesson = " + id;
+        String selectQuery;
+        switch (mode) {
+            default:
+            case 0:
+                selectQuery = "SELECT  * FROM " + TABLE_LESSON_PARTS + " WHERE lesson = " + id;
+                break;
+            case 1: selectQuery = "SELECT  * FROM " + TABLE_LESSON_PARTS + " WHERE id = " + id;
+        }
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         while (cursor.moveToNext()) {
@@ -572,6 +596,7 @@ public class DatabaseCommands {
             part.image = Uri.parse(cursor.getString(cursor.getColumnIndex("image")));
             list.add(part);
         }
+        cursor.close();
         return (LessonPartModel[]) list.toArray();
     }
 

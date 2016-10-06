@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,53 +16,58 @@ import ir.cdesign.contactrate.R;
 /**
  * Created by amin pc on 19/09/2016.
  */
-public class LessonPartAdapter extends RecyclerView.Adapter<LessonPartAdapter.Holder>{
+public class LessonPartAdapter extends RecyclerView.Adapter<LessonPartAdapter.Holder> {
 
-    List<LessonPartModel> list = new ArrayList<>();
-    Context context ;
-    LayoutInflater inflater ;
+    private LessonPartModel[] parts;
+    Context context;
+    final LayoutInflater inflater;
 
-    public LessonPartAdapter(Context context , List<LessonPartModel> list){
-        this.context = context ;
-        this.list = list ;
-        inflater = inflater.from(context);
+    public LessonPartAdapter(Context context, LessonPartModel[] parts) {
+        this.context = context;
+        this.parts = parts;
+        inflater = LayoutInflater.from(context);
 
     }
 
     @Override
     public LessonPartAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.lesson_part_row_layout, parent , false );
+        View view = inflater.inflate(R.layout.lesson_part_row_layout, parent, false);
         Holder holder = new Holder(view);
-        return  holder ;
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(LessonPartAdapter.Holder holder, int position) {
-        LessonPartModel current = list.get(position);
-        holder.setData(current , position);
+        LessonPartModel current = parts[position];
+        holder.setData(current, position);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return parts.length;
     }
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        TextView title;
-        LessonPartModel current ;
-        int position ;
+        TextView title, number;
+        ImageView image;
+        LessonPartModel current;
+        int position;
 
         public Holder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.partTitle);
+            title = (TextView) itemView.findViewById(R.id.part_title);
+            number = (TextView) itemView.findViewById(R.id.part_number);
+            image = (ImageView) itemView.findViewById(R.id.part_image);
         }
 
         public void setData(LessonPartModel current, int position) {
-            this.current = current ;
-            this.position = position ;
+            this.current = current;
+            this.position = position;
             title.setText(current.title);
-
+            number.setText(String.valueOf(position));
+            if (current.image != null)
+                image.setImageURI(current.image);
         }
     }
 }
