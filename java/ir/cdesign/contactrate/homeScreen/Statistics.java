@@ -70,7 +70,7 @@ public class Statistics extends AppCompatActivity {
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Statistics");
+            actionBar.setTitle(getResources().getString(R.string.statistics));
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setBackgroundDrawable(null);
 

@@ -72,7 +72,7 @@ public class TasksActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle("Tasks");
+            actionBar.setTitle(getString(R.string.tasks));
             actionBar.setBackgroundDrawable(null);
 
         }
@@ -114,9 +114,9 @@ public class TasksActivity extends AppCompatActivity {
 
             switch (position){
                 case 0 :
-                    return "Pending Tasks";
+                    return getString(R.string.pendingtask);
                 case 1 :
-                    return "Completed Tasks";
+                    return getString(R.string.completedtask);
             }
             return null;
         }

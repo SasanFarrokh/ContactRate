@@ -89,7 +89,7 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle("Add Visions");
+            actionBar.setTitle(R.string.addvision);
             actionBar.setBackgroundDrawable(null);
 
         }

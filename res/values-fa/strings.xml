@@ -111,6 +111,10 @@
     <string name="promotingevent">رویداد</string>
     <string name="other">سایر</string>
     <string name="addnew">Add New ...</string>
+    <string name="completedtask">انجام شده</string>
+    <string name="pendingtask">در انتظار</string>
+    <string name="addvision">اضافه کردن ویژن</string>
+    <string name="subject">موضوع</string>
 
 
 </resources>

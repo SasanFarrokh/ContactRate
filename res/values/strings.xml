@@ -95,6 +95,7 @@
     <string name="calendar_type">Calendar Type</string>
     <string name="change_background">Change Background</string>
     <string name="visions">Visions</string>
+    <string name="choose_a_new_background">عکس پس زمینه را انتخاب کنید</string>
     <string name="pending_ntasks">Pending\nTasks</string>
     <string name="completed_ntasks">Completed\nTasks</string>
     <string name="contacts">My List</string>
@@ -123,4 +124,8 @@
     <string name="promotingevent">Promoting Event</string>
     <string name="other">Other</string>
     <string name="addnew">Add New ...</string>
+    <string name="pendingtask">Pending Tasks</string>
+    <string name="completedtask">Completed Tasks</string>
+    <string name="addvision">Add Visions</string>
+    <string name="subject">Subject</string>
 </resources>

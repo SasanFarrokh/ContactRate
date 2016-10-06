@@ -75,7 +75,7 @@ public class Visions extends AppCompatActivity implements VisionAdapter.AdapterU
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Visions");
+            actionBar.setTitle(getString(R.string.visions));
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setBackgroundDrawable(null);
 

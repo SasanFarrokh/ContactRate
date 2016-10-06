@@ -57,7 +57,7 @@ public class NewsActivity extends AppCompatActivity implements
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("News");
+            actionBar.setTitle(getString(R.string.news));
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setBackgroundDrawable(null);
 
