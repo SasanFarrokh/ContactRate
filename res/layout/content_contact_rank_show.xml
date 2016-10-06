@@ -11,111 +11,146 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="ir.cdesign.contactrate.ContactRankShow"
     tools:showIn="@layout/activity_contact_rank_show">
+
     <LinearLayout
+        android:id="@+id/contact_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/contact_container">
+        android:layout_height="wrap_content">
+
         <ir.cdesign.contactrate.utilities.RoundedImageView
+            android:id="@id/contact_img"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:id="@id/contact_img"
             android:layout_margin="10dp"
-            android:src="@drawable/contact"/>
+            android:src="@drawable/contact" />
+
         <TextView
+            android:id="@+id/contact_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="bahram"
-            android:id="@+id/contact_name"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_gravity="center_vertical" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <EditText
+        android:id="@+id/contact_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/contact_container"
         android:enabled="false"
-        android:id="@+id/contact_number"
         android:inputType="phone"
-        android:textColor="@color/darkWhite"/>
+        android:textColor="@color/darkWhite" />
+
     <LinearLayout
+        android:id="@+id/contact_point_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contact_point_container"
         android:layout_below="@id/contact_number"
-        android:orientation="vertical"
-        android:layout_marginRight="7dp"
         android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
         android:layout_marginTop="10dp"
-        >
+        android:orientation="vertical">
+
         <LinearLayout
             style="@style/contact_points"
             android:tag="1">
+
             <TextView
                 style="@style/contact_points_title"
+                android:paddingRight="10dp"
                 android:text="@string/lesson" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             style="@style/contact_points"
             android:tag="2">
+
             <TextView
                 style="@style/contact_points_title"
+                android:paddingRight="10dp"
                 android:text="@string/time" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             style="@style/contact_points"
             android:tag="3">
+
             <TextView
                 style="@style/contact_points_title"
                 android:text="@string/motive" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
-                <ImageView  style="@style/contact_points_stars"/>
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
+
+                <ImageView style="@style/contact_points_stars" />
 
             </LinearLayout>
         </LinearLayout>
 
 
     </LinearLayout>
-    <Button
+
+    <TextView
+        android:id="@+id/add_contact_btn"
         android:layout_width="240dp"
         android:layout_height="50dp"
-        android:id="@+id/add_contact_btn"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/add_to_invitation"/>
+        android:textSize="20dp"
+        android:textColor="#f2f2f2"
+        android:background="#7011194b"
+        android:gravity="center"
+        android:text="@string/add_to_invitation" />
 
 </RelativeLayout>

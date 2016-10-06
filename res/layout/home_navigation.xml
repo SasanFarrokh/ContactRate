@@ -82,11 +82,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Contacts"
+                    android:text="@string/contacts"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -106,12 +106,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Tasks"
+                    android:text="@string/tasks"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -132,11 +131,11 @@
 
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Visions"
+                    android:text="@string/visions"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -156,11 +155,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Statistics"
+                    android:text="@string/statistics"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -180,11 +179,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Lessons"
+                    android:text="@string/lessons"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -204,11 +203,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Achievements"
+                    android:text="@string/achievements"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
 
@@ -228,11 +227,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="News"
+                    android:text="@string/news"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -258,11 +257,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Tutorial"
+                    android:text="@string/take_a_tour"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -282,11 +281,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="Settings"
+                    android:text="@string/settings"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -306,11 +305,11 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="About"
+                    android:text="@string/about"
                     android:textColor="#e2e2e2"
                     android:textSize="17dp" />
             </LinearLayout>

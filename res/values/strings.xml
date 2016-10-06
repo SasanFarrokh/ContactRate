@@ -85,58 +85,7 @@
     <string name="mode_dark_time">Use dark theme</string>
     <string name="mode_dark_date">Use dark theme</string>
     <string name="action_settings">Settings</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</string>
-    <string name="choose_a_new_background">Choose a new Background !</string>
-    <string name="welcome">Welcome !</string>
-
-
-    <!--Demo Texts-->
-    <string name="task_demo"><![CDATA[
-<!DOCTYPE HTML>
-<html>
-    <H4>کارها</H4>
-    <P>در این بخش شما فعالیت های مربوط به نتورک مارکتینگ را برنامه ریزی و مدیریت مینماید</P>
-    <p>در مجموع شما با انجام هر کدام از این فعالیت ها
-امتیازی در یافت میکنید که میتوانید از آن به عنوان یک شاخص برای ارزیابی عملکرد
-خود در این حرفه استفاده کنید
-</p>
-</html>
-    ]]></string>
-    <string name="contacts_demo"><![CDATA[
-<!DOCTYPE HTML>
-<html>
-    <H3>کانتکت</H3>
-    <P>در این قسمت شما یک کانتکت مختص بازاریابی شبکه ای دارید و میتوانید با استفاده از
-آن لیست دعوت و مشتریان خود را  تشکیل دهید و همچنین زیر مجموعه ها و جایگاه
-انها را در لول های مختلف مشاهده نمایید و  تیم خود را مدیریت کنید
-</P>
-</html>
-    ]]></string>
-    <string name="lessons_demo"><![CDATA[
-<!DOCTYPE HTML>
-<html>
-    <H3>آموزشها</H3>
-    <P>در این قسمت شما به جدید ترین مفاهیم آموزشی  دزمینه بازار یابی شبکه ای دسترسی
-خواهید داشت این آموزش ها شامل پادکست های صوتی و مقالاتی است که سعی دارد
-مهارت های ضروری برای این حرفه را به شما آموزش دهد شما متناسب با فعالیت و
-مطالعه ی آموزش ها در این قسمت داشته اید امتیاز کسب میکنید وهر چه امتیاز شما
-در این بخش بیش تر باشد به مطالب سطح بالاتری دسترسی خواهید داشت
-</P>
-</html>
-    ]]></string>
-    <string name="vision_demo"><![CDATA[
-    <!DOCTYPE HTML>
-        <html>
-        <H3>ویژن</H3>
-        <p>شما در این بخش می توانید اهدافی را که  برای آینده خود در نظر دارید منسجم کنید
-به نحوی که  برای شما کاملا ملموس  باشد همچنین برای رسیدن به این اهداف مدت زمانی را در نظر بگیرید
-و به شکلی عینی آن را در ذهن خود منسجم کنید
-</p>
-        </html>
-    ]]></string>
-
-
-    <string name="texttexttext">لورم ایپلورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفلورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.اده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.سوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.</string>
+    //
     <string name="check_all_news">Check All News</string>
     <string name="today"> Today </string>
     <string name="set_reminder_text">Set Reminder</string>
@@ -145,4 +94,24 @@
     <string name="change_language">Change Language</string>
     <string name="calendar_type">Calendar Type</string>
     <string name="change_background">Change Background</string>
+    <string name="visions">Visions</string>
+    <string name="pending_ntasks">Pending\nTasks</string>
+    <string name="completed_ntasks">Completed\nTasks</string>
+    <string name="contacts">My List</string>
+    <string name="tasks">Tasks</string>
+    <string name="statistics">Statistics</string>
+    <string name="lessons">Lessons</string>
+    <string name="achievements">Achievements</string>
+    <string name="news">News</string>
+    <string name="take_a_tour">Take a tour</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="all">All</string>
+    <string name="rank">Rank</string>
+    <string name="invitations">Invitation</string>
+    <string name="name">Name :</string>
+    <string name="phone">Phone :</string>
+    <string name="phone_number">Phone Number : </string>
+    <string name="add_to_invitation">Add To Invitation</string>
+    <string name="note">Note :</string>
 </resources>

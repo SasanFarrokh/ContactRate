@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +48,7 @@ public class ContactShowInvite extends AppCompatActivity {
     EditText phone, note;
     FloatingActionButton fab;
     public ListView listView;
+CoordinatorLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,8 @@ public class ContactShowInvite extends AppCompatActivity {
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
+        linearLayout  = (CoordinatorLayout) findViewById(R.id.LinearLayout);
+        linearLayout.setBackgroundResource(drawable);
 
         fab = (FloatingActionButton) findViewById(R.id.add_invite_btn);
         fab.setOnClickListener(new View.OnClickListener() {

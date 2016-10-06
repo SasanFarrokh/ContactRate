@@ -38,8 +38,7 @@
                         android:padding="8dp"
                         android:textColor="#333333"
                         android:textSize="15dp"
-                        android:lineSpacingMultiplier="1.2"
-                        android:text="@string/texttexttext" />
+                        android:lineSpacingMultiplier="1.2" />
 
                 </LinearLayout>
             </ScrollView>

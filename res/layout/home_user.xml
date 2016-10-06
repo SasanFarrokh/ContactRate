@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Visions"
+                    android:text="@string/visions"
                     android:textColor="#f2f2f2"
                     android:textSize="16dp" />
             </LinearLayout>
@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Pending\nTasks"
+                    android:text="@string/pending_ntasks"
                     android:textColor="#f2f2f2"
                     android:textSize="12dp" />
             </LinearLayout>
@@ -160,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Completed\nTasks"
+                    android:text="@string/completed_ntasks"
                     android:textColor="#f2f2f2"
                     android:textSize="12dp" />
             </LinearLayout>

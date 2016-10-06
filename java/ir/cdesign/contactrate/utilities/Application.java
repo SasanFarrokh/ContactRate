@@ -24,7 +24,7 @@ public class Application extends android.app.Application{
         super.onCreate();
         mInstance = this;
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("seoge.ttf")
+                .setDefaultFontPath("iransans.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

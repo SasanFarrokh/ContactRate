@@ -28,6 +28,7 @@ import java.util.HashMap;
 
 import ir.cdesign.contactrate.adapters.InvitationAdapter;
 import ir.cdesign.contactrate.adapters.RankAdapter;
+import ir.cdesign.contactrate.caligraphy.CalligraphyConfig;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
@@ -52,6 +53,12 @@ public class ContactRankShow extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setBackgroundDrawable(null);
         }
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("iransans.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
 
         contactId = getIntent().getIntExtra("contact_id",0);
 
@@ -90,7 +97,7 @@ public class ContactRankShow extends AppCompatActivity {
         super.onStart();
         TextView contactName = (TextView) findViewById(R.id.contact_name);
         TextView contactNumber = (TextView) findViewById(R.id.contact_number);
-        Button addContactBtn = (Button) findViewById(R.id.add_contact_btn);
+        TextView addContactBtn = (TextView) findViewById(R.id.add_contact_btn);
 
         ImageView contactImage = (ImageView) findViewById(R.id.contact_img);
         Uri imageUri = ContactShow.getPhotoUri(contactId,this);
@@ -99,7 +106,7 @@ public class ContactRankShow extends AppCompatActivity {
         if (contact.isEmpty()) finish();
         try {
             contactName.setText((String) contact.get("name"));
-            contactNumber.setText("Phone Number : " + contact.get("phone"));
+            contactNumber.setText(getResources().getString(R.string.phone_number)+ "  " + contact.get("phone") + "  ");
             addContactBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

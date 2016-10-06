@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/LinearLayout"
     android:background="@drawable/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
@@ -24,8 +24,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/white"
-            android:background="#0000" />
+            android:background="#0000"
+            app:titleTextColor="@color/white" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -68,7 +68,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="2"
                         android:gravity="center"
-                        android:text="Name :"
+                        android:text="@string/name"
                         android:textColor="@color/white"
                         android:textSize="19dp" />
 
@@ -95,7 +95,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="2"
                         android:gravity="center"
-                        android:text="Phone :"
+                        android:text="@string/phone"
                         android:textColor="@color/white"
                         android:textSize="19dp" />
 
@@ -129,6 +129,7 @@
 
                     <TextView
                         style="@style/contact_points_title"
+                        android:paddingRight="10dp"
                         android:text="@string/lesson" />
 
                     <LinearLayout
@@ -155,6 +156,7 @@
 
                     <TextView
                         style="@style/contact_points_title"
+                        android:paddingRight="10dp"
                         android:text="@string/time" />
 
                     <LinearLayout
@@ -181,6 +183,7 @@
 
                     <TextView
                         style="@style/contact_points_title"
+                        android:paddingRight="10dp"
                         android:text="@string/motive" />
 
                     <LinearLayout

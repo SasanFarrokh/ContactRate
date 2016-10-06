@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -127,11 +128,11 @@ public class TabFragment extends Fragment {
 
             switch (position){
                 case 0 :
-                    return "All";
+                    return getResources().getString(R.string.all);
                 case 1 :
-                    return "Rank";
+                    return getResources().getString(R.string.rank);
                 case 2 :
-                    return "Invitation";
+                    return getResources().getString(R.string.invitations);
             }
                 return null;
         }

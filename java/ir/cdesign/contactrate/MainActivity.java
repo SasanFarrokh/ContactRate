@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.mofakhrpour.farhoosh.androidpayment.FarhooshPayment;
 
 
+import ir.cdesign.contactrate.caligraphy.CalligraphyConfig;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
@@ -27,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static MainActivity instance;
 
-    public static AlarmReciever alarm = new AlarmReciever();;
+    public static AlarmReciever alarm = new AlarmReciever();
+    ;
 
     LinearLayout linearLayout;
 
@@ -37,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
-        linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
+        linearLayout = (LinearLayout) findViewById(R.id.LinearLayout);
         linearLayout.setBackgroundResource(drawable);
 
 //        FarhooshPayment farhooshPayment = new FarhooshPayment();
@@ -49,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("iransans.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
 
     }
 

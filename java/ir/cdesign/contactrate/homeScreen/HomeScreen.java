@@ -44,6 +44,7 @@ import ir.cdesign.contactrate.MainActivity;
 import ir.cdesign.contactrate.NewTaskActivity;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.adapters.ContactTasksAdapter;
+import ir.cdesign.contactrate.caligraphy.CalligraphyContextWrapper;
 import ir.cdesign.contactrate.dialogs.DialogMedal;
 import ir.cdesign.contactrate.imagePicker.DefaultCallback;
 import ir.cdesign.contactrate.imagePicker.EasyImage;
@@ -62,7 +63,7 @@ public class HomeScreen extends AppCompatActivity implements AsyncGetNews.Loadin
     RelativeLayout homeContent;
     ListView tasks;
     TextView emptyTasksMsg, todayText;
-    FloatingActionButton fab;
+//    FloatingActionButton fab;
 
     Handler handler;
     boolean pageChanged, pageChanging;
@@ -141,11 +142,16 @@ public class HomeScreen extends AppCompatActivity implements AsyncGetNews.Loadin
         dateStr += " - " + getResources().getString(R.string.today);
         todayText.setText(dateStr);
 
-        fab.setOnClickListener(addTaskListener);
+//        fab.setOnClickListener(addTaskListener);
 
         progressMedalDay();
     }
 
+    // set font
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -177,7 +183,7 @@ public class HomeScreen extends AppCompatActivity implements AsyncGetNews.Loadin
     private void init() {
 
         todayText = (TextView) findViewById(R.id.today_tv);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab = (FloatingActionButton) findViewById(R.id.fab);
         handler = new Handler();
         tasks = (ListView) findViewById(R.id.home_tasks_lv);
         emptyTasksMsg = (TextView) findViewById(R.id.task_empty);
