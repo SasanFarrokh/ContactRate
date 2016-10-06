@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/account_img_sign"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="-40dp"
+        android:src="@drawable/account"
+        android:tint="#f2f2f2" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="10dp"
+        android:textColorHint="#f2f2f2">
+
+        <EditText
+            android:id="@+id/name_input_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="What's Your Name?"
+            android:inputType="text"
+            android:textColor="#f2f2f2"
+            android:textColorHint="#efebe9" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="10dp"
+        android:textColorHint="#f2f2f2">
+
+        <EditText
+            android:id="@+id/number_input_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:inputType="number"
+            android:textColor="#f2f2f2"
+            android:textColorHint="#efebe9" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/submit_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:background="#f2f2f2"
+        android:text="Submit" />
+
+</LinearLayout>

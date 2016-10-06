@@ -54,15 +54,6 @@
             android:stopWithTask="false" />
 
         <activity android:name=".TaskEditToDb" />
-        <activity
-            android:name=".SplashActivity"
-            android:configChanges="locale">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".tutorial.Tutorial" />
         <activity android:name=".homeScreen.HomeScreen" />
         <activity android:name=".Vision.Visions" />
@@ -83,7 +74,16 @@
         <activity android:name=".homeScreen.DisplayImageActivity" />
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".lessons.LessonPartActivity" />
-        <activity android:name=".lessons.LessonAllActivity"></activity>
+        <activity android:name=".lessons.LessonAllActivity" />
+        <activity android:name=".SplashActivity"
+            android:configChanges="locale">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

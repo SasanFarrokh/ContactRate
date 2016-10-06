@@ -1,6 +1,5 @@
 package ir.cdesign.contactrate;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -18,24 +17,29 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import java.util.Locale;
 
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.Settings;
 
+public class SplashActivity extends AppCompatActivity implements View.OnClickListener{
 
-public class SplashActivity extends AppCompatActivity {
+
+    ViewFlipper viewFlipper ;
+    TextView signUp , langSelect;
+    ImageView cLogo , designLogo , mlmLogo;
+    ImageView account;
+
+    EditText nameSignUp , numberSignUp ;
+    Button submitSignUp;
 
     Boolean regHelp;
-    ImageView imageView;
-    TextView textView, textViewTwo;
-    EditText nameEditText, phoneNumber;
-    LinearLayout linearLayout;
-    Button nextButton, nextButtonTwo;
 
-    SharedPreferences reg;
+    LinearLayout registrationLayout ;
+
+    SharedPreferences reg ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,186 +50,101 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        setContentView(R.layout.activity_splash);
+
         // Create Shared Preference
         reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
 
+        init();
+    }
 
 
+    private void init(){
 
-        //
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+        cLogo = (ImageView) findViewById(R.id.clogo);
+        designLogo = (ImageView) findViewById(R.id.designlogo);
+        mlmLogo = (ImageView) findViewById(R.id.mlm_logo);
+        registrationLayout = (LinearLayout) findViewById(R.id.registration_layout);
+        signUp = (TextView) findViewById(R.id.signup_btn);
+        langSelect = (TextView) findViewById(R.id.langSet);
+        account = (ImageView) findViewById(R.id.account_img_sign);
+        numberSignUp = (EditText) findViewById(R.id.number_input_sign);
+        nameSignUp = (EditText) findViewById(R.id.name_input_sign);
+        submitSignUp = (Button) findViewById(R.id.submit_sign);
+
+        viewFlipper.setDisplayedChild(0);
+
+        //defaults
+        cLogo.setAlpha(0f);         designLogo.setAlpha(0f);
+        cLogo.setTranslationY(5);   designLogo.setTranslationX(5);
+        mlmLogo.setTranslationY(-50) ; mlmLogo.setAlpha(0f);
+        registrationLayout.setAlpha(0);
+
+        account.setAlpha(0f);       account.setTranslationY(-20);
+        nameSignUp.setAlpha(0f);    nameSignUp.setTranslationY(-20);
+        numberSignUp.setAlpha(0f);  numberSignUp.setTranslationY(-20);
+        submitSignUp.setAlpha(0f);  submitSignUp.setTranslationY(-20);
+
+        //listeners
+        signUp.setOnClickListener(this);
+        submitSignUp.setOnClickListener(this);
+
         String lang = reg.getString("lang","en");
         Settings.language = Settings.getLangIndex(lang);
         Settings.calendarType = reg.getInt("calendar",1);
         Settings.reminderSet = reg.getBoolean("reminder",true);
         setLocale(lang);
 
-        setContentView(R.layout.activity_splash);
-        init();
-
-        onStartViewAnimator();
-
         regHelp = !reg.getString("userName","").isEmpty();
-    }
 
-
-    private void init() {
-        nameEditText = (EditText) findViewById(R.id.splash_edit_text);
-        phoneNumber = (EditText) findViewById(R.id.splash_phone_number);
-        textView = (TextView) findViewById(R.id.splash_text);
-        nextButtonTwo = (Button) findViewById(R.id.next_button_two);
-        imageView = (ImageView) findViewById(R.id.splash_logo);
-        nextButton = (Button) findViewById(R.id.next_button);
-        linearLayout = (LinearLayout) findViewById(R.id.company_layout);
-        textViewTwo = (TextView) findViewById(R.id.splash_text_two);
-
-        textViewTwo.setAlpha(0);
-        nameEditText.setAlpha(0);
-        nameEditText.setVisibility(View.INVISIBLE);
-        phoneNumber.setAlpha(0);
-        phoneNumber.setVisibility(View.INVISIBLE);
-
-        textView.setAlpha(0f);
-        textView.setScaleX(0.9f);
-        textView.setScaleY(0.9f);
-
-        imageView.setAlpha(0f);
-        imageView.setScaleX(0.9f);
-        imageView.setScaleY(0.9f);
-
-        linearLayout.setTranslationY(150);
-
-        nextButton.setTranslationY(250);
-        nextButtonTwo.setTranslationY(250);
-    }
-
-    private void onStartViewAnimator() {
-
-        textView.animate().scaleX(1).scaleY(1).alpha(1).setDuration(800).start();
-        imageView.animate().alpha(1).scaleX(1f).scaleY(1f).setDuration(1000).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                linearLayout.animate().translationY(0).setDuration(500).start();
-                if (regHelp) {
-                    nextButton.setVisibility(View.INVISIBLE);
-                }
-                nextButton.animate().translationY(0).setDuration(600).start();
-
-
-                if (regHelp) {
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(SplashActivity.this, HomeScreen.class));
-                            finish();
-                        }
-                    },1500);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        }).start();
-
-    }
-
-    private void viewAnimator() {
-
-        textView.animate().yBy(-200).setDuration(400).start();
-        imageView.animate().yBy(-50).alpha(0).setDuration(400).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                textViewTwo.animate().yBy(-200).alpha(1).setDuration(300).start();
-                nameEditText.setVisibility(View.VISIBLE);
-                nameEditText.animate().yBy(-150).alpha(1).setDuration(300).start();
-                phoneNumber.setVisibility(View.VISIBLE);
-                phoneNumber.animate().yBy(-150).alpha(1).setDuration(300).start();
-                nextButton.animate().alpha(0).translationYBy(-20).start();
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                nextButton.setVisibility(View.INVISIBLE);
-                nextButtonTwo.animate().alpha(1).translationY(0).setDuration(500).start();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        }).start();
-    }
-
-    private void regSave() {
-        SharedPreferences reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
-        SharedPreferences.Editor editor = reg.edit();
-        editor.putString("userName", titleCase(nameEditText.getText().toString()));
-        editor.putString("phoneNumber", titleCase(phoneNumber.getText().toString()));
-        editor.apply();
-    }
-
-    public void onOkClick(View view) {
-        viewAnimator();
-    }
-
-    public void onDoneClick(View view) {
-        String userName = String.valueOf(nameEditText.getText());
-        String phoneNumberStr = String.valueOf(phoneNumber.getText());
-        if (userName.isEmpty() || phoneNumberStr.isEmpty()) {
-            Toast.makeText(this, "You Can't Leave Fields Empty", Toast.LENGTH_SHORT).show();
-        } else {
-
-            nextButtonTwo.animate().alpha(0).translationYBy(-20).setListener(new Animator.AnimatorListener() {
+        if (regHelp) {
+            final Handler handler = new Handler();
+            signUp.setVisibility(View.GONE);
+            langSelect.setVisibility(View.GONE);
+            handler.postDelayed(new Runnable() {
                 @Override
-                public void onAnimationStart(Animator animation) {
-
-                    nameEditText.animate().alpha(0).translationYBy(-20).start();
-                    phoneNumber.animate().alpha(0).translationYBy(-20).start();
-                    textView.animate().alpha(0).translationYBy(-20).start();
-                    textViewTwo.animate().alpha(0).translationYBy(-20).start();
-                    //nameEditText.setVisibility(View.INVISIBLE);
-                    textView.setVisibility(View.INVISIBLE);
-                    textViewTwo.setVisibility(View.INVISIBLE);
+                public void run() {
                     startActivity(new Intent(SplashActivity.this, HomeScreen.class));
-                    regSave();
                     finish();
                 }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            }).start();
-
-
+            },3000);
+        } else if (!regHelp){
+            mainAnimator();
         }
+        mainAnimator();
+    }
 
+    private void mainAnimator(){
+        mlmLogo.animate().setStartDelay(300).alpha(1).translationY(0).setDuration(700).start();
+        registrationLayout.animate().alpha(1).setStartDelay(900).setDuration(500);
+        cLogo.animate().translationY(0).alpha(1).setDuration(500).setStartDelay(1500).start();
+        designLogo.animate().alpha(1).translationX(0).setDuration(800).setStartDelay(1800).start();
+    }
+
+    private void signUpAnimator() {
+        account.animate().setStartDelay(300).alpha(1).translationY(0).setDuration(500).start();
+        nameSignUp.animate().setStartDelay(400).alpha(1).translationY(0).setDuration(500).start();
+        numberSignUp.animate().setStartDelay(500).alpha(1).translationY(0).setDuration(500).start();
+        submitSignUp.animate().setStartDelay(700).alpha(1).translationY(0).setDuration(500).start();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.signup_btn :{
+                viewFlipper.setDisplayedChild(1);
+                signUpAnimator();
+                break;
+            }
+            case R.id.submit_sign:{
+                regSave();
+                startActivity(new Intent(SplashActivity.this , HomeScreen.class));
+                break;
+            }
+        }
     }
 
     @Override
@@ -234,14 +153,12 @@ public class SplashActivity extends AppCompatActivity {
         new AsyncServerCheck(this).execute();
     }
 
-    public void setLocale(String lang) {
-        Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        Log.i("sasan","local set to " + lang);
+    private void regSave() {
+        reg = getSharedPreferences(MainActivity.PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = reg.edit();
+        editor.putString("userName", titleCase(nameSignUp.getText().toString()));
+        editor.putString("phoneNumber", titleCase(numberSignUp.getText().toString()));
+        editor.apply();
     }
 
     public static String titleCase(String str) {
@@ -261,4 +178,15 @@ public class SplashActivity extends AppCompatActivity {
 
         return titleCase.toString();
     }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Log.i("sasan","local set to " + lang);
+    }
+
 }
