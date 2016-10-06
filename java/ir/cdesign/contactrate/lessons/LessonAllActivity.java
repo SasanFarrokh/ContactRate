@@ -1,21 +1,17 @@
 package ir.cdesign.contactrate.lessons;
 
-import android.app.Application;
 import android.app.ProgressDialog;
-import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,9 +30,10 @@ public class LessonAllActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressDialog pDialog;
     LessonAllAdapter adapter;
-    List<LessonSubjectModel> lessonAllList = new ArrayList<>();
+    List<LessonModel> lessonAllList = new ArrayList<>();
 
-    private static final String url = "http://api.androidhive.info/json/movies.json";
+    //private static final String url = "http://api.androidhive.info/json/movies.json";
+    private static final String url = "http://cdesign.ir/mlm/lessons.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,30 +72,29 @@ public class LessonAllActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(adapter);
 
-        JsonArrayRequest movieReq = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+        StringRequest movieReq = new StringRequest(url, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(String response) {
                 hidePDialog();
-                Log.d("amin", "doing shit");
                 // Parsing json
                 for (int i = 0; i < response.length(); i++) {
                     try {
-
-                        JSONObject obj = response.getJSONObject(i);
-                        LessonSubjectModel lesson = new LessonSubjectModel();
+                        JSONArray jsonArray = new JSONArray(response);
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        LessonModel lesson = new LessonModel();
                         lesson.setTitle(obj.getString("title"));
                         lesson.setImageUrl(obj.getString("image"));
-                        lesson.setUnlock(((Number) obj.get("rating"))
-                                .intValue());
-                        lesson.setAuthor(String.valueOf(obj.getInt("releaseYear")));
+                        /*lesson.setUnlock(obj.getInt("unlock_point"));
+                        lesson.setAuthor(obj.getString("author"));
+                        lesson.setAward(obj.getInt("award"));
+                        lesson.setID(obj.getInt("id"));
+                        lesson.setShowCase(obj.getString("showcase"));*/
 
-                        // adding movie to movies array
                         lessonAllList.add(lesson);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -108,12 +104,9 @@ public class LessonAllActivity extends AppCompatActivity {
                 VolleyLog.d("amin", "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
-                // hide the progress dialog
                 hidePDialog();
-
             }
         });
-
         // Adding request to request queue
         ir.cdesign.contactrate.utilities.Application.getInstance().addToRequestQueue(movieReq);
 

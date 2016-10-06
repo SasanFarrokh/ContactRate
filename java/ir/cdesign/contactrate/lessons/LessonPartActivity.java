@@ -38,26 +38,14 @@ public class LessonPartActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void init() {
-        //handle toolbar
-        toolbarImage = (Button) findViewById(R.id.toolbar_iv);
-        toolbarImage.setOnClickListener(this);
-        toolbarText = (TextView) findViewById(R.id.toolbar_tv);
-        toolbarText.setText("Lesson Parts");
+        //handle toolbarlbar_tv);
 
-        frameLayout = (FrameLayout) findViewById(R.id.lesson_part_row_layout);
-
-        frameLayout.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.lesson_part_row_layout:
-                startActivity(new Intent(LessonPartActivity.this, ReadLessonActivity.class));
-                break;
-            case R.id.toolbar_iv:
-                finish();
-                break;
+
         }
     }
 }

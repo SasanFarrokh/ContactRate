@@ -18,14 +18,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import ir.cdesign.contactrate.dialogs.DialogMedal;
+import ir.cdesign.contactrate.lessons.LessonModel;
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.models.MedalModel;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -522,6 +521,36 @@ public class DatabaseCommands {
             }
             c.close();
         }
+        return list;
+    }
+
+    public void addLesson(LessonModel model) {
+
+        ContentValues values = new ContentValues();
+        values.put("showcase", model.getShowCase());
+        values.put("title", model.getTitle());
+        values.put("author", model.getAuthor());
+        values.put("image", String.valueOf(model.getInternalImageUrl()));
+
+        database.insert(TABLE_LESSONS, null, values);
+    }
+
+    public List<LessonModel> getLessons() {
+
+        List<LessonModel> list = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + TABLE_LESSONS;
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        while (cursor.moveToNext()) {
+            LessonModel lesson = new LessonModel();
+            lesson.setShowCase(cursor.getString(0));
+            lesson.setTitle(cursor.getString(1));
+            lesson.setAuthor(cursor.getString(2));
+            lesson.setInternalImageUrl(Uri.parse(cursor.getString(3)));
+            list.add(lesson);
+
+        }
+
         return list;
     }
 

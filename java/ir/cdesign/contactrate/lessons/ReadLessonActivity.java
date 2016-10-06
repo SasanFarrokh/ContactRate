@@ -29,13 +29,6 @@ public class ReadLessonActivity extends AppCompatActivity implements View.OnClic
         linearLayout= (LinearLayout) findViewById(R.id.LinearLayout);
         linearLayout.setBackgroundResource(drawable);
 
-        //handle toolbar
-        toolbarImage = (Button) findViewById(R.id.toolbar_iv);
-        toolbarImage.setOnClickListener(this);
-        toolbarText = (TextView) findViewById(R.id.toolbar_tv);
-        toolbarText.setText("Read Lesson");
-
-
         // read utilities setup
         BottomDrawer bottomDrawer = new BottomDrawer(this);
 

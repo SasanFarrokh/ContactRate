@@ -95,7 +95,6 @@ public class MyService extends Service {
         database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_LESSONS + " "+
                 "( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," +
                 "title VARCHAR NOT NULL UNIQUE," +
-                "parts VARCHAR NOT NULL," +
                 "image VARCHAR," +
                 "image_downloaded INTEGER," +
                 "showcase TEXT," +
@@ -104,6 +103,7 @@ public class MyService extends Service {
                 "unlock INTEGER);");
         database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_LESSON_PARTS +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," +
+                "lesson INTEGER NOT NULL," +
                 "title VARCHAR NOT NULL UNIQUE," +
                 "image VARCHAR," +
                 "image_downloaded INTEGER," +

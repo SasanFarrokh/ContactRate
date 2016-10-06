@@ -2,19 +2,23 @@ package ir.cdesign.contactrate.lessons;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
@@ -27,11 +31,11 @@ import ir.cdesign.contactrate.utilities.Application;
 public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Holder> {
 
     Context context;
-    List<LessonSubjectModel> list = new ArrayList<>();
+    List<LessonModel> list = new ArrayList<>();
     LayoutInflater inflater;
     AlertDialog alertDialog = null;
 
-    public LessonAllAdapter(Context context, List<LessonSubjectModel> list) {
+    public LessonAllAdapter(Context context, List<LessonModel> list) {
         this.context = context;
         this.list = list;
         inflater = inflater.from(context);
@@ -47,7 +51,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        LessonSubjectModel current = list.get(position);
+        LessonModel current = list.get(position);
         holder.setData(current, position);
     }
 
@@ -60,7 +64,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
 
         TextView title, seenCount, point, author;
         NetworkImageView image;
-        LessonSubjectModel current;
+        LessonModel current;
         int position;
 
         ImageLoader imageLoader = Application.getInstance().getImageLoader();
@@ -75,7 +79,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
 
         }
 
-        public void setData(LessonSubjectModel current, int position) {
+        public void setData(LessonModel current, int position) {
             this.position = position;
             this.current = current;
             title.setText(current.getTitle());
@@ -94,8 +98,30 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //some shit
-                    DatabaseCommands.getInstance(context);
 
+                    image.buildDrawingCache();
+                    Bitmap imageBitmap = image.getDrawingCache();
+                    File file = new File(context.getFilesDir(),current.getTitle()+ ".jpg");
+
+                    FileOutputStream out = null;
+                    try {
+                        out = new FileOutputStream(file);
+                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (out != null) {
+                                out.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    current.setInternalImageUrl(Uri.fromFile(file));
+                    DatabaseCommands.getInstance(context).addLesson(current);
+                    Log.d("amin" , "fuck  :Q!");
                 }
             });
             alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {

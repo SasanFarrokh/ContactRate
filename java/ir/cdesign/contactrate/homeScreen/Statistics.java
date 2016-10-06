@@ -8,7 +8,6 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -60,7 +59,7 @@ public class Statistics extends AppCompatActivity {
 
     private void setLineChart() {
         setLineChartAliases();
-        setLineChartConfig();
+//        setLineChartConfig();
         setLineChartData();
         lineChart.invalidate();
     }
@@ -95,7 +94,7 @@ public class Statistics extends AppCompatActivity {
         weekMap.put(5f, "Wed");
         weekMap.put(6f, "Thu");
         weekMap.put(7f, "Fri");
-        lineChart.setLabelAliases(weekMap);
+//        lineChart.setLabelAliases(weekMap);
     }
 
     private void setLineChartData() {
@@ -157,10 +156,10 @@ public class Statistics extends AppCompatActivity {
         LineData lineData = new LineData(dataSet);
         lineData.setValueFormatter(new LargeValueFormatter());
 
-        lineChart.setData(lineData, entries);
+//        lineChart.setData(lineData, entries);
     }
 
-    private void setLineChartConfig() {
+    /*private void setLineChartConfig() {
         Description desc = new Description();
         desc.setText("Tasks Done per day");
         desc.setTextColor(Color.WHITE);
@@ -180,5 +179,5 @@ public class Statistics extends AppCompatActivity {
         lineChart.getAxis(YAxis.AxisDependency.RIGHT).setAxisMinimum(0);
         lineChart.getXAxis().setAxisMaximum(7.5f);
         lineChart.getXAxis().setAxisMinimum(0.5f);
-    }
+    }*/
 }

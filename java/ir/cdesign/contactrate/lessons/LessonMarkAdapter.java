@@ -1,6 +1,7 @@
 package ir.cdesign.contactrate.lessons;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,29 +18,31 @@ import ir.cdesign.contactrate.R;
 /**
  * Created by amin pc on 15/09/2016.
  */
-public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Holder>{
+public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Holder> {
 
-    Context context ;
+    Context context;
     LayoutInflater inflater;
-    List<LessonSubjectModel> list = new ArrayList<>();
+    List<LessonModel> list = new ArrayList<>();
 
-    public LessonMarkAdapter(Context context , List<LessonSubjectModel> list ){
-        this.context = context ;
-        this.list = list ;
+    public static final String PARTS_COUNT = "partsCount";
+
+    public LessonMarkAdapter(Context context, List<LessonModel> list) {
+        this.context = context;
+        this.list = list;
         inflater = inflater.from(context);
     }
 
     @Override
     public LessonMarkAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.lesson_mark_row_layout , parent , false );
+        View view = inflater.inflate(R.layout.lesson_mark_row_layout, parent, false);
         Holder holder = new Holder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(LessonMarkAdapter.Holder holder, int position) {
-        LessonSubjectModel current = list.get(position);
-        holder.setData(current , position);
+        LessonModel current = list.get(position);
+        holder.setData(current, position);
     }
 
     @Override
@@ -49,24 +50,37 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
         return list.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView title , progress ;
-        ProgressBar progressBar ;
-        LessonSubjectModel current ;
-        int position ;
+        TextView title, progress;
+        ProgressBar progressBar;
+        ImageView imageView;
+        int position;
 
         public Holder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.lessonMarkTitle);
             progress = (TextView) itemView.findViewById(R.id.progressCount);
             progressBar = (ProgressBar) itemView.findViewById(R.id.simpleProgressBar);
-
+            imageView = (ImageView) itemView.findViewById(R.id.markImage);
         }
 
-        public void setData(LessonSubjectModel current, int position) {
+        public void setData(LessonModel current, int position) {
             this.position = position;
-            this.current = current ;
+            title.setText(current.title);
+            progress.setText(String.valueOf(current.getProgress()) + "%");
+            progressBar.setProgress(current.getProgress());
+            if (current.imageUrl != null)
+                imageView.setImageURI(current.internalImageUrl);
+//            progressBar
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context,LessonPartActivity.class);
+            intent.putExtra(PARTS_COUNT,5);
+            context.startActivity(intent);
         }
     }
 }

@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -12,16 +13,21 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
+import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
-public class Lesson extends AppCompatActivity implements View.OnClickListener{
+public class Lesson extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView recyclerView;
     TextView toolbarText;
     FrameLayout frameLayout;
-    FloatingActionButton fab ;
+    FloatingActionButton fab;
+    LessonMarkAdapter adapter;
+    List<LessonModel> list ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +35,15 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_lesson);
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
         frameLayout = (FrameLayout) findViewById(R.id.FrameParent);
         frameLayout.setBackgroundResource(drawable);
 
         init();
+        setRecyclerView();
     }
 
-    private void init(){
+    private void init() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         toolbarText = (TextView) findViewById(R.id.toolbar_tv);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -45,12 +52,19 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         fab.setOnClickListener(this);
     }
 
-    private void setRecyclerView(){
-
+    private void setRecyclerView() {
+        list = DatabaseCommands.getInstance(this).getLessons();
+        adapter = new LessonMarkAdapter(this , list);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
-    private void setToolbar(){
+    private void setToolbar() {
         Toolbar toolbar = new Toolbar(this);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -67,12 +81,12 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.toolbar_iv:
                 finish();
                 break;
-            case R.id.fab :
-                startActivity(new Intent(Lesson.this , LessonAllActivity.class));
+            case R.id.fab:
+                startActivity(new Intent(Lesson.this, LessonAllActivity.class));
                 break;
         }
     }
