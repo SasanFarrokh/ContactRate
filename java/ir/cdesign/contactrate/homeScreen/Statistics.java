@@ -1,8 +1,11 @@
 package ir.cdesign.contactrate.homeScreen;
 
 import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CandleStickChart;
@@ -50,12 +53,41 @@ public class Statistics extends AppCompatActivity {
         pieChart = (PieChart) findViewById(R.id.pie_chart);
         lineChart = (LineChart) findViewById(R.id.line_chart);
 
+        setToolbar();
+
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         pieChart.getRootView().setBackgroundResource(wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this));
 
         setPieChart();
         setLineChart();
 
+    }
+
+    private void setToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Statistics");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setBackgroundDrawable(null);
+
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Statistics.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setLineChart() {
@@ -72,15 +104,19 @@ public class Statistics extends AppCompatActivity {
         int[] data = DatabaseCommands.getInstance(this).getTaskTypeCounts();
 
         for (int i = 0; i < 9 ; i++) {
-            entries.add(i, new PieEntry(data[i] * 10, TaskModel.getTitles()[i]));
+            if (data[i] <= 0) continue;
+            entries.add(new PieEntry(data[i] * 10, TaskModel.getTitles()[i]));
         }
 
 
-        PieDataSet dataSet = new PieDataSet(entries, "Label");
+        PieDataSet dataSet = new PieDataSet(entries, "");
         PieData pieData = new PieData(dataSet);
+        pieData.setValueTextColor(Color.WHITE);
 
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);
 
+        pieChart.setDescription(null);
+        pieChart.getLegend().setTextColor(Color.WHITE);
         pieChart.setRotationEnabled(false);
         pieChart.setData(pieData);
         pieChart.invalidate();
