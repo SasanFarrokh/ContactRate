@@ -4,6 +4,7 @@ import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.File;
 import java.net.URI;
@@ -21,7 +22,11 @@ public class LessonModel {
 
 
     public int getProgress() {
-        return 50;
+        float seenCount = 0f;
+        for (LessonPartModel part : parts) {
+            seenCount += part.seen ? 1 : 0;
+        }
+        return ((Float) (seenCount/parts.length * 100)).intValue();
     }
 
     //lesson all constructor

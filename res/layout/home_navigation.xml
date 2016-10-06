@@ -70,6 +70,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:id="@+id/contacts"
                 style="@style/selectable"
                 android:orientation="horizontal">
@@ -82,13 +83,8 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/contacts"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/contacts" />
             </LinearLayout>
 
             <LinearLayout
@@ -96,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/task"
                 style="@style/selectable"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -106,19 +103,15 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/tasks"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/tasks" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/vision"
+                android:gravity="center_vertical"
                 style="@style/selectable"
                 android:orientation="horizontal">
 
@@ -129,21 +122,16 @@
                     android:src="@drawable/target"
                     android:tint="#e2e2e2" />
 
-
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/visions"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/visions" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/stats"
+                android:gravity="center_vertical"
                 style="@style/selectable"
                 android:orientation="horizontal">
 
@@ -155,19 +143,15 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/statistics"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/statistics" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/lessons"
+                android:gravity="center_vertical"
                 style="@style/selectable"
                 android:orientation="horizontal">
 
@@ -179,13 +163,8 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/lessons"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/lessons" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -216,6 +195,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:id="@+id/news"
                 style="@style/selectable"
                 android:orientation="horizontal">
@@ -228,13 +208,8 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/news"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/news" />
             </LinearLayout>
 
             <View
@@ -246,6 +221,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:id="@+id/tutorial"
                 style="@style/selectable"
                 android:orientation="horizontal">
@@ -258,18 +234,14 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/take_a_tour"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/take_a_tour" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:id="@+id/settings"
                 style="@style/selectable"
                 android:orientation="horizontal">
@@ -282,18 +254,14 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/settings"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/settings"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:id="@+id/about"
                 style="@style/selectable"
                 android:orientation="horizontal">
@@ -306,13 +274,8 @@
                     android:tint="#e2e2e2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/about"
-                    android:textColor="#e2e2e2"
-                    android:textSize="17dp" />
+                    style="@style/navigationTextView"
+                    android:text="@string/about" />
             </LinearLayout>
 
         </LinearLayout>

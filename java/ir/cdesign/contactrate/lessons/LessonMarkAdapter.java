@@ -32,7 +32,6 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
 
     public LessonMarkAdapter(Context context) {
         this.context = context;
-        this.list = list;
         inflater = inflater.from(context);
         list = DatabaseCommands.getInstance(context).getLessons(0);
     }
@@ -86,7 +85,6 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
             progress.setText(String.valueOf(current.getProgress()) + "%");
             progressBar.setProgress(current.getProgress());
             imageView.setImageBitmap(current.getImage());
-//            progressBar
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
         }

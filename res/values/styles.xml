@@ -19,6 +19,14 @@
         <item name="android:paddingBottom">@dimen/little_padding</item>
     </style>
 
+    <style name="navigationTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textColor">#e2e2e2</item>
+        <item name="android:textSize">17dp</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

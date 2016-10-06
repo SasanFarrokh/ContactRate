@@ -608,6 +608,15 @@ public class DatabaseCommands {
         return list.toArray(new LessonPartModel[list.size()]);
     }
 
+    public boolean lessonPartSeen(long id,boolean seen) {
+
+        ContentValues values = new ContentValues();
+        values.put("seen",seen?1:0);
+        boolean b = database.update(TABLE_LESSON_PARTS, values," id = ? ", new String[] {String.valueOf(id)}) != -1;
+        Log.i("sasan","lesson seen : " + (b?"true":"false"));
+        return b;
+    }
+
     public void progressMedal(int id, int step) {
 
         MedalModel medal = getMedals(id).get(0);

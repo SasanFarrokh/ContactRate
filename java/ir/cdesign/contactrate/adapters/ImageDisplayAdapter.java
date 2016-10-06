@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -77,12 +78,11 @@ public class ImageDisplayAdapter extends RecyclerView.Adapter<ImageDisplayAdapte
             @Override
             public void onClick(View v) {
                 sharedPreferences = context.getSharedPreferences(MainActivity.PREF,Context.MODE_PRIVATE);
-                sharedPreferences.getInt(HomeScreen.BACKGROUND_KEY,0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt(HomeScreen.BACKGROUND_KEY,position);
                 editor.apply();
-                Intent intent = new Intent(ImageDisplayAdapter.this.context, HomeScreen.class);
-                ImageDisplayAdapter.this.context.startActivity(intent);
+                HomeScreen.manInTheMiddle = position;
+                ((Activity) context).finish();
             }
         };
     }

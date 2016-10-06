@@ -107,6 +107,15 @@ public class Settings extends AppCompatActivity {
         selectLang(language);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        WallpaperBoy wallpaperBoy = new WallpaperBoy();
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
+
+        findViewById(R.id.background_thumbnail).setBackgroundResource(drawable);
+    }
+
     private void selectLang(int lang) {
         language = lang;
         for (int i = 0; i < 2; i++) {
@@ -150,7 +159,6 @@ public class Settings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         startActivity(new Intent(Settings.this, HomeScreen.class));
         finish();
     }
@@ -173,8 +181,8 @@ public class Settings extends AppCompatActivity {
         }
         getSharedPreferences(MainActivity.PREF, MODE_PRIVATE).edit()
                 .putString("lang", lang)
-                .putInt("calendar",calendarType)
-                .putBoolean("reminder",reminderSet)
+                .putInt("calendar", calendarType)
+                .putBoolean("reminder", reminderSet)
                 .commit();
     }
 

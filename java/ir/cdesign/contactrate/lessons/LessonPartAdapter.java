@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 
 /**
@@ -51,7 +52,7 @@ public class LessonPartAdapter extends RecyclerView.Adapter<LessonPartAdapter.Ho
 
         TextView title, number;
         ImageView image;
-        View view;
+        View view,overlay;
         LessonPartModel current;
         int position;
 
@@ -60,6 +61,7 @@ public class LessonPartAdapter extends RecyclerView.Adapter<LessonPartAdapter.Ho
             title = (TextView) itemView.findViewById(R.id.part_title);
             number = (TextView) itemView.findViewById(R.id.part_number);
             image = (ImageView) itemView.findViewById(R.id.part_image);
+            overlay = itemView.findViewById(R.id.overlay);
             view = itemView;
         }
 
@@ -71,10 +73,14 @@ public class LessonPartAdapter extends RecyclerView.Adapter<LessonPartAdapter.Ho
             if (current.image != null)
                 image.setImageURI(current.image);
             view.setOnClickListener(this);
+            if (current.seen)
+                overlay.setBackgroundColor(0x70000000);
         }
 
         @Override
         public void onClick(View v) {
+            current.seen = true;
+            DatabaseCommands.getInstance(activity).lessonPartSeen(current.id,true);
             activity.lessonPartTitle.setText(current.title);
             activity.lessonPartBody.setText(current.body);
             activity.flipper.getChildAt(0).animate().setDuration(200).alpha(0).setListener(new Animator.AnimatorListener() {
