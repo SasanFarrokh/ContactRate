@@ -9,14 +9,14 @@ import ir.cdesign.contactrate.R;
  */
 public class TaskModel {
 
-    public String Title ;
+    public int Title ;
     public int imageId ;
 
-    public void setTitle(String title) {
+    public void setTitle(int title) {
         this.Title = title;
     }
 
-    public String getTitle() {
+    public int getTitle() {
         return Title;
     }
 
@@ -32,7 +32,7 @@ public class TaskModel {
 
         ArrayList<TaskModel> dataList = new ArrayList<>();
         int[] images = getImages();
-        String[] titles = getTitles();
+        int[] titles = getTitles();
 
         for (int i = 0 ; i <images.length ; i++){
             TaskModel task = new TaskModel();
@@ -45,12 +45,12 @@ public class TaskModel {
         return dataList;
     }
 
-    public static String[] getTitles() {
+    public static int[] getTitles() {
 
-        String[] getTitles = {
-              "Invitation"  ,"Present"  ,"Follow Up"  ,
-              "Enroll"      ,"Training" ,"Build Team",
-              "Buy"         ,"Promoting Event","Other"
+        int[] getTitles = {
+              R.string.invitations  ,R.string.present  ,R.string.followup  ,
+              R.string.enroll      ,R.string.training ,R.string.buildtean,
+              R.string.buy       ,R.string.promotingevent,R.string.other
         };
         return getTitles;
     }

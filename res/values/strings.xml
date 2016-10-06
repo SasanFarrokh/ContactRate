@@ -114,4 +114,13 @@
     <string name="phone_number">Phone Number : </string>
     <string name="add_to_invitation">Add To Invitation</string>
     <string name="note">Note :</string>
+    <string name="present">Present</string>
+    <string name="followup">Follow Up</string>
+    <string name="enroll">Enroll</string>
+    <string name="training">Training</string>
+    <string name="buildtean">Build Team</string>
+    <string name="buy">Buy</string>
+    <string name="promotingevent">Promoting Event</string>
+    <string name="other">Other</string>
+    <string name="addnew">Add New ...</string>
 </resources>

@@ -84,7 +84,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             this.current = current;
             this.position = position;
             this.imageView.setImageResource(current.getImageId());
-            this.Title.setText(current.getTitle());
+            this.Title.setText(context.getResources().getString(current.getTitle()));
 
         }
     }

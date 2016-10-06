@@ -72,7 +72,7 @@ public class AlarmReciever extends BroadcastReceiver {
                                         PendingIntent.FLAG_UPDATE_CURRENT))
                                 .setLights(Color.RED, 3000, 3000)
                                 .setAutoCancel(true)
-                                .setContentTitle(ContactShowModel.getTitles()[(int) invite.get("type") - 1])
+                                .setContentTitle(context.getResources().getString(ContactShowModel.getTitles()[(int) invite.get("type") - 1]))
                                 .setContentText("with " + contact.get("name") + " at : "
                                         + new DecimalFormat("00").format(calendar.get(Calendar.HOUR_OF_DAY) + " : "
                                         + new DecimalFormat("00").format(calendar.get(Calendar.MINUTE))));

@@ -83,8 +83,8 @@
     <string name="calendar_type">نوع تقویم</string>
     <string name="change_background">تغییر عکس پس زمینه</string>
     <string name="visions">ویژن</string>
-    <string name="pending_ntasks">کارهای\nدر انتظار</string>
-    <string name="completed_ntasks">کارهای\nانجام شده</string>
+    <string name="pending_ntasks">کار\nدرانتظار</string>
+    <string name="completed_ntasks">کار\nانجام شده</string>
     <string name="contacts">لیست من</string>
     <string name="tasks">کارها</string>
     <string name="statistics">آمار</string>
@@ -102,5 +102,15 @@
     <string name="phone_number">  شماره تماس :  </string>
     <string name="add_to_invitation">اضافه کن به دعوت</string>
     <string name="note">: یادداشت</string>
+    <string name="present">دعوت به کار</string>
+    <string name="followup">پیگیری</string>
+    <string name="enroll">ثبت نام</string>
+    <string name="training">آموزش</string>
+    <string name="buildtean">تیم سازی</string>
+    <string name="buy">خرید</string>
+    <string name="promotingevent">رویداد</string>
+    <string name="other">سایر</string>
+    <string name="addnew">Add New ...</string>
+
 
 </resources>

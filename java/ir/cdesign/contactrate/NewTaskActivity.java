@@ -67,7 +67,7 @@ public class NewTaskActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbarText = (TextView) findViewById(R.id.real_text);
-        toolbarText.setText("Add New ...");
+        toolbarText.setText(R.string.addnew);
 
     }
 
