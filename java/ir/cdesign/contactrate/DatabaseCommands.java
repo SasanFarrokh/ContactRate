@@ -25,6 +25,7 @@ import java.util.TimeZone;
 
 import ir.cdesign.contactrate.dialogs.DialogMedal;
 import ir.cdesign.contactrate.lessons.LessonModel;
+import ir.cdesign.contactrate.lessons.LessonPartModel;
 import ir.cdesign.contactrate.models.ContactShowModel;
 import ir.cdesign.contactrate.models.MedalModel;
 import ir.cdesign.contactrate.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -524,15 +525,20 @@ public class DatabaseCommands {
         return list;
     }
 
-    public void addLesson(LessonModel model) {
+    public boolean addLesson(LessonModel model) {
 
         ContentValues values = new ContentValues();
-        values.put("showcase", model.getShowCase());
-        values.put("title", model.getTitle());
-        values.put("author", model.getAuthor());
-        values.put("image", String.valueOf(model.getInternalImageUrl()));
+        values.put("showcase", model.showCase);
+        values.put("title", model.title);
+        values.put("author", model.author);
+        values.put("parts", 1);
+        values.put("image", String.valueOf(model.internalImageUrl));
 
-        database.insert(TABLE_LESSONS, null, values);
+        return database.insert(TABLE_LESSONS, null, values) != -1;
+    }
+
+    public void removeLesson(long id) {
+        database.delete(TABLE_LESSONS," id = ? ",new String[] {String.valueOf(id)});
     }
 
     public List<LessonModel> getLessons() {
@@ -543,15 +549,30 @@ public class DatabaseCommands {
 
         while (cursor.moveToNext()) {
             LessonModel lesson = new LessonModel();
-            lesson.setShowCase(cursor.getString(0));
-            lesson.setTitle(cursor.getString(1));
-            lesson.setAuthor(cursor.getString(2));
-            lesson.setInternalImageUrl(Uri.parse(cursor.getString(3)));
+            lesson.showCase = cursor.getString(0);
+            lesson.title = cursor.getString(1);
+            lesson.author = cursor.getString(2);
+            lesson.internalImageUrl = Uri.parse(cursor.getString(3));
             list.add(lesson);
-
         }
-
         return list;
+    }
+
+    public LessonPartModel[] getLessonParts(long id) {
+        List<LessonPartModel> list = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + TABLE_LESSON_PARTS + " WHERE lesson = " + id;
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        while (cursor.moveToNext()) {
+            LessonPartModel part = new LessonPartModel();
+            part.id = cursor.getLong(cursor.getColumnIndex("id"));
+            part.title = cursor.getString(cursor.getColumnIndex("title"));
+            part.body = cursor.getString(cursor.getColumnIndex("body"));
+            part.seen = cursor.getInt(cursor.getColumnIndex("seen")) == 1;
+            part.image = Uri.parse(cursor.getString(cursor.getColumnIndex("image")));
+            list.add(part);
+        }
+        return (LessonPartModel[]) list.toArray();
     }
 
     public void progressMedal(int id, int step) {

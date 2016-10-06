@@ -82,13 +82,13 @@ public class LessonAllActivity extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(response);
                         JSONObject obj = jsonArray.getJSONObject(i);
                         LessonModel lesson = new LessonModel();
-                        lesson.setTitle(obj.getString("title"));
-                        lesson.setImageUrl(obj.getString("image"));
-                        /*lesson.setUnlock(obj.getInt("unlock_point"));
-                        lesson.setAuthor(obj.getString("author"));
-                        lesson.setAward(obj.getInt("award"));
-                        lesson.setID(obj.getInt("id"));
-                        lesson.setShowCase(obj.getString("showcase"));*/
+                        lesson.title = (obj.getString("title"));
+                        lesson.imageUrl = (obj.getString("image"));
+                        lesson.unlock_point = (obj.getInt("unlock_point"));
+                        lesson.author = obj.getString("author");
+                        lesson.award = obj.getInt("award");
+                        lesson.id = (obj.getInt("id"));
+                        lesson.showCase = (obj.getString("showcase"));
 
                         lessonAllList.add(lesson);
 

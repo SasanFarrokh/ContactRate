@@ -7,8 +7,9 @@ import android.net.Uri;
  */
 public class LessonPartModel{
 
-    int ID , seenCount ;
-    String title , body ;
-    Uri image ;
+    public long id;
+    public boolean seen;
+    public String title , body ;
+    public Uri image ;
 
 }

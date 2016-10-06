@@ -24,7 +24,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
     LayoutInflater inflater;
     List<LessonModel> list = new ArrayList<>();
 
-    public static final String PARTS_COUNT = "partsCount";
+    public static final String LESSON_ID = "lesson_id";
 
     public LessonMarkAdapter(Context context, List<LessonModel> list) {
         this.context = context;
@@ -52,6 +52,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
 
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        int id;
         TextView title, progress;
         ProgressBar progressBar;
         ImageView imageView;
@@ -67,6 +68,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
 
         public void setData(LessonModel current, int position) {
             this.position = position;
+            this.id = current.id;
             title.setText(current.title);
             progress.setText(String.valueOf(current.getProgress()) + "%");
             progressBar.setProgress(current.getProgress());
@@ -79,7 +81,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(context,LessonPartActivity.class);
-            intent.putExtra(PARTS_COUNT,5);
+            intent.putExtra(LESSON_ID,id);
             context.startActivity(intent);
         }
     }

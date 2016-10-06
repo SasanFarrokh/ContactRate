@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView recyclerView;
     TextView toolbarText;
-    FrameLayout frameLayout;
+    RelativeLayout container;
     FloatingActionButton fab;
     LessonMarkAdapter adapter;
     List<LessonModel> list ;
@@ -36,8 +36,8 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener {
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
-        frameLayout = (FrameLayout) findViewById(R.id.FrameParent);
-        frameLayout.setBackgroundResource(drawable);
+        container = (RelativeLayout) findViewById(R.id.FrameParent);
+        container.setBackgroundResource(drawable);
 
         init();
         setRecyclerView();
@@ -63,8 +63,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void setToolbar() {
-        Toolbar toolbar = new Toolbar(this);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

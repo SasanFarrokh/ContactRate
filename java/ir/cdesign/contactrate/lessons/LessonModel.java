@@ -9,16 +9,13 @@ import java.net.URI;
  * Created by amin pc on 15/09/2016.
  */
 public class LessonModel {
-    int ID;
-    LessonPartModel[] parts;
-    int seenCount;
-    int award;
-    int unlock_point;
+    public long id;
+    public int seenCount,award,unlock_point;
+    public LessonPartModel[] parts;
+    public Uri internalImageUrl;
+    public String title , showCase , author ;
+    public String imageUrl;
 
-    Uri internalImageUrl;
-    String title , showCase , author ;
-
-    String imageUrl;
 
     public int getProgress() {
         return 50;

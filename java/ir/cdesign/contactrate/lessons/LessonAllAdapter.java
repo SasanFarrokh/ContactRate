@@ -82,11 +82,11 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
         public void setData(LessonModel current, int position) {
             this.position = position;
             this.current = current;
-            title.setText(current.getTitle());
-            seenCount.setText(String.valueOf(current.getSeenCount()));
-            point.setText(String.valueOf(current.getUnlock()));
-            author.setText(current.getAuthor());
-            image.setImageUrl(current.getImageUrl(), imageLoader);
+            title.setText(current.title);
+            seenCount.setText(String.valueOf(current.seenCount));
+            point.setText(String.valueOf(current.unlock_point));
+            author.setText(current.author);
+            image.setImageUrl(current.imageUrl, imageLoader);
 
             itemView.setOnClickListener(this);
         }
@@ -101,7 +101,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
 
                     image.buildDrawingCache();
                     Bitmap imageBitmap = image.getDrawingCache();
-                    File file = new File(context.getFilesDir(),current.getTitle()+ ".jpg");
+                    File file = new File(context.getFilesDir(),current.title+ ".jpg");
 
                     FileOutputStream out = null;
                     try {
@@ -119,9 +119,8 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
                         }
                     }
 
-                    current.setInternalImageUrl(Uri.fromFile(file));
+                    current.internalImageUrl = Uri.fromFile(file);
                     DatabaseCommands.getInstance(context).addLesson(current);
-                    Log.d("amin" , "fuck  :Q!");
                 }
             });
             alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {

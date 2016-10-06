@@ -29,7 +29,11 @@
             android:layout_height="0dp"
             android:layout_weight="0.5"
             android:layout_margin="5dp"/>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="Tasks Done Percentage"/>
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie_chart"
             android:layout_width="match_parent"
