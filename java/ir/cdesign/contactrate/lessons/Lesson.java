@@ -27,7 +27,6 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener {
     RelativeLayout container;
     FloatingActionButton fab;
     LessonMarkAdapter adapter;
-    List<LessonModel> list ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener {
         container.setBackgroundResource(drawable);
 
         init();
-        setRecyclerView();
+
     }
 
     private void init() {
@@ -52,14 +51,19 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener {
         fab.setOnClickListener(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setRecyclerView();
+    }
+
     private void setRecyclerView() {
-        list = DatabaseCommands.getInstance(this).getLessons(0);
-        adapter = new LessonMarkAdapter(this , list);
+
+        adapter = new LessonMarkAdapter(this);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
     }
 
     private void setToolbar() {

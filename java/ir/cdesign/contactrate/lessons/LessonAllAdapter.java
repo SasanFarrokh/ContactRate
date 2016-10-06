@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate.lessons;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -97,30 +98,16 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
             alertDialogBuilder.setPositiveButton("Download", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //some shit
+                    alertDialog.dismiss();
+                    final ProgressDialog pgd = ProgressDialog.show(context,"Downloading",current.title);
+                    (new AsyncLessonDownload(context,new Runnable(){
 
-                    image.buildDrawingCache();
-                    Bitmap imageBitmap = image.getDrawingCache();
-                    File file = new File(context.getFilesDir(),current.title+ ".jpg");
-
-                    FileOutputStream out = null;
-                    try {
-                        out = new FileOutputStream(file);
-                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            if (out != null) {
-                                out.close();
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        @Override
+                        public void run() {
+                            pgd.dismiss();
                         }
-                    }
+                    })).execute(current.id);
 
-                    current.internalImageUrl = Uri.fromFile(file);
-                    DatabaseCommands.getInstance(context).addLesson(current);
                 }
             });
             alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {

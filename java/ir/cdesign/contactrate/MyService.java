@@ -93,7 +93,7 @@ public class MyService extends Service {
                 "point INTEGER NOT NULL DEFAULT 10," +
                 "achieved INTEGER NOT NULL DEFAULT 0);");
         database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_LESSONS + " "+
-                "( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," +
+                "( id INTEGER PRIMARY KEY NOT NULL ," +
                 "title VARCHAR NOT NULL UNIQUE," +
                 "image VARCHAR," +
                 "image_downloaded INTEGER," +
@@ -102,7 +102,7 @@ public class MyService extends Service {
                 "award INTEGER," +
                 "unlock INTEGER);");
         database.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseCommands.TABLE_LESSON_PARTS +
-                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," +
+                "(id INTEGER PRIMARY KEY NOT NULL ," +
                 "lesson INTEGER NOT NULL," +
                 "title VARCHAR NOT NULL UNIQUE," +
                 "image VARCHAR," +

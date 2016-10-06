@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/recycler"
     android:background="@drawable/background"
     android:layout_height="match_parent"
     tools:context=".lessons.LessonAllActivity">
 
+    <include layout="@layout/toolbar_back_button" android:id="@id/toolbar_layout" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/recycler"
+        android:background="@drawable/background"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_layout"
+        tools:context=".lessons.LessonAllActivity" />
 
 
-</android.support.v7.widget.RecyclerView>
+</RelativeLayout>

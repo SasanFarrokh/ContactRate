@@ -1,8 +1,11 @@
 package ir.cdesign.contactrate.lessons;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 
 /**
@@ -26,10 +30,11 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
 
     public static final String LESSON_ID = "lesson_id";
 
-    public LessonMarkAdapter(Context context, List<LessonModel> list) {
+    public LessonMarkAdapter(Context context) {
         this.context = context;
         this.list = list;
         inflater = inflater.from(context);
+        list = DatabaseCommands.getInstance(context).getLessons(0);
     }
 
     @Override
@@ -45,14 +50,21 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
         holder.setData(current, position);
     }
 
+    public void notifyDataSet() {
+        list = DatabaseCommands.getInstance(context).getLessons(0);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class Holder extends RecyclerView.ViewHolder implements
+            View.OnClickListener,View.OnLongClickListener {
 
         long id;
+        View view;
         TextView title, progress;
         ProgressBar progressBar;
         ImageView imageView;
@@ -60,6 +72,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
 
         public Holder(View itemView) {
             super(itemView);
+            view = itemView;
             title = (TextView) itemView.findViewById(R.id.lessonMarkTitle);
             progress = (TextView) itemView.findViewById(R.id.progressCount);
             progressBar = (ProgressBar) itemView.findViewById(R.id.simpleProgressBar);
@@ -72,10 +85,10 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
             title.setText(current.title);
             progress.setText(String.valueOf(current.getProgress()) + "%");
             progressBar.setProgress(current.getProgress());
-            if (current.imageUrl != null)
-                imageView.setImageURI(current.internalImageUrl);
+            imageView.setImageBitmap(current.getImage());
 //            progressBar
-            itemView.setOnClickListener(this);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
 
         @Override
@@ -83,6 +96,21 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
             Intent intent = new Intent(context,LessonPartActivity.class);
             intent.putExtra(LESSON_ID,id);
             context.startActivity(intent);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+            alert.setItems(new String[]{"Remove"}, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    DatabaseCommands.getInstance(context).removeLesson(id);
+                    dialog.dismiss();
+                    notifyDataSet();
+                }
+            });
+            alert.show();
+            return true;
         }
     }
 }

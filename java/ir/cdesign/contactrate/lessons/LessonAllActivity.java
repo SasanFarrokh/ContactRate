@@ -1,11 +1,13 @@
 package ir.cdesign.contactrate.lessons;
 
 import android.app.ProgressDialog;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -48,7 +50,24 @@ public class LessonAllActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setBackgroundResource(drawable);
 
+        setToolbar();
         setRecyclerView();
+
+    }
+
+    private void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Lessons");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setBackgroundDrawable(null);
+
+        }
 
     }
 
@@ -76,10 +95,11 @@ public class LessonAllActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 hidePDialog();
-                // Parsing json
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONArray jsonArray = new JSONArray(response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    // Parsing json
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
                         JSONObject obj = jsonArray.getJSONObject(i);
                         LessonModel lesson = new LessonModel();
                         lesson.title = (obj.getString("title"));
@@ -92,11 +112,11 @@ public class LessonAllActivity extends AppCompatActivity {
 
                         lessonAllList.add(lesson);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -119,5 +139,15 @@ public class LessonAllActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                LessonAllActivity.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

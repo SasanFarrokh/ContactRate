@@ -12,12 +12,39 @@
 
     <include layout="@layout/toolbar_back_button"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <ViewFlipper
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/lesson_viewflipper">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lesson_part_title"
+                android:text="Salam"
+                android:padding="12dp"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/lesson_part_title"
+                android:padding="12dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:id="@+id/lesson_part_text"/>
+            </ScrollView>
+        </RelativeLayout>
+    </ViewFlipper>
 
-
-    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

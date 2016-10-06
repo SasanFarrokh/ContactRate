@@ -1,8 +1,11 @@
 package ir.cdesign.contactrate.lessons;
 
+import android.app.Application;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 
+import java.io.File;
 import java.net.URI;
 
 /**
@@ -33,5 +36,23 @@ public class LessonModel {
     // empty constructor
     public LessonModel(){
 
+    }
+
+    public Bitmap getImage() {
+        try {
+            return BitmapFactory.decodeFile((new File(ir.cdesign.contactrate.utilities.Application.getInstance().getFilesDir(),
+                    "lesson_" + id + "_lesson.jpg")).getAbsolutePath());
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    public void deleteImageFiles() {
+        File file = new File(ir.cdesign.contactrate.utilities.Application.getInstance().getFilesDir(),
+                "lesson_" + id + "_lesson.jpg");
+        if (file.exists()) file.delete();
+        for (LessonPartModel part : parts) {
+            part.deleteImageFiles();
+        }
     }
 }
