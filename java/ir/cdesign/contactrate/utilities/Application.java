@@ -23,11 +23,11 @@ public class Application extends android.app.Application{
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+        /*CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("iransans.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
-        );
+        );*/
     }
 
     public static synchronized Application getInstance() {

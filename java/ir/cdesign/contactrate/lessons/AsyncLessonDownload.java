@@ -89,7 +89,7 @@ public class AsyncLessonDownload extends AsyncTask<Long, Void, LessonModel> {
     private Uri saveImage(String url, String dir) {
 
         Bitmap imageBitmap = AsyncGetNews.downloadImage(url,context);
-        File file = new File(context.getFilesDir(),dir);
+        File file = null;
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(file);
