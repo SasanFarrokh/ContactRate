@@ -59,7 +59,7 @@
                 android:textSize="14dp" />
         </LinearLayout>
 
-        <CheckBox
+        <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/task_checkbox"
             android:layout_width="40dp"
             android:layout_height="40dp"

@@ -148,10 +148,10 @@ public class HomeScreen extends AppCompatActivity implements AsyncGetNews.Loadin
     }
 
     // set font
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
