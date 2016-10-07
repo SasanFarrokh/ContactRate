@@ -63,7 +63,7 @@ public class HomeNavigation extends Fragment {
         profile = (ImageView) view.findViewById(R.id.profile_photo);
         profileName = (TextView) view.findViewById(R.id.profile_name);
         profileNumber = (TextView) view.findViewById(R.id.profile_number);
-        
+
         settings.setOnClickListener(listener);
         about.setOnClickListener(listener);
         task.setOnClickListener(listener);

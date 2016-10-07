@@ -1,5 +1,6 @@
 package ir.cdesign.contactrate.lessons;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 
 /**
@@ -19,14 +21,13 @@ import ir.cdesign.contactrate.R;
 public class LessonPartAdapter extends RecyclerView.Adapter<LessonPartAdapter.Holder> {
 
     private LessonPartModel[] parts;
-    Context context;
+    LessonPartActivity activity;
     final LayoutInflater inflater;
 
-    public LessonPartAdapter(Context context, LessonPartModel[] parts) {
-        this.context = context;
+    public LessonPartAdapter(LessonPartActivity activity, LessonPartModel[] parts) {
+        this.activity = activity;
         this.parts = parts;
-        inflater = LayoutInflater.from(context);
-
+        inflater = LayoutInflater.from(activity);
     }
 
     @Override
@@ -47,10 +48,11 @@ public class LessonPartAdapter extends RecyclerView.Adapter<LessonPartAdapter.Ho
         return parts.length;
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title, number;
         ImageView image;
+        View view,overlay;
         LessonPartModel current;
         int position;
 
@@ -59,15 +61,53 @@ public class LessonPartAdapter extends RecyclerView.Adapter<LessonPartAdapter.Ho
             title = (TextView) itemView.findViewById(R.id.part_title);
             number = (TextView) itemView.findViewById(R.id.part_number);
             image = (ImageView) itemView.findViewById(R.id.part_image);
+            overlay = itemView.findViewById(R.id.overlay);
+            view = itemView;
         }
 
         public void setData(LessonPartModel current, int position) {
             this.current = current;
             this.position = position;
             title.setText(current.title);
-            number.setText(String.valueOf(position));
+            number.setText(String.valueOf(position+1));
             if (current.image != null)
                 image.setImageURI(current.image);
+            view.setOnClickListener(this);
+            if (current.seen)
+                overlay.setBackgroundColor(0x70000000);
+        }
+
+        @Override
+        public void onClick(View v) {
+            current.seen = true;
+            DatabaseCommands.getInstance(activity).lessonPartSeen(current.id,true);
+            activity.lessonPartTitle.setText(current.title);
+            activity.lessonPartBody.setText(current.body);
+            activity.flipper.getChildAt(0).animate().setDuration(200).alpha(0).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    activity.flipper.getChildAt(1).setAlpha(0);
+                    activity.flipper.setDisplayedChild(1);
+                    activity.flipper.getChildAt(1).animate().setDuration(200).setListener(null).alpha(1).start();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).start();
+
+            activity.readingLesson = true;
         }
     }
 }

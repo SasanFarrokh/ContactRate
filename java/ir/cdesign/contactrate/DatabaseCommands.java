@@ -528,16 +528,33 @@ public class DatabaseCommands {
     public boolean addLesson(LessonModel model) {
 
         ContentValues values = new ContentValues();
+        values.put("id", model.id);
         values.put("showcase", model.showCase);
         values.put("title", model.title);
         values.put("author", model.author);
-        values.put("image", String.valueOf(model.internalImageUrl));
+        values.put("image", model.internalImageUrl.toString());
 
-        return database.insert(TABLE_LESSONS, null, values) != -1;
+        boolean b1 = database.insert(TABLE_LESSONS, null, values) != -1;
+        if (b1) {
+            for (LessonPartModel part : model.parts) {
+                ContentValues partValues = new ContentValues();
+                partValues.put("id", part.id);
+                partValues.put("title", part.title);
+                partValues.put("body", part.body);
+                partValues.put("lesson", model.id);
+                partValues.put("image", part.image.toString());
+                partValues.put("seen", 0);
+                b1 = b1 && database.insert(TABLE_LESSON_PARTS, null, partValues) != -1;
+            }
+        }
+        return b1;
     }
 
     public void removeLesson(long id) {
+        LessonModel model = getLessons(id).get(0);
+        model.deleteImageFiles();
         database.delete(TABLE_LESSONS, " id = ? ", new String[]{String.valueOf(id)});
+        database.delete(TABLE_LESSON_PARTS, " lesson = ? ", new String[]{String.valueOf(id)});
     }
 
     public List<LessonModel> getLessons(long id) {
@@ -565,16 +582,6 @@ public class DatabaseCommands {
         return list;
     }
 
-    public boolean addLessonPart(LessonPartModel part) {
-        ContentValues values = new ContentValues();
-        values.put("title", part.title);
-        values.put("body", part.body);
-        values.put("seen", part.seen);
-        values.put("image", part.image.toString());
-
-        return database.insert(TABLE_LESSONS, null, values) != -1;
-    }
-
     public LessonPartModel[] getLessonParts(long id, int mode) {
         List<LessonPartModel> list = new ArrayList<>();
         String selectQuery;
@@ -594,10 +601,20 @@ public class DatabaseCommands {
             part.body = cursor.getString(cursor.getColumnIndex("body"));
             part.seen = cursor.getInt(cursor.getColumnIndex("seen")) == 1;
             part.image = Uri.parse(cursor.getString(cursor.getColumnIndex("image")));
+            part.lessonId = cursor.getLong(cursor.getColumnIndex("lesson"));
             list.add(part);
         }
         cursor.close();
-        return (LessonPartModel[]) list.toArray();
+        return list.toArray(new LessonPartModel[list.size()]);
+    }
+
+    public boolean lessonPartSeen(long id,boolean seen) {
+
+        ContentValues values = new ContentValues();
+        values.put("seen",seen?1:0);
+        boolean b = database.update(TABLE_LESSON_PARTS, values," id = ? ", new String[] {String.valueOf(id)}) != -1;
+        Log.i("sasan","lesson seen : " + (b?"true":"false"));
+        return b;
     }
 
     public void progressMedal(int id, int step) {
@@ -726,8 +743,8 @@ public class DatabaseCommands {
                     // .getContentResolver()
                     // .insert(Uri.parse(attendeuesesUriString), attendeesValues);
                 }
-            } catch (Exception ex) {
-                Log.i("sasan", "Error in adding event on calendar" + ex.getMessage());
+            } catch (Exception ignored) {
+
             }
         }
         return eventID;

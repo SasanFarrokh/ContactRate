@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -48,7 +49,7 @@ public class GraphPage extends Fragment {
         chart = (LineChart) view.findViewById(R.id.chart);
         chart.setTouchEnabled(false);
 
-//        setChartConfig()-;
+        setChartConfig();
 
         setChartAliases();
 
@@ -71,7 +72,7 @@ public class GraphPage extends Fragment {
         weekMap.put(5f, "Wed");
         weekMap.put(6f, "Thu");
         weekMap.put(7f, "Fri");
-//        chart.setLabelAliases(weekMap);
+        chart.setLabelAliases(weekMap);
     }
 
     private void setChartData() {
@@ -133,10 +134,10 @@ public class GraphPage extends Fragment {
         LineData lineData = new LineData(dataSet);
         lineData.setValueFormatter(new LargeValueFormatter());
 
-//        chart.setData(lineData, entries);
+        chart.setData(lineData, entries);
     }
 
-    /*private void setChartConfig() {
+    private void setChartConfig() {
         Description desc = new Description();
         desc.setText("Tasks Done per day");
         desc.setTextColor(Color.WHITE);
@@ -156,5 +157,5 @@ public class GraphPage extends Fragment {
         chart.getAxis(YAxis.AxisDependency.RIGHT).setAxisMinimum(0);
         chart.getXAxis().setAxisMaximum(7.5f);
         chart.getXAxis().setAxisMinimum(0.5f);
-    }*/
+    }
 }
