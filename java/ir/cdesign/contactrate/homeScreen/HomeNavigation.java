@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -47,6 +48,8 @@ public class HomeNavigation extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_navigation, container, false);
 
+        Typeface typeface = Typeface.createFromAsset(getResources().getAssets(),"seoge.ttf");
+
         settings = view.findViewById(R.id.settings);
         about = view.findViewById(R.id.about);
         task = view.findViewById(R.id.task);
@@ -60,7 +63,6 @@ public class HomeNavigation extends Fragment {
         profile = (ImageView) view.findViewById(R.id.profile_photo);
         profileName = (TextView) view.findViewById(R.id.profile_name);
         profileNumber = (TextView) view.findViewById(R.id.profile_number);
-
 
         settings.setOnClickListener(listener);
         about.setOnClickListener(listener);
