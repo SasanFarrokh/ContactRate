@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="invitations">#00c853</color>
+    <color name="present">#64dd17</color>
+    <color name="followup">#ffca28</color>
+    <color name="enroll">#f57c00</color>
+    <color name="training">#e040fb</color>
+    <color name="buildteam">#9c27b0</color>
+    <color name="buy">#26c6da</color>
+    <color name="promotingevent">#283593</color>
+    <color name="other">#4db6ac</color>
+</resources>

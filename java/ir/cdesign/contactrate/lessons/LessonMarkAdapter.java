@@ -63,7 +63,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
             View.OnClickListener,View.OnLongClickListener {
 
         long id;
-        View view;
+        View view,more;
         TextView title, progress;
         ProgressBar progressBar;
         ImageView imageView;
@@ -76,6 +76,7 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
             progress = (TextView) itemView.findViewById(R.id.progressCount);
             progressBar = (ProgressBar) itemView.findViewById(R.id.simpleProgressBar);
             imageView = (ImageView) itemView.findViewById(R.id.markImage);
+            more = itemView.findViewById(R.id.more);
         }
 
         public void setData(LessonModel current, int position) {
@@ -87,7 +88,15 @@ public class LessonMarkAdapter extends RecyclerView.Adapter<LessonMarkAdapter.Ho
             imageView.setImageBitmap(current.getImage());
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
+            more.setOnClickListener(moreClick);
         }
+
+        private View.OnClickListener moreClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLongClick(v);
+            }
+        };
 
         @Override
         public void onClick(View v) {

@@ -137,7 +137,7 @@ public class DatabaseCommands {
                         result.getInt(result.getColumnIndex("time")) +
                         result.getInt(result.getColumnIndex("motive"));
                 contact[2] = result.getString(result.getColumnIndex("invites"));
-                contact[3] = result.getInt(result.getColumnIndex("id"));
+                contact[3] = result.getLong(result.getColumnIndex("id"));
 
                 contacts.add(contact);
             }
@@ -305,11 +305,11 @@ public class DatabaseCommands {
     }
 
     public int[] getTaskTypeCounts() {
-        int[] list = new int[9];
+        int[] list = {0,0,0,0,0,0,0,0,0};
         String query = "SELECT ";
-        for (int i = 0; i < 9; i++) {
+        for (int i = 1; i <= 9; i++) {
             String q = " (SELECT COUNT(*) FROM " + TABLE_INVITES + " WHERE type = " + i + " AND active = 1) as type" + i + " ";
-            query += (i == 0) ? "" : ",";
+            query += (i == 1) ? "" : ",";
             query += q;
         }
         query += " FROM " + TABLE_INVITES;
@@ -450,6 +450,11 @@ public class DatabaseCommands {
         return result != -1;
     }
 
+    public boolean editVision(long id,String subject, String note, String image, int reminder, long timestamp) {
+
+        return removeVision(id) && addVision(subject,note,image,reminder,timestamp);
+    }
+
     public List<HashMap> getVision(long id) {
         Cursor c = null;
         List<HashMap> list = new ArrayList<>();
@@ -461,11 +466,11 @@ public class DatabaseCommands {
         if (c != null) {
             while (c.moveToNext()) {
                 HashMap vision = new HashMap();
-                vision.put("id", c.getInt(c.getColumnIndex("id")));
+                vision.put("id", c.getLong(c.getColumnIndex("id")));
                 vision.put("subject", c.getString(c.getColumnIndex("subject")));
                 vision.put("note", c.getString(c.getColumnIndex("note")));
                 vision.put("image", c.getString(c.getColumnIndex("image")));
-                vision.put("reminder", c.getString(c.getColumnIndex("reminder")));
+                vision.put("reminder", c.getInt(c.getColumnIndex("reminder")));
                 vision.put("timestamp", c.getLong(c.getColumnIndex("timestamp")));
                 vision.put("regdate", c.getLong(c.getColumnIndex("regdate")));
                 vision.put("active", c.getInt(c.getColumnIndex("active")));
@@ -476,7 +481,7 @@ public class DatabaseCommands {
         return list;
     }
 
-    public boolean removeVision(int id) {
+    public boolean removeVision(long id) {
         return database.delete(TABLE_VISIONS, " id = ? ", new String[]{String.valueOf(id)}) != -1;
     }
 

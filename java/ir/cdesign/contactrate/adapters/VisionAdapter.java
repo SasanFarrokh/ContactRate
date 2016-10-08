@@ -2,6 +2,8 @@ package ir.cdesign.contactrate.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +26,7 @@ import java.util.List;
 
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
+import ir.cdesign.contactrate.Vision.ActivityVisionAdd;
 import ir.cdesign.contactrate.homeScreen.HomeNavigation;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
 
@@ -39,7 +42,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
 
 
     public VisionAdapter(Context context) {
-        data = DatabaseCommands.getInstance().getVision(0);
+        data = DatabaseCommands.getInstance(context).getVision(0);
         this.context = context;
     }
 
@@ -69,7 +72,7 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
         private LinearLayout SubjectBox;
         private ImageView visionImage;
         int position;
-        int id;
+        long id;
 
         public VisionHolder(View itemView) {
             super(itemView);
@@ -89,9 +92,14 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
             String imagePath = (String) vision.get("image");
             subject.setText((String) vision.get("subject"));
             if (!imagePath.isEmpty()) {
-                visionImage.setImageBitmap(HomeNavigation.getProfileBitmap(context, Uri.parse(imagePath)));
+                Bitmap visionBitmap = HomeNavigation.getProfileBitmap(context, Uri.parse(imagePath));
+                if (visionBitmap != null) {
+                    visionImage.setImageBitmap(visionBitmap);
+                    visionImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                }
+
             }
-            id = (int) vision.get("id");
+            id = (long) vision.get("id");
             MoreInfo.setTranslationY(-10);
             Double visionPercent = ((double) (System.currentTimeMillis() - (long) vision.get("regdate")) /
                     ((long) vision.get("timestamp") - (long) vision.get("regdate"))) * 100;
@@ -157,8 +165,13 @@ public class VisionAdapter extends RecyclerView.Adapter<VisionAdapter.VisionHold
                             switch (which) {
                                 case 0:
                                     DatabaseCommands.getInstance(context).removeVision(id);
-                                    data.remove(position);
+                                    data.remove(data.size() - 1 - position);
                                     notifyDataSetChanged();
+                                    break;
+                                case 1:
+                                    context.startActivity(new Intent(context, ActivityVisionAdd.class)
+                                        .putExtra("edit",id));
+                                    break;
                             }
                         }
                     });

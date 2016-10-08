@@ -80,6 +80,7 @@ public class NewsActivity extends AppCompatActivity implements
             @Override
             public void run() {
                 TextView text = new TextView(NewsActivity.this);
+                text.setId(R.id.textOne);
                 text.setText("Failed to connect to network");
                 text.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 text.setGravity(Gravity.CENTER);

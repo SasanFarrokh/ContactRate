@@ -76,7 +76,8 @@
         <activity android:name=".lessons.LessonPartActivity" />
         <activity android:name=".lessons.LessonAllActivity" />
         <activity android:name=".SplashActivity"
-            android:configChanges="locale">
+            android:configChanges="locale"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

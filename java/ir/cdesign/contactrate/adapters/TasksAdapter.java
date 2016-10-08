@@ -99,7 +99,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 }
             }
         }
-        contacts = db.getContactsForInvitation();
+        contacts = db.getContactsForRank();
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -165,8 +165,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             id = (long) invite.get("id");
             imageView.setImageResource(ContactShowModel.getImages()[(int) invite.get("type") - 1]);
             title.setText(ContactShowModel.getTitles()[(int) invite.get("type") - 1]);
-            subtitle.setText("With " +
-                    contactName + " at : " +
+            subtitle.setText(context.getString(R.string.with) +
+                    contactName + context.getString(R.string.task_at) + " : " +
                     new DecimalFormat("00").format(calendar.get(Calendar.HOUR_OF_DAY)) +
                     ":" + new DecimalFormat("00").format(calendar.get(Calendar.MINUTE))
             );
@@ -174,7 +174,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             checkBox.setChecked(active);
             if (mode == CM_TASKS) {
                 checkBox.setEnabled(false);
-                title.append(" - Completed");
+                title.append(context.getString(R.string.task_completed));
             }
             checkBox.setOnCheckedChangeListener(itemCheck);
             view.setTag(this);
@@ -201,7 +201,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         public boolean onLongClick(final View v) {
             final TaskHolder taskHolder = (TaskHolder) v.getTag();
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-            String[] options = new String[]{"Done", "Move On", "Edit", "Delete"};
+            String[] options = new String[]{context.getString(R.string.task_done), context.getString(R.string.task_move_on),
+                    context.getString(R.string.task_edit), context.getString(R.string.task_delete)};
             alertBuilder.setItems(options
                     , new DialogInterface.OnClickListener() {
                         @Override
@@ -237,7 +238,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                                 case 1:
                                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                                     alertBuilder.setItems(new String[]{
-                                            "Tomorrow", "3 Days Later", "Next Week"
+                                            context.getString(R.string.tomorrow), context.getString(R.string.task_threedays),
+                                            context.getString(R.string.task_nextweek)
                                     }, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -278,7 +280,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         public boolean onLongClick(final View v) {
             final TaskHolder taskHolder = (TaskHolder) v.getTag();
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-            String[] options = new String[]{"Undone", "Delete"};
+            String[] options = new String[]{context.getString(R.string.task_undone), context.getString(R.string.task_delete)};
             alertBuilder.setItems(options
                     , new DialogInterface.OnClickListener() {
                         @Override

@@ -95,7 +95,7 @@
     <string name="calendar_type">Calendar Type</string>
     <string name="change_background">Change Background</string>
     <string name="visions">Visions</string>
-    <string name="choose_a_new_background">change background!</string>
+    <string name="choose_a_new_background">Select new background…</string>
     <string name="pending_ntasks">Pending\nTasks</string>
     <string name="completed_ntasks">Completed\nTasks</string>
     <string name="contacts">My List</string>
@@ -128,4 +128,17 @@
     <string name="completedtask">Completed Tasks</string>
     <string name="addvision">Add Visions</string>
     <string name="subject">Subject</string>
+    <string name="download_msg">Do you wish to download this lesson ?</string>
+    <string name="home">Home</string>
+    <string name="task_completed">" - Completed"</string>
+    <string name="with">"With "</string>
+    <string name="task_at">" at "</string>
+    <string name="task_done">Done</string>
+    <string name="task_move_on">Move On</string>
+    <string name="task_edit">Edit</string>
+    <string name="task_delete">Delete</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="task_threedays">3 Days Later</string>
+    <string name="task_nextweek">Next Week</string>
+    <string name="task_undone">Undone</string>
 </resources>

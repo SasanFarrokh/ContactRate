@@ -143,6 +143,8 @@ public class AsyncGetNews extends AsyncTask<Void, Void, List<HashMap>> {
             if (recyclerView.getParent() instanceof SwipeRefreshLayout)
                 ((SwipeRefreshLayout) recyclerView.getParent()).setRefreshing(false);
             ((ViewGroup) recyclerView.getParent().getParent()).findViewById(R.id.progress).setVisibility(View.GONE);
+            if (recyclerView.getRootView().findViewById(R.id.textOne) != null)
+                recyclerView.getRootView().findViewById(R.id.textOne).setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
         }

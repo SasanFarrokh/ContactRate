@@ -115,6 +115,19 @@
     <string name="pendingtask">در انتظار</string>
     <string name="addvision">اضافه کردن ویژن</string>
     <string name="subject">موضوع</string>
+    <string name="download_msg">آیا مایل به دانلود این درس هستید ؟</string>
+    <string name="home">خانه</string>
+    <string name="task_completed">" - انجام شد"</string>
+    <string name="with">"با "</string>
+    <string name="task_at">" ساعت "</string>
+    <string name="task_done">انجام شد</string>
+    <string name="task_move_on">تعویق</string>
+    <string name="task_edit">تغییر</string>
+    <string name="task_delete">پاک کردن</string>
+    <string name="tomorrow">فردا</string>
+    <string name="task_threedays">3 روز بعد</string>
+    <string name="task_nextweek">هفته بعد</string>
+    <string name="task_undone">انجام نشده</string>
 
 
 </resources>

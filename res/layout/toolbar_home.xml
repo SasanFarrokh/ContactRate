@@ -23,7 +23,7 @@
             android:id="@+id/toolbar_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Home"
+            android:text="@string/home"
             android:gravity="center"
             android:textColor="#f2f2f2"
             android:textSize="22dp"/>

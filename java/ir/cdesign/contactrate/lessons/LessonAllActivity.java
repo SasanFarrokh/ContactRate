@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.HomeScreen;
+import ir.cdesign.contactrate.utilities.Application;
 import ir.cdesign.contactrate.utilities.WallpaperBoy;
 
 public class LessonAllActivity extends AppCompatActivity {
@@ -48,7 +50,7 @@ public class LessonAllActivity extends AppCompatActivity {
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
         int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setBackgroundResource(drawable);
+        recyclerView.getRootView().setBackgroundResource(drawable);
 
         setToolbar();
         setRecyclerView();
@@ -121,14 +123,14 @@ public class LessonAllActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("amin", "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                        "Connection Failed", Toast.LENGTH_SHORT).show();
                 hidePDialog();
+                finish();
             }
         });
         // Adding request to request queue
-        ir.cdesign.contactrate.utilities.Application.getInstance().addToRequestQueue(movieReq);
+        Application.getInstance().addToRequestQueue(movieReq);
 
     }
 

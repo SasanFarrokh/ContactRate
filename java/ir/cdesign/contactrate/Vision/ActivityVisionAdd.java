@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 import ir.cdesign.contactrate.DatabaseCommands;
 import ir.cdesign.contactrate.R;
 import ir.cdesign.contactrate.homeScreen.HomeNavigation;
@@ -32,12 +34,14 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener {
     private static final int IMAGE_PICKED = 12;
 
-    private ImageView visionDate, visionImage,imageSet;
+    private long edit = 0;
+
+    private ImageView visionDate, visionImage, imageSet;
     private TextView dateText, subject, note;
     private View done;
 
     private int repeaterCounter = -1;
-    private static final String[] repeaterStrings = {"None","Daily","Weekly","Monthly"};
+    private static final String[] repeaterStrings = {"None", "Daily", "Weekly", "Monthly"};
 
     private String visionPath = "";
 
@@ -53,14 +57,36 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vision_add_activity);
 
+        edit = getIntent().getLongExtra("edit", 0);
+
         init();
 
         WallpaperBoy wallpaperBoy = new WallpaperBoy();
-        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle,this);
+        int drawable = wallpaperBoy.manSitting(HomeScreen.manInTheMiddle, this);
         relativeLayout = (RelativeLayout) findViewById(R.id.containerLayout);
         relativeLayout.setBackgroundResource(drawable);
 
         setToolbar();
+
+        if (edit != 0) setById();
+    }
+
+    private void setById() {
+        HashMap vision = DatabaseCommands.getInstance(this).getVision(edit).get(0);
+        subject.setText((String) vision.get("subject"));
+        note.setText((String) vision.get("note"));
+        visionPath = (String) vision.get("image");
+        repeaterCounter = (int) vision.get("reminder");
+        calendar.setTimeInMillis((Long) vision.get("timestamp"));
+
+        if (visionPath != null) {
+            Bitmap image = HomeNavigation.getProfileBitmap(this, Uri.parse(visionPath));
+            if (image != null) {
+                visionImage.setImageBitmap(image);
+                visionImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
+        }
+        dateText.setText(calendar.getDate());
 
     }
 
@@ -80,7 +106,7 @@ public class ActivityVisionAdd extends AppCompatActivity implements
         visionImage.setOnClickListener(listener);
     }
 
-    private void setToolbar(){
+    private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -112,16 +138,27 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                     dpd.show(getFragmentManager(), DATEPICKER);
                     break;
                 case R.id.vision_done:
-                    if (
-                            DatabaseCommands.getInstance().addVision(
-                                    subject.getText().toString(),
-                                    note.getText().toString(),
-                                    visionPath,
-                                    repeaterCounter,
-                                    calendar.getTimeInMillis()
-                            )
-                            ) {
-                        Toast.makeText(ActivityVisionAdd.this, "Vision Added", Toast.LENGTH_SHORT).show();
+                    boolean b;
+                    if (edit == 0) {
+                        b = DatabaseCommands.getInstance(ActivityVisionAdd.this).addVision(
+                                subject.getText().toString(),
+                                note.getText().toString(),
+                                visionPath,
+                                repeaterCounter,
+                                calendar.getTimeInMillis()
+                        );
+                    } else {
+                        b = DatabaseCommands.getInstance(ActivityVisionAdd.this).editVision(
+                                edit,
+                                subject.getText().toString(),
+                                note.getText().toString(),
+                                visionPath,
+                                repeaterCounter,
+                                calendar.getTimeInMillis()
+                        );
+                    }
+                    if (b) {
+                        Toast.makeText(ActivityVisionAdd.this, "Vision is set", Toast.LENGTH_SHORT).show();
                         finish();
                     } else
                         Toast.makeText(ActivityVisionAdd.this, "Error on Creating Vision", Toast.LENGTH_SHORT).show();
@@ -146,7 +183,7 @@ public class ActivityVisionAdd extends AppCompatActivity implements
     @Override
     public void onDateSet(DialogFragment view, int year, int monthOfYear, int dayOfMonth) {
         // Note: monthOfYear is 0-indexed
-        calendar.set(year,monthOfYear,dayOfMonth);
+        calendar.set(year, monthOfYear, dayOfMonth);
         dateText.setText(calendar.getDate());
     }
 
@@ -160,12 +197,15 @@ public class ActivityVisionAdd extends AppCompatActivity implements
                 visionPath = selectedImage.toString();
 
                 Bitmap image = HomeNavigation.getProfileBitmap(this, selectedImage);
-
-                visionImage.setImageBitmap(image);
+                if (image != null) {
+                    visionImage.setImageBitmap(image);
+                    visionImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                }
 
                 break;
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

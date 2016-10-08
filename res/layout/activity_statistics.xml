@@ -5,43 +5,44 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context="ir.cdesign.contactrate.homeScreen.Statistics">
 
     <include layout="@layout/toolbar_back_button" android:id="@id/toolbar_layout" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp">
-
-        <TextView
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="Week Activity"/>
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:layout_margin="5dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:text="Tasks Done Percentage"/>
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:layout_margin="5dp" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:padding="4dp"
+                android:text="Week Activity"/>
 
-
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:padding="4dp"
+                android:text="Tasks Done Percentage"/>
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_margin="5dp" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

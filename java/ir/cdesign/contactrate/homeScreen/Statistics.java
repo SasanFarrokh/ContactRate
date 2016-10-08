@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -30,7 +31,9 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -103,21 +106,28 @@ public class Statistics extends AppCompatActivity {
 
         int[] data = DatabaseCommands.getInstance(this).getTaskTypeCounts();
 
+        int[] colors = TaskModel.getColors(this);
+        List<Integer> pieColors = new ArrayList<>();
+
         for (int i = 0; i < 9 ; i++) {
             if (data[i] <= 0) continue;
-            entries.add(new PieEntry(data[i] * 10, TaskModel.getTitles()[i]));
+            pieColors.add(colors[i]);
+            entries.add(new PieEntry(data[i] * 10, getResources().getString(TaskModel.getTitles()[i])));
         }
 
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         PieData pieData = new PieData(dataSet);
         pieData.setValueTextColor(Color.WHITE);
+        pieData.setValueFormatter(new LargeValueFormatter());
 
-        dataSet.setColors(ColorTemplate.PASTEL_COLORS);
+        dataSet.setColors(pieColors);
+
 
         pieChart.setDescription(null);
         pieChart.getLegend().setTextColor(Color.WHITE);
         pieChart.setRotationEnabled(false);
+        pieChart.setUsePercentValues(false);
         pieChart.setData(pieData);
         pieChart.invalidate();
     }

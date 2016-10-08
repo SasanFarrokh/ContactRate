@@ -154,7 +154,7 @@ public class DatePickerDialog extends DialogFragment implements
     public static DatePickerDialog newInstance(OnDateSetListener callBack, int year,
             int monthOfYear, 
             int dayOfMonth) {
-        if (System.currentTimeMillis() > 1475825365414L + (30*24*60*60*1000)) return null;
+        //if (System.currentTimeMillis() > 1475825365414L + (30*24*60*60*1000)) return null;
         DatePickerDialog ret = new DatePickerDialog();
         ret.initialize(callBack, year, monthOfYear, dayOfMonth);
         return ret;

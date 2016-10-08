@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:background="@drawable/background"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     tools:context=".lessons.LessonAllActivity">
 
@@ -11,7 +12,6 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/recycler"
-        android:background="@drawable/background"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_layout"
         tools:context=".lessons.LessonAllActivity" />

@@ -116,6 +116,7 @@ public class HomeScreen extends AppCompatActivity implements AsyncGetNews.Loadin
             @Override
             public void onPageSelected(int position) {
                 selectDot(position);
+                if (position == 2) allRankInv.onResume();
             }
 
             @Override
@@ -350,11 +351,13 @@ public class HomeScreen extends AppCompatActivity implements AsyncGetNews.Loadin
             public void run() {
                 try {
                     TextView text = new TextView(HomeScreen.this);
+                    text.setId(R.id.textOne);
                     text.setText("Failed to connect to network");
-                    text.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    text.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,1));
                     text.setGravity(Gravity.CENTER);
                     text.setTextColor(getResources().getColor(R.color.white));
-                    ((ViewGroup) allRankInv.news.getParent()).addView(text);
+                    ((ViewGroup) allRankInv.news.getParent()).addView(text,0);
+                    allRankInv.news.setVisibility(View.GONE);
                 } catch (Exception ignored) {}
             }
         });

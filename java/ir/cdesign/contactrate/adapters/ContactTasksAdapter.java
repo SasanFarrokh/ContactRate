@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -50,7 +51,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
             invites = DatabaseCommands.getInstance(context).getInvite(5, 0);
         else
             invites = DatabaseCommands.getInstance(context).getInvite(2, id);
-        contacts = DatabaseCommands.getInstance().getContactsForInvitation();
+        contacts = DatabaseCommands.getInstance().getContactsForRank();
     }
 
     @Override
@@ -86,14 +87,14 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
             viewHolder.imageView.setImageResource(ContactShowModel.getImages()[(int) invite.get("type") - 1]);
             viewHolder.title.setText(ContactShowModel.getTitles()[(int) invite.get("type") - 1]);
-            viewHolder.subtitle.setText("With " +
-                    contactName + " at : " +
+            viewHolder.subtitle.setText(getContext().getString(R.string.with) +
+                    contactName + getContext().getString(R.string.task_at) + " : " +
                     new DecimalFormat("00").format(calendar.get(Calendar.HOUR_OF_DAY)) +
                     ":" + new DecimalFormat("00").format(calendar.get(Calendar.MINUTE))
             );
             if (active) {
                 viewHolder.checkBox.setEnabled(false);
-                viewHolder.title.append(" - Completed");
+                viewHolder.title.append(getContext().getString(R.string.task_completed));
                 ((View) viewHolder.imageView.getParent()).setBackgroundColor(0x20000000);
             }
             convertView.setTag(viewHolder);
@@ -112,7 +113,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
         return convertView;
     }
 
-     private final View.OnClickListener itemClick = new View.OnClickListener() {
+    private final View.OnClickListener itemClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             ContactTasksAdapter.ViewHolder viewHolder = (ContactTasksAdapter.ViewHolder) v.getTag();
@@ -124,58 +125,61 @@ public class ContactTasksAdapter extends ArrayAdapter {
         public boolean onLongClick(final View v) {
             final ViewHolder viewHolder = (ViewHolder) v.getTag();
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-            alertBuilder.setItems(new String[]{"Done", "Move On", "Edit", "Delete"}, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 3:
-                            DatabaseCommands.getInstance(getContext()).removeInvite(viewHolder.id);
-                            v.animate()
-                                    .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
-                                    .setListener(new TasksAdapter.SimpleAnimationEndListener() {
-                                        @Override
-                                        public void onAnimationEnd(Animator animation) {
-                                            ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
-                                        }
-                                    })
-                                    .start();
-                            break;
-                        case 0:
-                            DatabaseCommands.getInstance().activateInvite(viewHolder.id, true);
-                            ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
-                            break;
-                        case 2:
-                            v.callOnClick();
-                            break;
-                        case 1:
-                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-                            alertBuilder.setItems(new String[]{
-                                    "Tomorrow", "3 Days Later", "Next Week"
-                            }, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    switch (which) {
-                                        case 0:
-                                            DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
-                                                    86400000L);
-                                            break;
-                                        case 1:
-                                            DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
-                                                    86400000L * 3);
-                                            break;
-                                        case 2:
-                                            DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
-                                                    86400000L * 7);
-                                            break;
-                                    }
+            alertBuilder.setItems(new String[]{getContext().getString(R.string.task_done), getContext().getString(R.string.task_move_on),
+                            getContext().getString(R.string.task_edit), getContext().getString(R.string.task_delete)}
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 3:
+                                    DatabaseCommands.getInstance(getContext()).removeInvite(viewHolder.id);
+                                    v.animate()
+                                            .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
+                                            .setListener(new TasksAdapter.SimpleAnimationEndListener() {
+                                                @Override
+                                                public void onAnimationEnd(Animator animation) {
+                                                    ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
+                                                }
+                                            })
+                                            .start();
+                                    break;
+                                case 0:
+                                    DatabaseCommands.getInstance().activateInvite(viewHolder.id, true);
                                     ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
-                                }
-                            });
-                            alertBuilder.show();
-                            break;
-                    }
-                }
-            });
+                                    break;
+                                case 2:
+                                    v.callOnClick();
+                                    break;
+                                case 1:
+                                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+                                    alertBuilder.setItems(new String[]{
+                                                    getContext().getString(R.string.tomorrow), getContext().getString(R.string.task_threedays),
+                                                    getContext().getString(R.string.task_nextweek)}
+                                            , new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    switch (which) {
+                                                        case 0:
+                                                            DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
+                                                                    86400000L);
+                                                            break;
+                                                        case 1:
+                                                            DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
+                                                                    86400000L * 3);
+                                                            break;
+                                                        case 2:
+                                                            DatabaseCommands.getInstance(getContext()).moveOnInvite(viewHolder.id,
+                                                                    86400000L * 7);
+                                                            break;
+                                                    }
+                                                    ((ListView) v.getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
+                                                }
+                                            });
+                                    alertBuilder.show();
+                                    break;
+                            }
+                        }
+                    });
             alertBuilder.show();
             return true;
         }
@@ -186,14 +190,14 @@ public class ContactTasksAdapter extends ArrayAdapter {
         public boolean onLongClick(final View v) {
             final ViewHolder taskHolder = (ViewHolder) v.getTag();
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-            String[] options = new String[]{"Undone", "Delete"};
+            String[] options = new String[]{getContext().getString(R.string.task_undone), getContext().getString(R.string.task_delete)};
             alertBuilder.setItems(options
                     , new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 0:
-                                    DatabaseCommands.getInstance().activateInvite(taskHolder.id,false);
+                                    DatabaseCommands.getInstance().activateInvite(taskHolder.id, false);
                                     v.animate()
                                             .alpha(0f).translationX(getContext().getResources().getDimension(R.dimen.swipeMove))
                                             .setListener(new TasksAdapter.SimpleAnimationEndListener() {
@@ -222,7 +226,6 @@ public class ContactTasksAdapter extends ArrayAdapter {
             return true;
         }
     };
-
     private final CompoundButton.OnCheckedChangeListener itemCheck = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -237,8 +240,11 @@ public class ContactTasksAdapter extends ArrayAdapter {
                     .setListener(new TasksAdapter.SimpleAnimationEndListener() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            ((ListView) view.getParent().getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
-                            if (UserTab.instance != null) UserTab.instance.setPoints();
+                            try {
+                                ((ListView) view.getParent().getParent()).setAdapter(new ContactTasksAdapter(getContext(), contactId));
+                            } finally {
+                                if (UserTab.instance != null) UserTab.instance.setPoints();
+                            }
                         }
                     })
                     .start();
@@ -253,7 +259,7 @@ public class ContactTasksAdapter extends ArrayAdapter {
 
     public static class ViewHolder {
         public ImageView imageView;
-        public TextView title, subtitle,completed;
+        public TextView title, subtitle, completed;
         public CheckBox checkBox;
         public int position;
         public long id;

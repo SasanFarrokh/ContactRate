@@ -117,8 +117,7 @@ public class LessonAllAdapter extends RecyclerView.Adapter<LessonAllAdapter.Hold
                 }
             });
             alertDialog = alertDialogBuilder.create();
-            alertDialog.setMessage("Yeah This is SOme" + "\n" + "BullSHit Network Lesson For you assholes");
-//              alertDialog.setMessage(current.getShowCase());
+            alertDialog.setMessage(context.getString(R.string.download_msg));
 
             alertDialog.show();
         }
